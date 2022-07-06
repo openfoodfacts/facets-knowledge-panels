@@ -5,8 +5,8 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
-@app.get("/")
+@app.get("/brand/president")
 def read_root():
-    return {"Hello": "World"}
+    return {"knowledge_panels": []}
 
 
