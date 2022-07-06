@@ -4,11 +4,10 @@ from .main import app
 
 client = TestClient(app)
 
-def ansewer_questions_brand_president():
+def test_ansewer_questions_brand_president():
     response = client.get("/brand/president")
     assert response.status_code == 200
-    assert response.json() == {
-            "knowledge_panels": [
+    assert response.json() == {"knowledge_panels": [
                 {
                     "hunger-game": {
                         "type": "hunger-game",
@@ -24,11 +23,9 @@ def ansewer_questions_brand_president():
                     },
                             
                 },
-            ],
-        }
+            ],}
 
-        
-def ansewer_questions_brand_president():
-    response = client.get("/brand/bad_facet_value")
+def test_ansewer_questions_brand_president_bad():
+    response = client.get("/brand/bad_endpoint")
     assert response.status_code == 404
     assert response.json() == {'detail': 'Not Found'}
