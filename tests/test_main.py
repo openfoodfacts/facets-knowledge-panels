@@ -25,7 +25,7 @@ def test_answer_questions_brand_president():
                 },
             ],}
 
-def test_ansewer_questions_brand_president_bad():
+def test_answer_questions_brand_president_bad():
     response = client.get("/brand/bad_endpoint")
     assert response.status_code == 404
     assert response.json() == {'detail': 'Not Found'}
