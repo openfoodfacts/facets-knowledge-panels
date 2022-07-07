@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  facets-api:
+    build: .
+    container_name: knowledge-panel
+    volumes:
+      - .:/code
+    ports:
+      - "127.0.0.1:80:80"
+    
+  
