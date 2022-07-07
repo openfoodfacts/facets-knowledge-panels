@@ -3,10 +3,12 @@ Providing knowledge panels for a particular open food fact facet (category, bran
 
 ## why facets-knowledge-panels?
 
-- Apps don't have to add special code for each panel (e.g. looking at the array of ingredients and additives, the values of nutrients etc.)
-- Apps don't need to load and update taxonomies to interpret the returned data
-- Translations are managed by the server, and we can use Crowdin to crowdsource them in many languages
-- If desired, apps can decide to use new product attributes added on the server without requiring app changes
+Provides applications with a set of informative or actionable items which are contextual to a specific facet.
+
+The primary goal is to allow high level contributions by users that maybe interested in a particular subset of the database, like a particular food category or a brand, a location, etc...
+
+We reuse the knowledge panel format, which remove the need for the application to change as the server side code change, or to implement specific business logic.
+
 
 ## Project Setup
 
