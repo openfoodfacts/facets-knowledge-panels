@@ -4,7 +4,7 @@ from app.main import app
 
 client = TestClient(app)
 
-def test_ansewer_questions_brand_president():
+def test_answer_questions_brand_president():
     response = client.get("/brand/president")
     assert response.status_code == 200
     assert response.json() == {"knowledge_panels": [
