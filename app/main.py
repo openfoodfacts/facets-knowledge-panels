@@ -4,8 +4,11 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/brand/president")
+@app.get("/")
+def hello():
+    return {"message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"}
 
+@app.get("/brand/president")
 def ansewer_questions_brand_president():
     return {
             "knowledge_panels": [
