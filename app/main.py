@@ -1,6 +1,6 @@
 from typing import Union
-
 from fastapi import FastAPI
+from .models import Facetname, Facetvalue
 
 app = FastAPI()
 
@@ -26,4 +26,8 @@ def ansewer_questions_brand_president():
                 },
             ],
         }
+
+@app.get("/{facet_name}/{facet_value}")
+def knowledge_panel(facet_name :Facetname,facet_value: Facetvalue ):
+    return { "knowledge_panels": []}
 
