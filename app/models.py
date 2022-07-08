@@ -2,24 +2,23 @@ from pydantic import BaseModel
 from enum import Enum
 
 class Facetname(str, Enum):
-    countries = "countries"
-    nutrition_grades = "nutrition-grades"
-    nova_groups = "nova-groups"
-    brands = "brands"
-    categories = "categories"
-    labels = "labels"
+    country = "country"
+    nutrition_grade = "nutrition-grade"
+    nova_group = "nova-group"
+    brand = "brand"
+    category = "category"
+    label = "label"
     packaging = "packaging"
-    origins_of_ingredients = "origins"
-    manufacturing_places = "manufacturing-places"
-    packager_codes = "packager-codes"
-    ingredients = "ingredients"
-    additives = "additives"
-    vitamins = "vitamins"
-    minerals = "minerals"
-    amino_acids = "amino-acids"
-    nucleotides = "nucleotides"
-    allergens = "allergens"
-    traces = "traces"
+    origin_of_ingredient = "origin"
+    manufacturing_place = "manufacturing-place"
+    packager_code = "packager-code"
+    ingredient = "ingredient"
+    additive = "additive"
+    vitamin = "vitamin"
+    mineral = "mineral"
+    amino_acid = "amino-acid"
+    nucleotide = "nucleotide"
+    allergen = "allergen"
+    trace = "trace"
     
-class Facetvalue(BaseModel):
-    facet_value: str()
+
