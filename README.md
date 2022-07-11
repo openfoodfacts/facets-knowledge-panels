@@ -29,10 +29,7 @@ docker-compose up
 pip install -r requirements.txt
 ```
 ```
-cd app
-```
-```
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 - Checkout your local host `http://127.0.0.1:8000/` with the endpoints
 
