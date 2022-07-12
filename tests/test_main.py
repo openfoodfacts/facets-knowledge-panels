@@ -1,31 +1,18 @@
-from fastapi.testclient import TestClient
 import requests
 from app.main import app
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 
-def test_answer_questions_brand_president():
-    response = client.get("/brand/president")
-    assert response.status_code == 200
-    assert response.json() == {"knowledge_panels": [
-                {
-                    "hunger-game": {
-                        "type": "hunger-game",
-                        "level": "questions",
-                        "elements": [
-                            {
-                            "element_type": "text",
-                            "text_element": {
-                                "html":"<p><a href=\"https://hunger.openfoodfacts.org/?type=brand&value_tag=president\">Answer questions about brand president</a></p>\n"
-                            },
-                            },
-                        ],
-                    },
-                            
-                },
-            ],}
 
-def test_answer_questions_brand_president_bad():
-    response = client.get("/brand/bad_endpoint")
-    assert response.status_code == 404
-    assert response.json() == {'detail': 'Not Found'}
+def test_hello():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {
+        "message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"}
+
+
+def test_knowledge_panel_hunger_game():
+    response = client.get("/hunger-game-kp")
+    assert response.status_code == 422
+    return response.json()
