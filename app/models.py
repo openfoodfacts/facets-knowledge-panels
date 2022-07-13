@@ -3,7 +3,7 @@ from enum import Enum
 from pydantic import BaseModel
 
 
-class Facetname(str, Enum):
+class FacetName(str, Enum):
     country = "country"
     nutrition_grade = "nutrition-grade"
     nova_group = "nova-group"
@@ -27,7 +27,8 @@ class Facetname(str, Enum):
     def list():
         return list(map(lambda c: c.value, Facetname))
 
-class Hunger_game_filter(str, Enum):
+
+class HungerGameFilter(str, Enum):
     label = "label"
     category = "category"
     brand = "brand"
@@ -35,5 +36,4 @@ class Hunger_game_filter(str, Enum):
 
     @staticmethod
     def list():
-        return list(map(lambda c: c.value, Hunger_game_filter))
-
+        return list(map(lambda c: c.value, HungerGameFilter))
