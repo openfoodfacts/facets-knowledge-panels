@@ -23,9 +23,17 @@ class Facetname(str, Enum):
     allergen = "allergen"
     trace = "trace"
 
+    @staticmethod
+    def list():
+        return list(map(lambda c: c.value, Facetname))
 
 class Hunger_game_filter(str, Enum):
     label = "label"
     category = "category"
     brand = "brand"
     product_weight = "product_weight"
+
+    @staticmethod
+    def list():
+        return list(map(lambda c: c.value, Hunger_game_filter))
+
