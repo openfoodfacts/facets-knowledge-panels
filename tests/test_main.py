@@ -25,7 +25,7 @@ def test_knowledge_panel_badendpoint():
     assert response.status_code == 404
 
 
-def test_knowledge_panel_with_actegory():
+def test_knowledge_panel_with_ctegory():
     assert knowledge_panel(facet_name="category") == {
         "knowledge_panels": [
             {
@@ -34,7 +34,7 @@ def test_knowledge_panel_with_actegory():
                         {
                             "element_type": "text",
                             "text_element": {
-                                "html": "'<p><a href='https://hunger.openfoodfacts.org/?type=catergory'></a></p>\n'"
+                                "html": "<p><a href='https://hunger.openfoodfacts.org/?type=category'></a></p>\n"
                             },
                         }
                     ]
@@ -42,3 +42,26 @@ def test_knowledge_panel_with_actegory():
             }
         ]
     }
+
+
+def test_knowledge_panel_ctegory_with_country():
+    assert knowledge_panel(facet_name="category", country="India") == {
+        "knowledge_panels": [
+            {
+                "hunger-game": {
+                    "elements": [
+                        {
+                            "element_type": "text",
+                            "text_element": {
+                                "html": "<p><a href='https://hunger.openfoodfacts.org/?type=category&country=India'></a></p>\n"
+                            },
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+
+
+def test_knowledge_panel_with_allergen():
+    assert knowledge_panel(facet_name="allergen") == {"knowledge_panels": []}
