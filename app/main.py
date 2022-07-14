@@ -20,9 +20,6 @@ def knowledge_panel(facet_name: FacetName, facet_value: Union[str, None] = None,
     panels = []
     if facet_name in HungerGameFilter.list():
         panels.append(hunger_game_kp(hunger_game_filter=facet_name,
-                      value=facet_value, country=country))
-    else:
-        panels.append(
-            "Sorry! hunger game knowlege panel for this facet isn't available right now")
+                                     value=facet_value, country=country))
 
     return {"knowledge_panels": panels}

@@ -25,7 +25,7 @@ class FacetName(str, Enum):
 
     @staticmethod
     def list():
-        return list(map(lambda c: c.value, Facetname))
+        return [c.value for c in  FacetName]
 
 
 class HungerGameFilter(str, Enum):
@@ -36,4 +36,4 @@ class HungerGameFilter(str, Enum):
 
     @staticmethod
     def list():
-        return list(map(lambda c: c.value, HungerGameFilter))
+        return [c.value for c in HungerGameFilter]

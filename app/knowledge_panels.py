@@ -1,6 +1,5 @@
 from typing import Union
 
-
 from .models import HungerGameFilter
 
 
