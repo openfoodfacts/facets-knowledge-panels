@@ -23,3 +23,7 @@ def test_knowledge_panel():
 def test_knowledge_panel_badendpoint():
     response = client.get("/knowledge_panel_bad")
     assert response.status_code == 404
+
+def test_knowledge_panel_with_actegory():
+    assert  {"knowledge_panels": [{'hunger-game': {'elements': [{'element_type': 'text', 'text_element': {
+        'html': "'<p><a href='https://hunger.openfoodfacts.org/?type=catergory'></a></p>\n'"}}]}}]} ==knowledge_panel(facet_name="category")
