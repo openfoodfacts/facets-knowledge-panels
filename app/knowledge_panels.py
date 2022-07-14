@@ -14,13 +14,13 @@ def hunger_game_kp(
     valueQuery = urlencode({"value_tag": value})
     countryQuery = urlencode({"country": country})
     if country == None and value != None:
-        html = f"<p><a href='{baseUrl}{hunger_game_filter}&{valueQuery}'></a></p>\n'"
+        html = f"<p><a href='{baseUrl}{hunger_game_filter}&{valueQuery}'></a></p>\n"
     elif value == None and country != None:
-        html = f"<p><a href='{baseUrl}{hunger_game_filter}&{countryQuery}'></a></p>\n'"
+        html = f"<p><a href='{baseUrl}{hunger_game_filter}&{countryQuery}'></a></p>\n"
     elif value == None and country == None:
-        html = f"<p><a href='{baseUrl}{hunger_game_filter}'></a></p>\n'"
+        html = f"<p><a href='{baseUrl}{hunger_game_filter}'></a></p>\n"
     else:
-        html = f"<p><a href='{baseUrl}{hunger_game_filter}&{valueQuery}&{countryQuery}'></a></p>\n'"
+        html = f"<p><a href='{baseUrl}{hunger_game_filter}&{valueQuery}&{countryQuery}'></a></p>\n"
     return {
         "hunger-game": {
             "elements": [
