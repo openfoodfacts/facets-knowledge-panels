@@ -18,7 +18,7 @@ We reuse the knowledge panel format, which remove the need for the application t
 ```
 docker-compose up
 ```
-- Visit `http://127.0.0.1/` with the endpoints
+- Visit `http://127.0.0.1/` with the endpoints or /docs for documentation
 
 ### Through virtual env
 
@@ -29,12 +29,9 @@ docker-compose up
 pip install -r requirements.txt
 ```
 ```
-cd app
+uvicorn app.main:app --reload
 ```
-```
-uvicorn main:app --reload
-```
-- Checkout your local host `http://127.0.0.1:8000/` with the endpoints
+- Checkout your local host `http://127.0.0.1:8000/` with the endpoints or /docs for documentation
 
 ## Testing
 
