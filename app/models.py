@@ -31,6 +31,7 @@ class FacetName(str, Enum):
 class HungerGameFilter(str, Enum):
     label = "label"
     category = "category"
+    country = "country"
     brand = "brand"
     product_weight = "product_weight"
 

@@ -13,17 +13,15 @@ def hunger_game_kp(
     query = {}
     description = ""
     if hunger_game_filter == "country":
-        # superseed country parameter
         country = value
-        # and do not use facet
         hunger_game_filter = value = None
     if country is not None:
         query["country"] = country
         description = country
     if hunger_game_filter is not None:
-        query["type"] = hunger_game_filter
+        query["type"] = f"{hunger_game_filter}"
         description = f"{hunger_game_filter}"
-    if value_tag is not None:
+    if value is not None:
         query["value_tag"] = value
         description = f"{value} {hunger_game_filter}"
     questions_url = "https://hunger.openfoodfacts.org/"
