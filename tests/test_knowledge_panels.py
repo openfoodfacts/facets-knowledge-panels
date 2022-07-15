@@ -63,36 +63,6 @@ def test_hunger_game_kp_category_with_value():
     }
 
 
-def test_hunger_game_kp_with_brand():
-    assert hunger_game_kp(hunger_game_filter="brand") == {
-        "hunger-game": {
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand'>Answer robotoff questions about brand</a></p>\n"
-                    },
-                }
-            ]
-        }
-    }
-
-
-def test_hunger_game_kp_brand_with_country():
-    assert hunger_game_kp(hunger_game_filter="brand", country="India") == {
-        "hunger-game": {
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=India&type=brand'>Answer robotoff questions about brand</a></p>\n"
-                    },
-                }
-            ]
-        }
-    }
-
-
 def test_hunger_game_kp_brand_with_value():
     assert hunger_game_kp(hunger_game_filter="brand", value="nestle") == {
         "hunger-game": {
@@ -101,36 +71,6 @@ def test_hunger_game_kp_brand_with_value():
                     "element_type": "text",
                     "text_element": {
                         "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand&value_tag=nestle'>Answer robotoff questions about nestle brand</a></p>\n"
-                    },
-                }
-            ]
-        }
-    }
-
-
-def test_hunger_game_kp_with_label():
-    assert hunger_game_kp(hunger_game_filter="label") == {
-        "hunger-game": {
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=label'>Answer robotoff questions about label</a></p>\n"
-                    },
-                }
-            ]
-        }
-    }
-
-
-def test_hunger_game_kp_label_with_country():
-    assert hunger_game_kp(hunger_game_filter="label", country="italy") == {
-        "hunger-game": {
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=italy&type=label'>Answer robotoff questions about label</a></p>\n"
                     },
                 }
             ]
