@@ -39,7 +39,7 @@ def test_knowledge_panel_ctegory_with_value_and_country():
                         {
                             "element_type": "text",
                             "text_element": {
-                                "html": "<p><a href='https://hunger.openfoodfacts.org/?country=belgium&type=category&value_tag=chocolate'>Answer robotoff questions about chocolate category</a></p>\n"
+                                "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=belgium&type=category&value_tag=chocolate'>Answer robotoff questions about chocolate category</a></p>\n"
                             },
                         }
                     ]
@@ -58,7 +58,7 @@ def test_knowledge_panel_ctegory_with_country():
                         {
                             "element_type": "text",
                             "text_element": {
-                                "html": "<p><a href='https://hunger.openfoodfacts.org/?country=india&type=category'>Answer robotoff questions about category</a></p>\n"
+                                "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=india&type=category'>Answer robotoff questions about category</a></p>\n"
                             },
                         }
                     ]

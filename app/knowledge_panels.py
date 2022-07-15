@@ -24,7 +24,7 @@ def hunger_game_kp(
     if value is not None:
         query["value_tag"] = value
         description = f"{value} {hunger_game_filter}"
-    questions_url = "https://hunger.openfoodfacts.org/"
+    questions_url = "https://hunger.openfoodfacts.org/questions"
     if query:
         questions_url += f"?{urlencode(query)}"
     description = f"Answer robotoff questions about {description}"

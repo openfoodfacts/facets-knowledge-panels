@@ -10,7 +10,7 @@ def test_hunger_game_kp_with_filter_value_and_country():
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/?country=germany'>Answer robotoff questions about germany</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=germany'>Answer robotoff questions about germany</a></p>\n"
                     },
                 }
             ]
@@ -25,7 +25,7 @@ def test_hunger_game_kp_with_category():
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/?type=category'>Answer robotoff questions about category</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=category'>Answer robotoff questions about category</a></p>\n"
                     },
                 }
             ]
@@ -40,7 +40,7 @@ def test_hunger_game_kp_category_with_country():
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/?country=france&type=category'>Answer robotoff questions about category</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=france&type=category'>Answer robotoff questions about category</a></p>\n"
                     },
                 }
             ]
@@ -55,7 +55,7 @@ def test_hunger_game_kp_category_with_value():
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/?type=category&value_tag=beer'>Answer robotoff questions about beer category</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=beer'>Answer robotoff questions about beer category</a></p>\n"
                     },
                 }
             ]
@@ -70,7 +70,7 @@ def test_hunger_game_kp_with_brand():
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/?type=brand'>Answer robotoff questions about brand</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand'>Answer robotoff questions about brand</a></p>\n"
                     },
                 }
             ]
@@ -85,7 +85,7 @@ def test_hunger_game_kp_brand_with_country():
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/?country=India&type=brand'>Answer robotoff questions about brand</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=India&type=brand'>Answer robotoff questions about brand</a></p>\n"
                     },
                 }
             ]
@@ -100,7 +100,7 @@ def test_hunger_game_kp_brand_with_value():
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/?type=brand&value_tag=nestle'>Answer robotoff questions about nestle brand</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand&value_tag=nestle'>Answer robotoff questions about nestle brand</a></p>\n"
                     },
                 }
             ]
@@ -115,7 +115,7 @@ def test_hunger_game_kp_with_label():
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/?type=label'>Answer robotoff questions about label</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=label'>Answer robotoff questions about label</a></p>\n"
                     },
                 }
             ]
@@ -130,7 +130,7 @@ def test_hunger_game_kp_label_with_country():
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/?country=italy&type=label'>Answer robotoff questions about label</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=italy&type=label'>Answer robotoff questions about label</a></p>\n"
                     },
                 }
             ]
@@ -145,7 +145,7 @@ def test_hunger_game_kp_label_with_value():
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/?type=label&value_tag=organic'>Answer robotoff questions about organic label</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=organic'>Answer robotoff questions about organic label</a></p>\n"
                     },
                 }
             ]
