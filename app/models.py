@@ -1,7 +1,9 @@
-from pydantic import BaseModel
 from enum import Enum
 
-class Facetname(str, Enum):
+from pydantic import BaseModel
+
+
+class FacetName(str, Enum):
     country = "country"
     nutrition_grade = "nutrition-grade"
     nova_group = "nova-group"
@@ -20,5 +22,19 @@ class Facetname(str, Enum):
     nucleotide = "nucleotide"
     allergen = "allergen"
     trace = "trace"
-    
 
+    @staticmethod
+    def list():
+        return [c.value for c in FacetName]
+
+
+class HungerGameFilter(str, Enum):
+    label = "label"
+    category = "category"
+    country = "country"
+    brand = "brand"
+    product_weight = "product_weight"
+
+    @staticmethod
+    def list():
+        return [c.value for c in HungerGameFilter]

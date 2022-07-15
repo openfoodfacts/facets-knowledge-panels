@@ -1,36 +1,34 @@
 from typing import Union
+
 from fastapi import FastAPI
-from .models import Facetname
+
+from .knowledge_panels import hunger_game_kp
+from .models import FacetName, HungerGameFilter
 
 app = FastAPI()
 
+
 @app.get("/")
 def hello():
-    return {"message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"}
-
-@app.get("/brand/president")
-def ansewer_questions_brand_president():
     return {
-            "knowledge_panels": [
-                {
-                    "hunger-game": {
-                        "type": "hunger-game",
-                        "level": "questions",
-                        "elements": [
-                            {
-                            "element_type": "text",
-                            "text_element": {
-                                "html":"<p><a href=\"https://hunger.openfoodfacts.org/?type=brand&value_tag=president\">Answer questions about brand president</a></p>\n"
-                            },
-                            },
-                        ],
-                    },
-                            
-                },
-            ],
-        }
+        "message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"
+    }
 
-@app.get("/{facet_name}/{facet_value}")
-def knowledge_panel(facet_name :Facetname,facet_value: str ):
-    return { "knowledge_panels": []}
 
+@app.get("/knowledge_panel")
+def knowledge_panel(
+    facet_name: FacetName,
+    facet_value: Union[str, None] = None,
+    country: Union[str, None] = None,
+):
+    # FacetName is the model that have list of values
+    # facet_value are the list of values connecting to FacetName eg:- category/beer, here beer is the value
+    panels = []
+    if facet_name in HungerGameFilter.list():
+        panels.append(
+            hunger_game_kp(
+                hunger_game_filter=facet_name, value=facet_value, country=country
+            )
+        )
+
+    return {"knowledge_panels": panels}
