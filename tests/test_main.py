@@ -19,8 +19,6 @@ def test_hello():
 def test_knowledge_panel():
     response = client.get("/knowledge_panel?facet_name=origin")
     assert response.status_code == 200
-    response_body = response.json()
-    assert response_body["knowledge_panels"] == []
 
 
 def test_knowledge_panel_badendpoint():
@@ -30,17 +28,18 @@ def test_knowledge_panel_badendpoint():
 
 def test_knowledge_panel_ctegory_with_value_and_country():
     assert knowledge_panel(
-        facet_name="category", facet_value="chocolate", country="belgium"
+        facet_name="packaging", facet_value="plastic-box", country="italy"
     ) == {
         "knowledge_panels": [
             {
-                "hunger-game": {
+                "data-quality": {
                     "elements": [
                         {
                             "element_type": "text",
-                            "text_element": {
-                                "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=belgium&type=category&value_tag=chocolate'>Answer robotoff questions about chocolate category</a></p>\n"
-                            },
+                            "total_issues": 0,
+                            "text_element": [],
+                            "source_url": "https://world.openfoodfacts.org/country/italy/packaging/plastic-box/data-quality.json",
+                            "description": "data-quality issues releated to this packaging based on italy",
                         }
                     ]
                 }
@@ -50,16 +49,17 @@ def test_knowledge_panel_ctegory_with_value_and_country():
 
 
 def test_knowledge_panel_ctegory_with_country():
-    assert knowledge_panel(facet_name="category", country="india") == {
+    assert knowledge_panel(facet_name="origin", country="india") == {
         "knowledge_panels": [
             {
-                "hunger-game": {
+                "data-quality": {
                     "elements": [
                         {
                             "element_type": "text",
-                            "text_element": {
-                                "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=india&type=category'>Answer robotoff questions about category</a></p>\n"
-                            },
+                            "total_issues": 0,
+                            "text_element": [],
+                            "source_url": "https://world.openfoodfacts.org/country/india/origin/None/data-quality.json",
+                            "description": "data-quality issues releated to this origin based on india",
                         }
                     ]
                 }
@@ -69,4 +69,42 @@ def test_knowledge_panel_ctegory_with_country():
 
 
 def test_knowledge_panel_with_allergen():
-    assert knowledge_panel(facet_name="allergen") == {"knowledge_panels": []}
+    assert knowledge_panel(facet_name="allergen") == {
+        "knowledge_panels": [
+            {
+                "data-quality": {
+                    "elements": [
+                        {
+                            "element_type": "text",
+                            "total_issues": 171,
+                            "text_element": [
+                                {
+                                    "id": "en:ingredients-percent-analysis-ok",
+                                    "known": 0,
+                                    "name": "ingredients-percent-analysis-ok",
+                                    "products": 1308,
+                                    "url": "https://world.openfoodfacts.org/allergen/none/data-quality/ingredients-percent-analysis-ok",
+                                },
+                                {
+                                    "id": "en:ecoscore-production-system-no-label",
+                                    "known": 0,
+                                    "name": "ecoscore-production-system-no-label",
+                                    "products": 1258,
+                                    "url": "https://world.openfoodfacts.org/allergen/none/data-quality/ecoscore-production-system-no-label",
+                                },
+                                {
+                                    "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                                    "known": 0,
+                                    "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                                    "products": 1168,
+                                    "url": "https://world.openfoodfacts.org/allergen/none/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                                },
+                            ],
+                            "source_url": "https://world.openfoodfacts.org/allergen/None/data-quality.json",
+                            "description": "data-quality issues releated to this allergen",
+                        }
+                    ]
+                }
+            }
+        ]
+    }
