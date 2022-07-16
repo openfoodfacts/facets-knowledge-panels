@@ -2,7 +2,7 @@ from typing import Union
 
 from fastapi import FastAPI
 
-from .knowledge_panels import hunger_game_kp
+from .knowledge_panels import data_quality_kp, hunger_game_kp
 from .models import FacetName, HungerGameFilter
 
 app = FastAPI()
@@ -30,5 +30,6 @@ def knowledge_panel(
                 hunger_game_filter=facet_name, value=facet_value, country=country
             )
         )
+    panels.append(data_quality_kp(facet=facet_name, value=facet_value, country=country))
 
     return {"knowledge_panels": panels}

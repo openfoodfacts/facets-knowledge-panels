@@ -1,4 +1,4 @@
-from app.main import hunger_game_kp
+from app.main import hunger_game_kp, data_quality_kp
 
 
 def test_hunger_game_kp_with_filter_value_and_country():
@@ -87,6 +87,62 @@ def test_hunger_game_kp_label_with_value():
                     "text_element": {
                         "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=organic'>Answer robotoff questions about organic label</a></p>\n"
                     },
+                }
+            ]
+        }
+    }
+
+
+def test_data_quality_kp_with_country_and_facet():
+    assert data_quality_kp(
+        facet="packaging", value="plastic-box", country="hungary"
+    ) == {
+        "data-quality": {
+            "elements": [
+                {
+                    "element_type": "text",
+                    "total_issues": 0,
+                    "text_element": [],
+                    "source_url": "https://world.openfoodfacts.org/country/hungary/packaging/plastic-box/data-quality.json",
+                    "description": "data-quality issues releated to this packaging based on hungary",
+                }
+            ]
+        }
+    }
+
+
+def test_data_quality_kp_with_country_only():
+    assert data_quality_kp(facet="country", value="united kingdom") == {
+        "data-quality": {
+            "elements": [
+                {
+                    "element_type": "text",
+                    "total_issues": 241,
+                    "text_element": [
+                        {
+                            "id": "en:ecoscore-production-system-no-label",
+                            "known": 0,
+                            "name": "ecoscore-production-system-no-label",
+                            "products": 74390,
+                            "url": "https://world.openfoodfacts.org/country/united-kingdom/data-quality/ecoscore-production-system-no-label",
+                        },
+                        {
+                            "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                            "known": 0,
+                            "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                            "products": 73371,
+                            "url": "https://world.openfoodfacts.org/country/united-kingdom/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                        },
+                        {
+                            "id": "en:ecoscore-threatened-species-ingredients-missing",
+                            "known": 0,
+                            "name": "ecoscore-threatened-species-ingredients-missing",
+                            "products": 57542,
+                            "url": "https://world.openfoodfacts.org/country/united-kingdom/data-quality/ecoscore-threatened-species-ingredients-missing",
+                        },
+                    ],
+                    "source_url": "https://world.openfoodfacts.org/country/united kingdom/data-quality.json",
+                    "description": "data-quality issues releated to this country",
                 }
             ]
         }
