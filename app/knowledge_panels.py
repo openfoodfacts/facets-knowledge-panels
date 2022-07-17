@@ -62,20 +62,25 @@ def data_quality_kp(
     source_url = urljoin(url, path)
     description = f"data-quality issues related to {description}"
     html = f"{source_url}/data-quality.json"
+    """
+    Parsing data from the url
+    """
     response_API = requests.get(html)
     data = response_API.text
     parse_json = json.loads(data)
-    numbers_of_issues = parse_json["count"]
+    total_issues = parse_json["count"]
+    # Returns total number of issues
     tags = parse_json["tags"]
-    first_three_data = tags[0:3]
+    first_three = tags[0:3]
+    # Returns First three issues
 
     return {
         "data-quality": {
             "elements": [
                 {
                     "element_type": "text",
-                    "total_issues": numbers_of_issues,
-                    "text_element": first_three_data,
+                    "total_issues": total_issues,
+                    "text_element": first_three,
                     "source_url": html,
                     "description": description,
                 },

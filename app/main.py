@@ -31,5 +31,6 @@ def knowledge_panel(
             )
         )
     panels.append(data_quality_kp(facet=facet_name, value=facet_value, country=country))
+    # Returns data-quality issues
 
     return {"knowledge_panels": panels}
