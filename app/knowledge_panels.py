@@ -50,17 +50,17 @@ def data_quality_kp(
 ):
     if facet == "country":
         path = f"{facet}/{value}"
-        description = "country"
+        description = f"{value}"
     else:
         if country is not None:
             path = f"country/{country}/{facet}/{value}"
-            description = f"{facet} based on {country}"
+            description = f"{facet} based for {country}"
         else:
             path = f"{facet}/{value}"
             description = facet
     url = "https://world.openfoodfacts.org/"
     source_url = urljoin(url, path)
-    description = f"data-quality issues releated to this {description}"
+    description = f"data-quality issues related to {description}"
     html = f"{source_url}/data-quality.json"
     response_API = requests.get(html)
     data = response_API.text

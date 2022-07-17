@@ -39,7 +39,7 @@ def test_knowledge_panel_ctegory_with_value_and_country():
                             "total_issues": 0,
                             "text_element": [],
                             "source_url": "https://world.openfoodfacts.org/country/italy/packaging/plastic-box/data-quality.json",
-                            "description": "data-quality issues releated to this packaging based on italy",
+                            "description": "data-quality issues related to packaging based for italy",
                         }
                     ]
                 }
@@ -49,7 +49,7 @@ def test_knowledge_panel_ctegory_with_value_and_country():
 
 
 def test_knowledge_panel_ctegory_with_country():
-    assert knowledge_panel(facet_name="origin", country="india") == {
+    assert knowledge_panel(facet_name="origin", country="India") == {
         "knowledge_panels": [
             {
                 "data-quality": {
@@ -58,8 +58,8 @@ def test_knowledge_panel_ctegory_with_country():
                             "element_type": "text",
                             "total_issues": 0,
                             "text_element": [],
-                            "source_url": "https://world.openfoodfacts.org/country/india/origin/None/data-quality.json",
-                            "description": "data-quality issues releated to this origin based on india",
+                            "source_url": "https://world.openfoodfacts.org/country/India/origin/None/data-quality.json",
+                            "description": "data-quality issues related to origin based for India",
                         }
                     ]
                 }
@@ -101,7 +101,7 @@ def test_knowledge_panel_with_allergen():
                                 },
                             ],
                             "source_url": "https://world.openfoodfacts.org/allergen/None/data-quality.json",
-                            "description": "data-quality issues releated to this allergen",
+                            "description": "data-quality issues related to allergen",
                         }
                     ]
                 }
