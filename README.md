@@ -1,5 +1,5 @@
 # facets-knowledge-panels
-Providing knowledge panels for a particular open food fact facet (category, brand, etc...)
+Providing knowledge panels for a particular Open Food Facts facet (category, brand, etc...)
 
 ## why facets-knowledge-panels?
 
