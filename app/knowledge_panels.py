@@ -77,7 +77,7 @@ def last_edits_kp(facet: str, value: str):
             "elements": [
                 {
                     "element_type": "text",
-                    "total_issues": counts,
+                    "counts": counts,
                     "text_element": first_three,
                     "source_url": search_url,
                 },
