@@ -2,9 +2,12 @@ import json
 from typing import Union
 from urllib.parse import urlencode
 
+import inflect
 import requests
 
 from .models import HungerGameFilter
+
+p = inflect.engine()
 
 
 def hunger_game_kp(
@@ -44,16 +47,13 @@ def hunger_game_kp(
 
 
 def last_edits_kp(facet: str, value: str):
-    list = ["country", "category"]
-    if facet in list:
-        word = facet[:-1]
-        pural_facet = word + "ies"
-    elif facet == "packaging":
+    if facet == "packaging":
         pural_facet = facet
+        # That how the api read packaging
     else:
-        pural_facet = facet + "s"
+        pural_facet = p.plural(facet)
     """
-    Changing facet to pural because that how the search api works
+    Changing other facet to pural because that how the search api works
     """
     query = {}
     if value is not None:
