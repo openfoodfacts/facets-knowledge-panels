@@ -2,7 +2,7 @@ from typing import Union
 
 from fastapi import FastAPI
 
-from .knowledge_panels import hunger_game_kp
+from .knowledge_panels import hunger_game_kp, last_edits_kp
 from .models import FacetName, HungerGameFilter
 
 app = FastAPI()
@@ -30,5 +30,11 @@ def knowledge_panel(
                 hunger_game_filter=facet_name, value=facet_value, country=country
             )
         )
+    """Appending Hunger-game-knowlege-panel
+    """
+
+    if facet_value is not None:
+        panels.append(last_edits_kp(facet=facet_name, value=facet_value))
+    """Appending Last-edits-knowlede-panel"""
 
     return {"knowledge_panels": panels}
