@@ -1,6 +1,8 @@
+import json
 from typing import Union
-
 from urllib.parse import urlencode
+
+import requests
 
 from .models import HungerGameFilter
 
@@ -39,3 +41,22 @@ def hunger_game_kp(
             ],
         },
     }
+
+
+def kp_taxonomy_data(facet: str, value: str):
+
+    query = {}
+    if value is not None:
+        query["tagtype"] = facet
+        query[
+            "fields"
+        ] = "name,parents,children,wikidata,auth_url,country_code_2,language_codes,country_code_3,e_number,additives_classes"
+        query["tags"] = value
+    search_url = "https://world.openfoodfacts.org/api/v2/taxonomy"
+    if query:
+        search_url += f"?{urlencode(query)}"
+
+    response_API = requests.get(search_url)
+    data = response_API.text
+    parse_json = json.loads(data)
+    return parse_json
