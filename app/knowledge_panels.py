@@ -57,33 +57,62 @@ def data_quality_kp(
             description = f"{facet} based for {country}"
         else:
             path = f"{facet}/{value}"
-            description = facet
+            description = f"{value} based for {facet}"
     url = "https://world.openfoodfacts.org/"
     source_url = urljoin(url, path)
     description = f"data-quality issues related to {description}"
-    html = f"{source_url}/data-quality.json"
+    quality_url = f"{source_url}/data-quality.json"
     """
     Parsing data from the url
     """
-    response_API = requests.get(html)
-    data = response_API.text
-    parse_json = json.loads(data)
-    total_issues = parse_json["count"]
+    response_API = requests.get(quality_url)
+    data = response_API.json()
+    total_issues = data["count"]
     # Returns total number of issues
-    tags = parse_json["tags"]
+    tags = data["tags"]
     first_three = tags[0:3]
-    # Returns First three issues
+    # Returns First three issues sorted by most common
+    id = []
+    name = []
+    products = []
+    known = []
+    url = []
+    for i in first_three:
+        id.append(i["id"])
+        name.append(i["name"])
+        products.append(i["products"])
+        known.append(i["known"])
+        url.append(i["url"])
 
     return {
         "data-quality": {
             "elements": [
                 {
                     "element_type": "text",
-                    "total_issues": total_issues,
-                    "text_element": first_three,
-                    "source_url": html,
-                    "description": description,
+                    "id": id[0],
+                    "title": name[0],
+                    "known": known[0],
+                    "poducts": products[0],
+                    "html": f'<a href="{url[0]}"></a>This is a {description}.',
+                },
+                {
+                    "element_type": "text",
+                    "id": id[1],
+                    "title": name[1],
+                    "known": known[1],
+                    "poducts": products[1],
+                    "html": f'<a href="{url[1]}"></a>This is a  {description}.',
+                },
+                {
+                    "element_type": "text",
+                    "id": id[2],
+                    "title": name[2],
+                    "known": known[2],
+                    "poducts": products[2],
+                    "html": f'<a href="{url[2]}"></a>This is a  {description}.',
                 },
             ],
+            "total_issues": total_issues,
+            "source_url": f"{source_url}/data-quality",
         },
     }
