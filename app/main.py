@@ -35,6 +35,6 @@ def knowledge_panel(
 
     if facet_value is not None:
         panels.append(last_edits_kp(facet=facet_name, value=facet_value))
-    """Appending Last-edits-knowlede-panel"""
+    """Appending last-edits-knowledge-panel"""
 
     return {"knowledge_panels": panels}
