@@ -83,37 +83,99 @@ def data_quality_kp(
         products.append(i["products"])
         known.append(i["known"])
         url.append(i["url"])
-
-    return {
-        "data-quality": {
-            "elements": [
-                {
-                    "element_type": "text",
-                    "total_issues": total_issues,
-                    "text_element_1": {
-                        "id": id[0],
-                        "title": name[0],
-                        "known": known[0],
-                        "poducts": products[0],
-                        "html": f'<a href="{url[0]}"></a>.',
-                    },
-                    "text_element_2": {
-                        "id": id[1],
-                        "title": name[1],
-                        "known": known[1],
-                        "poducts": products[1],
-                        "html": f'<a href="{url[1]}"></a>.',
-                    },
-                    "text_element_3": {
-                        "id": id[2],
-                        "title": name[2],
-                        "known": known[2],
-                        "poducts": products[2],
-                        "html": f'<a href="{url[2]}"></a>.',
-                    },
-                }
-            ],
-            "source_url": f"{source_url}/data-quality",
-            "description": f"This is a {description}",
-        },
-    }
+    # Fetching data from first_three(sorted first three data)
+    if len(first_three) == 3:
+        return {
+            "data-quality": {
+                "elements": [
+                    {
+                        "element_type": "text",
+                        "total_issues": total_issues,
+                        "text_element_1": {
+                            "id": id[0],
+                            "title": name[0],
+                            "known": known[0],
+                            "poducts": products[0],
+                            "html": f'<a href="{url[0]}"></a>.',
+                        },
+                        "text_element_2": {
+                            "id": id[1],
+                            "title": name[1],
+                            "known": known[1],
+                            "poducts": products[1],
+                            "html": f'<a href="{url[1]}"></a>.',
+                        },
+                        "text_element_3": {
+                            "id": id[2],
+                            "title": name[2],
+                            "known": known[2],
+                            "poducts": products[2],
+                            "html": f'<a href="{url[2]}"></a>.',
+                        },
+                    }
+                ],
+                "source_url": f"{source_url}/data-quality",
+                "description": f"This is a {description}",
+            },
+        }
+    elif len(first_three) == 0:
+        return {
+            "data-quality": {
+                "elements": [
+                    {
+                        "element_type": "text",
+                        "total_issues": total_issues,
+                        "text_element_1": {},
+                    }
+                ],
+                "source_url": f"{source_url}/data-quality",
+                "description": f"This is a {description}",
+            },
+        }
+    elif len(first_three) == 1:
+        return {
+            "data-quality": {
+                "elements": [
+                    {
+                        "element_type": "text",
+                        "total_issues": total_issues,
+                        "text_element_1": {
+                            "id": id[0],
+                            "title": name[0],
+                            "known": known[0],
+                            "poducts": products[0],
+                            "html": f'<a href="{url[0]}"></a>.',
+                        },
+                    }
+                ],
+                "source_url": f"{source_url}/data-quality",
+                "description": f"This is a {description}",
+            },
+        }
+    elif len(first_three) == 2:
+        return {
+            "data-quality": {
+                "elements": [
+                    {
+                        "element_type": "text",
+                        "total_issues": total_issues,
+                        "text_element_1": {
+                            "id": id[0],
+                            "title": name[0],
+                            "known": known[0],
+                            "poducts": products[0],
+                            "html": f'<a href="{url[0]}"></a>.',
+                        },
+                        "text_element_2": {
+                            "id": id[1],
+                            "title": name[1],
+                            "known": known[1],
+                            "poducts": products[1],
+                            "html": f'<a href="{url[1]}"></a>.',
+                        },
+                    }
+                ],
+                "source_url": f"{source_url}/data-quality",
+                "description": f"This is a {description}",
+            },
+        }
