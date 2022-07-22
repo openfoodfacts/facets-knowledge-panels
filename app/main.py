@@ -30,7 +30,7 @@ def knowledge_panel(
                 hunger_game_filter=facet_name, value=facet_value, country=country
             )
         )
-    """Appending Hunger-game-knowlege-panel
+    """Appending hunger-game-knowledge-panel
     """
 
     if facet_value is not None:
