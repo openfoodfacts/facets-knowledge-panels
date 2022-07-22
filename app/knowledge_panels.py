@@ -48,16 +48,16 @@ def hunger_game_kp(
 
 def last_edits_kp(facet: str, value: str):
     if facet == "packaging":
-        pural_facet = facet
+        plural_facet = facet
         # That how the api read packaging
     else:
-        pural_facet = p.plural(facet)
+        plural_facet = p.plural(facet)
     """
-    Changing other facet to pural because that how the search api works
+    Changing other facet to plural because that how the search api works
     """
     query = {}
     if value is not None:
-        query[f"{pural_facet}_tags_en"] = value
+        query[f"{plural_facet}_tags_en"] = value
         query["fields"] = "code,product_name,last_editor"
         query["sort_by"] = "last_modified_t"
     search_url = "https://world.openfoodfacts.org/api/v2/search"
