@@ -1,4 +1,6 @@
 from app.main import hunger_game_kp, data_quality_kp
+import requests
+import app.main
 
 
 def test_hunger_game_kp_with_filter_value_and_country():
@@ -93,57 +95,34 @@ def test_hunger_game_kp_label_with_value():
     }
 
 
-def test_data_quality_kp_with_country_and_facet():
-    assert data_quality_kp(
-        facet="packaging", value="plastic-box", country="Hungary"
-    ) == {
-        "data-quality": {
-            "elements": [
-                {
-                    "element_type": "text",
-                    "total_issues": 0,
-                    "text_element": [],
-                    "source_url": "https://world.openfoodfacts.org/country/Hungary/packaging/plastic-box/data-quality.json",
-                    "description": "data-quality issues related to packaging based for Hungary",
-                }
-            ]
+class MockResponse:
+    def json(self):
+        return {
+            "data-quality": {
+                "elements": [
+                    {"element_type": "text", "total_issues": 0, "text_element_1": {}}
+                ],
+                "source_url": "https://world.openfoodfacts.org/country/Hungary/packaging/plastic-box/data-quality",
+                "description": "This is a data-quality issues related to packaging based for Hungary",
+            }
         }
-    }
 
 
-def test_data_quality_kp_with_country_only():
-    assert data_quality_kp(facet="country", value="united kingdom") == {
+def test_data_quality_kp_with_country_only(monkeypatch):
+    def mock_get(quality_url):
+        return MockResponse()
+
+    monkeypatch.setattr(requests, "get", mock_get)
+    result = app.main.data_quality_kp(
+        facet="packaging", value="plastic-box", country="Hungary"
+    )
+
+    assert result == {
         "data-quality": {
             "elements": [
-                {
-                    "element_type": "text",
-                    "total_issues": 241,
-                    "text_element": [
-                        {
-                            "id": "en:ecoscore-production-system-no-label",
-                            "known": 0,
-                            "name": "ecoscore-production-system-no-label",
-                            "products": 74495,
-                            "url": "https://world.openfoodfacts.org/country/united-kingdom/data-quality/ecoscore-production-system-no-label",
-                        },
-                        {
-                            "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
-                            "known": 0,
-                            "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
-                            "products": 73475,
-                            "url": "https://world.openfoodfacts.org/country/united-kingdom/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
-                        },
-                        {
-                            "id": "en:ecoscore-threatened-species-ingredients-missing",
-                            "known": 0,
-                            "name": "ecoscore-threatened-species-ingredients-missing",
-                            "products": 57632,
-                            "url": "https://world.openfoodfacts.org/country/united-kingdom/data-quality/ecoscore-threatened-species-ingredients-missing",
-                        },
-                    ],
-                    "source_url": "https://world.openfoodfacts.org/country/united kingdom/data-quality.json",
-                    "description": "data-quality issues related to united kingdom",
-                }
-            ]
+                {"element_type": "text", "total_issues": 0, "text_element_1": {}}
+            ],
+            "source_url": "https://world.openfoodfacts.org/country/Hungary/packaging/plastic-box/data-quality",
+            "description": "This is a data-quality issues related to packaging based for Hungary",
         }
     }
