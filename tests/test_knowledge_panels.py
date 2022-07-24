@@ -95,20 +95,72 @@ def test_hunger_game_kp_label_with_value():
     }
 
 
-class MockResponse:
-    def json(self):
-        return {
-            "data-quality": {
-                "elements": [
-                    {"element_type": "text", "total_issues": 0, "text_element_1": {}}
+def test_data_quality_kp_country_only(monkeypatch):
+    class MockResponse(object):
+        def __init__(self):
+            self.url = "https://tr-en.openfoodfacts.org/data-quality.json"
+
+        def json(self):
+            return {
+                "count": 125,
+                "tags": [
+                    {
+                        "id": "en:ecoscore-production-system-no-label",
+                        "known": 0,
+                        "name": "ecoscore-production-system-no-label",
+                        "products": 1393,
+                        "url": "https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label",
+                    },
+                    {
+                        "id": "en:no-packaging-data",
+                        "known": 0,
+                        "name": "no-packaging-data",
+                        "products": 1345,
+                        "url": "https://tr-en.openfoodfacts.org/data-quality/no-packaging-data",
+                    },
+                    {
+                        "id": "en:ecoscore-packaging-packaging-data-missing",
+                        "known": 0,
+                        "name": "ecoscore-packaging-packaging-data-missing",
+                        "products": 1328,
+                        "url": "https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing",
+                    },
                 ],
-                "source_url": "https://world.openfoodfacts.org/country/Hungary/packaging/plastic-box/data-quality",
-                "description": "This is a data-quality issues related to packaging based for Hungary",
             }
+
+    def mock_get(quality_url):
+        return MockResponse()
+
+    monkeypatch.setattr(requests, "get", mock_get)
+    result = app.main.data_quality_kp(
+        facet="country", value="Turkey", country="Hungary"
+    )
+
+    assert result == {
+        "data-quality": {
+            "elements": [
+                {
+                    "element_type": "text",
+                    "total_issues": 125,
+                    "text_element": '<ul><li><a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1393 products with ecoscore-production-system-no-label</a></li>\n<li><a href="https://tr-en.openfoodfacts.org/data-quality/no-packaging-data">1345 products with no-packaging-data</a></li>\n<li><a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing">1328 products with ecoscore-packaging-packaging-data-missing</a></li></ul>',
+                }
+            ],
+            "source_url": "https://tr-en.openfoodfacts.org/data-quality",
+            "description": "This is a data-quality issues related to Turkey",
         }
+    }
 
 
-def test_data_quality_kp_with_country_only(monkeypatch):
+def test_data_quality_kp_with_facet_value_and_country(monkeypatch):
+    class MockResponse(object):
+        def __init__(self):
+            self.url = (
+                "https://hu-en.openfoodfacts.org/packaging/plastic-box/data-quality"
+            )
+
+        def json(self):
+            return {"count": 0, "tags": []}
+
     def mock_get(quality_url):
         return MockResponse()
 
@@ -120,9 +172,13 @@ def test_data_quality_kp_with_country_only(monkeypatch):
     assert result == {
         "data-quality": {
             "elements": [
-                {"element_type": "text", "total_issues": 0, "text_element_1": {}}
+                {
+                    "element_type": "text",
+                    "total_issues": 0,
+                    "text_element": "<ul></ul>",
+                }
             ],
-            "source_url": "https://world.openfoodfacts.org/country/Hungary/packaging/plastic-box/data-quality",
+            "source_url": "https://hu-en.openfoodfacts.org/packaging/plastic-box/data-quality",
             "description": "This is a data-quality issues related to packaging based for Hungary",
         }
     }
