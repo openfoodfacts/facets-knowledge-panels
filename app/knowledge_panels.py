@@ -79,7 +79,7 @@ def last_edits_kp(
     tags = data["products"]
     html = "\n".join(
         f'<li>Product with this code {tag["code"]} was last edited by {tag["last_editor"]} has last_modified_tag {tag["last_modified_t"]}</li>'
-        for tag in tags[0:3]
+        for tag in tags[0:10]
     )
     html = f"<ul>{html}</ul>"
 
