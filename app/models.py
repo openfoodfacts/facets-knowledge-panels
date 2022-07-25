@@ -1,5 +1,6 @@
 from enum import Enum
-
+import inflect
+import pycountry
 from pydantic import BaseModel
 
 
@@ -38,3 +39,15 @@ class HungerGameFilter(str, Enum):
     @staticmethod
     def list():
         return [c.value for c in HungerGameFilter]
+
+
+def facet_plural(facet):
+    p = inflect.engine()
+    facet_plural = p.plural(facet)
+    return facet_plural
+
+
+def country_to_ISO_code(value: str):
+    country_data = pycountry.countries.get(name=value)
+    country_iso_code = country_data.alpha_2
+    return country_iso_code.lower()
