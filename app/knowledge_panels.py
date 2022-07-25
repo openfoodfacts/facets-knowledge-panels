@@ -60,15 +60,19 @@ def last_edits_kp(
         country_code = country_to_ISO_code(value=value)
         country = value
         url = f"https://{country_code}-en.openfoodfacts.org"
+        description = f"{value}"
     else:
         if value is not None:
             url = "https://world.openfoodfacts.org"
             query[f"{plural}_tags_en"] = value
+            description = f"{value} based for {facet}"
         if country is not None:
             country_code = country_to_ISO_code(value=country)
             url = f"https://{country_code}-en.openfoodfacts.org"
+            description = f"{facet} based for {country}"
 
     search_url = f"{url}/api/v2/search"
+    description = f"last-edits issues related to {description}"
     response_API = requests.get(search_url, params=query)
     data = response_API.json()
     counts = data["count"]
@@ -88,6 +92,7 @@ def last_edits_kp(
                     "text_element": html,
                     "total_edits": counts,
                     "source_url": f"{url}/{facet}/{value}?sort_by=last_modified_t",
+                    "description": f"This is {description}",
                 },
             ],
         },
