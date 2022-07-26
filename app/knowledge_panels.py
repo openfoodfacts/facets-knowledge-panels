@@ -49,6 +49,9 @@ def data_quality_kp(
     value: Union[str, None] = None,
     country: Union[str, None] = None,
 ):
+    """
+    Get data corresponding to differnet facet
+    """
     path = ""
     description = ""
     if facet == "country":

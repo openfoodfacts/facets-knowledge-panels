@@ -3,6 +3,9 @@ import requests
 
 
 def data_quality(url, path):
+    """
+    Helper function to return issues for data-quality
+    """
     source_url = urljoin(url, path)
     quality_url = f"{source_url}/data-quality.json"
     response_API = requests.get(quality_url)
