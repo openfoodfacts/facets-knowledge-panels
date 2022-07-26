@@ -1,6 +1,7 @@
 from app.main import hunger_game_kp, data_quality_kp
 import requests
 import app.main
+from .test_utils import mock_get_factory
 
 
 def test_hunger_game_kp_with_filter_value_and_country():
@@ -95,90 +96,95 @@ def test_hunger_game_kp_label_with_value():
     }
 
 
-def test_data_quality_kp_country_only(monkeypatch):
-    class MockResponse(object):
-        def __init__(self):
-            self.url = "https://tr-en.openfoodfacts.org/data-quality.json"
-
-        def json(self):
-            return {
-                "count": 125,
-                "tags": [
-                    {
-                        "id": "en:ecoscore-production-system-no-label",
-                        "known": 0,
-                        "name": "ecoscore-production-system-no-label",
-                        "products": 1393,
-                        "url": "https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label",
-                    },
-                    {
-                        "id": "en:no-packaging-data",
-                        "known": 0,
-                        "name": "no-packaging-data",
-                        "products": 1345,
-                        "url": "https://tr-en.openfoodfacts.org/data-quality/no-packaging-data",
-                    },
-                    {
-                        "id": "en:ecoscore-packaging-packaging-data-missing",
-                        "known": 0,
-                        "name": "ecoscore-packaging-packaging-data-missing",
-                        "products": 1328,
-                        "url": "https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing",
-                    },
-                ],
-            }
-
-    def mock_get(quality_url):
-        return MockResponse()
-
-    monkeypatch.setattr(requests, "get", mock_get)
+def test_data_quality_kp_with_country(monkeypatch):
+    expected_url = "https://tr-en.openfoodfacts.org/data-quality.json"
+    expected_json = {
+        "count": 125,
+        "tags": [
+            {
+                "id": "en:ecoscore-production-system-no-label",
+                "known": 0,
+                "name": "ecoscore-production-system-no-label",
+                "products": 1396,
+                "url": "https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label",
+            },
+            {
+                "id": "en:no-packaging-data",
+                "known": 0,
+                "name": "no-packaging-data",
+                "products": 1348,
+                "url": "https://tr-en.openfoodfacts.org/data-quality/no-packaging-data",
+            },
+            {
+                "id": "en:ecoscore-packaging-packaging-data-missing",
+                "known": 0,
+                "name": "ecoscore-packaging-packaging-data-missing",
+                "products": 1331,
+                "url": "https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing",
+            },
+        ],
+    }
+    monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, expected_json))
     result = app.main.data_quality_kp(
         facet="country", value="Turkey", country="Hungary"
     )
 
     assert result == {
-        "data-quality": {
+        "Quality": {
+            "title": "Data-quality issues",
+            "subtitle": "Data-quality issues related to Turkey",
+            "source_url": "https://tr-en.openfoodfacts.org/data-quality",
             "elements": [
                 {
                     "element_type": "text",
-                    "total_issues": 125,
-                    "text_element": '<ul><li><a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1393 products with ecoscore-production-system-no-label</a></li>\n<li><a href="https://tr-en.openfoodfacts.org/data-quality/no-packaging-data">1345 products with no-packaging-data</a></li>\n<li><a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing">1328 products with ecoscore-packaging-packaging-data-missing</a></li></ul>',
+                    "text_element": '<p>The total number of issues are 125,here couples of issues</p><ul><li><a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1396 products with ecoscore-production-system-no-label</a></li>\n<li><a href="https://tr-en.openfoodfacts.org/data-quality/no-packaging-data">1348 products with no-packaging-data</a></li>\n<li><a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing">1331 products with ecoscore-packaging-packaging-data-missing</a></li></ul>',
                 }
             ],
-            "source_url": "https://tr-en.openfoodfacts.org/data-quality",
-            "description": "This is a data-quality issues related to Turkey",
         }
     }
 
 
-def test_data_quality_kp_with_facet_value_and_country(monkeypatch):
-    class MockResponse(object):
-        def __init__(self):
-            self.url = (
-                "https://hu-en.openfoodfacts.org/packaging/plastic-box/data-quality"
-            )
-
-        def json(self):
-            return {"count": 0, "tags": []}
-
-    def mock_get(quality_url):
-        return MockResponse()
-
-    monkeypatch.setattr(requests, "get", mock_get)
-    result = app.main.data_quality_kp(
-        facet="packaging", value="plastic-box", country="Hungary"
-    )
+def test_data_quality_kp_with_all_three_values(monkeypatch):
+    expected_url = "https://world.openfoodfacts.org/brand/lidl/data-quality.json"
+    expected_json = {
+        "count": 173,
+        "tags": [
+            {
+                "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "known": 0,
+                "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "products": 6474,
+                "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+            },
+            {
+                "id": "en:ecoscore-production-system-no-label",
+                "known": 0,
+                "name": "ecoscore-production-system-no-label",
+                "products": 6467,
+                "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label",
+            },
+            {
+                "id": "en:no-packaging-data",
+                "known": 0,
+                "name": "no-packaging-data",
+                "products": 5042,
+                "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data",
+            },
+        ],
+    }
+    monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, expected_json))
+    result = app.main.data_quality_kp(facet="brand", value="lidl")
 
     assert result == {
-        "data-quality": {
+        "Quality": {
+            "title": "Data-quality issues",
+            "subtitle": "Data-quality issues related to brand lidl",
+            "source_url": "https://world.openfoodfacts.org/brand/lidl/data-quality",
             "elements": [
                 {
                     "element_type": "text",
-                    "total_issues": 0,
-                    "text_element": "<ul></ul>",
+                    "text_element": '<p>The total number of issues are 173,here couples of issues</p><ul><li><a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">6474 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a></li>\n<li><a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label">6467 products with ecoscore-production-system-no-label</a></li>\n<li><a href="https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data">5042 products with no-packaging-data</a></li></ul>',
                 }
             ],
-            "source_url": "https://hu-en.openfoodfacts.org/packaging/plastic-box/data-quality",
-            "description": "This is a data-quality issues related to packaging based for Hungary",
         }
     }

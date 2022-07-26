@@ -1,6 +1,7 @@
+import logging
 from typing import Union
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 
 from .knowledge_panels import data_quality_kp, hunger_game_kp
 from .models import FacetName, HungerGameFilter
@@ -23,19 +24,18 @@ def knowledge_panel(
 ):
     # FacetName is the model that have list of values
     # facet_value are the list of values connecting to FacetName eg:- category/beer, here beer is the value
-    try:
-        panels = []
-        if facet_name in HungerGameFilter.list():
-            panels.append(
-                hunger_game_kp(
-                    hunger_game_filter=facet_name, value=facet_value, country=country
-                )
+    panels = []
+    if facet_name in HungerGameFilter.list():
+        panels.append(
+            hunger_game_kp(
+                hunger_game_filter=facet_name, value=facet_value, country=country
             )
+        )
+    try:
         panels.append(
             data_quality_kp(facet=facet_name, value=facet_value, country=country)
         )
-        # Returns data-quality issues
+    except Exception as Argument:
+        logging.exception("error occued while appending data-quality-kp")
 
-        return {"knowledge_panels": panels}
-    except:
-        raise HTTPException(status_code=404, detail="Item not found")
+    return {"knowledge_panels": panels}

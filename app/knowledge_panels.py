@@ -5,6 +5,7 @@ from urllib.parse import urlencode, urljoin
 import requests
 
 from .models import HungerGameFilter, country_to_ISO_code
+from .off import data_quality
 
 
 def hunger_game_kp(
@@ -48,48 +49,40 @@ def data_quality_kp(
     value: Union[str, None] = None,
     country: Union[str, None] = None,
 ):
+    path = ""
+    description = ""
     if facet == "country":
-        country_code = country_to_ISO_code(value=value)
         country = value
+        country_code = country_to_ISO_code(value=value)
         url = f"https://{country_code}-en.openfoodfacts.org"
-        path = None
-        description = f"{value}"
-    else:
-        if country is not None:
-            country_code = country_to_ISO_code(value=country)
-            url = f"https://{country_code}-en.openfoodfacts.org/"
-            path = f"{facet}/{value}"
-            description = f"{facet} based for {country}"
-        else:
-            url = "https://world.openfoodfacts.org/"
-            path = f"{facet}/{value}"
-            description = f"{value} based for {facet}"
-    source_url = urljoin(url, path)
-    description = f"data-quality issues related to {description}"
-    quality_url = f"{source_url}/data-quality.json"
-    """
-        Parsing data from the url
-        """
-    response_API = requests.get(quality_url)
-    data = response_API.json()
-    total_issues = data["count"]
-    # Returns total number of issues
-    tags = data["tags"]
-    html = "\n".join(
-        f'<li><a href="{tag["url"]}">{tag["products"]} products with {tag["name"]}</a></li>'
-        for tag in tags[0:3]
-    )
-    html = f"<ul>{html}</ul>"
+        path = ""
+        facet = value = None
+    if country is not None:
+        country_code = country_to_ISO_code(value=country)
+        url = f"https://{country_code}-en.openfoodfacts.org"
+        path = ""
+        description += country
+    if country is None:
+        url = "https://world.openfoodfacts.org/"
+    if facet is not None:
+        path += facet
+        description += f"{facet}"
+    if value is not None:
+        path += f"/{value}"
+        description += f" {value}"
+    description = f"Data-quality issues related to {description}"
+    (expected_html, source_url) = data_quality(url=url, path=path)
+
     return {
-        "data-quality": {
+        "Quality": {
+            "title": "Data-quality issues",
+            "subtitle": f"{description}",
+            "source_url": f"{source_url}/data-quality",
             "elements": [
                 {
                     "element_type": "text",
-                    "total_issues": total_issues,
-                    "text_element": html,
+                    "text_element": expected_html,
                 }
             ],
-            "source_url": f"{source_url}/data-quality",
-            "description": f"This is a {description}",
         },
     }
