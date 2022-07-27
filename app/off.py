@@ -14,6 +14,7 @@ def lastEdit(url, query):
     html = "\n".join(
         f'<li>{tag["product_name"]} ({tag["code"]}) edited by {tag["last_editor"]} on {tag["last_edit_dates_tags"][0]}</li>'
         for tag in tags[0:10]
+        if "product_name" in tag
     )
 
     html = f"<ul><p>Total number of edits {counts} </p>\n {html}</ul>"
