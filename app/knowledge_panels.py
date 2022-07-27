@@ -1,3 +1,4 @@
+import imp
 import json
 from typing import Union
 from urllib.parse import urlencode
@@ -5,6 +6,7 @@ from urllib.parse import urlencode
 import requests
 
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
+from .off import lastEdit
 
 
 def hunger_game_kp(
@@ -48,51 +50,42 @@ def last_edits_kp(
     value: Union[str, None] = None,
     country: Union[str, None] = None,
 ):
-    if facet == "packaging":
-        plural = facet
-    else:
-        plural = facet_plural(facet=facet)
+    """
+    Return knowledge panel for last-edits corresponding to differnet facet
+    """
     query = {
-        "fields": "code,last_editor,last_modified_t",
+        "fields": "product_name,code,last_editor,last_edit_dates_tags",
         "sort_by": "last_modified_t",
     }
+    description = ""
     if facet == "country":
-        country_code = country_to_ISO_code(value=value)
         country = value
+        country_code = country_to_ISO_code(value=value)
         url = f"https://{country_code}-en.openfoodfacts.org"
-        description = f"{value}"
-    else:
-        if value is not None:
-            url = "https://world.openfoodfacts.org"
-            query[f"{plural}_tags_en"] = value
-            description = f"{value} based for {facet}"
-        if country is not None:
-            country_code = country_to_ISO_code(value=country)
-            url = f"https://{country_code}-en.openfoodfacts.org"
-            description = f"{facet} based for {country}"
-
-    search_url = f"{url}/api/v2/search"
+        facet = value = None
+    if country is not None:
+        country_code = country_to_ISO_code(value=country)
+        url = f"https://{country_code}-en.openfoodfacts.org"
+        description += country
+    if country is None:
+        url = "https://world.openfoodfacts.org"
+    if facet is not None:
+        description += f" {facet}"
+    if value is not None:
+        query[f"{facet_plural(facet=facet)}_tags_en"] = value
+        description += f" {value}"
     description = f"last-edits issues related to {description}"
-    response_API = requests.get(search_url, params=query)
-    data = response_API.json()
-    counts = data["count"]
-    tags = data["products"]
-    html = "\n".join(
-        f'<li>Product with this code {tag["code"]} was last edited by {tag["last_editor"]} has last_modified_tag {tag["last_modified_t"]}</li>'
-        for tag in tags[0:10]
-    )
-    html = f"<ul>{html}</ul>"
+    expected_html = lastEdit(url=url, query=query)
 
     return {
-        "last-edits": {
+        "LastEdits": {
+            "title": "Last-edites",
+            "subtitle": f"{description}",
+            "source_url": f"{url}/{facet}/{value}?sort_by=last_modified_t",
             "elements": [
                 {
                     "element_type": "text",
-                    "counts": counts,
-                    "text_element": html,
-                    "total_edits": counts,
-                    "source_url": f"{url}/{facet}/{value}?sort_by=last_modified_t",
-                    "description": f"This is {description}",
+                    "text_element": expected_html,
                 },
             ],
         },

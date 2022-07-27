@@ -41,9 +41,13 @@ class HungerGameFilter(str, Enum):
         return [c.value for c in HungerGameFilter]
 
 
-def facet_plural(facet):
+def facet_plural(facet: str):
     p = inflect.engine()
-    facet_plural = p.plural(facet)
+    plural = p.plural(facet)
+    if facet == "packaging":
+        facet_plural = facet
+    else:
+        facet_plural = plural
     return facet_plural
 
 
