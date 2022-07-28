@@ -2,6 +2,7 @@ from app.main import hunger_game_kp, data_quality_kp
 import requests
 import app.main
 from .test_utils import mock_get_factory
+from app.off import tidy_html
 
 
 def test_hunger_game_kp_with_filter_value_and_country():
@@ -128,6 +129,22 @@ def test_data_quality_kp_with_country(monkeypatch):
     result = app.main.data_quality_kp(
         facet="country", value="Turkey", country="Hungary"
     )
+    first_element = result["Quality"]["elements"][0]
+    expected_text = """
+    <p>The total number of issues are 125,here couples of issues</p>
+    <ul>
+        <li>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1396 products with ecoscore-production-system-no-label</a>
+        </li>
+        <li>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/no-packaging-data">1348 products with no-packaging-data</a>
+        </li>
+        <li>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing">1331 products with ecoscore-packaging-packaging-data-missing</a>
+        </li>
+    </ul>
+    """
+    first_element["text_element"] = tidy_html(expected_text)
 
     assert result == {
         "Quality": {
@@ -137,7 +154,7 @@ def test_data_quality_kp_with_country(monkeypatch):
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": '<p>The total number of issues are 125,here couples of issues</p><ul><li><a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1396 products with ecoscore-production-system-no-label</a></li>\n<li><a href="https://tr-en.openfoodfacts.org/data-quality/no-packaging-data">1348 products with no-packaging-data</a></li>\n<li><a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing">1331 products with ecoscore-packaging-packaging-data-missing</a></li></ul>',
+                    "text_element": first_element["text_element"],
                 }
             ],
         }
@@ -153,7 +170,7 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
                 "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
                 "known": 0,
                 "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
-                "products": 6474,
+                "products": 6473,
                 "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
             },
             {
@@ -167,13 +184,29 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
                 "id": "en:no-packaging-data",
                 "known": 0,
                 "name": "no-packaging-data",
-                "products": 5042,
+                "products": 5041,
                 "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data",
             },
         ],
     }
     monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, expected_json))
     result = app.main.data_quality_kp(facet="brand", value="lidl")
+    first_element = result["Quality"]["elements"][0]
+    expected_text = """ 
+    <p>The total number of issues are 173,here couples of issues</p>
+    <ul>
+        <li>
+            <a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">6473 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+        </li>
+        <li>
+            <a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label">6467 products with ecoscore-production-system-no-label</a>
+        </li>
+        <li>
+            <a href="https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data">5041 products with no-packaging-data</a>
+        </li>
+    </ul>
+    """
+    first_element["text_element"] = tidy_html(expected_text)
 
     assert result == {
         "Quality": {
@@ -183,7 +216,7 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": '<p>The total number of issues are 173,here couples of issues</p><ul><li><a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">6474 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a></li>\n<li><a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label">6467 products with ecoscore-production-system-no-label</a></li>\n<li><a href="https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data">5042 products with no-packaging-data</a></li></ul>',
+                    "text_element": first_element["text_element"],
                 }
             ],
         }

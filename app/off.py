@@ -1,5 +1,6 @@
 from urllib.parse import urljoin
 import requests
+from bs4 import BeautifulSoup
 
 
 def data_quality(url, path):
@@ -19,3 +20,8 @@ def data_quality(url, path):
     expected_html = f"<p>The total number of issues are {total_issues},here couples of issues</p><ul>{html}</ul>"
 
     return expected_html, source_url
+
+
+def tidy_html(html):
+    BeautifulSoup(html, "html.parser").prettify()
+    return html
