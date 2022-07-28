@@ -1,7 +1,7 @@
 from typing import Union
 from urllib.parse import urlencode
 from .models import HungerGameFilter, country_to_ISO_code
-from .off import data_quality
+from .off import dataQuality
 
 
 def hunger_game_kp(
@@ -70,7 +70,7 @@ def data_quality_kp(
         path += f"/{value}"
         description += f" {value}"
     description = f"Data-quality issues related to {description}"
-    (expected_html, source_url) = data_quality(url=url, path=path)
+    (expected_html, source_url) = dataQuality(url=url, path=path)
 
     return {
         "Quality": {

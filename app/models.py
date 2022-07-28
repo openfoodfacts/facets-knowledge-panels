@@ -1,5 +1,6 @@
 from enum import Enum
 import pycountry
+from bs4 import BeautifulSoup
 
 
 class FacetName(str, Enum):
@@ -46,3 +47,11 @@ def country_to_ISO_code(value: str):
     country_data = pycountry.countries.get(name=value)
     country_iso_code = country_data.alpha_2
     return country_iso_code.lower()
+
+
+def tidy_html(html):
+    """
+    Helper function that return pretiffy html
+    """
+    BeautifulSoup(html, "html.parser").prettify()
+    return html
