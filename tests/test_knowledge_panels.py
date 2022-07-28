@@ -100,9 +100,11 @@ def test_hunger_game_kp_label_with_value():
 def test_last_edits_kp_with_all_three_values(monkeypatch):
     expected_url = "https://hu-en.openfoodfacts.org/api/v2/search"
     expected_kwargs = {
-        "fields": "product_name,code,last_editor,last_edit_dates_tags",
-        "sort_by": "last_modified_t",
-        "vitamins_tags_en": "vitamin-k",
+        "params": {
+            "fields": "product_name,code,last_editor,last_edit_dates_tags",
+            "sort_by": "last_modified_t",
+            "vitamins_tags_en": "vitamin-k",
+        }
     }
     expected_json = {
         "count": 1,
@@ -134,7 +136,7 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
     assert result == {
         "LastEdits": {
             "title": "Last-edites",
-            "subtitle": "last-edits issues related to Hungary vitamin vitamin-k",
+            "subtitle": "last-edits issues related to hungary vitamin vitamin-k",
             "source_url": "https://hu-en.openfoodfacts.org/vitamin/vitamin-k?sort_by=last_modified_t",
             "elements": [
                 {
