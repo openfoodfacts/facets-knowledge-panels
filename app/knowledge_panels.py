@@ -1,10 +1,5 @@
-import imp
-import json
 from typing import Union
 from urllib.parse import urlencode
-
-import requests
-
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
 from .off import lastEdit
 
@@ -51,7 +46,7 @@ def last_edits_kp(
     country: Union[str, None] = None,
 ):
     """
-    Return knowledge panel for last-edits corresponding to differnet facet
+    Return knowledge panel for last-edits corresponding to different facet
     """
     query = {
         "fields": "product_name,code,last_editor,last_edit_dates_tags",

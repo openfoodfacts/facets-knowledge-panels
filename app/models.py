@@ -1,5 +1,9 @@
 from enum import Enum
 import inflect
+
+"""Library to correctly generate plurals, singular nouns, ordinals, indefinite articles convert numbers to words. 
+https://pypi.org/project/inflect/ """
+
 import pycountry
 from pydantic import BaseModel
 
@@ -42,12 +46,15 @@ class HungerGameFilter(str, Enum):
 
 
 def facet_plural(facet: str):
+    """
+    Return plural of facet
+    """
     p = inflect.engine()
     plural = p.plural(facet)
+    facet_plural = plural
     if facet == "packaging":
         facet_plural = facet
-    else:
-        facet_plural = plural
+
     return facet_plural
 
 
