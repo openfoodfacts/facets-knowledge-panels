@@ -98,49 +98,48 @@ def test_hunger_game_kp_label_with_value():
 
 
 def test_last_edits_kp_with_all_three_values(monkeypatch):
-    expected_url = "https://fr-en.openfoodfacts.org/api/v2/search"
+    expected_url = "https://hu-en.openfoodfacts.org/api/v2/search"
+    expected_kwargs = {
+        "fields": "product_name,code,last_editor,last_edit_dates_tags",
+        "sort_by": "last_modified_t",
+        "vitamins_tags_en": "vitamin-k",
+    }
     expected_json = {
-        "count": 13552,
+        "count": 1,
         "page": 1,
-        "page_count": 24,
+        "page_count": 1,
         "page_size": 24,
         "products": [
             {
-                "code": "7624841856058",
-                "last_edit_dates_tags": ["2022-07-27", "2022-07", "2022"],
-                "last_editor": "gluten-scan",
-                "product_name": "Red thai curry soup",
-            },
-            {
-                "code": "8712566429271",
-                "last_edit_dates_tags": ["2022-07-27", "2022-07", "2022"],
-                "last_editor": "org-unilever-france-gms",
-                "product_name": "Knorr Soupe Liquide Mouliné de Légumes d'Autrefois 1L",
-            },
-            {
-                "code": "4023900542803",
-                "last_edit_dates_tags": ["2022-07-26", "2022-07", "2022"],
-                "last_editor": "prepperapp",
-                "product_name": "Bio Soja Souce",
-            },
+                "code": "0715235567418",
+                "last_edit_dates_tags": ["2022-02-10", "2022-02", "2022"],
+                "last_editor": "packbot",
+                "product_name": "Tiqle Sticks Strawberry taste",
+            }
         ],
     }
     monkeypatch.setattr(
         requests,
         "get",
-        mock_get_factory(expected_url, expected_json),
+        mock_get_factory(
+            expected_url,
+            expected_kwargs,
+            expected_json,
+        ),
     )
-    result = app.main.last_edits_kp(facet="label", value="vegan", country="france")
+    result = app.main.last_edits_kp(
+        facet="vitamin", value="vitamin-k", country="hungary"
+    )
 
     assert result == {
         "LastEdits": {
             "title": "Last-edites",
-            "subtitle": "last-edits issues related to france label vegan",
-            "source_url": "https://fr-en.openfoodfacts.org/label/vegan?sort_by=last_modified_t",
+            "subtitle": "last-edits issues related to Hungary vitamin vitamin-k",
+            "source_url": "https://hu-en.openfoodfacts.org/vitamin/vitamin-k?sort_by=last_modified_t",
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": "<ul><p>Total number of edits 13552 </p>\n <li>Red thai curry soup (7624841856058) edited by gluten-scan on 2022-07-27</li>\n<li>Knorr Soupe Liquide Mouliné de Légumes d'Autrefois 1L (8712566429271) edited by org-unilever-france-gms on 2022-07-27</li>\n<li>Bio Soja Souce (4023900542803) edited by prepperapp on 2022-07-26</li>\n<li>Berry Revolutionary (8711327539303) edited by kiliweb on 2022-07-26</li>\n<li>Gelées con succhi Di frutta (8016042021011) edited by kiliweb on 2022-07-26</li>\n<li>Minifrühlingsrollen mit Gemüse (4316268371421) edited by blaerf on 2022-07-26</li>\n<li>Chicorée 0% Caffeine (5411788047166) edited by kiliweb on 2022-07-26</li>\n<li>Soy sauce (8715035110502) edited by frazerclews on 2022-07-26</li>\n<li>Sables pépites de chocolat (3760154260619) edited by kiliweb on 2022-07-26</li>\n<li>Raw pasta Fettuccine (8718868683878) edited by kiliweb on 2022-07-26</li></ul>",
+                    "text_element": "<ul><p>Total number of edits 1 </p>\n <li>Tiqle Sticks Strawberry taste (0715235567418) edited by packbot on 2022-02-10</li></ul>",
                 }
             ],
         }

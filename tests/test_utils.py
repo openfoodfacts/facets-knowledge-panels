@@ -6,16 +6,12 @@ class MockResponse:
         return self.json_content
 
 
-def mock_get_factory(target_url, json_content):
+def mock_get_factory(target_url, expected_kwargs={}, json_content=None):
     """generate a mock to patch request.get with a json response"""
 
     def mock_get(url, **kwargs):
         assert url == target_url
-        assert kwargs == {
-            "fields": "product_name,code,last_editor,last_edit_dates_tags",
-            "sort_by": "last_modified_t",
-            "labels_tags_en": "vegan",
-        }
+        assert kwargs == expected_kwargs
         return MockResponse(json_content)
 
     return mock_get
