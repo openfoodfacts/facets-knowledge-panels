@@ -1,4 +1,4 @@
-from app.main import hunger_game_kp, data_quality_kp
+from app.main import hunger_game_kp
 import requests
 import app.main
 from .test_utils import mock_get_factory

@@ -1,9 +1,5 @@
-import json
 from typing import Union
-from urllib.parse import urlencode, urljoin
-
-import requests
-
+from urllib.parse import urlencode
 from .models import HungerGameFilter, country_to_ISO_code
 from .off import data_quality
 

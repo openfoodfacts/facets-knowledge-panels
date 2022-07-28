@@ -7,7 +7,9 @@ class MockResponse:
 
 
 def mock_get_factory(target_url, json_content):
-    """generate a mock to patch request.get with a json response"""
+    """
+    generate a mock to patch request.get with a json response
+    """
 
     def mock_get(url):
         assert url == target_url

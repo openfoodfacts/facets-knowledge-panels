@@ -1,8 +1,6 @@
 from enum import Enum
 import pycountry
 
-from pydantic import BaseModel
-
 
 class FacetName(str, Enum):
     country = "country"
@@ -42,6 +40,9 @@ class HungerGameFilter(str, Enum):
 
 
 def country_to_ISO_code(value: str):
+    """
+    Helper function that return ISO code for country
+    """
     country_data = pycountry.countries.get(name=value)
     country_iso_code = country_data.alpha_2
     return country_iso_code.lower()
