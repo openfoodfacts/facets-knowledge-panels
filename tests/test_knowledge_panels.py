@@ -124,7 +124,9 @@ def test_data_quality_kp_with_country(monkeypatch):
             },
         ],
     }
-    monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, expected_json))
+    monkeypatch.setattr(
+        requests, "get", mock_get_factory(expected_url, json_content=expected_json)
+    )
     result = app.main.data_quality_kp(
         facet="country", value="Turkey", country="Hungary"
     )
@@ -193,7 +195,9 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
             },
         ],
     }
-    monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, expected_json))
+    monkeypatch.setattr(
+        requests, "get", mock_get_factory(expected_url, json_content=expected_json)
+    )
     result = app.main.data_quality_kp(facet="brand", value="lidl")
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
@@ -220,6 +224,70 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
             "title": "Data-quality issues",
             "subtitle": "Data-quality issues related to brand lidl",
             "source_url": "https://world.openfoodfacts.org/brand/lidl/data-quality",
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": "ok",
+                }
+            ],
+        }
+    }
+
+
+def test_last_edits_kp_with_all_three_values(monkeypatch):
+    expected_url = "https://hu-en.openfoodfacts.org/api/v2/search"
+    expected_kwargs = {
+        "params": {
+            "fields": "product_name,code,last_editor,last_edit_dates_tags",
+            "sort_by": "last_modified_t",
+            "vitamins_tags_en": "vitamin-k",
+        }
+    }
+    expected_json = {
+        "count": 1,
+        "page": 1,
+        "page_count": 1,
+        "page_size": 24,
+        "products": [
+            {
+                "code": "0715235567418",
+                "last_edit_dates_tags": ["2022-02-10", "2022-02", "2022"],
+                "last_editor": "packbot",
+                "product_name": "Tiqle Sticks Strawberry taste",
+            }
+        ],
+    }
+    monkeypatch.setattr(
+        requests,
+        "get",
+        mock_get_factory(
+            expected_url,
+            expected_kwargs,
+            expected_json,
+        ),
+    )
+    result = app.main.last_edits_kp(
+        facet="vitamin", value="vitamin-k", country="hungary"
+    )
+    first_element = result["LastEdits"]["elements"][0]
+    first_element["text_element"] = tidy_html(first_element["text_element"])
+    last_edits_text = """
+    <ul>
+        <p>Total number of edits 1 </p>
+        <li>
+            Tiqle Sticks Strawberry taste (0715235567418) edited by packbot on 2022-02-10
+        </li>
+    </ul>
+    """
+    # assert html separately to have better output in case of error
+    assert first_element["text_element"] == tidy_html(last_edits_text)
+    # now replace it for concision of output
+    first_element["text_element"] = "ok"
+    assert result == {
+        "LastEdits": {
+            "title": "Last-edites",
+            "subtitle": "last-edits issues related to hungary vitamin vitamin-k",
+            "source_url": "https://hu-en.openfoodfacts.org/vitamin/vitamin-k?sort_by=last_modified_t",
             "elements": [
                 {
                     "element_type": "text",

@@ -1,7 +1,7 @@
 from typing import Union
 from urllib.parse import urlencode
-from .models import HungerGameFilter, country_to_ISO_code
-from .off import dataQuality
+from .models import HungerGameFilter, country_to_ISO_code, facet_plural
+from .off import dataQuality, lastEdit
 
 
 def hunger_game_kp(
@@ -82,6 +82,53 @@ def data_quality_kp(
                     "element_type": "text",
                     "text_element": quality_html,
                 }
+            ],
+        },
+    }
+
+
+def last_edits_kp(
+    facet: str,
+    value: Union[str, None] = None,
+    country: Union[str, None] = None,
+):
+    """
+    Return knowledge panel for last-edits corresponding to different facet
+    """
+    query = {
+        "fields": "product_name,code,last_editor,last_edit_dates_tags",
+        "sort_by": "last_modified_t",
+    }
+    description = ""
+    if facet == "country":
+        country = value
+        country_code = country_to_ISO_code(value=value)
+        url = f"https://{country_code}-en.openfoodfacts.org"
+        facet = value = None
+    if country is not None:
+        country_code = country_to_ISO_code(value=country)
+        url = f"https://{country_code}-en.openfoodfacts.org"
+        description += country
+    if country is None:
+        url = "https://world.openfoodfacts.org"
+    if facet is not None:
+        description += f" {facet}"
+    if value is not None:
+        query[f"{facet_plural(facet=facet)}_tags_en"] = value
+        description += f" {value}"
+    description = f"last-edits issues related to {description}"
+    expected_html = lastEdit(url=url, query=query)
+
+    return {
+        "LastEdits": {
+            "title": "Last-edites",
+            "subtitle": f"{description}",
+            "source_url": f"{url}/{facet}/{value}?sort_by=last_modified_t",
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": expected_html,
+                },
             ],
         },
     }
