@@ -134,7 +134,7 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
     )
     first_element = result["LastEdits"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
-    expected_text = """
+    last_edits_text = """
     <ul>
         <p>Total number of edits 1 </p>
         <li>
@@ -143,7 +143,7 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
     </ul>
     """
     # assert html separately to have better output in case of error
-    assert first_element["text_element"] == tidy_html(expected_text)
+    assert first_element["text_element"] == tidy_html(last_edits_text)
     # now replace it for concision of output
     first_element["text_element"] = "ok"
     assert result == {
