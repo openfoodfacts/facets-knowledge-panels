@@ -130,6 +130,7 @@ def test_data_quality_kp_with_country(monkeypatch):
         facet="country", value="Turkey", country="Hungary"
     )
     first_element = result["Quality"]["elements"][0]
+    first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
     <p>The total number of issues are 125,here couples of issues</p>
     <ul>
@@ -144,7 +145,6 @@ def test_data_quality_kp_with_country(monkeypatch):
         </li>
     </ul>
     """
-    first_element["text_element"] = tidy_html(expected_text)
 
     assert result == {
         "Quality": {
@@ -154,7 +154,7 @@ def test_data_quality_kp_with_country(monkeypatch):
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": first_element["text_element"],
+                    "text_element": tidy_html(expected_text),
                 }
             ],
         }
@@ -192,6 +192,7 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
     monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, expected_json))
     result = app.main.data_quality_kp(facet="brand", value="lidl")
     first_element = result["Quality"]["elements"][0]
+    first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """ 
     <p>The total number of issues are 173,here couples of issues</p>
     <ul>
@@ -206,7 +207,6 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
         </li>
     </ul>
     """
-    first_element["text_element"] = tidy_html(expected_text)
 
     assert result == {
         "Quality": {
@@ -216,7 +216,7 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": first_element["text_element"],
+                    "text_element": tidy_html(expected_text),
                 }
             ],
         }
