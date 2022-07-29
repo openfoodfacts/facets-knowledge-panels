@@ -1,7 +1,6 @@
 from curses import panel
 from urllib import response
 import json
-
 from app.main import app, knowledge_panel
 from fastapi.testclient import TestClient
 
@@ -19,8 +18,7 @@ def test_hello():
 def test_knowledge_panel():
     response = client.get("/knowledge_panel?facet_name=origin")
     assert response.status_code == 200
-    response_body = response.json()
-    assert response_body["knowledge_panels"] == []
+    assert response.json()
 
 
 def test_knowledge_panel_badendpoint():
