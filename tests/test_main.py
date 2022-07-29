@@ -1,9 +1,9 @@
-from curses import panel
 from urllib import response
-import json
-
-from app.main import app, knowledge_panel
+import app.main
+from app.main import app
 from fastapi.testclient import TestClient
+
+from .test_utils import mock_get_factory
 
 client = TestClient(app)
 
@@ -19,8 +19,6 @@ def test_hello():
 def test_knowledge_panel():
     response = client.get("/knowledge_panel?facet_name=origin")
     assert response.status_code == 200
-    response_body = response.json()
-    assert response_body["knowledge_panels"] == []
 
 
 def test_knowledge_panel_badendpoint():
@@ -28,45 +26,9 @@ def test_knowledge_panel_badendpoint():
     assert response.status_code == 404
 
 
-def test_knowledge_panel_ctegory_with_value_and_country():
-    assert knowledge_panel(
-        facet_name="category", facet_value="chocolate", country="belgium"
-    ) == {
-        "knowledge_panels": [
-            {
-                "hunger-game": {
-                    "elements": [
-                        {
-                            "element_type": "text",
-                            "text_element": {
-                                "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=belgium&type=category&value_tag=chocolate'>Answer robotoff questions about chocolate category</a></p>\n"
-                            },
-                        }
-                    ]
-                }
-            }
-        ]
-    }
-
-
-def test_knowledge_panel_ctegory_with_country():
-    assert knowledge_panel(facet_name="category", country="india") == {
-        "knowledge_panels": [
-            {
-                "hunger-game": {
-                    "elements": [
-                        {
-                            "element_type": "text",
-                            "text_element": {
-                                "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=india&type=category'>Answer robotoff questions about category</a></p>\n"
-                            },
-                        }
-                    ]
-                }
-            }
-        ]
-    }
-
-
-def test_knowledge_panel_with_allergen():
-    assert knowledge_panel(facet_name="allergen") == {"knowledge_panels": []}
+def test_knowledge_panel_with_facet():
+    response = client.get(
+        "/knowledge_panel?facet_name=packaging&facet_value=plastic-box&country=Germany"
+    )
+    assert response.status_code == 200
+    assert response.json()

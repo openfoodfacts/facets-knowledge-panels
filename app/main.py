@@ -1,8 +1,7 @@
+import logging
 from typing import Union
-
 from fastapi import FastAPI
-
-from .knowledge_panels import hunger_game_kp
+from .knowledge_panels import data_quality_kp, hunger_game_kp
 from .models import FacetName, HungerGameFilter
 
 app = FastAPI()
@@ -21,8 +20,10 @@ def knowledge_panel(
     facet_value: Union[str, None] = None,
     country: Union[str, None] = None,
 ):
-    # FacetName is the model that have list of values
-    # facet_value are the list of values connecting to FacetName eg:- category/beer, here beer is the value
+    """
+    FacetName is the model that have list of values
+    facet_value are the list of values connecting to FacetName eg:- category/beer, here beer is the value
+    """
     panels = []
     if facet_name in HungerGameFilter.list():
         panels.append(
@@ -30,5 +31,11 @@ def knowledge_panel(
                 hunger_game_filter=facet_name, value=facet_value, country=country
             )
         )
+    try:
+        panels.append(
+            data_quality_kp(facet=facet_name, value=facet_value, country=country)
+        )
+    except Exception as Argument:
+        logging.exception("error occued while appending data-quality-kp")
 
     return {"knowledge_panels": panels}
