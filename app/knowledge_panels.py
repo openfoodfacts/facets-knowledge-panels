@@ -70,7 +70,7 @@ def data_quality_kp(
         path += f"/{value}"
         description += f" {value}"
     description = f"Data-quality issues related to {description}"
-    (expected_html, source_url) = dataQuality(url=url, path=path)
+    (quality_html, source_url) = dataQuality(url=url, path=path)
 
     return {
         "Quality": {
@@ -80,7 +80,7 @@ def data_quality_kp(
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": expected_html,
+                    "text_element": quality_html,
                 }
             ],
         },
