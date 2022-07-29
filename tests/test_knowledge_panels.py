@@ -2,7 +2,7 @@ from ast import Param
 from app.main import hunger_game_kp, last_edits_kp
 import requests
 import app.main
-from .test_utils import mock_get_factory
+from .test_utils import mock_get_factory, tidy_html
 
 
 def test_hunger_game_kp_with_filter_value_and_country():
@@ -132,7 +132,20 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
     result = app.main.last_edits_kp(
         facet="vitamin", value="vitamin-k", country="hungary"
     )
-
+    first_element = result["LastEdits"]["elements"][0]
+    first_element["text_element"] = tidy_html(first_element["text_element"])
+    expected_text = """
+    <ul>
+        <p>Total number of edits 1 </p>
+        <li>
+            Tiqle Sticks Strawberry taste (0715235567418) edited by packbot on 2022-02-10
+        </li>
+    </ul>
+    """
+    # assert html separately to have better output in case of error
+    assert first_element["text_element"] == tidy_html(expected_text)
+    # now replace it for concision of output
+    first_element["text_element"] = "ok"
     assert result == {
         "LastEdits": {
             "title": "Last-edites",
@@ -141,7 +154,7 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": "<ul><p>Total number of edits 1 </p>\n <li>Tiqle Sticks Strawberry taste (0715235567418) edited by packbot on 2022-02-10</li></ul>",
+                    "text_element": "ok",
                 }
             ],
         }
