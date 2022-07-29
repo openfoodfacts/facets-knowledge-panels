@@ -19,3 +19,24 @@ def dataQuality(url, path):
     expected_html = f"<p>The total number of issues are {total_issues},here couples of issues</p><ul>{html}</ul>"
 
     return expected_html, source_url
+
+
+def lastEdit(url, query):
+    """
+    Helper function to return data for last-edits
+    """
+    search_url = f"{url}/api/v2/search"
+    response_API = requests.get(search_url, params=query)
+    data = response_API.json()
+    counts = data["count"]
+    tags = data["products"]
+
+    html = "\n".join(
+        f'<li>{tag["product_name"]} ({tag["code"]}) edited by {tag["last_editor"]} on {tag["last_edit_dates_tags"][0]}</li>'
+        for tag in tags[0:10]
+        if "product_name" in tag
+    )
+
+    html = f"<ul><p>Total number of edits {counts} </p>\n {html}</ul>"
+
+    return html
