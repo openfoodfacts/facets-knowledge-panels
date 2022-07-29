@@ -147,7 +147,10 @@ def test_data_quality_kp_with_country(monkeypatch):
         </li>
     </ul>
     """
-
+    # assert html separately to have better output in case of error
+    assert first_element["text_element"] == tidy_html(expected_text)
+    # now replace it for concision of output
+    first_element["text_element"] = "ok"
     assert result == {
         "Quality": {
             "title": "Data-quality issues",
@@ -156,7 +159,7 @@ def test_data_quality_kp_with_country(monkeypatch):
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": tidy_html(expected_text),
+                    "text_element": "ok",
                 }
             ],
         }
@@ -209,7 +212,10 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
         </li>
     </ul>
     """
-
+    # assert html separately to have better output in case of error
+    assert first_element["text_element"] == tidy_html(expected_text)
+    # now replace it for concision of output
+    first_element["text_element"] = "ok"
     assert result == {
         "Quality": {
             "title": "Data-quality issues",
@@ -218,7 +224,7 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": tidy_html(expected_text),
+                    "text_element": "ok",
                 }
             ],
         }
