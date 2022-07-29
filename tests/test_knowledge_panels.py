@@ -106,21 +106,21 @@ def test_data_quality_kp_with_country(monkeypatch):
                 "id": "en:ecoscore-production-system-no-label",
                 "known": 0,
                 "name": "ecoscore-production-system-no-label",
-                "products": 1396,
+                "products": 1407,
                 "url": "https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label",
             },
             {
                 "id": "en:no-packaging-data",
                 "known": 0,
                 "name": "no-packaging-data",
-                "products": 1348,
+                "products": 1358,
                 "url": "https://tr-en.openfoodfacts.org/data-quality/no-packaging-data",
             },
             {
                 "id": "en:ecoscore-packaging-packaging-data-missing",
                 "known": 0,
                 "name": "ecoscore-packaging-packaging-data-missing",
-                "products": 1331,
+                "products": 1341,
                 "url": "https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing",
             },
         ],
@@ -132,16 +132,18 @@ def test_data_quality_kp_with_country(monkeypatch):
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
-    <p>The total number of issues are 125,here couples of issues</p>
+    <p>
+    The total number of issues are 125,here couples of issues
+    </p>
     <ul>
         <li>
-            <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1396 products with ecoscore-production-system-no-label</a>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1407 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a href="https://tr-en.openfoodfacts.org/data-quality/no-packaging-data">1348 products with no-packaging-data</a>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/no-packaging-data">1358 products with no-packaging-data</a>
         </li>
         <li>
-            <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing">1331 products with ecoscore-packaging-packaging-data-missing</a>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-packaging-packaging-data-missing">1341 products with ecoscore-packaging-packaging-data-missing</a>
         </li>
     </ul>
     """
@@ -193,7 +195,7 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
     result = app.main.data_quality_kp(facet="brand", value="lidl")
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
-    expected_text = """ 
+    expected_text = """
     <p>The total number of issues are 173,here couples of issues</p>
     <ul>
         <li>

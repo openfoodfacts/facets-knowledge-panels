@@ -54,4 +54,4 @@ def tidy_html(html):
     Helper function that return pretiffy html
     """
     html = BeautifulSoup(html, "html.parser").prettify()
-    return html
+    return html.strip()
