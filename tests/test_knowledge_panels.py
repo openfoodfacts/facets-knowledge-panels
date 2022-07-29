@@ -1,8 +1,7 @@
 from app.main import hunger_game_kp
 import requests
 import app.main
-from .test_utils import mock_get_factory
-from app.models import tidy_html
+from .test_utils import mock_get_factory, tidy_html
 
 
 def test_hunger_game_kp_with_filter_value_and_country():
