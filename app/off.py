@@ -2,7 +2,7 @@ from urllib.parse import urljoin
 import requests
 
 
-def dataQuality(url, path):
+def data_quality(url, path):
     """
     Helper function to return issues for data-quality
     """
@@ -21,7 +21,7 @@ def dataQuality(url, path):
     return expected_html, source_url
 
 
-def lastEdit(url, query):
+def last_edit(url, query):
     """
     Helper function to return data for last-edits
     """

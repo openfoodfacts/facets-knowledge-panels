@@ -98,7 +98,7 @@ def test_hunger_game_kp_label_with_value():
 
 def test_data_quality_kp_with_country(monkeypatch):
     expected_url = "https://tr-en.openfoodfacts.org/data-quality.json"
-    expected_json = {
+    json_content = {
         "count": 125,
         "tags": [
             {
@@ -125,7 +125,7 @@ def test_data_quality_kp_with_country(monkeypatch):
         ],
     }
     monkeypatch.setattr(
-        requests, "get", mock_get_factory(expected_url, json_content=expected_json)
+        requests, "get", mock_get_factory(expected_url, json_content=json_content)
     )
     result = app.main.data_quality_kp(
         facet="country", value="Turkey", country="Hungary"
@@ -169,7 +169,7 @@ def test_data_quality_kp_with_country(monkeypatch):
 
 def test_data_quality_kp_with_all_three_values(monkeypatch):
     expected_url = "https://world.openfoodfacts.org/brand/lidl/data-quality.json"
-    expected_json = {
+    json_content = {
         "count": 173,
         "tags": [
             {
@@ -196,7 +196,7 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
         ],
     }
     monkeypatch.setattr(
-        requests, "get", mock_get_factory(expected_url, json_content=expected_json)
+        requests, "get", mock_get_factory(expected_url, json_content=json_content)
     )
     result = app.main.data_quality_kp(facet="brand", value="lidl")
     first_element = result["Quality"]["elements"][0]
@@ -243,7 +243,7 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
             "vitamins_tags_en": "vitamin-k",
         }
     }
-    expected_json = {
+    json_content = {
         "count": 1,
         "page": 1,
         "page_count": 1,
@@ -263,7 +263,7 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
         mock_get_factory(
             expected_url,
             expected_kwargs,
-            expected_json,
+            json_content,
         ),
     )
     result = app.main.last_edits_kp(

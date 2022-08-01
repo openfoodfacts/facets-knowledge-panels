@@ -1,7 +1,7 @@
 from typing import Union
 from urllib.parse import urlencode
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
-from .off import dataQuality, lastEdit
+from .off import data_quality, last_edit
 
 
 def hunger_game_kp(
@@ -70,7 +70,7 @@ def data_quality_kp(
         path += f"/{value}"
         description += f" {value}"
     description = f"Data-quality issues related to {description}"
-    (quality_html, source_url) = dataQuality(url=url, path=path)
+    (quality_html, source_url) = data_quality(url=url, path=path)
 
     return {
         "Quality": {
@@ -117,7 +117,7 @@ def last_edits_kp(
         query[f"{facet_plural(facet=facet)}_tags_en"] = value
         description += f" {value}"
     description = f"last-edits issues related to {description}"
-    expected_html = lastEdit(url=url, query=query)
+    expected_html = last_edit(url=url, query=query)
 
     return {
         "LastEdits": {
