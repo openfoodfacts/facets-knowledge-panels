@@ -1,7 +1,7 @@
 from typing import Union
 from urllib.parse import urlencode
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
-from .off import data_quality, last_edit
+from .off import data_quality, last_edit, wikidata
 
 
 def hunger_game_kp(
@@ -132,3 +132,12 @@ def last_edits_kp(
             ],
         },
     }
+
+
+def wikidata_kp(facet: str, value: str):
+    query = {}
+    if value:
+        query["tagtype"] = facet
+        query["fields"] = "name,parents,wikidata,origins"
+        query["tags"] = value
+    wiki = wikidata(query=query, value=value)

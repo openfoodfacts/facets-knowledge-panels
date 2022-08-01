@@ -40,3 +40,13 @@ def last_edit(url, query):
     html = f"<ul><p>Total number of edits {counts} </p>\n {html}</ul>"
 
     return html
+
+
+def wikidata(query, value):
+    url = "https://world.openfoodfacts.org/api/v2/taxonomy"
+    response_API = requests.get(url, params=query)
+    data = response_API.json()
+    tag = data[value]
+    if "wikidata" in tag:
+        entity = tag["wikidata"]["en"]
+    return entity
