@@ -1,5 +1,6 @@
 from enum import Enum
 import pycountry
+import inflect
 
 
 class FacetName(str, Enum):
@@ -46,3 +47,16 @@ def country_to_ISO_code(value: str):
     country_data = pycountry.countries.get(name=value)
     country_iso_code = country_data.alpha_2
     return country_iso_code.lower()
+
+
+def facet_plural(facet: str):
+    """
+    Return plural of facet
+    """
+    p = inflect.engine()
+    plural = p.plural(facet)
+    facet_plural = plural
+    if facet == "packaging":
+        facet_plural = facet
+
+    return facet_plural
