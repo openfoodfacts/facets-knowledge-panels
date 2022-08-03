@@ -140,4 +140,3 @@ def wikidata_kp(facet: str, value: str):
         query["tagtype"] = facet
         query["fields"] = "name,parents,wikidata,origins"
         query["tags"] = value
-    wiki = wikidata(query=query, value=value)

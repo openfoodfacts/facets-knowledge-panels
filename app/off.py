@@ -1,5 +1,6 @@
 from urllib.parse import urljoin
 import requests
+from wikidata.client import Client
 
 
 def data_quality(url, path):
@@ -49,4 +50,9 @@ def wikidata(query, value):
     tag = data[value]
     if "wikidata" in tag:
         entity = tag["wikidata"]["en"]
-    return entity
+        client = Client()
+        entity = client.get(entity, load=True)
+        image_prop = client.get("P18")
+        image = entity[image_prop]
+        output = [image.image_url, entity.description, entity.label]
+    return output
