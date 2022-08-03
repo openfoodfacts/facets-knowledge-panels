@@ -1,6 +1,5 @@
 from urllib.parse import urljoin
 import requests
-from wikidata.client import Client
 
 
 def data_quality(url, path):
@@ -48,11 +47,18 @@ def wikidata(query, value):
     response_API = requests.get(url, params=query)
     data = response_API.json()
     tag = data[value]
-    if "wikidata" in tag:
-        entity = tag["wikidata"]["en"]
-        client = Client()
-        entity = client.get(entity, load=True)
-        image_prop = client.get("P18")
-        image = entity[image_prop]
-        output = [image.image_url, entity.description, entity.label]
-    return output
+    entity = tag["wikidata"]["en"]
+    response_API = requests.get(
+        f"https://www.wikidata.org/wiki/Special:EntityData/{entity}.json"
+    )
+    wiki_data = response_API.json()["entities"][entity]
+    label = wiki_data["labels"]["en"]["value"]
+    description = wiki_data["descriptions"]["en"]["value"]
+    if "P18" in wiki_data["claims"]:
+        image = (
+            wiki_data["claims"]["P18"][0]["mainsnak"]["datavalue"]["value"]
+        ).replace(" ", "_")
+        image_url = f"https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/{image}"
+    else:
+        image_url = ""
+    return label, description, image_url

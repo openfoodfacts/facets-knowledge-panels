@@ -1,3 +1,4 @@
+from cProfile import label
 from typing import Union
 from urllib.parse import urlencode
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
@@ -140,3 +141,17 @@ def wikidata_kp(facet: str, value: str):
         query["tagtype"] = facet
         query["fields"] = "name,parents,wikidata,origins"
         query["tags"] = value
+    label, description, image_url = wikidata(query=query, value=value)
+    return {
+        "WikiData": {
+            "title": "WikiData",
+            "subtitle": description,
+            "source_url": image_url,
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": label,
+                },
+            ],
+        },
+    }
