@@ -41,16 +41,18 @@ def knowledge_panel(
             data_quality_kp(facet=facet_name, value=facet_value, country=country)
         )
     except Exception as Argument:
-        logging.exception("error occued while appending data-quality-kp")
+        logging.exception("error occurred while appending data-quality-kp")
+
     try:
         panels.append(
             last_edits_kp(facet=facet_name, value=facet_value, country=country)
         )
     except Exception as Argument:
-        logging.exception("error occued while appending last-edits-kp")
+        logging.exception("error occurred while appending last-edits-kp")
+
     try:
         panels.append(wikidata_kp(facet=facet_name, value=facet_value))
     except Exception as Argument:
-        logging.exception("error occued while appending wikidata-kp")
+        logging.exception("error occurred while appending wikidata-kp")
 
     return {"knowledge_panels": panels}

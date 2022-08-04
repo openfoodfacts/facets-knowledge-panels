@@ -1,4 +1,5 @@
 from urllib.parse import urljoin
+
 import requests
 
 
@@ -42,16 +43,28 @@ def last_edit(url, query):
     return html
 
 
-def wikidata(query, value):
+def wikidata_kp_helper(query, value):
+    """
+    Helper function to return wikidata eg:label,description,image_url
+    """
     url = "https://world.openfoodfacts.org/api/v2/taxonomy"
     response_API = requests.get(url, params=query)
     data = response_API.json()
     tag = data[value]
     entity = tag["wikidata"]["en"]
+    wiki_label, description, image_url, entity = wikidata_response(entity_id=entity)
+
+    return wiki_label, description, image_url, entity
+
+
+def wikidata_response(entity_id):
+    """
+    Return response(entity data) through wikidata api
+    """
     response_API = requests.get(
-        f"https://www.wikidata.org/wiki/Special:EntityData/{entity}.json"
+        f"https://www.wikidata.org/wiki/Special:EntityData/{entity_id}.json"
     )
-    wiki_data = response_API.json()["entities"][entity]
+    wiki_data = response_API.json()["entities"][entity_id]
     label = wiki_data["labels"]["en"]["value"]
     description = wiki_data["descriptions"]["en"]["value"]
     if "P18" in wiki_data["claims"]:
@@ -61,4 +74,5 @@ def wikidata(query, value):
         image_url = f"https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/{image}"
     else:
         image_url = ""
-    return label, description, image_url
+
+    return label, description, image_url, entity_id
