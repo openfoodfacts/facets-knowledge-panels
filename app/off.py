@@ -1,5 +1,5 @@
 from urllib.parse import urljoin
-
+from wikidata.client import Client
 import requests
 
 
@@ -43,7 +43,7 @@ def last_edit(url, query):
     return html
 
 
-def wikidata_kp_helper(query, value):
+def wikidata(query, value):
     """
     Helper function to return wikidata eg:label,description,image_url
     """
@@ -51,28 +51,16 @@ def wikidata_kp_helper(query, value):
     response_API = requests.get(url, params=query)
     data = response_API.json()
     tag = data[value]
-    entity = tag["wikidata"]["en"]
-    wiki_label, description, image_url, entity = wikidata_response(entity_id=entity)
-
-    return wiki_label, description, image_url, entity
-
-
-def wikidata_response(entity_id):
-    """
-    Return response(entity data) through wikidata api
-    """
-    response_API = requests.get(
-        f"https://www.wikidata.org/wiki/Special:EntityData/{entity_id}.json"
-    )
-    wiki_data = response_API.json()["entities"][entity_id]
-    label = wiki_data["labels"]["en"]["value"]
-    description = wiki_data["descriptions"]["en"]["value"]
-    if "P18" in wiki_data["claims"]:
-        image = (
-            wiki_data["claims"]["P18"][0]["mainsnak"]["datavalue"]["value"]
-        ).replace(" ", "_")
-        image_url = f"https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/{image}"
+    entity_id = tag["wikidata"]["en"]
+    client = Client()
+    entity = client.get(entity_id)
+    description_tag = entity.description["en"]
+    label_tag = entity.label["en"]
+    image_prop = client.get("P18")
+    if image_prop in entity:
+        image = entity[image_prop]
+        image_url = image.image_url
     else:
         image_url = ""
 
-    return label, description, image_url, entity_id
+    return label_tag, description_tag, image_url, entity_id

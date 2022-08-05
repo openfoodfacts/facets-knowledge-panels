@@ -2,7 +2,7 @@ from cProfile import label
 from typing import Union
 from urllib.parse import urlencode
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
-from .off import data_quality, last_edit, wikidata_kp_helper
+from .off import data_quality, last_edit, wikidata
 
 
 def hunger_game_kp(
@@ -141,9 +141,7 @@ def wikidata_kp(facet: str, value: str):
         query["tagtype"] = facet_plural(facet=facet)
         query["fields"] = "wikidata"
         query["tags"] = value
-    label, description, image_url, entity_id = wikidata_kp_helper(
-        query=query, value=value
-    )
+    label, description, image_url, entity_id = wikidata(query=query, value=value)
     return {
         "WikiData": {
             "title": "wiki-data",

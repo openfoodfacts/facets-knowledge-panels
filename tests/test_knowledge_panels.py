@@ -296,3 +296,39 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
             ],
         }
     }
+
+
+def test_wikidata_kp(monkeypatch):
+    expected_url = "https://world.openfoodfacts.org/api/v2/taxonomy"
+    expected_kwargs = {
+        "params": {
+            "tagtype": "categories",
+            "fields": "wikidata",
+            "tags": "en:carrot-juices",
+        }
+    }
+    json_content = {"en:carrot-juices": {"parents": [], "wikidata": {"en": "Q1190074"}}}
+    monkeypatch.setattr(
+        requests,
+        "get",
+        mock_get_factory(
+            expected_url,
+            expected_kwargs,
+            json_content,
+        ),
+    )
+    result = app.main.wikidata_kp(facet="category", value="en:carrot-juices")
+    assert result == {
+        "WikiData": {
+            "title": "wiki-data",
+            "subtitle": "juice produced from carrots",
+            "source_url": "https://www.wikidata.org/wiki/Q1190074",
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": "carrot juice",
+                    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/GlassOfJuice_and_carrots.JPG",
+                }
+            ],
+        }
+    }
