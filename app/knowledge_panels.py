@@ -136,6 +136,9 @@ def last_edits_kp(
 
 
 def wikidata_kp(facet: str, value: str):
+    """
+    Return knowledge panel for wikidata
+    """
     query = {}
     if value:
         query["tagtype"] = facet_plural(facet=facet)
