@@ -68,6 +68,10 @@ class Taxonomies(str, Enum):
     language = "language"
     other_nutritional_substances = "other_nutritional_substances"
 
+    @staticmethod
+    def list():
+        return [c.value for c in Taxonomies]
+
 
 def country_to_ISO_code(value: str):
     """

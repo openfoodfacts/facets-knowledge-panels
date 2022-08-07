@@ -7,7 +7,7 @@ from .knowledge_panels import (
     last_edits_kp,
     wikidata_kp,
 )
-from .models import FacetName, HungerGameFilter
+from .models import FacetName, HungerGameFilter, Taxonomies
 
 app = FastAPI()
 
@@ -51,7 +51,8 @@ def knowledge_panel(
         logging.exception("error occurred while appending last-edits-kp")
 
     try:
-        panels.append(wikidata_kp(facet=facet_name, value=facet_value))
+        if facet_name in Taxonomies.list():
+            panels.append(wikidata_kp(facet=facet_name, value=facet_value))
     except Exception as Argument:
         logging.exception("error occurred while appending wikidata-kp")
 
