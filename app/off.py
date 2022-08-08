@@ -57,10 +57,34 @@ def wikidata(query, value):
     description_tag = entity.description["en"]
     label_tag = entity.label["en"]
     image_prop = client.get("P18")
+    # Open Street map releation
+    OSM_prop = client.get("P402")
+    # INAO poduct releation
+    INAO_prop = client.get("P3895")
     if image_prop in entity:
         image = entity[image_prop]
         image_url = image.image_url
     else:
         image_url = ""
+    for sitelink in entity.attributes["sitelinks"]["enwiki"].values():
+        wikipedia_relation = sitelink
+    if INAO_prop in entity:
+        INAO = entity[INAO_prop]
+        INAO_relation = "https://www.inao.gouv.fr/produit/{}".format(INAO)
+    else:
+        INAO_relation = ""
+    if OSM_prop in entity:
+        osm = entity[OSM_prop]
+        OSM_relation = "https://www.openstreetmap.org/relation/{}".format(osm)
+    else:
+        OSM_relation = ""
 
-    return label_tag, description_tag, image_url, entity_id
+    return (
+        label_tag,
+        description_tag,
+        image_url,
+        entity_id,
+        OSM_relation,
+        INAO_relation,
+        wikipedia_relation,
+    )

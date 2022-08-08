@@ -304,10 +304,10 @@ def test_wikidata_kp(monkeypatch):
         "params": {
             "tagtype": "categories",
             "fields": "wikidata",
-            "tags": "en:carrot-juices",
+            "tags": "fr:fitou",
         }
     }
-    json_content = {"en:carrot-juices": {"parents": [], "wikidata": {"en": "Q1190074"}}}
+    json_content = {"fr:fitou": {"parents": [], "wikidata": {"en": "Q470974"}}}
     monkeypatch.setattr(
         requests,
         "get",
@@ -317,18 +317,24 @@ def test_wikidata_kp(monkeypatch):
             json_content,
         ),
     )
-    result = app.main.wikidata_kp(facet="category", value="en:carrot-juices")
+    result = app.main.wikidata_kp(facet="category", value="fr:fitou")
     assert result == {
         "WikiData": {
             "title": "wiki-data",
-            "subtitle": "juice produced from carrots",
-            "source_url": "https://www.wikidata.org/wiki/Q1190074",
+            "subtitle": "French wine appellation",
+            "source_url": "https://www.wikidata.org/wiki/Q470974",
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": "carrot juice",
-                    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/GlassOfJuice_and_carrots.JPG",
-                }
+                    "text_element": "Fitou AOC",
+                    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Paziols_%28France%29_Vue_du_village.jpg",
+                },
+                {
+                    "element_type": "links",
+                    "wikipedia": "https://en.wikipedia.org/wiki/Fitou_AOC",
+                    "open_street_map": "https://www.openstreetmap.org/relation/2727716",
+                    "INAO": "https://www.inao.gouv.fr/produit/6159",
+                },
             ],
         }
     }

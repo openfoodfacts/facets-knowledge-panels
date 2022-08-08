@@ -144,7 +144,9 @@ def wikidata_kp(facet: str, value: str):
         query["tagtype"] = facet_plural(facet=facet)
         query["fields"] = "wikidata"
         query["tags"] = value
-    label, description, image_url, entity_id = wikidata(query=query, value=value)
+    label, description, image_url, entity_id, OSM_link, INAO_link, wikpiedia = wikidata(
+        query=query, value=value
+    )
     return {
         "WikiData": {
             "title": "wiki-data",
@@ -155,6 +157,12 @@ def wikidata_kp(facet: str, value: str):
                     "element_type": "text",
                     "text_element": label,
                     "image_url": image_url,
+                },
+                {
+                    "element_type": "links",
+                    "wikipedia": wikpiedia,
+                    "open_street_map": OSM_link,
+                    "INAO": INAO_link,
                 },
             ],
         },
