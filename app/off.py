@@ -12,13 +12,30 @@ def data_quality(url, path):
     data = response_API.json()
     total_issues = data["count"]
     tags = data["tags"]
-    html = "\n".join(
-        f'<li><a href="{tag["url"]}">{tag["products"]} products with {tag["name"]}</a></li>'
-        for tag in tags[0:3]
-    )
-    expected_html = f"<p>The total number of issues are {total_issues},here couples of issues</p><ul>{html}</ul>"
+    html = []
+    for tag in tags[0:3]:
+        info = {
+            "products": tag["products"],
+            "name": tag["name"],
+        }
+        html.append(f'<li><a herf={tag["url"]}>')
+        html.append(("{products} products with {name}").format(**info))
+        html.append("</a></li>")
 
-    return expected_html, source_url
+    html = (
+        [
+            "<ul><p>",
+            ("The total number of issues are {total_issues}").format(
+                total_issues=total_issues
+            ),
+            "</p>",
+        ]
+        + html
+        + ["</ul>"]
+    )
+    text = "".join(html)
+
+    return text, source_url
 
 
 def last_edit(url, query):
@@ -31,12 +48,30 @@ def last_edit(url, query):
     counts = data["count"]
     tags = data["products"]
 
-    html = "\n".join(
-        f'<li>{tag["product_name"]} ({tag["code"]}) edited by {tag["last_editor"]} on {tag["last_edit_dates_tags"][0]}</li>'
-        for tag in tags[0:10]
-        if "product_name" in tag
+    html = []
+    for tag in tags[0:10]:
+        info = {
+            "product_name": tag["product_name"],
+            "code": tag["code"],
+            "last_editor": tag["last_editor"],
+            "edit_date": tag["last_edit_dates_tags"][0],
+        }
+        html.append("<li>")
+        html.append(
+            ("{product_name} ({code}) edited by {last_editor} on {edit_date}").format(
+                **info
+            )
+        )
+        html.append("</li>")
+    html = (
+        [
+            "<ul><p>",
+            ("Total number of edits {counts}").format(counts=counts),
+            "</p>",
+        ]
+        + html
+        + ["</ul>"]
     )
+    text = "".join(html)
 
-    html = f"<ul><p>Total number of edits {counts} </p>\n {html}</ul>"
-
-    return html
+    return text

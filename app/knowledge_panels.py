@@ -1,3 +1,4 @@
+from turtle import title
 from typing import Union
 from urllib.parse import urlencode
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
@@ -26,7 +27,9 @@ def hunger_game_kp(
     questions_url = "https://hunger.openfoodfacts.org/questions"
     if query:
         questions_url += f"?{urlencode(query)}"
-    description = f"Answer robotoff questions about {description}"
+    description = "Answer robotoff questions about {description}".format(
+        description=description
+    )
     html = f"<p><a href='{questions_url}'>{description}</a></p>\n"
     return {
         "hunger-game": {
@@ -69,13 +72,16 @@ def data_quality_kp(
     if value is not None:
         path += f"/{value}"
         description += f" {value}"
-    description = f"Data-quality issues related to {description}"
+    description = "Data-quality issues related to {description}".format(
+        description=description
+    )
+    title = "Data-quality issues"
     (quality_html, source_url) = data_quality(url=url, path=path)
 
     return {
         "Quality": {
-            "title": "Data-quality issues",
-            "subtitle": f"{description}",
+            "title": title,
+            "subtitle": description,
             "source_url": f"{source_url}/data-quality",
             "elements": [
                 {
@@ -108,21 +114,24 @@ def last_edits_kp(
     if country is not None:
         country_code = country_to_ISO_code(value=country)
         url = f"https://{country_code}-en.openfoodfacts.org"
-        description += country
+        description += f"{country} "
     if country is None:
         url = "https://world.openfoodfacts.org"
     if facet is not None:
-        description += f" {facet}"
+        description += f"{facet}"
     if value is not None:
         query[f"{facet_plural(facet=facet)}_tags_en"] = value
         description += f" {value}"
-    description = f"last-edits issues related to {description}"
+    description = "last-edits issues related to {description}".format(
+        description=description
+    )
+    title = "Last-edites"
     expected_html = last_edit(url=url, query=query)
 
     return {
         "LastEdits": {
-            "title": "Last-edites",
-            "subtitle": f"{description}",
+            "title": title,
+            "subtitle": description,
             "source_url": f"{url}/{facet}/{value}?sort_by=last_modified_t",
             "elements": [
                 {
