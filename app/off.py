@@ -1,5 +1,10 @@
+from turtle import title
 from urllib.parse import urljoin
+
+from .i18n import TranslationStore
 import requests
+
+_ = TranslationStore.load()
 
 
 def data_quality(url, path):
@@ -19,13 +24,13 @@ def data_quality(url, path):
             "name": tag["name"],
         }
         html.append(f'<li><a herf={tag["url"]}>')
-        html.append(("{products} products with {name}").format(**info))
+        html.append(_("{products} products with {name}").format(**info))
         html.append("</a></li>")
 
     html = (
         [
             "<ul><p>",
-            ("The total number of issues are {total_issues}").format(
+            _("The total number of issues are {total_issues}").format(
                 total_issues=total_issues
             ),
             "</p>",
@@ -34,8 +39,10 @@ def data_quality(url, path):
         + ["</ul>"]
     )
     text = "".join(html)
+    description = _("Data-quality issues related to")
+    title = _("Data-quality issues")
 
-    return text, source_url
+    return text, source_url, description, title
 
 
 def last_edit(url, query):
@@ -58,7 +65,7 @@ def last_edit(url, query):
         }
         html.append("<li>")
         html.append(
-            ("{product_name} ({code}) edited by {last_editor} on {edit_date}").format(
+            _("{product_name} ({code}) edited by {last_editor} on {edit_date}").format(
                 **info
             )
         )
@@ -66,12 +73,19 @@ def last_edit(url, query):
     html = (
         [
             "<ul><p>",
-            ("Total number of edits {counts}").format(counts=counts),
+            _("Total number of edits {counts}").format(counts=counts),
             "</p>",
         ]
         + html
         + ["</ul>"]
     )
     text = "".join(html)
+    description = _("last-edits issues related to")
+    title = _("Last-edits")
+    return text, description, title
 
-    return text
+
+def hungergame():
+    """Helper function for making Translation easy"""
+    description = _("Answer robotoff questions about")
+    return description

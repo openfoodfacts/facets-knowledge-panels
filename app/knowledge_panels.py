@@ -1,8 +1,7 @@
-from turtle import title
 from typing import Union
 from urllib.parse import urlencode
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
-from .off import data_quality, last_edit
+from .off import data_quality, hungergame, last_edit
 
 
 def hunger_game_kp(
@@ -27,9 +26,8 @@ def hunger_game_kp(
     questions_url = "https://hunger.openfoodfacts.org/questions"
     if query:
         questions_url += f"?{urlencode(query)}"
-    description = "Answer robotoff questions about {description}".format(
-        description=description
-    )
+    t_description = hungergame()
+    description = f"{t_description} {description}"
     html = f"<p><a href='{questions_url}'>{description}</a></p>\n"
     return {
         "hunger-game": {
@@ -63,7 +61,7 @@ def data_quality_kp(
         country_code = country_to_ISO_code(value=country)
         url = f"https://{country_code}-en.openfoodfacts.org"
         path = ""
-        description += country
+        description += f"{country} "
     if country is None:
         url = "https://world.openfoodfacts.org/"
     if facet is not None:
@@ -72,16 +70,14 @@ def data_quality_kp(
     if value is not None:
         path += f"/{value}"
         description += f" {value}"
-    description = "Data-quality issues related to {description}".format(
-        description=description
+    (quality_html, source_url, t_description, t_title) = data_quality(
+        url=url, path=path
     )
-    title = "Data-quality issues"
-    (quality_html, source_url) = data_quality(url=url, path=path)
 
     return {
         "Quality": {
-            "title": title,
-            "subtitle": description,
+            "title": t_title,
+            "subtitle": f"{t_description} {description}",
             "source_url": f"{source_url}/data-quality",
             "elements": [
                 {
@@ -122,16 +118,12 @@ def last_edits_kp(
     if value is not None:
         query[f"{facet_plural(facet=facet)}_tags_en"] = value
         description += f" {value}"
-    description = "last-edits issues related to {description}".format(
-        description=description
-    )
-    title = "Last-edites"
-    expected_html = last_edit(url=url, query=query)
+    expected_html, t_description, t_title = last_edit(url=url, query=query)
 
     return {
         "LastEdits": {
-            "title": title,
-            "subtitle": description,
+            "title": t_title,
+            "subtitle": f"{t_description} {description}",
             "source_url": f"{url}/{facet}/{value}?sort_by=last_modified_t",
             "elements": [
                 {

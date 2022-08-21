@@ -1,5 +1,5 @@
 # French translations for PACKAGE package
-# Traductions franï¿½aises du paquet PACKAGE.
+# Traductions françaises du paquet PACKAGE.
 # Copyright (C) 2022 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # <EMAIL@ADDRESS>, 2022.
@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-16 20:04+0530\n"
-"PO-Revision-Date: 2022-08-16 20:06+0530\n"
+"POT-Creation-Date: 2022-08-21 16:36+0530\n"
+"PO-Revision-Date: 2022-08-21 16:45+0530\n"
 "Last-Translator: <EMAIL@ADDRESS>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -18,6 +18,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: i18n.py:9
-msgid "Hello World"
-msgstr "Bonjour something"
+#: app/off.py:27
+#, python-brace-format
+msgid "{products} products with {name}"
+msgstr ""
+
+#: app/off.py:33
+#, python-brace-format
+msgid "The total number of issues are {total_issues}"
+msgstr ""
+
+#: app/off.py:42
+msgid "Data-quality issues related to"
+msgstr ""
+
+#: app/off.py:43
+msgid "Data-quality issues"
+msgstr ""
+
+#: app/off.py:68
+#, python-brace-format
+msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
+msgstr ""
+
+#: app/off.py:76
+#, python-brace-format
+msgid "Total number of edits {counts}"
+msgstr ""
+
+#: app/off.py:83
+msgid "last-edits issues related to"
+msgstr ""
+
+#: app/off.py:84
+msgid "Last-edits"
+msgstr ""
+
+#: app/off.py:90
+msgid "Answer robotoff questions about"
+msgstr ""
