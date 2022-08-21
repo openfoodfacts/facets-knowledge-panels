@@ -1,5 +1,5 @@
 # French translations for PACKAGE package
-# Traductions fran�aises du paquet PACKAGE.
+# Traductions fran�aises du paquet PACKAGE.
 # Copyright (C) 2022 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # <EMAIL@ADDRESS>, 2022.
@@ -21,39 +21,39 @@ msgstr ""
 #: app/off.py:27
 #, python-brace-format
 msgid "{products} products with {name}"
-msgstr ""
+msgstr "{products} produits avec {name}"
 
 #: app/off.py:33
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr ""
+msgstr "Le nombre total de problèmes est de {total issues}"
 
 #: app/off.py:42
 msgid "Data-quality issues related to"
-msgstr ""
+msgstr "Problèmes de qualité des données liés à"
 
 #: app/off.py:43
 msgid "Data-quality issues"
-msgstr ""
+msgstr "Problèmes de qualité des données"
 
 #: app/off.py:68
 #, python-brace-format
 msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-msgstr ""
+msgstr "{product_name} ({code}) modifié par {last edit} le {edit date}"
 
 #: app/off.py:76
 #, python-brace-format
 msgid "Total number of edits {counts}"
-msgstr ""
+msgstr "Nombre total de modifications {counts}"
 
 #: app/off.py:83
 msgid "last-edits issues related to"
-msgstr ""
+msgstr "problèmes de dernière édition liés à"
 
 #: app/off.py:84
 msgid "Last-edits"
-msgstr ""
+msgstr "Dernière modification"
 
 #: app/off.py:90
 msgid "Answer robotoff questions about"
-msgstr ""
+msgstr "Répondez aux questions de robotoff sur"

@@ -4,6 +4,8 @@ from fastapi import FastAPI
 from .knowledge_panels import data_quality_kp, hunger_game_kp, last_edits_kp
 from .models import FacetName, HungerGameFilter
 
+from .i18n import TranslationStore
+
 app = FastAPI()
 
 
@@ -16,31 +18,31 @@ def hello():
 
 @app.get("/knowledge_panel")
 def knowledge_panel(
-    facet_name: FacetName,
-    facet_value: Union[str, None] = None,
+    facet_tag: FacetName,
+    value_tag: Union[str, None] = None,
+    lang_code: Union[str, None] = None,
     country: Union[str, None] = None,
 ):
     """
     FacetName is the model that have list of values
     facet_value are the list of values connecting to FacetName eg:- category/beer, here beer is the value
     """
+    lang = TranslationStore.lang(lang_code)
     panels = []
-    if facet_name in HungerGameFilter.list():
+    if facet_tag in HungerGameFilter.list():
         panels.append(
             hunger_game_kp(
-                hunger_game_filter=facet_name, value=facet_value, country=country
+                hunger_game_filter=facet_tag, value=value_tag, country=country
             )
         )
     try:
         panels.append(
-            data_quality_kp(facet=facet_name, value=facet_value, country=country)
+            data_quality_kp(facet=facet_tag, value=value_tag, country=country)
         )
     except Exception as Argument:
         logging.exception("error occued while appending data-quality-kp")
     try:
-        panels.append(
-            last_edits_kp(facet=facet_name, value=facet_value, country=country)
-        )
+        panels.append(last_edits_kp(facet=facet_tag, value=value_tag, country=country))
     except Exception as Argument:
         logging.exception("error occued while appending last-edits-kp")
 
