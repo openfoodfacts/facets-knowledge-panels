@@ -26,7 +26,7 @@ msgstr "{products} produits avec {name}"
 #: app/off.py:33
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr "Le nombre total de problèmes est de {total issues}"
+msgstr "Le nombre total de problèmes est de {total_issues}"
 
 #: app/off.py:42
 msgid "Data-quality issues related to"
@@ -39,7 +39,7 @@ msgstr "Problèmes de qualité des données"
 #: app/off.py:68
 #, python-brace-format
 msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-msgstr "{product_name} ({code}) modifié par {last edit} le {edit date}"
+msgstr "{product_name} ({code}) modifié par {last_editor} le {edit_date}"
 
 #: app/off.py:76
 #, python-brace-format

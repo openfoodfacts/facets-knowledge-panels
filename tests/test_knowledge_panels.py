@@ -285,7 +285,7 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
     first_element["text_element"] = "ok"
     assert result == {
         "LastEdits": {
-            "title": "Last-edites",
+            "title": "Last-edits",
             "subtitle": "last-edits issues related to hungary vitamin vitamin-k",
             "source_url": "https://hu-en.openfoodfacts.org/vitamin/vitamin-k?sort_by=last_modified_t",
             "elements": [

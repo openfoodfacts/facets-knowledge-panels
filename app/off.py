@@ -30,7 +30,7 @@ def data_quality(url, path):
     html = (
         [
             "<ul><p>",
-            ("The total number of issues are {total_issues}").format(
+            _("The total number of issues are {total_issues}").format(
                 total_issues=total_issues
             ),
             "</p>",
@@ -65,7 +65,7 @@ def last_edit(url, query):
         }
         html.append("<li>")
         html.append(
-            ("{product_name} ({code}) edited by {last_editor} on {edit_date}").format(
+            _("{product_name} ({code}) edited by {last_editor} on {edit_date}").format(
                 **info
             )
         )
