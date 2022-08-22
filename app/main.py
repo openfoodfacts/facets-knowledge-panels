@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from .knowledge_panels import data_quality_kp, hunger_game_kp, last_edits_kp
 from .models import FacetName, HungerGameFilter
 
-from .i18n import TranslationStore
+from .i18n import active_translation
 
 app = FastAPI()
 
@@ -27,7 +27,7 @@ def knowledge_panel(
     FacetName is the model that have list of values
     facet_value are the list of values connecting to FacetName eg:- category/beer, here beer is the value
     """
-    lang = TranslationStore.lang(lang_code)
+    active_translation(lang_code)
     panels = []
     if facet_tag in HungerGameFilter.list():
         panels.append(

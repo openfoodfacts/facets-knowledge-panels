@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-21 16:36+0530\n"
-"PO-Revision-Date: 2022-08-21 16:42+0530\n"
+"POT-Creation-Date: 2022-08-22 19:21+0530\n"
+"PO-Revision-Date: 2022-08-22 19:21+0530\n"
 "Last-Translator: <EMAIL@ADDRESS>\n"
 "Language-Team: English\n"
 "Language: en\n"
@@ -17,21 +17,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/off.py:27
+#: app/off.py:26
 #, python-brace-format
 msgid "{products} products with {name}"
 msgstr "{products} products with {name}"
 
-#: app/off.py:33
+#: app/off.py:32
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
 msgstr "The total number of issues are {total_issues}"
 
-#: app/off.py:42
+#: app/off.py:41
 msgid "Data-quality issues related to"
 msgstr "Data-quality issues related to"
 
-#: app/off.py:43
+#: app/off.py:42
 msgid "Data-quality issues"
 msgstr "Data-quality issues"
 
@@ -53,6 +53,6 @@ msgstr "last-edits issues related to"
 msgid "Last-edits"
 msgstr "Last-edits"
 
-#: app/off.py:90
+#: app/off.py:91
 msgid "Answer robotoff questions about"
 msgstr "Answer robotoff questions about"
