@@ -13,8 +13,8 @@ def active_translation(lang=None):
         _default_lang = DEFAULT_LANGUAGE
     else:
         os.environ["LANGUAGE"] = lang
-        SUPPORTED_LANGUAGE = gettext.find("knowledge-panel", "i18n")
-        _default_lang = DEFAULT_LANGUAGE if SUPPORTED_LANGUAGE is None else lang
+        supported_language = gettext.find("knowledge-panel", "i18n")
+        _default_lang = DEFAULT_LANGUAGE if supported_language is None else lang
 
 
 def get_translation():
