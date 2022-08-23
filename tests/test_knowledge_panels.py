@@ -1,7 +1,10 @@
 from app.main import hunger_game_kp
 import requests
 import app.main
+from app.i18n import active_translation
 from .test_utils import mock_get_factory, tidy_html
+
+active_translation()
 
 
 def test_hunger_game_kp_with_filter_value_and_country():
@@ -154,7 +157,7 @@ def test_data_quality_kp_with_country(monkeypatch):
     assert result == {
         "Quality": {
             "title": "Data-quality issues",
-            "subtitle": "Data-quality issues related to Turkey",
+            "subtitle": "Data-quality issues related to Turkey ",
             "source_url": "https://tr-en.openfoodfacts.org/data-quality",
             "elements": [
                 {

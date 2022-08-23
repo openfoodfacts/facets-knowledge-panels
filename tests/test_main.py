@@ -1,8 +1,6 @@
-from urllib import response
 import app.main
 from app.main import app
 from fastapi.testclient import TestClient
-
 from .test_utils import mock_get_factory
 
 client = TestClient(app)
@@ -17,7 +15,7 @@ def test_hello():
 
 
 def test_knowledge_panel():
-    response = client.get("/knowledge_panel?facet_name=origin")
+    response = client.get("/knowledge_panel?facet_tag=origin")
     assert response.status_code == 200
 
 
@@ -28,7 +26,7 @@ def test_knowledge_panel_badendpoint():
 
 def test_knowledge_panel_with_facet():
     response = client.get(
-        "/knowledge_panel?facet_name=packaging&facet_value=plastic-box&country=Germany"
+        "/knowledge_panel?facet_tag=packaging&value_tag=plastic-box&country=Germany"
     )
     assert response.status_code == 200
     assert response.json()
