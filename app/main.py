@@ -40,20 +40,20 @@ def knowledge_panel(
         panels.append(
             data_quality_kp(facet=facet_name, value=facet_value, country=country)
         )
-    except Exception as Argument:
+    except Exception:
         logging.exception("error occurred while appending data-quality-kp")
 
     try:
         panels.append(
             last_edits_kp(facet=facet_name, value=facet_value, country=country)
         )
-    except Exception as Argument:
+    except Exception:
         logging.exception("error occurred while appending last-edits-kp")
 
     try:
         if facet_name in Taxonomies.list():
             panels.append(wikidata_kp(facet=facet_name, value=facet_value))
-    except Exception as Argument:
+    except Exception:
         logging.exception("error occurred while appending wikidata-kp")
 
     return {"knowledge_panels": panels}

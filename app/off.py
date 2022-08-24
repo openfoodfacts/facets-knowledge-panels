@@ -1,5 +1,6 @@
 from urllib.parse import urljoin
-from wikidata.client import Client
+import wikidata.client
+from collections import namedtuple
 import requests
 
 
@@ -43,7 +44,7 @@ def last_edit(url, query):
     return html
 
 
-def wikidata(query, value):
+def wikidata_helper(query, value):
     """
     Helper function to return wikidata eg:label,description,image_url
     """
@@ -52,7 +53,7 @@ def wikidata(query, value):
     data = response_API.json()
     tag = data[value]
     entity_id = tag["wikidata"]["en"]
-    client = Client()
+    client = wikidata.client.Client()
     entity = client.get(entity_id)
     description_tag = entity.description["en"]
     label_tag = entity.label["en"]
@@ -78,8 +79,19 @@ def wikidata(query, value):
         OSM_relation = "https://www.openstreetmap.org/relation/{}".format(osm)
     else:
         OSM_relation = ""
-
-    return (
+    Entities = namedtuple(
+        "Entities",
+        [
+            "label_tag",
+            "description_tag",
+            "image_url",
+            "entity_id",
+            "OSM_relation",
+            "INAO_relation",
+            "wikipedia_relation",
+        ],
+    )
+    E = Entities(
         label_tag,
         description_tag,
         image_url,
@@ -88,3 +100,4 @@ def wikidata(query, value):
         INAO_relation,
         wikipedia_relation,
     )
+    return E

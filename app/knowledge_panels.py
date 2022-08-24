@@ -1,8 +1,7 @@
-from cProfile import label
 from typing import Union
 from urllib.parse import urlencode
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
-from .off import data_quality, last_edit, wikidata
+from .off import data_quality, last_edit, wikidata_helper
 
 
 def hunger_game_kp(
@@ -144,25 +143,23 @@ def wikidata_kp(facet: str, value: str):
         query["tagtype"] = facet_plural(facet=facet)
         query["fields"] = "wikidata"
         query["tags"] = value
-    label, description, image_url, entity_id, OSM_link, INAO_link, wikpiedia = wikidata(
-        query=query, value=value
-    )
+    Entities = wikidata_helper(query=query, value=value)
     return {
         "WikiData": {
             "title": "wiki-data",
-            "subtitle": description,
-            "source_url": f"https://www.wikidata.org/wiki/{entity_id}",
+            "subtitle": Entities.description_tag,
+            "source_url": f"https://www.wikidata.org/wiki/{Entities.entity_id}",
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": label,
-                    "image_url": image_url,
+                    "text_element": Entities.label_tag,
+                    "image_url": Entities.image_url,
                 },
                 {
                     "element_type": "links",
-                    "wikipedia": wikpiedia,
-                    "open_street_map": OSM_link,
-                    "INAO": INAO_link,
+                    "wikipedia": Entities.wikipedia_relation,
+                    "open_street_map": Entities.OSM_relation,
+                    "INAO": Entities.INAO_relation,
                 },
             ],
         },
