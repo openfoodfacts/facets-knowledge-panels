@@ -57,9 +57,9 @@ def last_edit(url, query):
     html = []
     for tag in tags[0:10]:
         info = {
-            "product_name": tag["product_name"],
+            "product_name": tag.get("product_name", ""),
             "code": tag["code"],
-            "last_editor": tag["last_editor"],
+            "last_editor": tag.get("last_editor", ""),
             "edit_date": tag["last_edit_dates_tags"][0],
         }
         html.append("<li>")
