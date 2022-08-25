@@ -4,9 +4,8 @@ import contextlib
 import contextvars
 import gettext
 import logging
-import os
-from .settings import I18N_DIR
 
+from .settings import I18N_DIR
 
 log = logging.getLogger(__name__)
 
@@ -31,13 +30,12 @@ def get_translation(lang):
 
 
 # current language context vars manage the current language
-_current_language = contextvars.ContextVar('current_language', default=None)
+_current_language = contextvars.ContextVar("current_language", default=None)
 
 
 @contextlib.contextmanager
 def active_translation(lang=None):
-    """A context manager to set the language
-    """
+    """A context manager to set the language"""
     if lang is None:
         lang = DEFAULT_LANGUAGE
     # set current language

@@ -1,6 +1,5 @@
-import logging
-from app.i18n import active_translation, translate as _
-
+from app.i18n import active_translation
+from app.i18n import translate as _
 
 # note we rely on existing translations as it should not change so much over time.
 EN_MSG = "Answer robotoff questions about"
@@ -26,6 +25,7 @@ def test_translation_fallback():
     with active_translation(lang="fr"):
         # message that is not translated
         assert _("blaaah") == "blaaah"
+
 
 def test_active_translation_nesting():
     with active_translation(lang="fr"):

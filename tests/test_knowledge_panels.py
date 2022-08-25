@@ -1,7 +1,9 @@
-from app.main import hunger_game_kp
 import requests
+
 import app.main
 from app.i18n import active_translation
+from app.main import hunger_game_kp
+
 from .test_utils import mock_get_factory, tidy_html
 
 active_translation()
@@ -206,14 +208,14 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
     first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
     <ul>
-	    <p>The total number of issues are 182</p>
-	    <li>
+        <p>The total number of issues are 182</p>
+        <li>
             <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>7688 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
-	    <li>
+        <li>
             <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label>7661 products with ecoscore-production-system-no-label</a>
         </li>
-	    <li>
+        <li>
             <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data>6209 products with no-packaging-data</a>
         </li>
     </ul>

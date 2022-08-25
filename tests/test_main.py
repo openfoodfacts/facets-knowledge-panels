@@ -1,7 +1,7 @@
+from fastapi.testclient import TestClient
+
 import app.main
 from app.main import app
-from fastapi.testclient import TestClient
-from .test_utils import mock_get_factory
 
 client = TestClient(app)
 

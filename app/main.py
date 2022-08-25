@@ -1,10 +1,11 @@
 import logging
 from typing import Union
+
 from fastapi import FastAPI
-from .knowledge_panels import data_quality_kp, hunger_game_kp, last_edits_kp
-from .models import FacetName, HungerGameFilter
 
 from .i18n import active_translation
+from .knowledge_panels import data_quality_kp, hunger_game_kp, last_edits_kp
+from .models import FacetName, HungerGameFilter
 
 app = FastAPI()
 
@@ -39,11 +40,13 @@ def knowledge_panel(
             panels.append(
                 data_quality_kp(facet=facet_tag, value=value_tag, country=country)
             )
-        except Exception as Argument:
+        except Exception:
             logging.exception("error occued while appending data-quality-kp")
         try:
-            panels.append(last_edits_kp(facet=facet_tag, value=value_tag, country=country))
-        except Exception as Argument:
+            panels.append(
+                last_edits_kp(facet=facet_tag, value=value_tag, country=country)
+            )
+        except Exception:
             logging.exception("error occued while appending last-edits-kp")
 
         return {"knowledge_panels": panels}

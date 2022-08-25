@@ -1,7 +1,8 @@
 from urllib.parse import urljoin
 
-from .i18n import translate as _
 import requests
+
+from .i18n import translate as _
 
 
 def data_quality(url, path):

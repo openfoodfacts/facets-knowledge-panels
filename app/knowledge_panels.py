@@ -1,5 +1,6 @@
 from typing import Union
 from urllib.parse import urlencode
+
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
 from .off import data_quality, hungergame, last_edit
 
