@@ -1,6 +1,6 @@
 from urllib.parse import urljoin
 
-from .i18n import get_translation
+from .i18n import translate as _
 import requests
 
 
@@ -8,7 +8,6 @@ def data_quality(url, path):
     """
     Helper function to return issues for data-quality
     """
-    _ = get_translation()
     source_url = urljoin(url, path)
     quality_url = f"{source_url}/data-quality.json"
     response_API = requests.get(quality_url)
@@ -47,7 +46,6 @@ def last_edit(url, query):
     """
     Helper function to return data for last-edits
     """
-    _ = get_translation()
     search_url = f"{url}/api/v2/search"
     response_API = requests.get(search_url, params=query)
     data = response_API.json()
@@ -86,6 +84,5 @@ def last_edit(url, query):
 
 def hungergame():
     """Helper function for making Translation easy"""
-    _ = get_translation()
     description = _("Answer robotoff questions about")
     return description

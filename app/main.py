@@ -27,23 +27,23 @@ def knowledge_panel(
     FacetName is the model that have list of values
     facet_value are the list of values connecting to FacetName eg:- category/beer, here beer is the value
     """
-    active_translation(lang_code)
-    panels = []
-    if facet_tag in HungerGameFilter.list():
-        panels.append(
-            hunger_game_kp(
-                hunger_game_filter=facet_tag, value=value_tag, country=country
+    with active_translation(lang_code):
+        panels = []
+        if facet_tag in HungerGameFilter.list():
+            panels.append(
+                hunger_game_kp(
+                    hunger_game_filter=facet_tag, value=value_tag, country=country
+                )
             )
-        )
-    try:
-        panels.append(
-            data_quality_kp(facet=facet_tag, value=value_tag, country=country)
-        )
-    except Exception as Argument:
-        logging.exception("error occued while appending data-quality-kp")
-    try:
-        panels.append(last_edits_kp(facet=facet_tag, value=value_tag, country=country))
-    except Exception as Argument:
-        logging.exception("error occued while appending last-edits-kp")
+        try:
+            panels.append(
+                data_quality_kp(facet=facet_tag, value=value_tag, country=country)
+            )
+        except Exception as Argument:
+            logging.exception("error occued while appending data-quality-kp")
+        try:
+            panels.append(last_edits_kp(facet=facet_tag, value=value_tag, country=country))
+        except Exception as Argument:
+            logging.exception("error occued while appending last-edits-kp")
 
-    return {"knowledge_panels": panels}
+        return {"knowledge_panels": panels}
