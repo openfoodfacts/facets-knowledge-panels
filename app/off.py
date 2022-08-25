@@ -1,6 +1,7 @@
+from collections import namedtuple
 from urllib.parse import urljoin
 import wikidata.client
-from collections import namedtuple
+
 import requests
 
 
@@ -91,7 +92,7 @@ def wikidata_helper(query, value):
             "wikipedia_relation",
         ],
     )
-    E = Entities(
+    entities = Entities(
         label_tag,
         description_tag,
         image_url,
@@ -100,4 +101,4 @@ def wikidata_helper(query, value):
         INAO_relation,
         wikipedia_relation,
     )
-    return E
+    return entities

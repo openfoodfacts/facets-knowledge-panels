@@ -143,23 +143,24 @@ def wikidata_kp(facet: str, value: str):
         query["tagtype"] = facet_plural(facet=facet)
         query["fields"] = "wikidata"
         query["tags"] = value
-    Entities = wikidata_helper(query=query, value=value)
+
+    entities = wikidata_helper(query=query, value=value)
     return {
         "WikiData": {
             "title": "wiki-data",
-            "subtitle": Entities.description_tag,
-            "source_url": f"https://www.wikidata.org/wiki/{Entities.entity_id}",
+            "subtitle": entities.description_tag,
+            "source_url": f"https://www.wikidata.org/wiki/{entities.entity_id}",
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": Entities.label_tag,
-                    "image_url": Entities.image_url,
+                    "text_element": entities.label_tag,
+                    "image_url": entities.image_url,
                 },
                 {
                     "element_type": "links",
-                    "wikipedia": Entities.wikipedia_relation,
-                    "open_street_map": Entities.OSM_relation,
-                    "INAO": Entities.INAO_relation,
+                    "wikipedia": entities.wikipedia_relation,
+                    "open_street_map": entities.OSM_relation,
+                    "INAO": entities.INAO_relation,
                 },
             ],
         },
