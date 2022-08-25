@@ -45,6 +45,20 @@ def last_edit(url, query):
     return html
 
 
+Entities = namedtuple(
+    "Entities",
+    [
+        "label_tag",
+        "description_tag",
+        "image_url",
+        "entity_id",
+        "OSM_relation",
+        "INAO_relation",
+        "wikipedia_relation",
+    ],
+)
+
+
 def wikidata_helper(query, value):
     """
     Helper function to return wikidata eg:label,description,image_url
@@ -80,18 +94,6 @@ def wikidata_helper(query, value):
         OSM_relation = "https://www.openstreetmap.org/relation/{}".format(osm)
     else:
         OSM_relation = ""
-    Entities = namedtuple(
-        "Entities",
-        [
-            "label_tag",
-            "description_tag",
-            "image_url",
-            "entity_id",
-            "OSM_relation",
-            "INAO_relation",
-            "wikipedia_relation",
-        ],
-    )
     entities = Entities(
         label_tag,
         description_tag,
