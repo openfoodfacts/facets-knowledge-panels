@@ -1,9 +1,3 @@
-# French translations for PACKAGE package
-# Traductions fran�aises du paquet PACKAGE.
-# Copyright (C) 2022 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# <EMAIL@ADDRESS>, 2022.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
