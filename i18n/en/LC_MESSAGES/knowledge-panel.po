@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-22 19:21+0530\n"
+"PO-Revision-Date: 2022-08-22 19:21+0530\n"
+"Last-Translator: <EMAIL@ADDRESS>\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app/off.py:26
+#, python-brace-format
+msgid "{products} products with {name}"
+msgstr "{products} products with {name}"
+
+#: app/off.py:32
+#, python-brace-format
+msgid "The total number of issues are {total_issues}"
+msgstr "The total number of issues are {total_issues}"
+
+#: app/off.py:41
+msgid "Data-quality issues related to"
+msgstr "Data-quality issues related to"
+
+#: app/off.py:42
+msgid "Data-quality issues"
+msgstr "Data-quality issues"
+
+#: app/off.py:68
+#, python-brace-format
+msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
+msgstr "{product_name} ({code}) edited by {last_editor} on {edit_date}"
+
+#: app/off.py:76
+#, python-brace-format
+msgid "Total number of edits {counts}"
+msgstr "Total number of edits {counts}"
+
+#: app/off.py:83
+msgid "last-edits issues related to"
+msgstr "last-edits issues related to"
+
+#: app/off.py:84
+msgid "Last-edits"
+msgstr "Last-edits"
+
+#: app/off.py:91
+msgid "Answer robotoff questions about"
+msgstr "Answer robotoff questions about"

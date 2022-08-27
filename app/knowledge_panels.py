@@ -1,7 +1,7 @@
 from typing import Union
 from urllib.parse import urlencode
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
-from .off import data_quality, last_edit, wikidata_helper
+from .off import data_quality, hungergame, last_edit, wikidata_helper
 
 
 def hunger_game_kp(
@@ -26,7 +26,8 @@ def hunger_game_kp(
     questions_url = "https://hunger.openfoodfacts.org/questions"
     if query:
         questions_url += f"?{urlencode(query)}"
-    description = f"Answer robotoff questions about {description}"
+    t_description = hungergame()
+    description = f"{t_description} {description}"
     html = f"<p><a href='{questions_url}'>{description}</a></p>\n"
     return {
         "hunger-game": {
@@ -60,7 +61,7 @@ def data_quality_kp(
         country_code = country_to_ISO_code(value=country)
         url = f"https://{country_code}-en.openfoodfacts.org"
         path = ""
-        description += country
+        description += f"{country} "
     if country is None:
         url = "https://world.openfoodfacts.org/"
     if facet is not None:
@@ -69,13 +70,14 @@ def data_quality_kp(
     if value is not None:
         path += f"/{value}"
         description += f" {value}"
-    description = f"Data-quality issues related to {description}"
-    (quality_html, source_url) = data_quality(url=url, path=path)
+    (quality_html, source_url, t_description, t_title) = data_quality(
+        url=url, path=path
+    )
 
     return {
         "Quality": {
-            "title": "Data-quality issues",
-            "subtitle": f"{description}",
+            "title": t_title,
+            "subtitle": f"{t_description} {description}",
             "source_url": f"{source_url}/data-quality",
             "elements": [
                 {
@@ -108,21 +110,20 @@ def last_edits_kp(
     if country is not None:
         country_code = country_to_ISO_code(value=country)
         url = f"https://{country_code}-en.openfoodfacts.org"
-        description += country
+        description += f"{country} "
     if country is None:
         url = "https://world.openfoodfacts.org"
     if facet is not None:
-        description += f" {facet}"
+        description += f"{facet}"
     if value is not None:
         query[f"{facet_plural(facet=facet)}_tags_en"] = value
         description += f" {value}"
-    description = f"last-edits issues related to {description}"
-    expected_html = last_edit(url=url, query=query)
+    expected_html, t_description, t_title = last_edit(url=url, query=query)
 
     return {
         "LastEdits": {
-            "title": "Last-edites",
-            "subtitle": f"{description}",
+            "title": t_title,
+            "subtitle": f"{t_description} {description}",
             "source_url": f"{url}/{facet}/{value}?sort_by=last_modified_t",
             "elements": [
                 {

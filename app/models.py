@@ -1,6 +1,7 @@
 from enum import Enum
-import pycountry
+
 import inflect
+import pycountry
 
 
 class FacetName(str, Enum):
