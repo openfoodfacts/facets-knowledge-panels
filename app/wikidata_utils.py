@@ -1,7 +1,7 @@
 import wikidata.client
 
 
-def get_wikidata(entity_id=str):
+def get_wikidata(entity_id: str):
     client = wikidata.client.Client()
     entity = client.get(entity_id)
     description_tag = entity.description["en"]
