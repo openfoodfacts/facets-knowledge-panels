@@ -1,10 +1,10 @@
 from collections import namedtuple
 from urllib.parse import urljoin
-import wikidata.client
 
 import requests
 
 from .i18n import translate as _
+from .wikidata_utils import get_wikidata
 
 
 def data_quality(url, path):
@@ -108,15 +108,9 @@ def wikidata_helper(query, value):
     data = response_API.json()
     tag = data[value]
     entity_id = tag["wikidata"]["en"]
-    client = wikidata.client.Client()
-    entity = client.get(entity_id)
-    description_tag = entity.description["en"]
-    label_tag = entity.label["en"]
-    image_prop = client.get("P18")
-    # Open Street map releation
-    OSM_prop = client.get("P402")
-    # INAO poduct releation
-    INAO_prop = client.get("P3895")
+    entity, description_tag, label_tag, image_prop, OSM_prop, INAO_prop = get_wikidata(
+        entity_id=entity_id
+    )
     if image_prop in entity:
         image = entity[image_prop]
         image_url = image.image_url
