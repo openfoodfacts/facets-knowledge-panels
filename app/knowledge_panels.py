@@ -8,6 +8,8 @@ from .off import data_quality, hungergame, last_edit
 def hunger_game_kp(
     hunger_game_filter: HungerGameFilter,
     value: Union[str, None] = None,
+    sec_facet: Union[str, None] = None,
+    sec_value: Union[str, None] = None,
     country: Union[str, None] = None,
 ):
     query = {}
@@ -24,6 +26,11 @@ def hunger_game_kp(
     if value is not None:
         query["value_tag"] = value
         description = f"{value} {hunger_game_filter}"
+    if sec_facet is not None:
+        description += f" {sec_facet}"
+    if sec_value is not None:
+        query[sec_facet] = sec_value
+        description += f" {sec_value}"
     questions_url = "https://hunger.openfoodfacts.org/questions"
     if query:
         questions_url += f"?{urlencode(query)}"

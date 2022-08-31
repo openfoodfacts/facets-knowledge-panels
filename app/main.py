@@ -35,7 +35,11 @@ def knowledge_panel(
         if facet_tag in HungerGameFilter.list():
             panels.append(
                 hunger_game_kp(
-                    hunger_game_filter=facet_tag, value=value_tag, country=country
+                    hunger_game_filter=facet_tag,
+                    value=value_tag,
+                    sec_facet=sec_facet_tag,
+                    sec_value=sec_value_tag,
+                    country=country,
                 )
             )
         try:

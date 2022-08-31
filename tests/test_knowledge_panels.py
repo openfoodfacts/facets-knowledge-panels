@@ -56,44 +56,20 @@ def test_hunger_game_kp_category_with_country():
     }
 
 
-def test_hunger_game_kp_category_with_value():
-    assert hunger_game_kp(hunger_game_filter="category", value="beer") == {
+def test_hunger_game_kp_category_with_tags():
+    assert hunger_game_kp(
+        hunger_game_filter="brand",
+        value="nestle",
+        sec_facet="category",
+        sec_value="coffees",
+        country="france",
+    ) == {
         "hunger-game": {
             "elements": [
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=beer'>Answer robotoff questions about beer category</a></p>\n"
-                    },
-                }
-            ]
-        }
-    }
-
-
-def test_hunger_game_kp_brand_with_value():
-    assert hunger_game_kp(hunger_game_filter="brand", value="nestle") == {
-        "hunger-game": {
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand&value_tag=nestle'>Answer robotoff questions about nestle brand</a></p>\n"
-                    },
-                }
-            ]
-        }
-    }
-
-
-def test_hunger_game_kp_label_with_value():
-    assert hunger_game_kp(hunger_game_filter="label", value="organic") == {
-        "hunger-game": {
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": {
-                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=organic'>Answer robotoff questions about organic label</a></p>\n"
+                        "html": "<p><a href='https://hunger.openfoodfacts.org/questions?country=france&type=brand&value_tag=nestle&category=coffees'>Answer robotoff questions about nestle brand category coffees</a></p>\n"
                     },
                 }
             ]
