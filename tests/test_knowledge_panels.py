@@ -171,31 +171,31 @@ def test_data_quality_kp_with_country(monkeypatch):
     }
 
 
-def test_data_quality_kp_with_all_three_values(monkeypatch):
-    expected_url = "https://world.openfoodfacts.org/brand/lidl/data-quality.json"
+def test_data_quality_kp_with_all_tags(monkeypatch):
+    expected_url = "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality.json"
     json_content = {
-        "count": 182,
+        "count": 24,
         "tags": [
             {
-                "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "id": "en:alcoholic-beverages-category-without-alcohol-value",
                 "known": 0,
-                "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
-                "products": 7688,
-                "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "name": "alcoholic-beverages-category-without-alcohol-value",
+                "products": 13,
+                "url": "https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value",
             },
             {
                 "id": "en:ecoscore-production-system-no-label",
                 "known": 0,
                 "name": "ecoscore-production-system-no-label",
-                "products": 7661,
-                "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label",
+                "products": 13,
+                "url": "https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-production-system-no-label",
             },
             {
-                "id": "en:no-packaging-data",
+                "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
                 "known": 0,
-                "name": "no-packaging-data",
-                "products": 6209,
-                "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data",
+                "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "products": 12,
+                "url": "https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
             },
         ],
     }
@@ -203,20 +203,22 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
     monkeypatch.setattr(
         requests, "get", mock_get_factory(expected_url, json_content=json_content)
     )
-    result = app.main.data_quality_kp(facet="brand", value="lidl")
+    result = app.main.data_quality_kp(
+        facet="category", value="beers", sec_facet="brand", sec_value="budweiser"
+    )
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
     <ul>
-        <p>The total number of issues are 182</p>
+        <p>The total number of issues are 24</p>
         <li>
-            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>7688 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+            <a herf=https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value>13 products with alcoholic-beverages-category-without-alcohol-value</a>
         </li>
         <li>
-            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label>7661 products with ecoscore-production-system-no-label</a>
+            <a herf=https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-production-system-no-label>13 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data>6209 products with no-packaging-data</a>
+            <a herf=https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>12 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
     </ul>
     """
@@ -227,8 +229,8 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
     assert result == {
         "Quality": {
             "title": "Data-quality issues",
-            "subtitle": "Data-quality issues related to brand lidl",
-            "source_url": "https://world.openfoodfacts.org/brand/lidl/data-quality",
+            "subtitle": "Data-quality issues related to category beers brand budweiser",
+            "source_url": "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality",
             "elements": [
                 {
                     "element_type": "text",
@@ -239,27 +241,81 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
     }
 
 
-def test_last_edits_kp_with_all_three_values(monkeypatch):
-    expected_url = "https://hu-en.openfoodfacts.org/api/v2/search"
+def test_last_edits_kp_with_all_tags(monkeypatch):
+    expected_url = "https://fr-en.openfoodfacts.org/api/v2/search"
     expected_kwargs = {
         "params": {
             "fields": "product_name,code,last_editor,last_edit_dates_tags",
             "sort_by": "last_modified_t",
-            "vitamins_tags_en": "vitamin-k",
+            "brands_tags_en": "nestle",
+            "categories_tags_en": "coffees",
         }
     }
     json_content = {
-        "count": 1,
+        "count": 112,
         "page": 1,
-        "page_count": 1,
+        "page_count": 24,
         "page_size": 24,
         "products": [
             {
-                "code": "0715235567418",
-                "last_edit_dates_tags": ["2022-02-10", "2022-02", "2022"],
-                "last_editor": "packbot",
-                "product_name": "Tiqle Sticks Strawberry taste",
-            }
+                "code": "7613036271868",
+                "last_edit_dates_tags": ["2022-08-31", "2022-08", "2022"],
+                "last_editor": "org-nestle-france",
+                "product_name": "Capsules NESCAFE Dolce Gusto Cappuccino Extra Crema 16 Capsules",
+            },
+            {
+                "code": "7613032655495",
+                "last_edit_dates_tags": ["2022-08-30", "2022-08", "2022"],
+                "last_editor": "feat",
+                "product_name": "RICORE Original, Café & Chicorée, Boîte 260g",
+            },
+            {
+                "code": "7613036303521",
+                "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
+                "last_editor": "feat",
+                "product_name": "Ricoré",
+            },
+            {
+                "code": "3033710072927",
+                "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
+                "last_editor": "org-nestle-france",
+                "product_name": "NESCAFÉ NES, Café Soluble, Boîte de 25 Sticks (2g chacun)",
+            },
+            {
+                "code": "3033710076017",
+                "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
+                "last_editor": "org-nestle-france",
+                "product_name": "NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Boîte de 25 Sticks",
+            },
+            {
+                "code": "3033710074624",
+                "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
+                "last_editor": "org-nestle-france",
+                "product_name": "NESCAFÉ SPECIAL FILTRE Décaféiné, Café Soluble, Flacon de 200g",
+            },
+            {
+                "code": "7613034056122",
+                "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
+                "last_editor": "org-nestle-france",
+                "product_name": "NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Recharge de 150g",
+            },
+            {
+                "code": "3033710074525",
+                "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
+                "last_editor": "org-nestle-france",
+                "product_name": "NESCAFÉ SPECIAL FILTRE L'Original Flacon de 200g",
+            },
+            {
+                "code": "3033710074518",
+                "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
+                "last_editor": "org-nestle-france",
+            },
+            {
+                "code": "7891000300602",
+                "last_edit_dates_tags": ["2022-08-27", "2022-08", "2022"],
+                "last_editor": "5m4u9",
+                "product_name": "Original",
+            },
         ],
     }
     monkeypatch.setattr(
@@ -272,15 +328,46 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
         ),
     )
     result = app.main.last_edits_kp(
-        facet="vitamin", value="vitamin-k", country="hungary"
+        facet="brand",
+        value="nestle",
+        sec_facet="category",
+        sec_value="coffees",
+        country="france",
     )
     first_element = result["LastEdits"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     last_edits_text = """
     <ul>
-        <p>Total number of edits 1 </p>
+        <p>Total number of edits 112</p>
         <li>
-            Tiqle Sticks Strawberry taste (0715235567418) edited by packbot on 2022-02-10
+            Capsules NESCAFE Dolce Gusto Cappuccino Extra Crema 16 Capsules (7613036271868) edited by org-nestle-france on 2022-08-31
+        </li>
+        <li>
+            RICORE Original, Café & Chicorée, Boîte 260g (7613032655495) edited by feat on 2022-08-30
+        </li>
+        <li>
+            Ricoré (7613036303521) edited by feat on 2022-08-28
+        </li>
+        <li>
+            NESCAFÉ NES, Café Soluble, Boîte de 25 Sticks (2g chacun) (3033710072927) edited by org-nestle-france on 2022-08-28
+        </li>
+        <li>
+            NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Boîte de 25 Sticks (3033710076017) edited by org-nestle-france on 2022-08-28
+        </li>
+        <li>
+            NESCAFÉ SPECIAL FILTRE Décaféiné, Café Soluble, Flacon de 200g (3033710074624) edited by org-nestle-france on 2022-08-28
+        </li>
+        <li>
+            NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Recharge de 150g (7613034056122) edited by org-nestle-france on 2022-08-28
+        </li>
+        <li>
+            NESCAFÉ SPECIAL FILTRE L'Original Flacon de 200g (3033710074525) edited by org-nestle-france on 2022-08-28
+        </li>
+        <li>
+             (3033710074518) edited by org-nestle-france on 2022-08-28
+        </li>
+        <li>
+            Original (7891000300602) edited by 5m4u9 on 2022-08-27
         </li>
     </ul>
     """
@@ -291,13 +378,8 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
     assert result == {
         "LastEdits": {
             "title": "Last-edits",
-            "subtitle": "last-edits issues related to hungary vitamin vitamin-k",
-            "source_url": "https://hu-en.openfoodfacts.org/vitamin/vitamin-k?sort_by=last_modified_t",
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": "ok",
-                }
-            ],
+            "subtitle": "last-edits issues related to france brand nestle category coffees",
+            "source_url": "https://fr-en.openfoodfacts.org/brand/nestle/category/coffees?sort_by=last_modified_t",
+            "elements": [{"element_type": "text", "text_element": "ok"}],
         }
     }

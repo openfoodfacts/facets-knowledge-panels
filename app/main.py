@@ -21,6 +21,8 @@ def hello():
 def knowledge_panel(
     facet_tag: FacetName,
     value_tag: Union[str, None] = None,
+    sec_facet_tag: Union[str, None] = None,
+    sec_value_tag: Union[str, None] = None,
     lang_code: Union[str, None] = None,
     country: Union[str, None] = None,
 ):
@@ -38,13 +40,25 @@ def knowledge_panel(
             )
         try:
             panels.append(
-                data_quality_kp(facet=facet_tag, value=value_tag, country=country)
+                data_quality_kp(
+                    facet=facet_tag,
+                    value=value_tag,
+                    sec_facet=sec_facet_tag,
+                    sec_value=sec_value_tag,
+                    country=country,
+                )
             )
         except Exception:
             logging.exception("error occued while appending data-quality-kp")
         try:
             panels.append(
-                last_edits_kp(facet=facet_tag, value=value_tag, country=country)
+                last_edits_kp(
+                    facet=facet_tag,
+                    value=value_tag,
+                    sec_facet=sec_facet_tag,
+                    sec_value=sec_value_tag,
+                    country=country,
+                )
             )
         except Exception:
             logging.exception("error occued while appending last-edits-kp")

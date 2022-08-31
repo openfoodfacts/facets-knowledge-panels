@@ -45,6 +45,8 @@ def hunger_game_kp(
 def data_quality_kp(
     facet,
     value: Union[str, None] = None,
+    sec_facet: Union[str, None] = None,
+    sec_value: Union[str, None] = None,
     country: Union[str, None] = None,
 ):
     """
@@ -71,6 +73,13 @@ def data_quality_kp(
     if value is not None:
         path += f"/{value}"
         description += f" {value}"
+    # Checking if secondary facet is provided
+    if sec_facet is not None:
+        path += f"/{sec_facet}"
+        description += f" {sec_facet}"
+    if sec_value is not None:
+        path += f"/{sec_value}"
+        description += f" {sec_value}"
     (quality_html, source_url, t_description, t_title) = data_quality(
         url=url, path=path
     )
@@ -93,6 +102,8 @@ def data_quality_kp(
 def last_edits_kp(
     facet: str,
     value: Union[str, None] = None,
+    sec_facet: Union[str, None] = None,
+    sec_value: Union[str, None] = None,
     country: Union[str, None] = None,
 ):
     """
@@ -119,13 +130,22 @@ def last_edits_kp(
     if value is not None:
         query[f"{facet_plural(facet=facet)}_tags_en"] = value
         description += f" {value}"
+        source_url = f"{url}/{facet}/{value}?sort_by=last_modified_t"
+    if sec_facet is not None:
+        description += f" {sec_facet}"
+    if sec_value is not None:
+        query[f"{facet_plural(facet=sec_facet)}_tags_en"] = sec_value
+        description += f" {sec_value}"
+        source_url = (
+            f"{url}/{facet}/{value}/{sec_facet}/{sec_value}?sort_by=last_modified_t"
+        )
     expected_html, t_description, t_title = last_edit(url=url, query=query)
 
     return {
         "LastEdits": {
             "title": t_title,
             "subtitle": f"{t_description} {description}",
-            "source_url": f"{url}/{facet}/{value}?sort_by=last_modified_t",
+            "source_url": source_url,
             "elements": [
                 {
                     "element_type": "text",
