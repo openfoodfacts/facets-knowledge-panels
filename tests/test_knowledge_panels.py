@@ -147,6 +147,74 @@ def test_data_quality_kp_with_country(monkeypatch):
     }
 
 
+def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
+    expected_url = "https://world.openfoodfacts.org/brand/lidl/data-quality.json"
+    json_content = {
+        "count": 182,
+        "tags": [
+            {
+                "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "known": 0,
+                "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "products": 7688,
+                "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+            },
+            {
+                "id": "en:ecoscore-production-system-no-label",
+                "known": 0,
+                "name": "ecoscore-production-system-no-label",
+                "products": 7661,
+                "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label",
+            },
+            {
+                "id": "en:no-packaging-data",
+                "known": 0,
+                "name": "no-packaging-data",
+                "products": 6209,
+                "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data",
+            },
+        ],
+    }
+
+    monkeypatch.setattr(
+        requests, "get", mock_get_factory(expected_url, json_content=json_content)
+    )
+    result = app.main.data_quality_kp(facet="brand", value="lidl")
+    first_element = result["Quality"]["elements"][0]
+    first_element["text_element"] = tidy_html(first_element["text_element"])
+    expected_text = """
+    <ul>
+        <p>The total number of issues are 182</p>
+        <li>
+            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>7688 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+        </li>
+        <li>
+            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label>7661 products with ecoscore-production-system-no-label</a>
+        </li>
+        <li>
+            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data>6209 products with no-packaging-data</a>
+        </li>
+    </ul>
+    """
+    # assert html separately to have better output in case of error
+    assert first_element["text_element"] == tidy_html(expected_text)
+    # now replace it for concision of output
+    first_element["text_element"] = "ok"
+    assert result == {
+        "Quality": {
+            "title": "Data-quality issues",
+            "subtitle": "Data-quality issues related to brand lidl",
+            "source_url": "https://world.openfoodfacts.org/brand/lidl/data-quality",
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": "ok",
+                }
+            ],
+        }
+    }
+
+
 def test_data_quality_kp_with_all_tags(monkeypatch):
     expected_url = "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality.json"
     json_content = {
@@ -207,6 +275,70 @@ def test_data_quality_kp_with_all_tags(monkeypatch):
             "title": "Data-quality issues",
             "subtitle": "Data-quality issues related to category beers brand budweiser",
             "source_url": "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality",
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": "ok",
+                }
+            ],
+        }
+    }
+
+
+def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
+    expected_url = "https://hu-en.openfoodfacts.org/api/v2/search"
+    expected_kwargs = {
+        "params": {
+            "fields": "product_name,code,last_editor,last_edit_dates_tags",
+            "sort_by": "last_modified_t",
+            "vitamins_tags_en": "vitamin-k",
+        }
+    }
+    json_content = {
+        "count": 1,
+        "page": 1,
+        "page_count": 1,
+        "page_size": 24,
+        "products": [
+            {
+                "code": "0715235567418",
+                "last_edit_dates_tags": ["2022-02-10", "2022-02", "2022"],
+                "last_editor": "packbot",
+                "product_name": "Tiqle Sticks Strawberry taste",
+            }
+        ],
+    }
+    monkeypatch.setattr(
+        requests,
+        "get",
+        mock_get_factory(
+            expected_url,
+            expected_kwargs,
+            json_content,
+        ),
+    )
+    result = app.main.last_edits_kp(
+        facet="vitamin", value="vitamin-k", country="hungary"
+    )
+    first_element = result["LastEdits"]["elements"][0]
+    first_element["text_element"] = tidy_html(first_element["text_element"])
+    last_edits_text = """
+    <ul>
+        <p>Total number of edits 1 </p>
+        <li>
+            Tiqle Sticks Strawberry taste (0715235567418) edited by packbot on 2022-02-10
+        </li>
+    </ul>
+    """
+    # assert html separately to have better output in case of error
+    assert first_element["text_element"] == tidy_html(last_edits_text)
+    # now replace it for concision of output
+    first_element["text_element"] = "ok"
+    assert result == {
+        "LastEdits": {
+            "title": "Last-edits",
+            "subtitle": "last-edits issues related to hungary vitamin vitamin-k",
+            "source_url": "https://hu-en.openfoodfacts.org/vitamin/vitamin-k?sort_by=last_modified_t",
             "elements": [
                 {
                     "element_type": "text",
