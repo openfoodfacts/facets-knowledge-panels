@@ -31,7 +31,7 @@ def hunger_game_kp(
     description = f"{t_description} {description}"
     html = f"<p><a href='{questions_url}'>{description}</a></p>\n"
     return {
-        "hunger-game": {
+        "hunger_game": {
             "elements": [
                 {
                     "element_type": "text",

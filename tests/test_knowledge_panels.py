@@ -13,7 +13,7 @@ def test_hunger_game_kp_with_filter_value_and_country():
     assert hunger_game_kp(
         hunger_game_filter="country", value="germany", country="france"
     ) == {
-        "hunger-game": {
+        "hunger_game": {
             "elements": [
                 {
                     "element_type": "text",
@@ -28,7 +28,7 @@ def test_hunger_game_kp_with_filter_value_and_country():
 
 def test_hunger_game_kp_with_category():
     assert hunger_game_kp(hunger_game_filter="category") == {
-        "hunger-game": {
+        "hunger_game": {
             "elements": [
                 {
                     "element_type": "text",
@@ -43,7 +43,7 @@ def test_hunger_game_kp_with_category():
 
 def test_hunger_game_kp_category_with_country():
     assert hunger_game_kp(hunger_game_filter="category", country="france") == {
-        "hunger-game": {
+        "hunger_game": {
             "elements": [
                 {
                     "element_type": "text",
@@ -58,7 +58,7 @@ def test_hunger_game_kp_category_with_country():
 
 def test_hunger_game_kp_category_with_value():
     assert hunger_game_kp(hunger_game_filter="category", value="beer") == {
-        "hunger-game": {
+        "hunger_game": {
             "elements": [
                 {
                     "element_type": "text",
@@ -73,7 +73,7 @@ def test_hunger_game_kp_category_with_value():
 
 def test_hunger_game_kp_brand_with_value():
     assert hunger_game_kp(hunger_game_filter="brand", value="nestle") == {
-        "hunger-game": {
+        "hunger_game": {
             "elements": [
                 {
                     "element_type": "text",
@@ -88,7 +88,7 @@ def test_hunger_game_kp_brand_with_value():
 
 def test_hunger_game_kp_label_with_value():
     assert hunger_game_kp(hunger_game_filter="label", value="organic") == {
-        "hunger-game": {
+        "hunger_game": {
             "elements": [
                 {
                     "element_type": "text",

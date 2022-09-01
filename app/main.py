@@ -5,9 +5,35 @@ from fastapi import FastAPI
 
 from .i18n import active_translation
 from .knowledge_panels import data_quality_kp, hunger_game_kp, last_edits_kp
-from .models import FacetName, HungerGameFilter
+from .models import FacetName, HungerGameFilter, FacetResponse
 
-app = FastAPI()
+
+tags_metadata = [
+    {
+        "name": "knowledge-panel",
+        "description": "Return different knowledge panels based on the facet provided.",
+    },
+]
+description = """
+Providing knowledge panels for a particular Open Food Facts facet (category, brand, etc...)
+
+A standardized way for clients to get semi-structured but generic data that they can present to users on product pages.
+"""
+
+app = FastAPI(
+    title="Open Food Facts knowledge Panels API",
+    description=description,
+    version="0.0.1",
+    contact={
+        "name": "Slack",
+        "url": "https://openfoodfacts.slack.com/archives/C03LFRKLVBQ",
+    },
+    license_info={
+        "name": "GNU Affero General Public License v3.0",
+        "url": "https://www.gnu.org/licenses/agpl-3.0.en.html",
+    },
+    openapi_tags=tags_metadata,
+)
 
 
 @app.get("/")
@@ -17,7 +43,7 @@ def hello():
     }
 
 
-@app.get("/knowledge_panel")
+@app.get("/knowledge_panel", tags=["knowledge-panel"], response_model=FacetResponse)
 def knowledge_panel(
     facet_tag: FacetName,
     value_tag: Union[str, None] = None,

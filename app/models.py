@@ -1,5 +1,6 @@
 from enum import Enum
-
+from typing import Union
+from pydantic import BaseModel
 import inflect
 import pycountry
 
@@ -39,6 +40,10 @@ class HungerGameFilter(str, Enum):
     @staticmethod
     def list():
         return [c.value for c in HungerGameFilter]
+
+
+class FacetResponse(BaseModel):
+    knowledge_panels: list
 
 
 def country_to_ISO_code(value: str):
