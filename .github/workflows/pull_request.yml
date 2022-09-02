@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v3
       - name: build docker
         run: DOCKER_BUILDkIT=1 docker-compose build
+      - name: build languages
+        run: make build_lang
       - name: Make checks
         run: |
           make checks
