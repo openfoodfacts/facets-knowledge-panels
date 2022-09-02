@@ -1,12 +1,12 @@
 import requests
+import wikidata.client
 
 import app.main
 from app.i18n import active_translation
 from app.main import hunger_game_kp
+from app.wikidata_utils import wikidata_props
 
-from .test_utils import mock_get_factory, tidy_html
-
-active_translation()
+from .test_utils import DictAttr, mock_get_factory, mock_wikidata_get, tidy_html
 
 
 def test_hunger_game_kp_with_filter_value_and_country():
@@ -304,6 +304,7 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
 
 
 def test_wikidata_kp(monkeypatch):
+    # first mock the call to open food facts (to get the wikidata property)
     expected_url = "https://world.openfoodfacts.org/api/v2/taxonomy"
     expected_kwargs = {
         "params": {
@@ -322,8 +323,28 @@ def test_wikidata_kp(monkeypatch):
             json_content,
         ),
     )
+    # then mock the call to wikidata
+    # fake entity mimicks the Entity object from wikidata library
+    fake_entity = {
+        "description": {"en": "French wine appellation"},
+        "label": {"en": "Fitou AOC"},
+        wikidata_props.image_prop: DictAttr(
+            image_url="https://upload.wikimedia.org/wikipedia/commons/d/d6/Paziols_%28France%29_Vue_du_village.jpg"
+        ),
+        wikidata_props.OSM_prop: "2727716",
+        wikidata_props.INAO_prop: "6159",
+        "attributes": {
+            "sitelinks": {"enwiki": {"a": "http://en.wikipedia.org/wiki/Fitou_AOC"}}
+        },
+    }
+    monkeypatch.setattr(
+        wikidata.client.Client,
+        "get",
+        mock_wikidata_get("Q470974", fake_entity),
+    )
+    # run the test
     result = app.main.wikidata_kp(facet="category", value="fr:fitou")
-    assert result == {
+    expected_result = {
         "WikiData": {
             "title": "wiki-data",
             "subtitle": "French wine appellation",
@@ -336,10 +357,11 @@ def test_wikidata_kp(monkeypatch):
                 },
                 {
                     "element_type": "links",
-                    "wikipedia": "https://en.wikipedia.org/wiki/Fitou_AOC",
+                    "wikipedia": "http://en.wikipedia.org/wiki/Fitou_AOC",
                     "open_street_map": "https://www.openstreetmap.org/relation/2727716",
                     "INAO": "https://www.inao.gouv.fr/produit/6159",
                 },
             ],
         }
     }
+    assert result == expected_result

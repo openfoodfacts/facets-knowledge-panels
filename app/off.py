@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 import requests
 
 from .i18n import translate as _
-from .wikidata_utils import get_wikidata
+from .wikidata_utils import get_wikidata_entity, wikidata_props
 
 
 def data_quality(url, path):
@@ -94,7 +94,7 @@ Entities = namedtuple(
         "entity_id",
         "OSM_relation",
         "INAO_relation",
-        "wikipedia_relation",
+        "wikipedia_relations",
     ],
 )
 
@@ -108,34 +108,31 @@ def wikidata_helper(query, value):
     data = response_API.json()
     tag = data[value]
     entity_id = tag["wikidata"]["en"]
-    entity, description_tag, label_tag, image_prop, OSM_prop, INAO_prop = get_wikidata(
-        entity_id=entity_id
-    )
-    if image_prop in entity:
-        image = entity[image_prop]
+    entity = get_wikidata_entity(entity_id=entity_id)
+    if wikidata_props.image_prop in entity:
+        image = entity[wikidata_props.image_prop]
         image_url = image.image_url
     else:
         image_url = ""
-    for sitelink in entity.attributes["sitelinks"]["enwiki"].values():
-        wikipedia_relation = sitelink
-    if INAO_prop in entity:
-        INAO = entity[INAO_prop]
+    wikipedia_relations = list(entity.attributes["sitelinks"]["enwiki"].values())
+    if wikidata_props.INAO_prop in entity:
+        INAO = entity[wikidata_props.INAO_prop]
         INAO_relation = "https://www.inao.gouv.fr/produit/{}".format(INAO)
     else:
         INAO_relation = ""
-    if OSM_prop in entity:
-        osm = entity[OSM_prop]
+    if wikidata_props.OSM_prop in entity:
+        osm = entity[wikidata_props.OSM_prop]
         OSM_relation = "https://www.openstreetmap.org/relation/{}".format(osm)
     else:
         OSM_relation = ""
     entities = Entities(
-        label_tag,
-        description_tag,
+        entity.label["en"],
+        entity.description["en"],
         image_url,
         entity_id,
         OSM_relation,
         INAO_relation,
-        wikipedia_relation,
+        wikipedia_relations,
     )
     return entities
 

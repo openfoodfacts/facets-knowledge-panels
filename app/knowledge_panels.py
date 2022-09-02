@@ -159,7 +159,7 @@ def wikidata_kp(facet: str, value: str):
                 },
                 {
                     "element_type": "links",
-                    "wikipedia": entities.wikipedia_relation,
+                    "wikipedia": entities.wikipedia_relations[0],
                     "open_street_map": entities.OSM_relation,
                     "INAO": entities.INAO_relation,
                 },
