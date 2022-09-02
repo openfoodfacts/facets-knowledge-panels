@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 
 import requests
 
-from .i18n import translate as _
+from .i18n import DEFAULT_LANGUAGE, get_current_lang, translate as _
 from .wikidata_utils import get_wikidata_entity, wikidata_props
 
 
@@ -94,27 +94,41 @@ Entities = namedtuple(
         "entity_id",
         "OSM_relation",
         "INAO_relation",
-        "wikipedia_relations",
+        "wikipedia_relation",
     ],
 )
+
+
+def in_lang(data, lang, suffix=""):
+    """retrieve an entry where key is lang + suffix
+    with an eventual fallback to DEFAULT_LANGUAGE
+    """
+    try:
+        return data[lang + suffix]
+    except KeyError:
+        if lang == DEFAULT_LANGUAGE:
+            raise
+        return data[DEFAULT_LANGUAGE + suffix]
 
 
 def wikidata_helper(query, value):
     """
     Helper function to return wikidata eg:label,description,image_url
     """
+    lang = get_current_lang()
     url = "https://world.openfoodfacts.org/api/v2/taxonomy"
     response_API = requests.get(url, params=query)
     data = response_API.json()
     tag = data[value]
-    entity_id = tag["wikidata"]["en"]
+    entity_id = in_lang(tag["wikidata"], lang)
     entity = get_wikidata_entity(entity_id=entity_id)
     if wikidata_props.image_prop in entity:
         image = entity[wikidata_props.image_prop]
         image_url = image.image_url
     else:
         image_url = ""
-    wikipedia_relations = list(entity.attributes["sitelinks"]["enwiki"].values())
+    wiki_links = in_lang(entity.attributes["sitelinks"], lang, "wiki")
+    wikipedia_relation = wiki_links.get("url")
     if wikidata_props.INAO_prop in entity:
         INAO = entity[wikidata_props.INAO_prop]
         INAO_relation = "https://www.inao.gouv.fr/produit/{}".format(INAO)
@@ -126,13 +140,13 @@ def wikidata_helper(query, value):
     else:
         OSM_relation = ""
     entities = Entities(
-        entity.label["en"],
-        entity.description["en"],
+        in_lang(entity.label, lang),
+        in_lang(entity.description, lang),
         image_url,
         entity_id,
         OSM_relation,
         INAO_relation,
-        wikipedia_relations,
+        wikipedia_relation,
     )
     return entities
 
