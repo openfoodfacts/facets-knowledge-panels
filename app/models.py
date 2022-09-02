@@ -6,23 +6,32 @@ import pycountry
 
 class FacetName(str, Enum):
     country = "country"
-    nutrition_grade = "nutrition-grade"
-    nova_group = "nova-group"
+    nutrition_grade = "nutrition_grade"
+    nova_group = "nova_group"
     brand = "brand"
     category = "category"
     label = "label"
     packaging = "packaging"
     origin_of_ingredient = "origin"
-    manufacturing_place = "manufacturing-place"
-    packager_code = "packager-code"
+    manufacturing_place = "manufacturing_place"
+    packager_code = "packager_code"
     ingredient = "ingredient"
     additive = "additive"
     vitamin = "vitamin"
     mineral = "mineral"
-    amino_acid = "amino-acid"
+    amino_acid = "amino_acid"
     nucleotide = "nucleotide"
     allergen = "allergen"
     trace = "trace"
+    language = "language"
+    contributor = "contributor"
+    state = "state"
+    data_source = "data_source"
+    entry_date = "entry_date"
+    last_edit_date = "last_edit_date"
+    last_check_date = "last_check_date"
+    other_nutritional_substances = "other_nutritional_substances"
+    team = "team"
 
     @staticmethod
     def list():
@@ -39,6 +48,30 @@ class HungerGameFilter(str, Enum):
     @staticmethod
     def list():
         return [c.value for c in HungerGameFilter]
+
+
+class Taxonomies(str, Enum):
+    country = "country"
+    nova_group = "nova_group"
+    brand = "brand"
+    category = "category"
+    label = "label"
+    packaging = "packaging"
+    ingredient = "ingredient"
+    additive = "additive"
+    vitamin = "vitamin"
+    mineral = "mineral"
+    amino_acid = "amino_acid"
+    nucleotide = "nucleotide"
+    allergen = "allergen"
+    state = "state"
+    origin_of_ingredient = "origin"
+    language = "language"
+    other_nutritional_substances = "other_nutritional_substances"
+
+    @staticmethod
+    def list():
+        return [c.value for c in Taxonomies]
 
 
 def country_to_ISO_code(value: str):
