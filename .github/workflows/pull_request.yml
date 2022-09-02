@@ -1,0 +1,21 @@
+name: code quality checks and unit tests
+
+on:
+  pull_request:
+
+jobs:
+  # quality
+  quality_checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      #----------------------------------------------
+      #       check-out repo and set-up python
+      #----------------------------------------------
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: build docker
+        run: DOCKER_BUILDkIT=1 docker-compose build
+      - name: Make checks
+        run: |
+          make checks
