@@ -45,8 +45,7 @@ def active_translation(lang=None):
     _current_language.reset(token)
 
 
-def get_current_translation():
-    """function to get translation object for current language"""
+def get_current_lang():
     lang = _current_language.get()
     if lang is None:
         # warn
@@ -56,7 +55,12 @@ def get_current_translation():
             stack_info=True,
         )
         lang = DEFAULT_LANGUAGE
-    return get_translation(lang)
+    return lang
+
+
+def get_current_translation():
+    """function to get translation object for current language"""
+    return get_translation(get_current_lang())
 
 
 def translate(message):
