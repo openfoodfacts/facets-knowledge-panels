@@ -44,6 +44,7 @@ def active_translation(lang=None):
     # restore context
     _current_language.reset(token)
 
+
 def get_current_lang():
     lang = _current_language.get()
     if lang is None:

@@ -406,4 +406,3 @@ def test_wikidata_kp(monkeypatch):
         }
         result_fr = app.main.wikidata_kp(facet="category", value="fr:fitou")
         assert result_fr == expected_result_fr
-
