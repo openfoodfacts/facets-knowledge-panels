@@ -4,54 +4,54 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-08-22 19:21+0530\n"
 "Last-Translator: SUMIT KASHYAP\n"
-"Language-Team: French\n"
-"Language: fr_FR\n"
+"Language-Team: Hindi\n"
+"Language: hi_IN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: openfoodfacts\n"
 "X-Crowdin-Project-ID: 243092\n"
-"X-Crowdin-Language: fr\n"
+"X-Crowdin-Language: hi\n"
 "X-Crowdin-File-ID: 2586\n"
 
 #: app/off.py:26
 #, python-brace-format
 msgid "{products} products with {name}"
-msgstr "{products} produits avec {name}"
+msgstr "{products} उत्पाद {name}. के साथ"
 
 #: app/off.py:32
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr "Le nombre total de problèmes est de {total_issues}"
+msgstr "मुद्दों की कुल संख्या {total_issues} है."
 
 #: app/off.py:41
 msgid "Data-quality issues related to"
-msgstr "Problèmes de qualité des données liés à"
+msgstr "डेटा-गुणवत्ता से संबंधित संबंधी समस्याएं"
 
 #: app/off.py:42
 msgid "Data-quality issues"
-msgstr "Problèmes de qualité des données"
+msgstr "डेटा-गुणवत्ता के मुद्दे"
 
 #: app/off.py:68
 #, python-brace-format
 msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-msgstr "{product_name} ({code}) modifié par {last_editor} le {edit_date}"
+msgstr "{product_name} ({code}) {last_editor} द्वारा {edit_date} को संपादित"
 
 #: app/off.py:76
 #, python-brace-format
 msgid "Total number of edits {counts}"
-msgstr "Nombre total de modifications {counts}"
+msgstr "संपादनों की कुल संख्या {counts}"
 
 #: app/off.py:83
 msgid "last-edits issues related to"
-msgstr "problèmes de dernière édition liés à"
+msgstr "अंतिम-संपादन मुद्दे से संबंधित"
 
 #: app/off.py:84
 msgid "Last-edits"
-msgstr "Dernières modifications"
+msgstr "अंतिम-संपादन"
 
 #: app/off.py:91
 msgid "Answer robotoff questions about"
-msgstr "Répondez aux questions de robotoff sur"
+msgstr "Robotoff के बारे में सवालों के जवाब दें"
 
