@@ -5,7 +5,7 @@ from .models import HungerGameFilter, country_to_ISO_code, facet_plural
 from .off import data_quality, hungergame, last_edit
 
 
-def hunger_game_kp(
+async def hunger_game_kp(
     hunger_game_filter: HungerGameFilter,
     value: Union[str, None] = None,
     country: Union[str, None] = None,
@@ -27,7 +27,7 @@ def hunger_game_kp(
     questions_url = "https://hunger.openfoodfacts.org/questions"
     if query:
         questions_url += f"?{urlencode(query)}"
-    t_description = hungergame()
+    t_description = await hungergame()
     description = f"{t_description} {description}"
     html = f"<p><a href='{questions_url}'>{description}</a></p>\n"
     return {
@@ -42,7 +42,7 @@ def hunger_game_kp(
     }
 
 
-def data_quality_kp(
+async def data_quality_kp(
     facet,
     value: Union[str, None] = None,
     country: Union[str, None] = None,
@@ -71,7 +71,7 @@ def data_quality_kp(
     if value is not None:
         path += f"/{value}"
         description += f" {value}"
-    (quality_html, source_url, t_description, t_title) = data_quality(
+    (quality_html, source_url, t_description, t_title) = await data_quality(
         url=url, path=path
     )
 
@@ -90,7 +90,7 @@ def data_quality_kp(
     }
 
 
-def last_edits_kp(
+async def last_edits_kp(
     facet: str,
     value: Union[str, None] = None,
     country: Union[str, None] = None,
@@ -119,7 +119,7 @@ def last_edits_kp(
     if value is not None:
         query[f"{facet_plural(facet=facet)}_tags_en"] = value
         description += f" {value}"
-    expected_html, t_description, t_title = last_edit(url=url, query=query)
+    expected_html, t_description, t_title = await last_edit(url=url, query=query)
 
     return {
         "LastEdits": {

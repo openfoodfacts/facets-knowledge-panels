@@ -1,5 +1,5 @@
 import requests
-
+import pytest
 import app.main
 from app.i18n import active_translation
 from app.main import hunger_game_kp
@@ -9,8 +9,9 @@ from .test_utils import mock_get_factory, tidy_html
 active_translation()
 
 
-def test_hunger_game_kp_with_filter_value_and_country():
-    assert hunger_game_kp(
+@pytest.mark.asyncio
+async def test_hunger_game_kp_with_filter_value_and_country():
+    assert await hunger_game_kp(
         hunger_game_filter="country", value="germany", country="france"
     ) == {
         "hunger-game": {
@@ -26,8 +27,9 @@ def test_hunger_game_kp_with_filter_value_and_country():
     }
 
 
-def test_hunger_game_kp_with_category():
-    assert hunger_game_kp(hunger_game_filter="category") == {
+@pytest.mark.asyncio
+async def test_hunger_game_kp_with_category():
+    assert await hunger_game_kp(hunger_game_filter="category") == {
         "hunger-game": {
             "elements": [
                 {
@@ -41,8 +43,9 @@ def test_hunger_game_kp_with_category():
     }
 
 
-def test_hunger_game_kp_category_with_country():
-    assert hunger_game_kp(hunger_game_filter="category", country="france") == {
+@pytest.mark.asyncio
+async def test_hunger_game_kp_category_with_country():
+    assert await hunger_game_kp(hunger_game_filter="category", country="france") == {
         "hunger-game": {
             "elements": [
                 {
@@ -56,8 +59,9 @@ def test_hunger_game_kp_category_with_country():
     }
 
 
-def test_hunger_game_kp_category_with_value():
-    assert hunger_game_kp(hunger_game_filter="category", value="beer") == {
+@pytest.mark.asyncio
+async def test_hunger_game_kp_category_with_value():
+    assert await hunger_game_kp(hunger_game_filter="category", value="beer") == {
         "hunger-game": {
             "elements": [
                 {
@@ -71,8 +75,9 @@ def test_hunger_game_kp_category_with_value():
     }
 
 
-def test_hunger_game_kp_brand_with_value():
-    assert hunger_game_kp(hunger_game_filter="brand", value="nestle") == {
+@pytest.mark.asyncio
+async def test_hunger_game_kp_brand_with_value():
+    assert await hunger_game_kp(hunger_game_filter="brand", value="nestle") == {
         "hunger-game": {
             "elements": [
                 {
@@ -86,8 +91,9 @@ def test_hunger_game_kp_brand_with_value():
     }
 
 
-def test_hunger_game_kp_label_with_value():
-    assert hunger_game_kp(hunger_game_filter="label", value="organic") == {
+@pytest.mark.asyncio
+async def test_hunger_game_kp_label_with_value():
+    assert await hunger_game_kp(hunger_game_filter="label", value="organic") == {
         "hunger-game": {
             "elements": [
                 {
@@ -101,30 +107,31 @@ def test_hunger_game_kp_label_with_value():
     }
 
 
-def test_data_quality_kp_with_country(monkeypatch):
+@pytest.mark.asyncio
+async def test_data_quality_kp_with_country(monkeypatch):
     expected_url = "https://tr-en.openfoodfacts.org/data-quality.json"
     json_content = {
-        "count": 125,
+        "count": 128,
         "tags": [
             {
                 "id": "en:ecoscore-production-system-no-label",
                 "known": 0,
                 "name": "ecoscore-production-system-no-label",
-                "products": 1583,
+                "products": 1805,
                 "url": "https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label",
             },
             {
                 "id": "en:no-packaging-data",
                 "known": 0,
                 "name": "no-packaging-data",
-                "products": 1531,
+                "products": 1747,
                 "url": "https://tr-en.openfoodfacts.org/data-quality/no-packaging-data",
             },
             {
                 "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
                 "known": 0,
                 "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
-                "products": 1515,
+                "products": 1736,
                 "url": "https://tr-en.openfoodfacts.org/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
             },
         ],
@@ -133,22 +140,22 @@ def test_data_quality_kp_with_country(monkeypatch):
     monkeypatch.setattr(
         requests, "get", mock_get_factory(expected_url, json_content=json_content)
     )
-    result = app.main.data_quality_kp(
+    result = await app.main.data_quality_kp(
         facet="country", value="Turkey", country="Hungary"
     )
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
     <ul>
-        <p>The total number of issues are 125</p>
+        <p>The total number of issues are 128</p>
         <li>
-            <a herf=https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label>1583 products with ecoscore-production-system-no-label</a>
+            <a herf=https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label>1805 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a herf=https://tr-en.openfoodfacts.org/data-quality/no-packaging-data>1531 products with no-packaging-data</a>
+            <a herf=https://tr-en.openfoodfacts.org/data-quality/no-packaging-data>1747 products with no-packaging-data</a>
         </li>
         <li>
-            <a herf=https://tr-en.openfoodfacts.org/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>1515 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+            <a herf=https://tr-en.openfoodfacts.org/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>1736 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
     </ul>
     """
@@ -171,7 +178,8 @@ def test_data_quality_kp_with_country(monkeypatch):
     }
 
 
-def test_data_quality_kp_with_all_three_values(monkeypatch):
+@pytest.mark.asyncio
+async def test_data_quality_kp_with_all_three_values(monkeypatch):
     expected_url = "https://world.openfoodfacts.org/brand/lidl/data-quality.json"
     json_content = {
         "count": 182,
@@ -180,21 +188,21 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
                 "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
                 "known": 0,
                 "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
-                "products": 7688,
+                "products": 7828,
                 "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
             },
             {
                 "id": "en:ecoscore-production-system-no-label",
                 "known": 0,
                 "name": "ecoscore-production-system-no-label",
-                "products": 7661,
+                "products": 7807,
                 "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label",
             },
             {
                 "id": "en:no-packaging-data",
                 "known": 0,
                 "name": "no-packaging-data",
-                "products": 6209,
+                "products": 6346,
                 "url": "https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data",
             },
         ],
@@ -203,20 +211,20 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
     monkeypatch.setattr(
         requests, "get", mock_get_factory(expected_url, json_content=json_content)
     )
-    result = app.main.data_quality_kp(facet="brand", value="lidl")
+    result = await app.main.data_quality_kp(facet="brand", value="lidl")
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
     <ul>
         <p>The total number of issues are 182</p>
         <li>
-            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>7688 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>7828 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
         <li>
-            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label>7661 products with ecoscore-production-system-no-label</a>
+            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label>7807 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data>6209 products with no-packaging-data</a>
+            <a herf=https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data>6346 products with no-packaging-data</a>
         </li>
     </ul>
     """
@@ -239,7 +247,8 @@ def test_data_quality_kp_with_all_three_values(monkeypatch):
     }
 
 
-def test_last_edits_kp_with_all_three_values(monkeypatch):
+@pytest.mark.asyncio
+async def test_last_edits_kp_with_all_three_values(monkeypatch):
     expected_url = "https://hu-en.openfoodfacts.org/api/v2/search"
     expected_kwargs = {
         "params": {
@@ -271,7 +280,7 @@ def test_last_edits_kp_with_all_three_values(monkeypatch):
             json_content,
         ),
     )
-    result = app.main.last_edits_kp(
+    result = await app.main.last_edits_kp(
         facet="vitamin", value="vitamin-k", country="hungary"
     )
     first_element = result["LastEdits"]["elements"][0]
