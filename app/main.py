@@ -29,10 +29,10 @@ async def knowledge_panel(
     """
     with active_translation(lang_code):
         async with asyncer.create_task_group() as task_group:
-
-            soon_value1 = task_group.soonify(hunger_game_kp)(
-                hunger_game_filter=facet_tag, value=value_tag, country=country
-            )
+            if facet_tag in HungerGameFilter.list():
+                soon_value1 = task_group.soonify(hunger_game_kp)(
+                    hunger_game_filter=facet_tag, value=value_tag, country=country
+                )
 
             soon_value2 = task_group.soonify(data_quality_kp)(
                 facet=facet_tag, value=value_tag, country=country
@@ -42,10 +42,8 @@ async def knowledge_panel(
                 facet=facet_tag, value=value_tag, country=country
             )
         panels = []
-
         try:
-            if facet_tag in HungerGameFilter.list():
-                panels.append(soon_value1.value)
+            panels.append(soon_value1.value)
         except Exception:
             logging.exception("Hungergame filter doesn't exists")
         try:
