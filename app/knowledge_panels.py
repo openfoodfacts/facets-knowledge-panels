@@ -1,5 +1,6 @@
 from typing import Union
 from urllib.parse import urlencode
+
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
 from .off import data_quality, hungergame, last_edit, wikidata_helper
 
@@ -86,9 +87,7 @@ def data_quality_kp(
     if sec_value is not None:
         path += f"/{sec_value}"
         description += f" {sec_value}"
-    (quality_html, source_url, t_description, t_title) = data_quality(
-        url=url, path=path
-    )
+    (quality_html, source_url, t_description, t_title) = data_quality(url=url, path=path)
 
     return {
         "Quality": {
@@ -142,9 +141,7 @@ def last_edits_kp(
     if sec_value is not None:
         query[f"{facet_plural(facet=sec_facet)}_tags_en"] = sec_value
         description += f" {sec_value}"
-        source_url = (
-            f"{url}/{facet}/{value}/{sec_facet}/{sec_value}?sort_by=last_modified_t"
-        )
+        source_url = f"{url}/{facet}/{value}/{sec_facet}/{sec_value}?sort_by=last_modified_t"
     expected_html, t_description, t_title = last_edit(url=url, query=query)
 
     return {

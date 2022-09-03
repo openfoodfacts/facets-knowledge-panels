@@ -3,7 +3,8 @@ from urllib.parse import urljoin
 
 import requests
 
-from .i18n import DEFAULT_LANGUAGE, get_current_lang, translate as _
+from .i18n import DEFAULT_LANGUAGE, get_current_lang
+from .i18n import translate as _
 from .wikidata_utils import get_wikidata_entity, wikidata_props
 
 
@@ -23,16 +24,14 @@ def data_quality(url, path):
             "products": tag["products"],
             "name": tag["name"],
         }
-        html.append(f'<li><a herf={tag["url"]}>')
+        html.append(f'<li><a href={tag["url"]}>')
         html.append(_("{products} products with {name}").format(**info))
         html.append("</a></li>")
 
     html = (
         [
             "<ul><p>",
-            _("The total number of issues are {total_issues}").format(
-                total_issues=total_issues
-            ),
+            _("The total number of issues are {total_issues}").format(total_issues=total_issues),
             "</p>",
         ]
         + html
@@ -65,9 +64,7 @@ def last_edit(url, query):
         }
         html.append("<li>")
         html.append(
-            _("{product_name} ({code}) edited by {last_editor} on {edit_date}").format(
-                **info
-            )
+            _("{product_name} ({code}) edited by {last_editor} on {edit_date}").format(**info)
         )
         html.append("</li>")
     html = (

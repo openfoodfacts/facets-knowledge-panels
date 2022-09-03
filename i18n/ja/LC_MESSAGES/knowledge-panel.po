@@ -18,40 +18,40 @@ msgstr ""
 #: app/off.py:26
 #, python-brace-format
 msgid "{products} products with {name}"
-msgstr ""
+msgstr "{products} の製品 {name}"
 
 #: app/off.py:32
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr ""
+msgstr "総発行数は {total_issues} です"
 
 #: app/off.py:41
 msgid "Data-quality issues related to"
-msgstr ""
+msgstr "に関連するデータ品質の問題"
 
 #: app/off.py:42
 msgid "Data-quality issues"
-msgstr ""
+msgstr "データ品質の問題"
 
 #: app/off.py:68
 #, python-brace-format
 msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-msgstr ""
+msgstr "{product_name} ({code}) が {last_editor} に {edit_date} によって編集されました"
 
 #: app/off.py:76
 #, python-brace-format
 msgid "Total number of edits {counts}"
-msgstr ""
+msgstr "編集の合計数 {counts}"
 
 #: app/off.py:83
 msgid "last-edits issues related to"
-msgstr ""
+msgstr "関連する最終編集の問題"
 
 #: app/off.py:84
 msgid "Last-edits"
-msgstr ""
+msgstr "最終更新"
 
 #: app/off.py:91
 msgid "Answer robotoff questions about"
-msgstr ""
+msgstr "Robotoff に関する質問に答える"
 
