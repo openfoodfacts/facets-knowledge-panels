@@ -21,7 +21,6 @@ def hunger_game_kp(
         query["country"] = f"en:{country}"
         description = country
     if hunger_game_filter is not None:
-        # Making primary facet as sec and vise versa
         if hunger_game_filter == "brand":
             query["brand"] = value
             description = f"brand {value}"
