@@ -18,19 +18,26 @@ def hunger_game_kp(
         country = value
         hunger_game_filter = value = None
     if country is not None:
-        query["country"] = country
+        query["country"] = f"en:{country}"
         description = country
     if hunger_game_filter is not None:
-        query["type"] = f"{hunger_game_filter}"
-        description = f"{hunger_game_filter}"
-    if value is not None:
-        query["value_tag"] = value
-        description = f"{value} {hunger_game_filter}"
-    if sec_facet is not None:
-        description += f" {sec_facet}"
-    if sec_value is not None:
-        query[sec_facet] = sec_value
-        description += f" {sec_value}"
+        # Making primary facet as sec and vise versa
+        if hunger_game_filter == "brand":
+            query["brand"] = value
+            description = f"brand {value}"
+            if sec_value is not None:
+                query["type"] = f"{sec_facet}"
+                query["value_tag"] = sec_value
+                description += f" {sec_facet} {sec_value}"
+        else:
+            query["type"] = f"{hunger_game_filter}"
+            description = f"{hunger_game_filter}"
+            if value is not None:
+                query["value_tag"] = value
+                description = f"{hunger_game_filter} {value}"
+            if sec_facet == "brand":
+                query[sec_facet] = sec_value
+                description += f" {sec_facet} {sec_value}"
     questions_url = "https://hunger.openfoodfacts.org/questions"
     if query:
         questions_url += f"?{urlencode(query)}"
@@ -136,11 +143,9 @@ def last_edits_kp(
         query[f"{facet_plural(facet=facet)}_tags_en"] = value
         description += f" {value}"
         source_url = f"{url}/{facet}/{value}?sort_by=last_modified_t"
-    if sec_facet is not None:
-        description += f" {sec_facet}"
     if sec_value is not None:
         query[f"{facet_plural(facet=sec_facet)}_tags_en"] = sec_value
-        description += f" {sec_value}"
+        description += f" {sec_facet} {sec_value}"
         source_url = f"{url}/{facet}/{value}/{sec_facet}/{sec_value}?sort_by=last_modified_t"
     expected_html, t_description, t_title = last_edit(url=url, query=query)
 

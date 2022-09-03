@@ -19,7 +19,7 @@ def auto_activate_lang():
 
 def test_hunger_game_kp_with_filter_value_and_country():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=germany'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Agermany'>"
         "Answer robotoff questions about germany</a></p>\n"
     )
     assert hunger_game_kp(hunger_game_filter="country", value="germany", country="france") == {
@@ -57,7 +57,7 @@ def test_hunger_game_kp_with_category():
 
 def test_hunger_game_kp_category_with_country():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=france&type=category'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category'>"
         "Answer robotoff questions about category</a></p>\n"
     )
     assert hunger_game_kp(hunger_game_filter="category", country="france") == {
@@ -76,10 +76,10 @@ def test_hunger_game_kp_category_with_country():
 
 def test_hunger_game_kp_category_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=beer'>"
-        "Answer robotoff questions about beer category</a></p>\n"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"
+        "Answer robotoff questions about category en:beers</a></p>\n"
     )
-    assert hunger_game_kp(hunger_game_filter="category", value="beer") == {
+    assert hunger_game_kp(hunger_game_filter="category", value="en:beers") == {
         "hunger-game": {
             "elements": [
                 {
@@ -95,8 +95,8 @@ def test_hunger_game_kp_category_with_value():
 
 def test_hunger_game_kp_brand_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand&value_tag=nestle'>"
-        "Answer robotoff questions about nestle brand</a></p>\n"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?brand=nestle'>"
+        "Answer robotoff questions about brand nestle</a></p>\n"
     )
     assert hunger_game_kp(hunger_game_filter="brand", value="nestle") == {
         "hunger-game": {
@@ -114,10 +114,85 @@ def test_hunger_game_kp_brand_with_value():
 
 def test_hunger_game_kp_label_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=organic'>"
-        "Answer robotoff questions about organic label</a></p>\n"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=en%3Aorganic'>"
+        "Answer robotoff questions about label en:organic</a></p>\n"
     )
-    assert hunger_game_kp(hunger_game_filter="label", value="organic") == {
+    assert hunger_game_kp(hunger_game_filter="label", value="en:organic") == {
+        "hunger-game": {
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": {
+                        "html": html,
+                    },
+                }
+            ]
+        }
+    }
+
+
+def test_hunger_game_kp_with_all_tag_1():
+    html = (
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category&value_tag=en%3Abeers&brand=lidl'>"
+        "Answer robotoff questions about category en:beers brand lidl</a></p>\n"
+    )
+    assert hunger_game_kp(
+        hunger_game_filter="category",
+        value="en:beers",
+        sec_facet="brand",
+        sec_value="lidl",
+        country="france",
+    ) == {
+        "hunger-game": {
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": {
+                        "html": html,
+                    },
+                }
+            ]
+        }
+    }
+
+
+def test_hunger_game_kp_with_all_tag_2():
+    html = (
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&brand=nestle&type=category&value_tag=en%3Acoffees'>"
+        "Answer robotoff questions about brand nestle category en:coffees</a></p>\n"
+    )
+    assert hunger_game_kp(
+        hunger_game_filter="brand",
+        value="nestle",
+        sec_facet="category",
+        sec_value="en:coffees",
+        country="belgium",
+    ) == {
+        "hunger-game": {
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": {
+                        "html": html,
+                    },
+                }
+            ]
+        }
+    }
+
+
+def test_hunger_game_kp_with_all_tag_3():
+    html = (
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value_tag=en%3Ameals'>"
+        "Answer robotoff questions about category en:meals</a></p>\n"
+    )
+    assert hunger_game_kp(
+        hunger_game_filter="category",
+        value="en:meals",
+        sec_facet="label",
+        sec_value="vegan",
+        country="italy",
+    ) == {
         "hunger-game": {
             "elements": [
                 {
@@ -310,13 +385,13 @@ def test_data_quality_kp_with_all_tags(monkeypatch):
     <ul>
         <p>The total number of issues are 24</p>
         <li>
-            <a herf=https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value>13 products with alcoholic-beverages-category-without-alcohol-value</a>
+            <a href=https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value>13 products with alcoholic-beverages-category-without-alcohol-value</a>
         </li>
         <li>
-            <a herf=https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-production-system-no-label>13 products with ecoscore-production-system-no-label</a>
+            <a href=https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-production-system-no-label>13 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a herf=https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>12 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+            <a href=https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>12 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
     </ul>
     """
