@@ -26,7 +26,7 @@ class DictAttr(dict):
     def __getattr__(self, name):
         try:
             return self[name]
-        except:
+        except KeyError:
             raise AttributeError(name)
 
 

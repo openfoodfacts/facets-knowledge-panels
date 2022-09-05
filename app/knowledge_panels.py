@@ -1,5 +1,6 @@
 from typing import Union
 from urllib.parse import urlencode
+
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
 from .off import data_quality, hungergame, last_edit, wikidata_helper
 
@@ -70,9 +71,7 @@ async def data_quality_kp(
     if value is not None:
         path += f"/{value}"
         description += f" {value}"
-    (quality_html, source_url, t_description, t_title) = await data_quality(
-        url=url, path=path
-    )
+    (quality_html, source_url, t_description, t_title) = await data_quality(url=url, path=path)
 
     return {
         "Quality": {

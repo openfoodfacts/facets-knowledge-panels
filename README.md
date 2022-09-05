@@ -14,11 +14,19 @@ We reuse the knowledge panel format, which remove the need for the application t
 
 ### Through Docker
 
-- After forking the repository
+After forking the repository
+
+to build:
+```bash
+docker-compose build
 ```
+
+to run:
+```bash
 docker-compose up
 ```
-- Visit `http://127.0.0.1/` with the endpoints or /docs for documentation
+
+- Visit `http://127.0.0.1/` with the endpoints or `/docs` for documentation
 
 ### Through virtual env
 
@@ -36,8 +44,12 @@ uvicorn app.main:app --reload
 ## Testing
 
 ### docker setup
-```
+```bash
 docker-compose run --rm facets-api pytest tests
+```
+or
+```bash
+make tests
 ```
 
 ### virtual env setup

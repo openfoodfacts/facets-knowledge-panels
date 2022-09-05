@@ -1,25 +1,19 @@
 import asyncer
 import logging
 from typing import Union
-from fastapi import FastAPI
-from .knowledge_panels import (
-    data_quality_kp,
-    hunger_game_kp,
-    last_edits_kp,
-    wikidata_kp,
-)
-from .models import FacetName, HungerGameFilter, Taxonomies
-from .i18n import active_translation
 
+from fastapi import FastAPI
+
+from .i18n import active_translation
+from .knowledge_panels import data_quality_kp, hunger_game_kp, last_edits_kp, wikidata_kp
+from .models import FacetName, HungerGameFilter, Taxonomies
 
 app = FastAPI()
 
 
 @app.get("/")
 async def hello():
-    return {
-        "message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"
-    }
+    return {"message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"}
 
 
 @app.get("/knowledge_panel")
@@ -31,7 +25,8 @@ async def knowledge_panel(
 ):
     """
     FacetName is the model that have list of values
-    facet_tag are the list of values connecting to FacetName eg:- category/beer, here beer is the value
+    facet_tag are the list of values connecting to FacetName
+    eg:- category/beer, here beer is the value
     """
     with active_translation(lang_code):
         async with asyncer.create_task_group() as task_group:

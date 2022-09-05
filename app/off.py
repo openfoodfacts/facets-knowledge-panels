@@ -5,7 +5,8 @@ from .i18n import translate as _
 
 import requests
 
-from .i18n import DEFAULT_LANGUAGE, get_current_lang, translate as _
+from .i18n import DEFAULT_LANGUAGE, get_current_lang
+from .i18n import translate as _
 from .wikidata_utils import get_wikidata_entity, wikidata_props
 
 
@@ -69,9 +70,9 @@ async def last_edit(url, query):
                 }
                 html.append("<li>")
                 html.append(
-                    _(
-                        "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-                    ).format(**info)
+                    _("{product_name} ({code}) edited by {last_editor} on {edit_date}").format(
+                        **info
+                    )
                 )
                 html.append("</li>")
             html = (
