@@ -134,7 +134,7 @@ async def last_edits_kp(
     }
 
 
-def wikidata_kp(facet: str, value: str):
+async def wikidata_kp(facet: str, value: str):
     """
     Return knowledge panel for wikidata
     """
@@ -144,7 +144,7 @@ def wikidata_kp(facet: str, value: str):
         query["fields"] = "wikidata"
         query["tags"] = value
 
-    entities = wikidata_helper(query=query, value=value)
+    entities = await wikidata_helper(query=query, value=value)
     return {
         "WikiData": {
             "title": "wiki-data",

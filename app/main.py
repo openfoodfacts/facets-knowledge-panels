@@ -58,7 +58,7 @@ async def knowledge_panel(
             logging.exception("error occued while appending last_edits_kp")
         try:
             if facet_tag in Taxonomies.list():
-                panels.append(wikidata_kp(facet=facet_tag, value=value_tag))
+                panels.append(await wikidata_kp(facet=facet_tag, value=value_tag))
         except Exception:
             logging.exception("error occurred while appending wikidata-kp")
 
