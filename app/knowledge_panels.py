@@ -2,7 +2,7 @@ from typing import Union
 from urllib.parse import urlencode
 
 from .models import HungerGameFilter, country_to_ISO_code, facet_plural
-from .off import data_quality, hungergame, last_edit
+from .off import data_quality, hungergame, last_edit, wikidata_helper
 
 
 def hunger_game_kp(
@@ -71,9 +71,7 @@ def data_quality_kp(
     if value is not None:
         path += f"/{value}"
         description += f" {value}"
-    (quality_html, source_url, t_description, t_title) = data_quality(
-        url=url, path=path
-    )
+    (quality_html, source_url, t_description, t_title) = data_quality(url=url, path=path)
 
     return {
         "Quality": {
@@ -130,6 +128,39 @@ def last_edits_kp(
                 {
                     "element_type": "text",
                     "text_element": expected_html,
+                },
+            ],
+        },
+    }
+
+
+def wikidata_kp(facet: str, value: str):
+    """
+    Return knowledge panel for wikidata
+    """
+    query = {}
+    if value:
+        query["tagtype"] = facet_plural(facet=facet)
+        query["fields"] = "wikidata"
+        query["tags"] = value
+
+    entities = wikidata_helper(query=query, value=value)
+    return {
+        "WikiData": {
+            "title": "wiki-data",
+            "subtitle": entities.description_tag,
+            "source_url": f"https://www.wikidata.org/wiki/{entities.entity_id}",
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": entities.label_tag,
+                    "image_url": entities.image_url,
+                },
+                {
+                    "element_type": "links",
+                    "wikipedia": entities.wikipedia_relation,
+                    "open_street_map": entities.OSM_relation,
+                    "INAO": entities.INAO_relation,
                 },
             ],
         },

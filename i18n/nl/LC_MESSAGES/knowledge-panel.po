@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openfoodfacts\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-22 19:21+0530\n"
+"Last-Translator: SUMIT KASHYAP\n"
+"Language-Team: Dutch, Belgium\n"
+"Language: nl_BE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: openfoodfacts\n"
+"X-Crowdin-Project-ID: 243092\n"
+"X-Crowdin-Language: nl-BE\n"
+"X-Crowdin-File-ID: 2586\n"
+
+#: app/off.py:26
+#, python-brace-format
+msgid "{products} products with {name}"
+msgstr "{products} producten met {name}"
+
+#: app/off.py:32
+#, python-brace-format
+msgid "The total number of issues are {total_issues}"
+msgstr "Het totale aantal problemen zijn {total_issues}"
+
+#: app/off.py:41
+msgid "Data-quality issues related to"
+msgstr "Problemen met gegevenskwaliteit gerelateerd aan"
+
+#: app/off.py:42
+msgid "Data-quality issues"
+msgstr "Problemen met gegevenskwaliteit"
+
+#: app/off.py:68
+#, python-brace-format
+msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
+msgstr "{product_name} ({code}) bewerkt door {last_editor} op {edit_date}"
+
+#: app/off.py:76
+#, python-brace-format
+msgid "Total number of edits {counts}"
+msgstr "Totaal aantal bewerkingen {counts}"
+
+#: app/off.py:83
+msgid "last-edits issues related to"
+msgstr "laatste-bewerkingsproblemen gerelateerd aan"
+
+#: app/off.py:84
+msgid "Last-edits"
+msgstr "Laatste bewerkingen"
+
+#: app/off.py:91
+msgid "Answer robotoff questions about"
+msgstr "Beantwoord robotoff-vragen over"
+

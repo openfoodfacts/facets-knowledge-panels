@@ -8,3 +8,4 @@ Provides applications with a set of informative or actionable items which are co
 The primary goal is to allow high level contributions by users that maybe interested in a particular subset of the database, like a particular food category or a brand, a location, etc...
 
 We reuse the knowledge panel format, which remove the need for the application to change as the server side code change, or to implement specific business logic.
+
