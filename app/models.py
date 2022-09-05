@@ -51,10 +51,6 @@ class HungerGameFilter(str, Enum):
         return [c.value for c in HungerGameFilter]
 
 
-class FacetResponse(BaseModel):
-    knowledge_panels: list
-
-
 class Taxonomies(str, Enum):
     country = "country"
     nova_group = "nova_group"
@@ -99,3 +95,27 @@ def facet_plural(facet: str):
         facet_plural = facet
 
     return facet_plural
+
+
+class ElementsItem(BaseModel):
+    element_type: str
+    text_element: Union[str, None] = None
+
+
+class KnowledgePanelItem(BaseModel):
+    title: str
+    subtitle: Union[str, None] = None
+    source_url: Union[str, None] = None
+    elements: Union[list[ElementsItem], None] = None
+
+
+class HungerGameResponse(BaseModel):
+    hunger_game: KnowledgePanelItem
+
+
+class DataQualityResponse(BaseModel):
+    Quality: KnowledgePanelItem
+
+
+class FacetResponse(BaseModel):
+    knowledge_panels: Union[list[DataQualityResponse], None] = None

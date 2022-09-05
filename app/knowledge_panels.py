@@ -29,13 +29,15 @@ def hunger_game_kp(
         questions_url += f"?{urlencode(query)}"
     t_description = hungergame()
     description = f"{t_description} {description}"
-    html = f"<p><a href='{questions_url}'>{description}</a></p>\n"
+    html = f"<a href='{questions_url}'</a>\n"
     return {
         "hunger_game": {
+            "title": "hunger-games",
+            "subtitle": description,
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": {"html": str(html)},
+                    "text_element": html,
                 },
             ],
         },
@@ -154,10 +156,10 @@ def wikidata_kp(facet: str, value: str):
                 {
                     "element_type": "text",
                     "text_element": entities.label_tag,
-                    "image_url": entities.image_url,
                 },
                 {
                     "element_type": "links",
+                    "image_url": entities.image_url,
                     "wikipedia": entities.wikipedia_relation,
                     "open_street_map": entities.OSM_relation,
                     "INAO": entities.INAO_relation,
