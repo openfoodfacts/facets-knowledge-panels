@@ -117,5 +117,9 @@ class DataQualityResponse(BaseModel):
     Quality: KnowledgePanelItem
 
 
+class LastEditsResponse(BaseModel):
+    LastEdits: KnowledgePanelItem
+
+
 class FacetResponse(BaseModel):
     knowledge_panels: Union[list[DataQualityResponse], None] = None
