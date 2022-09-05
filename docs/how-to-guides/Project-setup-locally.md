@@ -5,10 +5,18 @@ You may choose Docker-compose(recommended), or Through virtual env
 
 - Prerequisite - [Docker](https://docs.docker.com/get-docker/)
 
-- After forking the repository
+After forking the repository
+
+to build:
+```bash
+docker-compose build
 ```
+
+to run:
+```bash
 docker-compose up
 ```
+
 - Visit `http://127.0.0.1/` with the endpoints or /docs for documentation
 
 ### Through virtual env
