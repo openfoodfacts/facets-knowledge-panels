@@ -99,22 +99,22 @@ def facet_plural(facet: str):
 
 class TextElementItem(BaseModel):
     element_type: str
-    text_element: Optional[str]
+    text_element: Optional[str] = None
 
 
 class KnowledgePanelItem(BaseModel):
     title: str
-    subtitle: Optional[str]
-    source_url: Optional[str]
-    elements: Optional[list[TextElementItem]]
+    subtitle: Optional[str] = None
+    source_url: Optional[str] = None
+    elements: Optional[list[TextElementItem]] = None
 
 
 class WikidataElementsItem(BaseModel):
     element_type: str
-    image_url: Optional[str]
-    wikipedia: Optional[str]
-    open_street_map: Optional[str]
-    INAO: Optional[str]
+    image_url: Optional[str] = None
+    wikipedia: Optional[str] = None
+    open_street_map: Optional[str] = None
+    INAO: Optional[str] = None
 
 
 WikidataPanel = Union[TextElementItem, WikidataElementsItem]
@@ -122,15 +122,15 @@ WikidataPanel = Union[TextElementItem, WikidataElementsItem]
 
 class WikidataKnowledgePanelItem(BaseModel):
     title: str
-    subtitle: Optional[str]
-    source_url: Optional[str]
-    elements: Optional[list[WikidataPanel]]
+    subtitle: Optional[str] = None
+    source_url: Optional[str] = None
+    elements: Optional[list[WikidataPanel]] = None
 
 
 class HungerGameKnowledgePanelItem(BaseModel):
     title: str
-    subtitle: Optional[str]
-    elements: Optional[list[TextElementItem]]
+    subtitle: Optional[str] = None
+    elements: Optional[list[TextElementItem]] = None
 
 
 class HungerGameResponse(BaseModel):
@@ -153,4 +153,4 @@ KnowledgePanel = Union[HungerGameResponse, DataQualityResponse, LastEditsRespons
 
 
 class FacetResponse(BaseModel):
-    knowledge_panels: Optional[list[KnowledgePanel]]
+    knowledge_panels: Optional[list[KnowledgePanel]] = None
