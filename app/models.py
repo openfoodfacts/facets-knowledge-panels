@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Union
+from typing import Optional, Union
 from pydantic import BaseModel
 import inflect
 import pycountry
@@ -97,40 +97,40 @@ def facet_plural(facet: str):
     return facet_plural
 
 
-class ElementsItem(BaseModel):
+class TextElementItem(BaseModel):
     element_type: str
-    text_element: Union[str, None] = None
+    text_element: Optional[str]
 
 
 class KnowledgePanelItem(BaseModel):
     title: str
-    subtitle: Union[str, None] = None
-    source_url: Union[str, None] = None
-    elements: Union[list[ElementsItem], None] = None
+    subtitle: Optional[str]
+    source_url: Optional[str]
+    elements: Optional[list[TextElementItem]]
 
 
 class WikidataElementsItem(BaseModel):
     element_type: str
-    image_url: Union[str, None] = None
-    wikipedia: Union[str, None] = None
-    open_street_map: Union[str, None] = None
-    INAO: Union[str, None] = None
+    image_url: Optional[str]
+    wikipedia: Optional[str]
+    open_street_map: Optional[str]
+    INAO: Optional[str]
 
 
-WikidataPanel = Union[ElementsItem, WikidataElementsItem]
+WikidataPanel = Union[TextElementItem, WikidataElementsItem]
 
 
 class WikidataKnowledgePanelItem(BaseModel):
     title: str
-    subtitle: Union[str, None] = None
-    source_url: Union[str, None] = None
-    elements: Union[list[WikidataPanel], None] = None
+    subtitle: Optional[str]
+    source_url: Optional[str]
+    elements: Optional[list[WikidataPanel]]
 
 
 class HungerGameKnowledgePanelItem(BaseModel):
     title: str
-    subtitle: Union[str, None] = None
-    elements: Union[list[ElementsItem], None] = None
+    subtitle: Optional[str]
+    elements: Optional[list[TextElementItem]]
 
 
 class HungerGameResponse(BaseModel):
@@ -153,4 +153,4 @@ KnowledgePanel = Union[HungerGameResponse, DataQualityResponse, LastEditsRespons
 
 
 class FacetResponse(BaseModel):
-    knowledge_panels: Union[list[KnowledgePanel], None] = None
+    knowledge_panels: Optional[list[KnowledgePanel]]
