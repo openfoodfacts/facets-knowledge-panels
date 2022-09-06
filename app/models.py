@@ -109,8 +109,32 @@ class KnowledgePanelItem(BaseModel):
     elements: Union[list[ElementsItem], None] = None
 
 
+class WikidataElementsItem(BaseModel):
+    element_type: str
+    image_url: Union[str, None] = None
+    wikipedia: Union[str, None] = None
+    open_street_map: Union[str, None] = None
+    INAO: Union[str, None] = None
+
+
+WikidataPanel = Union[ElementsItem, WikidataElementsItem]
+
+
+class WikidataKnowledgePanelItem(BaseModel):
+    title: str
+    subtitle: Union[str, None] = None
+    source_url: Union[str, None] = None
+    elements: Union[list[WikidataPanel], None] = None
+
+
+class HungerGameKnowledgePanelItem(BaseModel):
+    title: str
+    subtitle: Union[str, None] = None
+    elements: Union[list[ElementsItem], None] = None
+
+
 class HungerGameResponse(BaseModel):
-    hunger_game: KnowledgePanelItem
+    hunger_game: HungerGameKnowledgePanelItem
 
 
 class DataQualityResponse(BaseModel):
@@ -121,5 +145,12 @@ class LastEditsResponse(BaseModel):
     LastEdits: KnowledgePanelItem
 
 
+class WikidataResponse(BaseModel):
+    WikiData: WikidataKnowledgePanelItem
+
+
+KnowledgePanel = Union[HungerGameResponse, DataQualityResponse, LastEditsResponse, WikidataResponse]
+
+
 class FacetResponse(BaseModel):
-    knowledge_panels: Union[list[DataQualityResponse], None] = None
+    knowledge_panels: Union[list[KnowledgePanel], None] = None
