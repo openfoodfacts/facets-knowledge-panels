@@ -76,7 +76,7 @@ def test_hunger_game_kp_category_with_country():
 
 def test_hunger_game_kp_category_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"  # noqa: E501  # allow long lines
         "Answer robotoff questions about category en:beers</a></p>\n"
     )
     assert hunger_game_kp(hunger_game_filter="category", value="en:beers") == {
@@ -133,7 +133,7 @@ def test_hunger_game_kp_label_with_value():
 
 def test_hunger_game_kp_with_all_tag_1():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category&value_tag=en%3Abeers&brand=lidl'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category&value_tag=en%3Abeers&brand=lidl'>"  # noqa: E501  # allow long lines
         "Answer robotoff questions about category en:beers brand lidl</a></p>\n"
     )
     assert hunger_game_kp(
@@ -158,7 +158,7 @@ def test_hunger_game_kp_with_all_tag_1():
 
 def test_hunger_game_kp_with_all_tag_2():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&brand=nestle&type=category&value_tag=en%3Acoffees'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&brand=nestle&type=category&value_tag=en%3Acoffees'>"  # noqa: E501  # allow long lines
         "Answer robotoff questions about brand nestle category en:coffees</a></p>\n"
     )
     assert hunger_game_kp(
@@ -183,7 +183,7 @@ def test_hunger_game_kp_with_all_tag_2():
 
 def test_hunger_game_kp_with_all_tag_3():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value_tag=en%3Ameals'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value_tag=en%3Ameals'>"  # noqa: E501  # allow long lines
         "Answer robotoff questions about category en:meals</a></p>\n"
     )
     assert hunger_game_kp(
@@ -356,21 +356,21 @@ def test_data_quality_kp_with_all_tags(monkeypatch):
                 "known": 0,
                 "name": "alcoholic-beverages-category-without-alcohol-value",
                 "products": 13,
-                "url": "https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value",
+                "url": "https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value",  # noqa: E501  # allow long lines
             },
             {
                 "id": "en:ecoscore-production-system-no-label",
                 "known": 0,
                 "name": "ecoscore-production-system-no-label",
                 "products": 13,
-                "url": "https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-production-system-no-label",
+                "url": "https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-production-system-no-label",  # noqa: E501  # allow long lines
             },
             {
                 "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
                 "known": 0,
                 "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
                 "products": 12,
-                "url": "https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "url": "https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",  # noqa: E501  # allow long lines
             },
         ],
     }
@@ -394,7 +394,7 @@ def test_data_quality_kp_with_all_tags(monkeypatch):
             <a href=https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>12 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
     </ul>
-    """
+    """  # noqa: E501  # allow long lines
     # assert html separately to have better output in case of error
     assert first_element["text_element"] == tidy_html(expected_text)
     # now replace it for concision of output
@@ -403,7 +403,7 @@ def test_data_quality_kp_with_all_tags(monkeypatch):
         "Quality": {
             "title": "Data-quality issues",
             "subtitle": "Data-quality issues related to category beers brand budweiser",
-            "source_url": "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality",
+            "source_url": "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality",  # noqa: E501  # allow long lines
             "elements": [
                 {
                     "element_type": "text",
@@ -522,7 +522,7 @@ def test_last_edits_kp_with_all_tags(monkeypatch):
                 "code": "3033710076017",
                 "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
                 "last_editor": "org-nestle-france",
-                "product_name": "NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Boîte de 25 Sticks",
+                "product_name": "NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Boîte de 25 Sticks",  # noqa: E501  # allow long lines
             },
             {
                 "code": "3033710074624",
@@ -607,7 +607,7 @@ def test_last_edits_kp_with_all_tags(monkeypatch):
             Original (7891000300602) edited by 5m4u9 on 2022-08-27
         </li>
     </ul>
-    """
+    """  # noqa: E501  # allow long lines
     # assert html separately to have better output in case of error
     assert first_element["text_element"] == tidy_html(last_edits_text)
     # now replace it for concision of output
@@ -616,7 +616,7 @@ def test_last_edits_kp_with_all_tags(monkeypatch):
         "LastEdits": {
             "title": "Last-edits",
             "subtitle": "last-edits issues related to france brand nestle category coffees",
-            "source_url": "https://fr-en.openfoodfacts.org/brand/nestle/category/coffees?sort_by=last_modified_t",
+            "source_url": "https://fr-en.openfoodfacts.org/brand/nestle/category/coffees?sort_by=last_modified_t",  # noqa: E501  # allow long lines
             "elements": [{"element_type": "text", "text_element": "ok"}],
         }
     }
