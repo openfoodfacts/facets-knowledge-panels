@@ -29,37 +29,34 @@ async def knowledge_panel(
     eg:- category/beer, here beer is the value
     """
     with active_translation(lang_code):
+        soon_values = []
         async with asyncer.create_task_group() as task_group:
             if facet_tag in HungerGameFilter.list():
-                soon_value1 = task_group.soonify(hunger_game_kp)(
-                    hunger_game_filter=facet_tag, value=value_tag, country=country
+                soon_values.append(
+                    task_group.soonify(hunger_game_kp)(
+                        hunger_game_filter=facet_tag, value=value_tag, country=country
+                    )
                 )
 
-            soon_value2 = task_group.soonify(data_quality_kp)(
-                facet=facet_tag, value=value_tag, country=country
+            soon_values.append(
+                task_group.soonify(data_quality_kp)(
+                    facet=facet_tag, value=value_tag, country=country
+                )
             )
 
-            soon_value3 = task_group.soonify(last_edits_kp)(
-                facet=facet_tag, value=value_tag, country=country
+            soon_values.append(
+                task_group.soonify(last_edits_kp)(facet=facet_tag, value=value_tag, country=country)
             )
-        panels = []
-        try:
-            panels.append(soon_value1.value)
-        except Exception:
-            logging.exception("Hungergame filter doesn't exists")
-        try:
-            panels.append(soon_value2.value)
-        except Exception:
-
-            logging.exception("error occued while appending data_quality_kp")
-        try:
-            panels.append(soon_value3.value)
-        except Exception:
-            logging.exception("error occued while appending last_edits_kp")
-        try:
             if facet_tag in Taxonomies.list():
-                panels.append(await wikidata_kp(facet=facet_tag, value=value_tag))
-        except Exception:
-            logging.exception("error occurred while appending wikidata-kp")
+
+                soon_values.append(
+                    task_group.soonify(wikidata_kp)(facet=facet_tag, value=value_tag)
+                )
+        panels = []
+        for soon_value in soon_values:
+            try:
+                panels.append(soon_value.value)
+            except Exception:
+                logging.exception()
 
         return {"knowledge_panels": panels}
