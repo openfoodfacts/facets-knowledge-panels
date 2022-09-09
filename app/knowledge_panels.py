@@ -45,7 +45,7 @@ class KnowledgePanels:
         for k, v in facets.items():
             query["type"] = k
             if v is not None:
-                query["value"] = v
+                query["value_tag"] = v
             urls.add(questions_url + f"?{urlencode(query)}")
         if len(facets) != 2:
             questions_url += f"?{urlencode(query)}"

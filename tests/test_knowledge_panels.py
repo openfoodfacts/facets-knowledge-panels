@@ -75,7 +75,7 @@ def test_hunger_game_kp_category_with_country():
 
 def test_hunger_game_kp_category_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value=en%3Abeers'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"
         "Answer robotoff questions</a></p>"
     )
     assert KnowledgePanels(facet="category", value="en:beers").hunger_game_kp() == {
@@ -107,7 +107,7 @@ def test_hunger_game_kp_brand_with_value():
 
 def test_hunger_game_kp_label_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value=en%3Aorganic'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=en%3Aorganic'>"
         "Answer robotoff questions</a></p>"
     )
     assert KnowledgePanels(facet="label", value="en:organic").hunger_game_kp() == {
@@ -126,7 +126,7 @@ def test_hunger_game_kp_label_with_value():
 
 def test_hunger_game_kp_with_all_tag_1():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value=en%3Abeers'>"  # noqa: E501
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value_tag=en%3Abeers'>"  # noqa: E501
         "Answer robotoff questions</a></p>"
     )
     assert KnowledgePanels(
@@ -151,7 +151,7 @@ def test_hunger_game_kp_with_all_tag_1():
 
 def test_hunger_game_kp_with_all_tag_2():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&brand=nestle&type=category&value=en%3Acoffees'>"  # noqa: E501
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&brand=nestle&type=category&value_tag=en%3Acoffees'>"  # noqa: E501
         "Answer robotoff questions</a></p>"
     )
     assert KnowledgePanels(
@@ -170,11 +170,11 @@ def test_hunger_game_kp_with_all_tag_2():
 
 def test_hunger_game_kp_with_all_tag_3():
     html0 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value=en%3Ameals'>"  # noqa: E501
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value_tag=en%3Ameals'>"  # noqa: E501
         "Answer robotoff questions</a></p>"
     )
     html1 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=label&value=vegan'>"  # noqa: E501
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=label&value_tag=vegan'>"  # noqa: E501
         "Answer robotoff questions</a></p>"
     )
     assert KnowledgePanels(
