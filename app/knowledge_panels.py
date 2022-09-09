@@ -6,7 +6,14 @@ from .off import data_quality, hungergame, last_edit, wikidata_helper
 
 
 class KnowledgePanels:
-    def __init__(self, facet, value, sec_facet, sec_value, country):
+    def __init__(
+        self,
+        facet: str,
+        value: Union[str, None] = None,
+        sec_facet: Union[str, None] = None,
+        sec_value: Union[str, None] = None,
+        country: Union[str, None] = None,
+    ):
         self.facet = facet
         self.value = value
         self.sec_facet = sec_facet
@@ -131,10 +138,10 @@ class KnowledgePanels:
             query[f"{facet_plural(facet=self.facet)}_tags_en"] = self.value
             description += f" {self.value}"
             source_url = f"{url}/{self.facet}/{self.value}?sort_by=last_modified_t"
-        if self.sec_value is not None:
+        if self.sec_value and self.sec_facet is not None:
             query[f"{facet_plural(facet=self.sec_facet)}_tags_en"] = self.sec_value
             description += f" {self.sec_facet} {self.sec_value}"
-            source_url = f"{url}/{self.facet}/{self.value}/{self.sec_facet}/{self.sec_value}?sort_by=last_modified_t"
+            source_url = f"{url}/{self.facet}/{self.value}/{self.sec_facet}/{self.sec_value}?sort_by=last_modified_t"  # noqa: E501
         expected_html, t_description, t_title = last_edit(url=url, query=query)
 
         return {

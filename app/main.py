@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import FacetName, HungerGameFilter, Taxonomies
+from .models import HungerGameFilter
 
 app = FastAPI()
 
@@ -39,7 +39,7 @@ def knowledge_panel(
             country=country,
         )
         try:
-            if facet_tag in HungerGameFilter:
+            if facet_tag in HungerGameFilter.list():
                 panels.append(obj_kp.hunger_game_kp())
         except Exception:
             logging.exception("error occued while appending data-quality-kp")

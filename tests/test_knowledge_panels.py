@@ -2,7 +2,6 @@ import pytest
 import requests
 import wikidata.client
 
-import app.main
 from app.i18n import active_translation
 from app.knowledge_panels import KnowledgePanels
 from app.wikidata_utils import wikidata_props
@@ -22,7 +21,7 @@ def test_hunger_game_kp_with_filter_value_and_country():
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Agermany'>"
         "Answer robotoff questions</a></p>"
     )
-    assert KnowledgePanels.hunger_game_kp(facet="country", value="germany", country="france") == {
+    assert KnowledgePanels(facet="country", value="germany", country="france").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -41,7 +40,7 @@ def test_hunger_game_kp_with_category():
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=category'>"
         "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(facet="category") == {
+    assert KnowledgePanels(facet="category").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -60,7 +59,7 @@ def test_hunger_game_kp_category_with_country():
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category'>"
         "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(facet="category", country="france") == {
+    assert KnowledgePanels(facet="category", country="france").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -79,7 +78,7 @@ def test_hunger_game_kp_category_with_value():
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value=en%3Abeers'>"
         "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(facet="category", value="en:beers") == {
+    assert KnowledgePanels(facet="category", value="en:beers").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -98,7 +97,7 @@ def test_hunger_game_kp_brand_with_value():
         "<p><a href='https://hunger.openfoodfacts.org/questions?brand=nestle'>"
         "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(facet="brand", value="nestle") == {
+    assert KnowledgePanels(facet="brand", value="nestle").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [{"id": 0, "element_type": "text", "text_element": {"html": html}}],
@@ -111,7 +110,7 @@ def test_hunger_game_kp_label_with_value():
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value=en%3Aorganic'>"
         "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(facet="label", value="en:organic") == {
+    assert KnowledgePanels(facet="label", value="en:organic").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -127,16 +126,16 @@ def test_hunger_game_kp_label_with_value():
 
 def test_hunger_game_kp_with_all_tag_1():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value=en%3Abeers'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value=en%3Abeers'>"  # noqa: E501
         "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(
+    assert KnowledgePanels(
         facet="category",
         value="en:beers",
         sec_facet="brand",
         sec_value="lidl",
         country="france",
-    ) == {
+    ).hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -152,16 +151,16 @@ def test_hunger_game_kp_with_all_tag_1():
 
 def test_hunger_game_kp_with_all_tag_2():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&brand=nestle&type=category&value=en%3Acoffees'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&brand=nestle&type=category&value=en%3Acoffees'>"  # noqa: E501
         "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(
+    assert KnowledgePanels(
         facet="brand",
         value="nestle",
         sec_facet="category",
         sec_value="en:coffees",
         country="belgium",
-    ) == {
+    ).hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [{"id": 0, "element_type": "text", "text_element": {"html": html}}],
@@ -171,20 +170,20 @@ def test_hunger_game_kp_with_all_tag_2():
 
 def test_hunger_game_kp_with_all_tag_3():
     html0 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=label&value=vegan'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value=en%3Ameals'>"  # noqa: E501
         "Answer robotoff questions</a></p>"
     )
     html1 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value=en%3Ameals'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=label&value=vegan'>"  # noqa: E501
         "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(
+    assert KnowledgePanels(
         facet="category",
         value="en:meals",
         sec_facet="label",
         sec_value="vegan",
         country="italy",
-    ) == {
+    ).hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -228,7 +227,7 @@ def test_data_quality_kp_with_country(monkeypatch):
     }
 
     monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, json_content=json_content))
-    result = app.main.data_quality_kp(facet="country", value="Turkey", country="Hungary")
+    result = KnowledgePanels(facet="country", value="Turkey", country="Hungary").data_quality_kp()
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
@@ -297,7 +296,7 @@ def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
     }
 
     monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, json_content=json_content))
-    result = app.main.data_quality_kp(facet="brand", value="lidl")
+    result = KnowledgePanels(facet="brand", value="lidl").data_quality_kp()
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
@@ -365,9 +364,9 @@ def test_data_quality_kp_with_all_tags(monkeypatch):
     }
 
     monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, json_content=json_content))
-    result = app.main.data_quality_kp(
+    result = KnowledgePanels(
         facet="category", value="beers", sec_facet="brand", sec_value="budweiser"
-    )
+    ).data_quality_kp()
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
@@ -435,7 +434,7 @@ def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
             json_content,
         ),
     )
-    result = app.main.last_edits_kp(facet="vitamin", value="vitamin-k", country="hungary")
+    result = KnowledgePanels(facet="vitamin", value="vitamin-k", country="hungary").last_edits_kp()
     first_element = result["LastEdits"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     last_edits_text = """
@@ -553,13 +552,13 @@ def test_last_edits_kp_with_all_tags(monkeypatch):
             json_content,
         ),
     )
-    result = app.main.last_edits_kp(
+    result = KnowledgePanels(
         facet="brand",
         value="nestle",
         sec_facet="category",
         sec_value="coffees",
         country="france",
-    )
+    ).last_edits_kp()
     first_element = result["LastEdits"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     last_edits_text = """
@@ -656,7 +655,7 @@ def test_wikidata_kp(monkeypatch):
         mock_wikidata_get("Q470974", fake_entity),
     )
     # run the test
-    result = app.main.wikidata_kp(facet="category", value="fr:fitou")
+    result = KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
     expected_result = {
         "WikiData": {
             "title": "wiki-data",
@@ -680,7 +679,7 @@ def test_wikidata_kp(monkeypatch):
     assert result == expected_result
     with active_translation("it"):
         # fallbacks to english
-        result_it = app.main.wikidata_kp(facet="category", value="fr:fitou")
+        result_it = KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
         assert result_it == expected_result
     with active_translation("fr"):
         # only some items varies
@@ -704,5 +703,5 @@ def test_wikidata_kp(monkeypatch):
                 ],
             }
         }
-        result_fr = app.main.wikidata_kp(facet="category", value="fr:fitou")
+        result_fr = KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
         assert result_fr == expected_result_fr
