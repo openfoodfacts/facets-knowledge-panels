@@ -75,7 +75,7 @@ def test_hunger_game_kp_category_with_country():
 
 def test_hunger_game_kp_category_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"  # noqa: E501
         "Answer robotoff questions</a></p>"
     )
     assert KnowledgePanels(facet="category", value="en:beers").hunger_game_kp() == {
