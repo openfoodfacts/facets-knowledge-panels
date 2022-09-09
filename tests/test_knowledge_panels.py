@@ -4,7 +4,7 @@ import wikidata.client
 
 import app.main
 from app.i18n import active_translation
-from app.main import hunger_game_kp
+from app.knowledge_panels import KnowledgePanels
 from app.wikidata_utils import wikidata_props
 
 from .test_utils import DictAttr, mock_get_factory, mock_wikidata_get, tidy_html
@@ -20,18 +20,18 @@ def auto_activate_lang():
 def test_hunger_game_kp_with_filter_value_and_country():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Agermany'>"
-        "Answer robotoff questions about germany</a></p>\n"
+        "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(hunger_game_filter="country", value="germany", country="france") == {
+    assert KnowledgePanels.hunger_game_kp(facet="country", value="germany", country="france") == {
         "hunger-game": {
+            "title": "hunger-games",
             "elements": [
                 {
+                    "id": 0,
                     "element_type": "text",
-                    "text_element": {
-                        "html": html,
-                    },
+                    "text_element": {"html": html},
                 }
-            ]
+            ],
         }
     }
 
@@ -39,18 +39,18 @@ def test_hunger_game_kp_with_filter_value_and_country():
 def test_hunger_game_kp_with_category():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=category'>"
-        "Answer robotoff questions about category</a></p>\n"
+        "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(hunger_game_filter="category") == {
+    assert hunger_game_kp(facet="category") == {
         "hunger-game": {
+            "title": "hunger-games",
             "elements": [
                 {
+                    "id": 0,
                     "element_type": "text",
-                    "text_element": {
-                        "html": html,
-                    },
+                    "text_element": {"html": html},
                 }
-            ]
+            ],
         }
     }
 
@@ -58,37 +58,37 @@ def test_hunger_game_kp_with_category():
 def test_hunger_game_kp_category_with_country():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category'>"
-        "Answer robotoff questions about category</a></p>\n"
+        "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(hunger_game_filter="category", country="france") == {
+    assert hunger_game_kp(facet="category", country="france") == {
         "hunger-game": {
+            "title": "hunger-games",
             "elements": [
                 {
+                    "id": 0,
                     "element_type": "text",
-                    "text_element": {
-                        "html": html,
-                    },
+                    "text_element": {"html": html},
                 }
-            ]
+            ],
         }
     }
 
 
 def test_hunger_game_kp_category_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"  # noqa: E501  # allow long lines
-        "Answer robotoff questions about category en:beers</a></p>\n"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value=en%3Abeers'>"
+        "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(hunger_game_filter="category", value="en:beers") == {
+    assert hunger_game_kp(facet="category", value="en:beers") == {
         "hunger-game": {
+            "title": "hunger-games",
             "elements": [
                 {
+                    "id": 0,
                     "element_type": "text",
-                    "text_element": {
-                        "html": html,
-                    },
+                    "text_element": {"html": html},
                 }
-            ]
+            ],
         }
     }
 
@@ -96,112 +96,101 @@ def test_hunger_game_kp_category_with_value():
 def test_hunger_game_kp_brand_with_value():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?brand=nestle'>"
-        "Answer robotoff questions about brand nestle</a></p>\n"
+        "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(hunger_game_filter="brand", value="nestle") == {
+    assert hunger_game_kp(facet="brand", value="nestle") == {
         "hunger-game": {
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": {
-                        "html": html,
-                    },
-                }
-            ]
+            "title": "hunger-games",
+            "elements": [{"id": 0, "element_type": "text", "text_element": {"html": html}}],
         }
     }
 
 
 def test_hunger_game_kp_label_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=en%3Aorganic'>"
-        "Answer robotoff questions about label en:organic</a></p>\n"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value=en%3Aorganic'>"
+        "Answer robotoff questions</a></p>"
     )
-    assert hunger_game_kp(hunger_game_filter="label", value="en:organic") == {
+    assert hunger_game_kp(facet="label", value="en:organic") == {
         "hunger-game": {
+            "title": "hunger-games",
             "elements": [
                 {
+                    "id": 0,
                     "element_type": "text",
-                    "text_element": {
-                        "html": html,
-                    },
+                    "text_element": {"html": html},
                 }
-            ]
+            ],
         }
     }
 
 
 def test_hunger_game_kp_with_all_tag_1():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category&value_tag=en%3Abeers&brand=lidl'>"  # noqa: E501  # allow long lines
-        "Answer robotoff questions about category en:beers brand lidl</a></p>\n"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value=en%3Abeers'>"
+        "Answer robotoff questions</a></p>"
     )
     assert hunger_game_kp(
-        hunger_game_filter="category",
+        facet="category",
         value="en:beers",
         sec_facet="brand",
         sec_value="lidl",
         country="france",
     ) == {
         "hunger-game": {
+            "title": "hunger-games",
             "elements": [
                 {
+                    "id": 0,
                     "element_type": "text",
-                    "text_element": {
-                        "html": html,
-                    },
+                    "text_element": {"html": html},
                 }
-            ]
+            ],
         }
     }
 
 
 def test_hunger_game_kp_with_all_tag_2():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&brand=nestle&type=category&value_tag=en%3Acoffees'>"  # noqa: E501  # allow long lines
-        "Answer robotoff questions about brand nestle category en:coffees</a></p>\n"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&brand=nestle&type=category&value=en%3Acoffees'>"
+        "Answer robotoff questions</a></p>"
     )
     assert hunger_game_kp(
-        hunger_game_filter="brand",
+        facet="brand",
         value="nestle",
         sec_facet="category",
         sec_value="en:coffees",
         country="belgium",
     ) == {
         "hunger-game": {
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": {
-                        "html": html,
-                    },
-                }
-            ]
+            "title": "hunger-games",
+            "elements": [{"id": 0, "element_type": "text", "text_element": {"html": html}}],
         }
     }
 
 
 def test_hunger_game_kp_with_all_tag_3():
-    html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value_tag=en%3Ameals'>"  # noqa: E501  # allow long lines
-        "Answer robotoff questions about category en:meals</a></p>\n"
+    html0 = (
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=label&value=vegan'>"
+        "Answer robotoff questions</a></p>"
+    )
+    html1 = (
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value=en%3Ameals'>"
+        "Answer robotoff questions</a></p>"
     )
     assert hunger_game_kp(
-        hunger_game_filter="category",
+        facet="category",
         value="en:meals",
         sec_facet="label",
         sec_value="vegan",
         country="italy",
     ) == {
         "hunger-game": {
+            "title": "hunger-games",
             "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": {
-                        "html": html,
-                    },
-                }
-            ]
+                {"id": 0, "element_type": "text", "text_element": {"html": html0}},
+                {"id": 1, "element_type": "text", "text_element": {"html": html1}},
+            ],
         }
     }
 

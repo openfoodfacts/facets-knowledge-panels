@@ -4,7 +4,7 @@ from typing import Union
 from fastapi import FastAPI
 
 from .i18n import active_translation
-from .knowledge_panels import data_quality_kp, hunger_game_kp, last_edits_kp, wikidata_kp
+from .knowledge_panels import KnowledgePanels
 from .models import FacetName, HungerGameFilter, Taxonomies
 
 app = FastAPI()
@@ -17,7 +17,7 @@ def hello():
 
 @app.get("/knowledge_panel")
 def knowledge_panel(
-    facet_tag: FacetName,
+    facet_tag: str,
     value_tag: Union[str, None] = None,
     sec_facet_tag: Union[str, None] = None,
     sec_value_tag: Union[str, None] = None,
@@ -31,44 +31,29 @@ def knowledge_panel(
     """
     with active_translation(lang_code):
         panels = []
-        if facet_tag in HungerGameFilter.list():
-            panels.append(
-                hunger_game_kp(
-                    hunger_game_filter=facet_tag,
-                    value=value_tag,
-                    sec_facet=sec_facet_tag,
-                    sec_value=sec_value_tag,
-                    country=country,
-                )
-            )
+        obj_kp = KnowledgePanels(
+            facet=facet_tag,
+            value=value_tag,
+            sec_facet=sec_facet_tag,
+            sec_value=sec_value_tag,
+            country=country,
+        )
         try:
-            panels.append(
-                data_quality_kp(
-                    facet=facet_tag,
-                    value=value_tag,
-                    sec_facet=sec_facet_tag,
-                    sec_value=sec_value_tag,
-                    country=country,
-                )
-            )
+            if facet_tag in HungerGameFilter:
+                panels.append(obj_kp.hunger_game_kp())
         except Exception:
             logging.exception("error occued while appending data-quality-kp")
         try:
-            panels.append(
-                last_edits_kp(
-                    facet=facet_tag,
-                    value=value_tag,
-                    sec_facet=sec_facet_tag,
-                    sec_value=sec_value_tag,
-                    country=country,
-                )
-            )
+            panels.append(obj_kp.data_quality_kp())
         except Exception:
             logging.exception("error occued while appending data-quality-kp")
         try:
-            if facet_tag in Taxonomies.list():
-                panels.append(wikidata_kp(facet=facet_tag, value=value_tag))
+            panels.append(obj_kp.last_edits_kp())
         except Exception:
-            logging.exception("error occurred while appending wikidata-kp")
+            logging.exception("error occued while appending data-quality-kp")
+        try:
+            panels.append(obj_kp.wikidata_kp())
+        except Exception:
+            logging.exception("error occued while appending data-quality-kp")
 
         return {"knowledge_panels": panels}
