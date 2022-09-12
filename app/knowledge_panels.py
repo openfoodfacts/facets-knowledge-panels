@@ -1,3 +1,5 @@
+from logging import exception
+import logging
 from typing import Union
 from urllib.parse import urlencode
 
@@ -76,6 +78,12 @@ class KnowledgePanels:
             url = f"https://{country_code}-en.openfoodfacts.org"
             path = ""
             self.facet = self.value = None
+        if self.sec_facet == "country":
+            self.country = self.sec_value
+            country_code = country_to_ISO_code(value=self.sec_value)
+            url = f"https://{country_code}-en.openfoodfacts.org"
+            path = ""
+            self.sec_facet = self.sec_value = None
         if self.country is not None:
             country_code = country_to_ISO_code(value=self.country)
             url = f"https://{country_code}-en.openfoodfacts.org"
@@ -96,7 +104,7 @@ class KnowledgePanels:
         if self.sec_value is not None:
             path += f"/{self.sec_value}"
             description += f" {self.sec_value}"
-        (quality_html, source_url, t_description, t_title) = data_quality(url=url, path=path)
+        (t_html, source_url, t_description, t_title) = data_quality(url=url, path=path)
 
         return {
             "Quality": {
@@ -106,7 +114,7 @@ class KnowledgePanels:
                 "elements": [
                     {
                         "element_type": "text",
-                        "text_element": quality_html,
+                        "text_element": t_html,
                     }
                 ],
             },
@@ -126,6 +134,11 @@ class KnowledgePanels:
             country_code = country_to_ISO_code(value=self.value)
             url = f"https://{country_code}-en.openfoodfacts.org"
             self.facet = self.value = None
+        if self.sec_facet == "country":
+            self.country = self.sec_value
+            country_code = country_to_ISO_code(value=self.sec_value)
+            url = f"https://{country_code}-en.openfoodfacts.org"
+            self.sec_facet = self.sec_value = None
         if self.country is not None:
             country_code = country_to_ISO_code(value=self.country)
             url = f"https://{country_code}-en.openfoodfacts.org"
@@ -142,7 +155,7 @@ class KnowledgePanels:
             query[f"{facet_plural(facet=self.sec_facet)}_tags_en"] = self.sec_value
             description += f" {self.sec_facet} {self.sec_value}"
             source_url = f"{url}/{self.facet}/{self.value}/{self.sec_facet}/{self.sec_value}?sort_by=last_modified_t"  # noqa: E501
-        expected_html, t_description, t_title = last_edit(url=url, query=query)
+        t_html, t_description, t_title = last_edit(url=url, query=query)
 
         return {
             "LastEdits": {
@@ -152,40 +165,59 @@ class KnowledgePanels:
                 "elements": [
                     {
                         "element_type": "text",
-                        "text_element": expected_html,
+                        "text_element": t_html,
                     },
                 ],
             },
         }
 
+    def _wikidata_kp(self, facet, value):
+        query = {}
+        if value:
+            query["tagtype"] = facet_plural(facet=facet)
+            query["fields"] = "wikidata"
+            query["tags"] = value
+
+        entities = wikidata_helper(query=query, value=value)
+
+        return entities
+
     def wikidata_kp(self):
         """
         Return knowledge panel for wikidata
         """
-        query = {}
-        if self.value:
-            query["tagtype"] = facet_plural(facet=self.facet)
-            query["fields"] = "wikidata"
-            query["tags"] = self.value
+        entities = set()
+        try:
+            entities.add(self._wikidata_kp(facet=self.facet, value=self.value))
+        except Exception:
+            logging.exception("While adding wikidata for primary facet")
+        try:
+            entities.add(self._wikidata_kp(facet=self.sec_facet, value=self.sec_value))
+        except Exception:
+            logging.exception("While adding wikidata for secandary facet")
 
-        entities = wikidata_helper(query=query, value=self.value)
+        html = []
+        for id, val in enumerate(entities):
+            html.append(
+                {
+                    "id": id,
+                    "subtitle": val.description_tag,
+                    "source_url": f"https://www.wikidata.org/wiki/{val.entity_id}",
+                    "elements": [
+                        {
+                            "element_type": "text",
+                            "text_element": val.label_tag,
+                        },
+                        {
+                            "element_type": "links",
+                            "wikipedia": val.wikipedia_relation,
+                            "image_url": val.image_url,
+                            "open_street_map": val.OSM_relation,
+                            "INAO": val.INAO_relation,
+                        },
+                    ],
+                }
+            )
         return {
-            "WikiData": {
-                "title": "wiki-data",
-                "subtitle": entities.description_tag,
-                "source_url": f"https://www.wikidata.org/wiki/{entities.entity_id}",
-                "elements": [
-                    {
-                        "element_type": "text",
-                        "text_element": entities.label_tag,
-                        "image_url": entities.image_url,
-                    },
-                    {
-                        "element_type": "links",
-                        "wikipedia": entities.wikipedia_relation,
-                        "open_street_map": entities.OSM_relation,
-                        "INAO": entities.INAO_relation,
-                    },
-                ],
-            },
+            "WikiData": {"title": "wiki-data", "elements": html},
         }
