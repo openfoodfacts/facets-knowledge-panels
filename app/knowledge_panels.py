@@ -37,21 +37,32 @@ class KnowledgePanels:
             facet_value = facets.get("country")
             query["country"] = f"en:{facet_value}"
             facets.pop("country")
-        if "brand" in facets.keys():
-            facet_value = facets.get("brand")
-            if facet_value is not None:
-                query["brand"] = facet_value
+        if "brand" in facets.keys() and len(facets) == 1:
+            brand_value = facets.get("brand")
+            if brand_value is not None:
+                query["brand"] = brand_value
             else:
                 query["type"] = "brand"
+        elif "brand" in facets.keys() and len(facets) > 1:
+            brand_value = facets.get("brand")
+            if brand_value is not None:
+                query["brand"] = brand_value
+            else:
+                urls.add(f"{questions_url}?type=brand")
             facets.pop("brand")
-        for k, v in facets.items():
-            query["type"] = k
-            if v is not None:
-                query["value_tag"] = v
-            urls.add(questions_url + f"?{urlencode(query)}")
-        if len(facets) != 2:
-            questions_url += f"?{urlencode(query)}"
-            urls.add(questions_url)
+            for k, v in facets.items():
+                query["type"] = k
+                if v is not None:
+                    query["value_tag"] = v
+                urls.add(f"{questions_url}?{urlencode(query)}")
+        elif len(facets) >= 1:
+            for k, v in facets.items():
+                query["type"] = k
+                if v is not None:
+                    query["value_tag"] = v
+                urls.add(f"{questions_url}?{urlencode(query)}")
+        if query:
+            urls.add(f"{questions_url}?{urlencode(query)}")
         t_description = hungergame()
         for id, val in enumerate(urls):
             html.append(
