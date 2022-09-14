@@ -19,7 +19,7 @@ def auto_activate_lang():
 def test_hunger_game_kp_with_filter_value_and_country():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Agermany'>"
-        "Answer robotoff questions</a></p>"
+        "Answer robotoff questions about germany</a></p>"
     )
     assert KnowledgePanels(facet="country", value="germany", country="france").hunger_game_kp() == {
         "hunger-game": {
@@ -38,7 +38,7 @@ def test_hunger_game_kp_with_filter_value_and_country():
 def test_hunger_game_kp_with_category():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=category'>"
-        "Answer robotoff questions</a></p>"
+        "Answer robotoff questions about category</a></p>"
     )
     assert KnowledgePanels(facet="category").hunger_game_kp() == {
         "hunger-game": {
@@ -57,7 +57,7 @@ def test_hunger_game_kp_with_category():
 def test_hunger_game_kp_category_with_country():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category'>"
-        "Answer robotoff questions</a></p>"
+        "Answer robotoff questions about category</a></p>"
     )
     assert KnowledgePanels(facet="category", country="france").hunger_game_kp() == {
         "hunger-game": {
@@ -75,8 +75,8 @@ def test_hunger_game_kp_category_with_country():
 
 def test_hunger_game_kp_category_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"  # noqa: E501
-        "Answer robotoff questions</a></p>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"
+        "Answer robotoff questions about category en:beers</a></p>"
     )
     assert KnowledgePanels(facet="category", value="en:beers").hunger_game_kp() == {
         "hunger-game": {
@@ -95,7 +95,7 @@ def test_hunger_game_kp_category_with_value():
 def test_hunger_game_kp_brand_with_value():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?brand=nestle'>"
-        "Answer robotoff questions</a></p>"
+        "Answer robotoff questions about brand nestle</a></p>"
     )
     assert KnowledgePanels(facet="brand", value="nestle").hunger_game_kp() == {
         "hunger-game": {
@@ -108,7 +108,7 @@ def test_hunger_game_kp_brand_with_value():
 def test_hunger_game_kp_label_with_value():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=en%3Aorganic'>"
-        "Answer robotoff questions</a></p>"
+        "Answer robotoff questions about label en:organic</a></p>"
     )
     assert KnowledgePanels(facet="label", value="en:organic").hunger_game_kp() == {
         "hunger-game": {
@@ -126,8 +126,8 @@ def test_hunger_game_kp_label_with_value():
 
 def test_hunger_game_kp_with_all_tag_1():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value_tag=en%3Abeers'>"  # noqa: E501
-        "Answer robotoff questions</a></p>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value_tag=en%3Abeers'>"
+        "Answer robotoff questions about category en:beers</a></p>"
     )
     assert KnowledgePanels(
         facet="category",
@@ -150,20 +150,27 @@ def test_hunger_game_kp_with_all_tag_1():
 
 
 def test_hunger_game_kp_with_all_tag_2():
-    html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&brand=nestle&type=category&value_tag=en%3Acoffees'>"  # noqa: E501
-        "Answer robotoff questions</a></p>"
+
+    html0 = (
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&type=category&value_tag=en%3Acoffees'>"
+        "Answer robotoff questions about category en:coffees</a></p>"
+    )
+    html1 = (
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&type=brand'>"
+        "Answer robotoff questions about brand</a></p>"
     )
     assert KnowledgePanels(
         facet="brand",
-        value="nestle",
         sec_facet="category",
         sec_value="en:coffees",
         country="belgium",
     ).hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
-            "elements": [{"id": 0, "element_type": "text", "text_element": {"html": html}}],
+            "elements": [
+                {"id": 0, "element_type": "text", "text_element": {"html": html0}},
+                {"id": 1, "element_type": "text", "text_element": {"html": html1}},
+            ],
         }
     }
 
@@ -171,11 +178,11 @@ def test_hunger_game_kp_with_all_tag_2():
 def test_hunger_game_kp_with_all_tag_3():
     html0 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value_tag=en%3Ameals'>"  # noqa: E501
-        "Answer robotoff questions</a></p>"
+        "Answer robotoff questions about category en:meals</a></p>"
     )
     html1 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=label&value_tag=vegan'>"  # noqa: E501
-        "Answer robotoff questions</a></p>"
+        "Answer robotoff questions about label vegan</a></p>"
     )
     assert KnowledgePanels(
         facet="category",
@@ -659,23 +666,26 @@ def test_wikidata_kp(monkeypatch):
     expected_result = {
         "WikiData": {
             "title": "wiki-data",
-            "subtitle": "French wine appellation",
-            "source_url": "https://www.wikidata.org/wiki/Q470974",
             "elements": [
                 {
-                    "element_type": "text",
-                    "text_element": "Fitou AOC",
-                    "image_url": image_url,
-                },
-                {
-                    "element_type": "links",
-                    "wikipedia": "http://en.wikipedia.org/wiki/Fitou_AOC",
-                    "open_street_map": "https://www.openstreetmap.org/relation/2727716",
-                    "INAO": "https://www.inao.gouv.fr/produit/6159",
+                    "id": 0,
+                    "subtitle": "French wine appellation",
+                    "source_url": "https://www.wikidata.org/wiki/Q470974",
+                    "elements": [
+                        {"element_type": "text", "text_element": "Fitou AOC"},
+                        {
+                            "element_type": "links",
+                            "wikipedia": "http://en.wikipedia.org/wiki/Fitou_AOC",
+                            "image_url": image_url,
+                            "open_street_map": "https://www.openstreetmap.org/relation/2727716",
+                            "INAO": "https://www.inao.gouv.fr/produit/6159",
+                        },
+                    ],
                 },
             ],
         }
     }
+
     assert result == expected_result
     with active_translation("it"):
         # fallbacks to english
@@ -686,19 +696,21 @@ def test_wikidata_kp(monkeypatch):
         expected_result_fr = {
             "WikiData": {
                 "title": "wiki-data",
-                "subtitle": "région viticole",
-                "source_url": "https://www.wikidata.org/wiki/Q470974",
                 "elements": [
                     {
-                        "element_type": "text",
-                        "text_element": "Fitou",
-                        "image_url": image_url,
-                    },
-                    {
-                        "element_type": "links",
-                        "wikipedia": "http://fr.wikipedia.org/wiki/Fitou_AOC",
-                        "open_street_map": "https://www.openstreetmap.org/relation/2727716",
-                        "INAO": "https://www.inao.gouv.fr/produit/6159",
+                        "id": 0,
+                        "subtitle": "région viticole",
+                        "source_url": "https://www.wikidata.org/wiki/Q470974",
+                        "elements": [
+                            {"element_type": "text", "text_element": "Fitou"},
+                            {
+                                "element_type": "links",
+                                "wikipedia": "http://fr.wikipedia.org/wiki/Fitou_AOC",
+                                "image_url": image_url,
+                                "open_street_map": "https://www.openstreetmap.org/relation/2727716",
+                                "INAO": "https://www.inao.gouv.fr/produit/6159",
+                            },
+                        ],
                     },
                 ],
             }

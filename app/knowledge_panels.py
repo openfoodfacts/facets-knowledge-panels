@@ -3,7 +3,7 @@ import logging
 from typing import Union
 from urllib.parse import urlencode
 
-from .models import country_to_ISO_code, facet_plural
+from .models import country_to_ISO_code, facet_plural, HungerGameFilter
 from .off import data_quality, hungergame, last_edit, wikidata_helper
 
 
@@ -30,46 +30,57 @@ class KnowledgePanels:
         facets.clear()
         facets.update(filtered)
         urls = set()
+        description = ""
         html = []
         if self.country is not None:
             query["country"] = f"en:{self.country}"
         if "country" in facets.keys():
-            facet_value = facets.get("country")
-            query["country"] = f"en:{facet_value}"
+            country_value = facets.get("country")
+            query["country"] = f"en:{country_value}"
+            description += country_value
             facets.pop("country")
         if "brand" in facets.keys() and len(facets) == 1:
             brand_value = facets.get("brand")
             if brand_value is not None:
                 query["brand"] = brand_value
+                description += f"brand {brand_value}"
             else:
                 query["type"] = "brand"
+                description += "brand"
         elif "brand" in facets.keys() and len(facets) > 1:
             brand_value = facets.get("brand")
             if brand_value is not None:
                 query["brand"] = brand_value
             else:
-                urls.add(f"{questions_url}?type=brand")
+                description = "brand"
+                urls.add((f"{questions_url}?{urlencode(query)}&type=brand", description))
             facets.pop("brand")
             for k, v in facets.items():
                 query["type"] = k
+                description = k
                 if v is not None:
                     query["value_tag"] = v
-                urls.add(f"{questions_url}?{urlencode(query)}")
+                    description += f" {v}"
+                urls.add((f"{questions_url}?{urlencode(query)}", description))
         elif len(facets) >= 1:
             for k, v in facets.items():
                 query["type"] = k
+                description = k
                 if v is not None:
                     query["value_tag"] = v
-                urls.add(f"{questions_url}?{urlencode(query)}")
+                    description += f" {v}"
+                urls.add((f"{questions_url}?{urlencode(query)}", description))
         if query:
-            urls.add(f"{questions_url}?{urlencode(query)}")
+            urls.add((f"{questions_url}?{urlencode(query)}", description))
+
         t_description = hungergame()
         for id, val in enumerate(urls):
+            url, des = val
             html.append(
                 {
                     "id": id,
                     "element_type": "text",
-                    "text_element": {"html": f"<p><a href='{val}'>{t_description}</a></p>"},
+                    "text_element": {"html": f"<p><a href='{url}'>{t_description} {des}</a></p>"},
                 },
             )
 

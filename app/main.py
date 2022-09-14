@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import HungerGameFilter
+from .models import HungerGameFilter, FacetName
 
 app = FastAPI()
 
@@ -17,7 +17,7 @@ def hello():
 
 @app.get("/knowledge_panel")
 def knowledge_panel(
-    facet_tag: str,
+    facet_tag: FacetName,
     value_tag: Union[str, None] = None,
     sec_facet_tag: Union[str, None] = None,
     sec_value_tag: Union[str, None] = None,
@@ -32,7 +32,7 @@ def knowledge_panel(
     with active_translation(lang_code):
         panels = []
         obj_kp = KnowledgePanels(
-            facet=facet_tag,
+            facet=facet_tag.value,
             value=value_tag,
             sec_facet=sec_facet_tag,
             sec_value=sec_value_tag,

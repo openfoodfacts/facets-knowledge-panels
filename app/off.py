@@ -150,5 +150,5 @@ def wikidata_helper(query, value):
 
 def hungergame():
     """Helper function for making Translation easy"""
-    description = _("Answer robotoff questions")
+    description = _("Answer robotoff questions about")
     return description
