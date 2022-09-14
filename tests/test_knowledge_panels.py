@@ -75,7 +75,7 @@ def test_hunger_game_kp_category_with_country():
 
 def test_hunger_game_kp_category_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"  # noqa: E501
         "Answer robotoff questions about category en:beers</a></p>"
     )
     assert KnowledgePanels(facet="category", value="en:beers").hunger_game_kp() == {
@@ -126,7 +126,7 @@ def test_hunger_game_kp_label_with_value():
 
 def test_hunger_game_kp_with_all_tag_1():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value_tag=en%3Abeers'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value_tag=en%3Abeers'>"  # noqa: E501
         "Answer robotoff questions about category en:beers</a></p>"
     )
     assert KnowledgePanels(
@@ -152,7 +152,7 @@ def test_hunger_game_kp_with_all_tag_1():
 def test_hunger_game_kp_with_all_tag_2():
 
     html0 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&type=category&value_tag=en%3Acoffees'>"
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Abelgium&type=category&value_tag=en%3Acoffees'>"  # noqa: E501
         "Answer robotoff questions about category en:coffees</a></p>"
     )
     html1 = (

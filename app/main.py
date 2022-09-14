@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import HungerGameFilter, FacetName
+from .models import FacetName, HungerGameFilter
 
 app = FastAPI()
 

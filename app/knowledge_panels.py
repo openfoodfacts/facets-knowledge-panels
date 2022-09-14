@@ -1,9 +1,8 @@
-from logging import exception
 import logging
 from typing import Union
 from urllib.parse import urlencode
 
-from .models import country_to_ISO_code, facet_plural, HungerGameFilter
+from .models import country_to_ISO_code, facet_plural
 from .off import data_quality, hungergame, last_edit, wikidata_helper
 
 
