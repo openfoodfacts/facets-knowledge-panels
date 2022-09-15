@@ -33,47 +33,35 @@ class KnowledgePanels:
         html = []
         if self.country is not None:
             query["country"] = f"en:{self.country}"
-        if "country" in facets.keys():
-            country_value = facets.get("country")
+            description = f"for country {self.country}"
+        if facets.get("country"):
+            country_value = facets.pop("country")
             query["country"] = f"en:{country_value}"
-            description += country_value
-            facets.pop("country")
-        if "brand" in facets.keys() and len(facets) == 1:
-            brand_value = facets.get("brand")
-            if brand_value is not None:
-                query["brand"] = brand_value
-                description += f"brand {brand_value}"
-            else:
-                query["type"] = "brand"
-                description += "brand"
-        elif "brand" in facets.keys() and len(facets) > 1:
-            brand_value = facets.get("brand")
-            if brand_value is not None:
-                query["brand"] = brand_value
-            else:
-                description = "brand"
-                urls.add((f"{questions_url}?{urlencode(query)}&type=brand", description))
-            facets.pop("brand")
-            for k, v in facets.items():
-                query["type"] = k
-                description = k
-                if v is not None:
-                    query["value_tag"] = v
-                    description += f" {v}"
-                urls.add((f"{questions_url}?{urlencode(query)}", description))
-        elif len(facets) >= 1:
-            for k, v in facets.items():
-                query["type"] = k
-                description = k
-                if v is not None:
-                    query["value_tag"] = v
-                    description += f" {v}"
-                urls.add((f"{questions_url}?{urlencode(query)}", description))
+            description = f"{country_value}"
+        if facets.get("brand") and len(facets) > 1:
+            brand_value = facets.pop("brand")
+            query["brand"] = brand_value
+            description += f" for brand {brand_value}"
+        # generate an url for each remaining facets
+        for k, v in facets.items():
+            value_description = ""
+            facet_query = dict(query)
+            facet_query["type"] = k
+            facet_description = k
+            if v is not None:
+                facet_query["value_tag"] = v
+                value_description += v
+            urls.add(
+                (
+                    f"{questions_url}?{urlencode(facet_query)}",
+                    f"{facet_description} {value_description} {description}".strip(),
+                )
+            )
         if query:
             urls.add((f"{questions_url}?{urlencode(query)}", description))
 
         t_description = hungergame()
-        for id, val in enumerate(urls):
+        for id, val in enumerate(sorted(urls)):
             url, des = val
             html.append(
                 {
@@ -96,18 +84,18 @@ class KnowledgePanels:
         if self.facet == "country":
             self.country = self.value
             country_code = country_to_ISO_code(value=self.value)
-            url = f"https://{country_code}-en.openfoodfacts.org"
+            url = f"https://{country_code}.openfoodfacts.org"
             path = ""
             self.facet = self.value = None
         if self.sec_facet == "country":
             self.country = self.sec_value
             country_code = country_to_ISO_code(value=self.sec_value)
-            url = f"https://{country_code}-en.openfoodfacts.org"
+            url = f"https://{country_code}.openfoodfacts.org"
             path = ""
             self.sec_facet = self.sec_value = None
         if self.country is not None:
             country_code = country_to_ISO_code(value=self.country)
-            url = f"https://{country_code}-en.openfoodfacts.org"
+            url = f"https://{country_code}.openfoodfacts.org"
             path = ""
             description += f"{self.country} "
         if self.country is None:
@@ -153,16 +141,16 @@ class KnowledgePanels:
         if self.facet == "country":
             self.country = self.value
             country_code = country_to_ISO_code(value=self.value)
-            url = f"https://{country_code}-en.openfoodfacts.org"
+            url = f"https://{country_code}.openfoodfacts.org"
             self.facet = self.value = None
         if self.sec_facet == "country":
             self.country = self.sec_value
             country_code = country_to_ISO_code(value=self.sec_value)
-            url = f"https://{country_code}-en.openfoodfacts.org"
+            url = f"https://{country_code}.openfoodfacts.org"
             self.sec_facet = self.sec_value = None
         if self.country is not None:
             country_code = country_to_ISO_code(value=self.country)
-            url = f"https://{country_code}-en.openfoodfacts.org"
+            url = f"https://{country_code}.openfoodfacts.org"
             description += f"{self.country} "
         if self.country is None:
             url = "https://world.openfoodfacts.org"

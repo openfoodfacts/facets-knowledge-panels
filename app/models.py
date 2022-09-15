@@ -81,7 +81,7 @@ def country_to_ISO_code(value: str):
     country_data = pycountry.countries.get(name=value)
     if country_data is not None:
         country_iso_code = country_data.alpha_2
-        return country_iso_code.lower()
+        return f"{country_iso_code.lower()}-en"
     return "world"
 
 
