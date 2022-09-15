@@ -23,15 +23,15 @@ msgstr "{products} produktů s {name}"
 #: app/off.py:32
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr ""
+msgstr "Celkový počet problémů je {total_issues}"
 
 #: app/off.py:41
 msgid "Data-quality issues related to"
-msgstr ""
+msgstr "Problémy s kvalitou dat související s"
 
 #: app/off.py:42
 msgid "Data-quality issues"
-msgstr ""
+msgstr "Problémy s kvalitou dat"
 
 #: app/off.py:68
 #, python-brace-format
@@ -45,7 +45,7 @@ msgstr "Celkový počet úprav {counts}"
 
 #: app/off.py:83
 msgid "last-edits issues related to"
-msgstr ""
+msgstr "problémy související s posledními úpravami"
 
 #: app/off.py:84
 msgid "Last-edits"
