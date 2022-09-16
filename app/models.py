@@ -79,8 +79,10 @@ def country_to_ISO_code(value: str):
     Helper function that return ISO code for country
     """
     country_data = pycountry.countries.get(name=value)
-    country_iso_code = country_data.alpha_2
-    return country_iso_code.lower()
+    if country_data is not None:
+        country_iso_code = country_data.alpha_2
+        return f"{country_iso_code.lower()}-en"
+    return "world"
 
 
 def facet_plural(facet: str):
