@@ -14,17 +14,17 @@ def test_hello():
     }
 
 
-def test_knowledge_panel():
+async def test_knowledge_panel():
     response = client.get("/knowledge_panel?facet_tag=origin")
     assert response.status_code == 200
 
 
-def test_knowledge_panel_badendpoint():
+async def test_knowledge_panel_badendpoint():
     response = client.get("/knowledge_panel_bad")
     assert response.status_code == 404
 
 
-def test_knowledge_panel_with_facet():
+async def test_knowledge_panel_with_facet():
     response = client.get(
         "/knowledge_panel?facet_tag=packaging&value_tag=plastic-box&country=Germany"
     )
