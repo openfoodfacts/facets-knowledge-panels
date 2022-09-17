@@ -41,19 +41,19 @@ async def knowledge_panel(
         )
         try:
             if facet_tag in HungerGameFilter.list():
-                panels.append(obj_kp.hunger_game_kp())
+                panels.append(await obj_kp.hunger_game_kp())
         except Exception:
             logging.exception("error occued while appending hungergames-kp")
         try:
-            panels.append(obj_kp.data_quality_kp())
+            panels.append(await obj_kp.data_quality_kp())
         except Exception:
             logging.exception("error occued while appending data-quality-kp")
         try:
-            panels.append(obj_kp.last_edits_kp())
+            panels.append(await obj_kp.last_edits_kp())
         except Exception:
             logging.exception("error occued while appending last-edites-kp")
         try:
-            panels.append(obj_kp.wikidata_kp())
+            panels.append(await obj_kp.wikidata_kp())
         except Exception:
             logging.exception("error occued while appending wikidata-kp")
 
