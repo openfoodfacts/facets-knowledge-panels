@@ -156,6 +156,7 @@ class KnowledgePanels:
             url = "https://world.openfoodfacts.org"
         if self.facet is not None:
             description += f"{self.facet}"
+            source_url = f"{url}/{self.facet}?sort_by=last_modified_t"
         if self.value is not None:
             query[f"{facet_plural(facet=self.facet)}_tags_en"] = self.value
             description += f" {self.value}"

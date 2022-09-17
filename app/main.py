@@ -6,7 +6,7 @@ from fastapi import FastAPI
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import FacetName, HungerGameFilter
+from .models import FacetName, HungerGameFilter, Taxonomies
 
 app = FastAPI()
 
@@ -39,22 +39,18 @@ async def knowledge_panel(
             sec_value=sec_value_tag,
             country=country,
         )
-        try:
+        soon_values = []
+        async with asyncer.create_task_group() as task_group:
             if facet_tag in HungerGameFilter.list():
-                panels.append(await obj_kp.hunger_game_kp())
-        except Exception:
-            logging.exception("error occued while appending hungergames-kp")
-        try:
-            panels.append(await obj_kp.data_quality_kp())
-        except Exception:
-            logging.exception("error occued while appending data-quality-kp")
-        try:
-            panels.append(await obj_kp.last_edits_kp())
-        except Exception:
-            logging.exception("error occued while appending last-edites-kp")
-        try:
-            panels.append(await obj_kp.wikidata_kp())
-        except Exception:
-            logging.exception("error occued while appending wikidata-kp")
+                soon_values.append(task_group.soonify(obj_kp.hunger_game_kp)())
+            soon_values.append(task_group.soonify(obj_kp.data_quality_kp)())
+            soon_values.append(task_group.soonify(obj_kp.last_edits_kp)())
+            if facet_tag in Taxonomies.list():
+                soon_values.append(task_group.soonify(obj_kp.wikidata_kp)())
+        for soon_value in soon_values:
+            try:
+                panels.append(soon_value.value)
+            except Exception:
+                logging.exception()
 
-        return {"knowledge_panels": panels}
+        return {"knowledge_panels": soon_values}
