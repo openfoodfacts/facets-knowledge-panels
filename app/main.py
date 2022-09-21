@@ -32,6 +32,7 @@ async def knowledge_panel(
     """
     with active_translation(lang_code):
         panels = []
+        """creating object for knowledgepanels class"""
         obj_kp = KnowledgePanels(
             facet=facet_tag.value,
             value=value_tag,
@@ -39,18 +40,19 @@ async def knowledge_panel(
             sec_value=sec_value_tag,
             country=country,
         )
-        soon_values = []
+        soon_panels = []
+        """The task_group will run these knowledge_panels async functions concurrently"""
         async with asyncer.create_task_group() as task_group:
             if facet_tag in HungerGameFilter.list():
-                soon_values.append(task_group.soonify(obj_kp.hunger_game_kp)())
-            soon_values.append(task_group.soonify(obj_kp.data_quality_kp)())
-            soon_values.append(task_group.soonify(obj_kp.last_edits_kp)())
+                soon_panels.append(task_group.soonify(obj_kp.hunger_game_kp)())
+            soon_panels.append(task_group.soonify(obj_kp.data_quality_kp)())
+            soon_panels.append(task_group.soonify(obj_kp.last_edits_kp)())
             if facet_tag in Taxonomies.list():
-                soon_values.append(task_group.soonify(obj_kp.wikidata_kp)())
-        for soon_value in soon_values:
+                soon_panels.append(task_group.soonify(obj_kp.wikidata_kp)())
+        for soon_value in soon_panels:
             try:
                 panels.append(soon_value.value)
             except Exception:
                 logging.exception()
 
-        return {"knowledge_panels": soon_values}
+        return {"knowledge_panels": panels}

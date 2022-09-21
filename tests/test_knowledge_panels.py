@@ -255,13 +255,13 @@ async def test_data_quality_kp_with_country(monkeypatch):
     <ul>
         <p>The total number of issues are 129</p>
         <li>
-            <a herf="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1848 products with ecoscore-production-system-no-label</a>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1848 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a herf="https://tr-en.openfoodfacts.org/data-quality/no-packaging-data">1788 products with no-packaging-data</a>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/no-packaging-data">1788 products with no-packaging-data</a>
         </li>
         <li>
-            <a herf="https://tr-en.openfoodfacts.org/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">1778 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">1778 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
     </ul>
     """  # noqa: E501  # allow long lines
@@ -328,13 +328,13 @@ async def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
     <ul>
         <p>The total number of issues are 181</p>
         <li>
-            <a herf="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">7898 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+            <a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">7898 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
         <li>
-            <a herf="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label">7883 products with ecoscore-production-system-no-label</a>
+            <a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label">7883 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a herf="https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data">6406 products with no-packaging-data</a>
+            <a href="https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data">6406 products with no-packaging-data</a>
         </li>
     </ul>
     """  # noqa: E501  # allow long lines
@@ -402,13 +402,13 @@ async def test_data_quality_kp_with_all_tags(monkeypatch):
     <ul>
         <p>The total number of issues are 24</p>
         <li>
-            <a herf="https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value">13 products with alcoholic-beverages-category-without-alcohol-value</a>
+            <a href="https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value">13 products with alcoholic-beverages-category-without-alcohol-value</a>
         </li>
         <li>
-            <a herf="https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-production-system-no-label">13 products with ecoscore-production-system-no-label</a>
+            <a href="https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-production-system-no-label">13 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a herf="https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">12 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+            <a href="https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">12 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
     </ul>
     """  # noqa: E501  # allow long lines
