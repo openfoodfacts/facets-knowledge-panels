@@ -248,7 +248,11 @@ async def test_data_quality_kp_with_country(monkeypatch):
         ],
     }
 
-    monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, json_content=json_content))
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        mock_async_get_factory(expected_url, json_content=json_content),
+    )
     result = await KnowledgePanels(
         facet="country", value="Turkey", country="Hungary"
     ).data_quality_kp()
@@ -319,7 +323,11 @@ async def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
         ],
     }
 
-    monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, json_content=json_content))
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        mock_async_get_factory(expected_url, json_content=json_content),
+    )
     result = await KnowledgePanels(facet="brand", value="lidl").data_quality_kp()
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
@@ -387,7 +395,11 @@ async def test_data_quality_kp_with_all_tags(monkeypatch):
         ],
     }
 
-    monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, json_content=json_content))
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        mock_async_get_factory(expected_url, json_content=json_content),
+    )
     result = await KnowledgePanels(
         facet="category", value="beers", sec_facet="brand", sec_value="budweiser"
     ).data_quality_kp()
@@ -450,9 +462,9 @@ async def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
         ],
     }
     monkeypatch.setattr(
-        requests,
+        aiohttp.ClientSession,
         "get",
-        mock_get_factory(
+        mock_async_get_factory(
             expected_url,
             expected_kwargs,
             json_content,
@@ -589,7 +601,7 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
     first_element["text_element"] = tidy_html(first_element["text_element"])
     last_edits_text = """
     <ul>
-        <p>Total number of edits 112</p>
+        <p>Total number of edits 116</p>
         <li>
             Capsules NESCAFE Dolce Gusto Cappuccino Extra Crema 16 Capsules (7613036271868) edited by org-nestle-france on 2022-08-31
         </li>
@@ -648,9 +660,9 @@ async def test_wikidata_kp(monkeypatch):
     }
     json_content = {"fr:fitou": {"parents": [], "wikidata": {"en": "Q470974"}}}
     monkeypatch.setattr(
-        requests,
+        aiohttp.ClientSession,
         "get",
-        mock_get_factory(
+        mock_async_get_factory(
             expected_url,
             expected_kwargs,
             json_content,
