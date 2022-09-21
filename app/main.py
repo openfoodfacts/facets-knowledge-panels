@@ -32,7 +32,7 @@ async def knowledge_panel(
     """
     with active_translation(lang_code):
         panels = []
-        """creating object for knowledgepanels class"""
+        # creating object that will compute knowledge panels
         obj_kp = KnowledgePanels(
             facet=facet_tag.value,
             value=value_tag,
@@ -40,16 +40,23 @@ async def knowledge_panel(
             sec_value=sec_value_tag,
             country=country,
         )
+        # this will contains panels computations
         soon_panels = []
-        """The task_group will run these knowledge_panels async functions concurrently"""
+        # the task_group will run these knowledge_panels async functions concurrently
         async with asyncer.create_task_group() as task_group:
+            # launch each panels computation
             if facet_tag in HungerGameFilter.list():
                 soon_panels.append(task_group.soonify(obj_kp.hunger_game_kp)())
             soon_panels.append(task_group.soonify(obj_kp.data_quality_kp)())
             soon_panels.append(task_group.soonify(obj_kp.last_edits_kp)())
             if facet_tag in Taxonomies.list():
                 soon_panels.append(task_group.soonify(obj_kp.wikidata_kp)())
+        # collect panels results
         for soon_value in soon_panels:
+            # if an exception was raised during computation
+            # we will get it on value retrieval
+            # but we don't want to sacrifice whole result for a single failure
+            # as most panels depends on external resources that may not be available
             try:
                 panels.append(soon_value.value)
             except Exception:
