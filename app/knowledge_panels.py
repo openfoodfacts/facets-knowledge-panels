@@ -21,7 +21,7 @@ class KnowledgePanels:
         self.sec_value = sec_value
         self.country = country
 
-    def hunger_game_kp(self):
+    async def hunger_game_kp(self):
         query = {}
         questions_url = "https://hunger.openfoodfacts.org/questions"
         facets = {self.facet: self.value, self.sec_facet: self.sec_value}
@@ -60,7 +60,7 @@ class KnowledgePanels:
         if query:
             urls.add((f"{questions_url}?{urlencode(query)}", description))
 
-        t_description = hungergame()
+        t_description = await hungergame()
         for id, val in enumerate(sorted(urls)):
             url, des = val
             html.append(
@@ -75,7 +75,7 @@ class KnowledgePanels:
 
         return kp
 
-    def data_quality_kp(self):
+    async def data_quality_kp(self):
         """
         Get data corresponding to differnet facet
         """
@@ -113,7 +113,7 @@ class KnowledgePanels:
         if self.sec_value is not None:
             path += f"/{self.sec_value}"
             description += f" {self.sec_value}"
-        (t_html, source_url, t_description, t_title) = data_quality(url=url, path=path)
+        (t_html, source_url, t_description, t_title) = await data_quality(url=url, path=path)
 
         return {
             "Quality": {
@@ -129,7 +129,7 @@ class KnowledgePanels:
             },
         }
 
-    def last_edits_kp(self):
+    async def last_edits_kp(self):
         """
         Return knowledge panel for last-edits corresponding to different facet
         """
@@ -156,6 +156,7 @@ class KnowledgePanels:
             url = "https://world.openfoodfacts.org"
         if self.facet is not None:
             description += f"{self.facet}"
+            source_url = f"{url}/{self.facet}?sort_by=last_modified_t"
         if self.value is not None:
             query[f"{facet_plural(facet=self.facet)}_tags_en"] = self.value
             description += f" {self.value}"
@@ -164,7 +165,7 @@ class KnowledgePanels:
             query[f"{facet_plural(facet=self.sec_facet)}_tags_en"] = self.sec_value
             description += f" {self.sec_facet} {self.sec_value}"
             source_url = f"{url}/{self.facet}/{self.value}/{self.sec_facet}/{self.sec_value}?sort_by=last_modified_t"  # noqa: E501
-        t_html, t_description, t_title = last_edit(url=url, query=query)
+        t_html, t_description, t_title = await last_edit(url=url, query=query)
 
         return {
             "LastEdits": {
@@ -180,28 +181,28 @@ class KnowledgePanels:
             },
         }
 
-    def _wikidata_kp(self, facet, value):
+    async def _wikidata_kp(self, facet, value):
         query = {}
         if value:
             query["tagtype"] = facet_plural(facet=facet)
             query["fields"] = "wikidata"
             query["tags"] = value
 
-        entities = wikidata_helper(query=query, value=value)
+        entities = await wikidata_helper(query=query, value=value)
 
         return entities
 
-    def wikidata_kp(self):
+    async def wikidata_kp(self):
         """
         Return knowledge panel for wikidata
         """
         entities = set()
         try:
-            entities.add(self._wikidata_kp(facet=self.facet, value=self.value))
+            entities.add(await self._wikidata_kp(facet=self.facet, value=self.value))
         except Exception:
             logging.exception("While adding wikidata for primary facet")
         try:
-            entities.add(self._wikidata_kp(facet=self.sec_facet, value=self.sec_value))
+            entities.add(await self._wikidata_kp(facet=self.sec_facet, value=self.sec_value))
         except Exception:
             logging.exception("While adding wikidata for secandary facet")
 

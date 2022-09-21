@@ -1,12 +1,12 @@
+import aiohttp
 import pytest
-import requests
 import wikidata.client
 
 from app.i18n import active_translation
 from app.knowledge_panels import KnowledgePanels
 from app.wikidata_utils import wikidata_props
 
-from .test_utils import DictAttr, mock_get_factory, mock_wikidata_get, tidy_html
+from .test_utils import DictAttr, mock_async_get_factory, mock_wikidata_get, tidy_html
 
 
 @pytest.fixture(autouse=True)
@@ -16,12 +16,14 @@ def auto_activate_lang():
         yield
 
 
-def test_hunger_game_kp_with_filter_value_and_country():
+async def test_hunger_game_kp_with_filter_value_and_country():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Agermany'>"
         "Answer robotoff questions about germany</a></p>"
     )
-    assert KnowledgePanels(facet="country", value="germany", country="france").hunger_game_kp() == {
+    assert await KnowledgePanels(
+        facet="country", value="germany", country="france"
+    ).hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -35,12 +37,12 @@ def test_hunger_game_kp_with_filter_value_and_country():
     }
 
 
-def test_hunger_game_kp_with_category():
+async def test_hunger_game_kp_with_category():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=category'>"
         "Answer robotoff questions about category</a></p>"
     )
-    assert KnowledgePanels(facet="category").hunger_game_kp() == {
+    assert await KnowledgePanels(facet="category").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -54,7 +56,7 @@ def test_hunger_game_kp_with_category():
     }
 
 
-def test_hunger_game_kp_category_with_country():
+async def test_hunger_game_kp_category_with_country():
     html0 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance'>"
         "Answer robotoff questions about for country france</a></p>"
@@ -63,7 +65,7 @@ def test_hunger_game_kp_category_with_country():
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category'>"
         "Answer robotoff questions about category  for country france</a></p>"
     )
-    assert KnowledgePanels(facet="category", country="france").hunger_game_kp() == {
+    assert await KnowledgePanels(facet="category", country="france").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -74,12 +76,12 @@ def test_hunger_game_kp_category_with_country():
     }
 
 
-def test_hunger_game_kp_category_with_value():
+async def test_hunger_game_kp_category_with_value():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"  # noqa: E501
         "Answer robotoff questions about category en:beers</a></p>"
     )
-    assert KnowledgePanels(facet="category", value="en:beers").hunger_game_kp() == {
+    assert await KnowledgePanels(facet="category", value="en:beers").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -93,12 +95,12 @@ def test_hunger_game_kp_category_with_value():
     }
 
 
-def test_hunger_game_kp_brand_with_value():
+async def test_hunger_game_kp_brand_with_value():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand&value_tag=nestle'>"
         "Answer robotoff questions about brand nestle</a></p>"
     )
-    assert KnowledgePanels(facet="brand", value="nestle").hunger_game_kp() == {
+    assert await KnowledgePanels(facet="brand", value="nestle").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [{"id": 0, "element_type": "text", "text_element": {"html": html}}],
@@ -106,12 +108,12 @@ def test_hunger_game_kp_brand_with_value():
     }
 
 
-def test_hunger_game_kp_label_with_value():
+async def test_hunger_game_kp_label_with_value():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=en%3Aorganic'>"
         "Answer robotoff questions about label en:organic</a></p>"
     )
-    assert KnowledgePanels(facet="label", value="en:organic").hunger_game_kp() == {
+    assert await KnowledgePanels(facet="label", value="en:organic").hunger_game_kp() == {
         "hunger-game": {
             "title": "hunger-games",
             "elements": [
@@ -125,7 +127,7 @@ def test_hunger_game_kp_label_with_value():
     }
 
 
-def test_hunger_game_kp_with_all_tag_1():
+async def test_hunger_game_kp_with_all_tag_1():
     html0 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl'>"
         "Answer robotoff questions about for country france for brand lidl</a></p>"
@@ -134,7 +136,7 @@ def test_hunger_game_kp_with_all_tag_1():
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value_tag=en%3Abeers'>"  # noqa: E501
         "Answer robotoff questions about category en:beers for country france for brand lidl</a></p>"  # noqa: E501
     )
-    assert KnowledgePanels(
+    assert await KnowledgePanels(
         facet="category",
         value="en:beers",
         sec_facet="brand",
@@ -151,7 +153,7 @@ def test_hunger_game_kp_with_all_tag_1():
     }
 
 
-def test_hunger_game_kp_with_all_tag_2():
+async def test_hunger_game_kp_with_all_tag_2():
 
     html0 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand'>"
@@ -161,7 +163,7 @@ def test_hunger_game_kp_with_all_tag_2():
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Acoffees'>"  # noqa: E501
         "Answer robotoff questions about category en:coffees</a></p>"
     )
-    assert KnowledgePanels(
+    assert await KnowledgePanels(
         facet="brand",
         sec_facet="category",
         sec_value="en:coffees",
@@ -176,7 +178,7 @@ def test_hunger_game_kp_with_all_tag_2():
     }
 
 
-def test_hunger_game_kp_with_all_tag_3():
+async def test_hunger_game_kp_with_all_tag_3():
     html0 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly'>"
         "Answer robotoff questions about for country italy</a></p>"
@@ -189,7 +191,7 @@ def test_hunger_game_kp_with_all_tag_3():
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=label&value_tag=vegan'>"  # noqa: E501
         "Answer robotoff questions about label vegan for country italy</a></p>"
     )
-    assert KnowledgePanels(
+    assert await KnowledgePanels(
         facet="category",
         value="en:meals",
         sec_facet="label",
@@ -207,31 +209,31 @@ def test_hunger_game_kp_with_all_tag_3():
     }
 
 
-def test_data_quality_kp_with_country(monkeypatch):
+async def test_data_quality_kp_with_country(monkeypatch):
     expected_url = "https://tr-en.openfoodfacts.org/data-quality.json"
     base_url = "https://tr-en.openfoodfacts.org/data-quality"
     json_content = {
-        "count": 125,
+        "count": 129,
         "tags": [
             {
                 "id": "en:ecoscore-production-system-no-label",
                 "known": 0,
                 "name": "ecoscore-production-system-no-label",
-                "products": 1583,
+                "products": 1848,
                 "url": f"{base_url}/ecoscore-production-system-no-label",
             },
             {
                 "id": "en:no-packaging-data",
                 "known": 0,
                 "name": "no-packaging-data",
-                "products": 1531,
+                "products": 1788,
                 "url": f"{base_url}/no-packaging-data",
             },
             {
                 "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
                 "known": 0,
                 "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
-                "products": 1515,
+                "products": 1778,
                 "url": (
                     f"{base_url}/" "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown"
                 ),
@@ -239,21 +241,27 @@ def test_data_quality_kp_with_country(monkeypatch):
         ],
     }
 
-    monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, json_content=json_content))
-    result = KnowledgePanels(facet="country", value="Turkey", country="Hungary").data_quality_kp()
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        mock_async_get_factory(expected_url, json_content=json_content),
+    )
+    result = await KnowledgePanels(
+        facet="country", value="Turkey", country="Hungary"
+    ).data_quality_kp()
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
     <ul>
-        <p>The total number of issues are 125</p>
+        <p>The total number of issues are 129</p>
         <li>
-            <a href=https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label>1583 products with ecoscore-production-system-no-label</a>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1848 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a href=https://tr-en.openfoodfacts.org/data-quality/no-packaging-data>1531 products with no-packaging-data</a>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/no-packaging-data">1788 products with no-packaging-data</a>
         </li>
         <li>
-            <a href=https://tr-en.openfoodfacts.org/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>1515 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+            <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">1778 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
     </ul>
     """  # noqa: E501  # allow long lines
@@ -276,17 +284,17 @@ def test_data_quality_kp_with_country(monkeypatch):
     }
 
 
-def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
+async def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
     expected_url = "https://world.openfoodfacts.org/brand/lidl/data-quality.json"
     base_url = "https://world.openfoodfacts.org/brand/lidl/data-quality"
     json_content = {
-        "count": 182,
+        "count": 181,
         "tags": [
             {
                 "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
                 "known": 0,
                 "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
-                "products": 7688,
+                "products": 7898,
                 "url": (
                     f"{base_url}/" "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown"
                 ),
@@ -295,34 +303,38 @@ def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
                 "id": "en:ecoscore-production-system-no-label",
                 "known": 0,
                 "name": "ecoscore-production-system-no-label",
-                "products": 7661,
+                "products": 7883,
                 "url": f"{base_url}/ecoscore-production-system-no-label",
             },
             {
                 "id": "en:no-packaging-data",
                 "known": 0,
                 "name": "no-packaging-data",
-                "products": 6209,
+                "products": 6406,
                 "url": f"{base_url}/no-packaging-data",
             },
         ],
     }
 
-    monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, json_content=json_content))
-    result = KnowledgePanels(facet="brand", value="lidl").data_quality_kp()
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        mock_async_get_factory(expected_url, json_content=json_content),
+    )
+    result = await KnowledgePanels(facet="brand", value="lidl").data_quality_kp()
     first_element = result["Quality"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     expected_text = """
     <ul>
-        <p>The total number of issues are 182</p>
+        <p>The total number of issues are 181</p>
         <li>
-            <a href=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>7688 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+            <a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">7898 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
         <li>
-            <a href=https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label>7661 products with ecoscore-production-system-no-label</a>
+            <a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-production-system-no-label">7883 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a href=https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data>6209 products with no-packaging-data</a>
+            <a href="https://world.openfoodfacts.org/brand/lidl/data-quality/no-packaging-data">6406 products with no-packaging-data</a>
         </li>
     </ul>
     """  # noqa: E501  # allow long lines
@@ -345,7 +357,7 @@ def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
     }
 
 
-def test_data_quality_kp_with_all_tags(monkeypatch):
+async def test_data_quality_kp_with_all_tags(monkeypatch):
     expected_url = (
         "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality.json"
     )
@@ -376,8 +388,12 @@ def test_data_quality_kp_with_all_tags(monkeypatch):
         ],
     }
 
-    monkeypatch.setattr(requests, "get", mock_get_factory(expected_url, json_content=json_content))
-    result = KnowledgePanels(
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        mock_async_get_factory(expected_url, json_content=json_content),
+    )
+    result = await KnowledgePanels(
         facet="category", value="beers", sec_facet="brand", sec_value="budweiser"
     ).data_quality_kp()
     first_element = result["Quality"]["elements"][0]
@@ -386,13 +402,13 @@ def test_data_quality_kp_with_all_tags(monkeypatch):
     <ul>
         <p>The total number of issues are 24</p>
         <li>
-            <a href=https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value>13 products with alcoholic-beverages-category-without-alcohol-value</a>
+            <a href="https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value">13 products with alcoholic-beverages-category-without-alcohol-value</a>
         </li>
         <li>
-            <a href=https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-production-system-no-label>13 products with ecoscore-production-system-no-label</a>
+            <a href="https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-production-system-no-label">13 products with ecoscore-production-system-no-label</a>
         </li>
         <li>
-            <a href=https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown>12 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+            <a href="https://world.openfoodfacts.org/category/beers/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">12 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
     </ul>
     """  # noqa: E501  # allow long lines
@@ -415,7 +431,7 @@ def test_data_quality_kp_with_all_tags(monkeypatch):
     }
 
 
-def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
+async def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
     expected_url = "https://hu-en.openfoodfacts.org/api/v2/search"
     expected_kwargs = {
         "params": {
@@ -439,15 +455,17 @@ def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
         ],
     }
     monkeypatch.setattr(
-        requests,
+        aiohttp.ClientSession,
         "get",
-        mock_get_factory(
+        mock_async_get_factory(
             expected_url,
             expected_kwargs,
             json_content,
         ),
     )
-    result = KnowledgePanels(facet="vitamin", value="vitamin-k", country="hungary").last_edits_kp()
+    result = await KnowledgePanels(
+        facet="vitamin", value="vitamin-k", country="hungary"
+    ).last_edits_kp()
     first_element = result["LastEdits"]["elements"][0]
     first_element["text_element"] = tidy_html(first_element["text_element"])
     last_edits_text = """
@@ -479,7 +497,7 @@ def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
     }
 
 
-def test_last_edits_kp_with_all_tags(monkeypatch):
+async def test_last_edits_kp_with_all_tags(monkeypatch):
     expected_url = "https://fr-en.openfoodfacts.org/api/v2/search"
     expected_kwargs = {
         "params": {
@@ -490,7 +508,7 @@ def test_last_edits_kp_with_all_tags(monkeypatch):
         }
     }
     json_content = {
-        "count": 112,
+        "count": 116,
         "page": 1,
         "page_count": 24,
         "page_size": 24,
@@ -557,15 +575,15 @@ def test_last_edits_kp_with_all_tags(monkeypatch):
         ],
     }
     monkeypatch.setattr(
-        requests,
+        aiohttp.ClientSession,
         "get",
-        mock_get_factory(
+        mock_async_get_factory(
             expected_url,
             expected_kwargs,
             json_content,
         ),
     )
-    result = KnowledgePanels(
+    result = await KnowledgePanels(
         facet="brand",
         value="nestle",
         sec_facet="category",
@@ -576,7 +594,7 @@ def test_last_edits_kp_with_all_tags(monkeypatch):
     first_element["text_element"] = tidy_html(first_element["text_element"])
     last_edits_text = """
     <ul>
-        <p>Total number of edits 112</p>
+        <p>Total number of edits 116</p>
         <li>
             Capsules NESCAFE Dolce Gusto Cappuccino Extra Crema 16 Capsules (7613036271868) edited by org-nestle-france on 2022-08-31
         </li>
@@ -623,7 +641,7 @@ def test_last_edits_kp_with_all_tags(monkeypatch):
     }
 
 
-def test_wikidata_kp(monkeypatch):
+async def test_wikidata_kp(monkeypatch):
     # first mock the call to open food facts (to get the wikidata property)
     expected_url = "https://world.openfoodfacts.org/api/v2/taxonomy"
     expected_kwargs = {
@@ -635,9 +653,9 @@ def test_wikidata_kp(monkeypatch):
     }
     json_content = {"fr:fitou": {"parents": [], "wikidata": {"en": "Q470974"}}}
     monkeypatch.setattr(
-        requests,
+        aiohttp.ClientSession,
         "get",
-        mock_get_factory(
+        mock_async_get_factory(
             expected_url,
             expected_kwargs,
             json_content,
@@ -668,7 +686,7 @@ def test_wikidata_kp(monkeypatch):
         mock_wikidata_get("Q470974", fake_entity),
     )
     # run the test
-    result = KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
+    result = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
     expected_result = {
         "WikiData": {
             "title": "wiki-data",
@@ -695,7 +713,7 @@ def test_wikidata_kp(monkeypatch):
     assert result == expected_result
     with active_translation("it"):
         # fallbacks to english
-        result_it = KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
+        result_it = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
         assert result_it == expected_result
     with active_translation("fr"):
         # only some items varies
@@ -721,5 +739,5 @@ def test_wikidata_kp(monkeypatch):
                 ],
             }
         }
-        result_fr = KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
+        result_fr = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
         assert result_fr == expected_result_fr
