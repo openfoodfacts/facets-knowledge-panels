@@ -1,7 +1,7 @@
-import asyncer
 import logging
 from typing import Union
 
+import asyncer
 from fastapi import FastAPI
 
 from .i18n import active_translation

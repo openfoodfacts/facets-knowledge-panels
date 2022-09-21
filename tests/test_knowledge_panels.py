@@ -1,13 +1,19 @@
+import aiohttp
 import pytest
 import requests
-
 import wikidata.client
 
 from app.i18n import active_translation
 from app.knowledge_panels import KnowledgePanels
 from app.wikidata_utils import wikidata_props
 
-from .test_utils import DictAttr, mock_get_factory, mock_wikidata_get, tidy_html
+from .test_utils import (
+    DictAttr,
+    mock_async_get_factory,
+    mock_get_factory,
+    mock_wikidata_get,
+    tidy_html,
+)
 
 
 @pytest.fixture(autouse=True)
@@ -564,9 +570,9 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
         ],
     }
     monkeypatch.setattr(
-        requests,
+        aiohttp.ClientSession,
         "get",
-        mock_get_factory(
+        mock_async_get_factory(
             expected_url,
             expected_kwargs,
             json_content,

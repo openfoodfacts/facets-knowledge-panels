@@ -1,8 +1,7 @@
 from collections import namedtuple
 from urllib.parse import urljoin
-import aiohttp
-from .i18n import translate as _
 
+import aiohttp
 from asyncer import asyncify
 
 from .i18n import DEFAULT_LANGUAGE, get_current_lang

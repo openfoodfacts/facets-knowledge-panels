@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from bs4 import BeautifulSoup
 
 
@@ -18,6 +20,28 @@ def mock_get_factory(target_url, expected_kwargs={}, json_content=None):
         return MockResponse(json_content)
 
     return mock_get
+
+
+class AsyncMockResponse:
+    """Mocking aiohttp response object with only the json method"""
+
+    def __init__(self, json_content):
+        self.json_content = json_content
+
+    async def json(self):
+        return self.json_content
+
+
+def mock_async_get_factory(target_url, expected_kwargs={}, json_content=None):
+    """generate a mock to patch aiohttp.get with a json response"""
+
+    @asynccontextmanager
+    async def mock_async_get(session, url, **kwargs):
+        assert url == target_url
+        assert kwargs == expected_kwargs
+        yield AsyncMockResponse(json_content)
+
+    return mock_async_get
 
 
 class DictAttr(dict):
