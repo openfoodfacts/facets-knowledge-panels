@@ -65,13 +65,13 @@ class KnowledgePanels:
             url, des = val
             html.append(
                 {
-                    "id": id,
+                    "id": int(id),
                     "element_type": "text",
-                    "text_element": {"html": f"<p><a href='{url}'>{t_description} {des}</a></p>"},
+                    "text_element": f"<p><a href='{url}'>{t_description} {des}</a></p>",
                 },
             )
 
-        kp = {"hunger-game": {"title": "hunger-games", "elements": html}}
+        kp = {"hunger_game": {"title": "hunger-games", "elements": html}}
 
         return kp
 
@@ -210,7 +210,7 @@ class KnowledgePanels:
         for id, val in enumerate(entities):
             html.append(
                 {
-                    "id": id,
+                    "id": int(id),
                     "subtitle": val.description_tag,
                     "source_url": f"https://www.wikidata.org/wiki/{val.entity_id}",
                     "elements": [

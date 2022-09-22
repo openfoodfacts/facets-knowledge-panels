@@ -1,8 +1,9 @@
 from enum import Enum
 from typing import Optional, Union
-from pydantic import BaseModel
+
 import inflect
 import pycountry
+from pydantic import BaseModel
 
 
 class FacetName(str, Enum):
@@ -99,40 +100,60 @@ def facet_plural(facet: str):
     return facet_plural
 
 
-class TextElementItem(BaseModel):
+# --------------------------------------------
+# Response model class for the knowledge panels
+# --------------------------------------------
+
+
+class ElementsForDataQualityAndLastEdits(BaseModel):
     element_type: str
     text_element: Optional[str] = None
 
 
-class KnowledgePanelItem(BaseModel):
+class ElementsForHungerGame(BaseModel):
+    id: int
+    element_type: str
+    text_element: str
+
+
+class ItemsForDataQualityAndLastEdits(BaseModel):
     title: str
     subtitle: Optional[str] = None
     source_url: Optional[str] = None
-    elements: Optional[list[TextElementItem]] = None
+    elements: Optional[list[ElementsForDataQualityAndLastEdits]] = None
 
 
-class WikidataElementsItem(BaseModel):
+class TextItemWikiData(BaseModel):
     element_type: str
-    image_url: Optional[str] = None
+    text_element: str
+
+
+class LinksItemWikiData(BaseModel):
+    element_type: str
     wikipedia: Optional[str] = None
+    image_url: Optional[str] = None
     open_street_map: Optional[str] = None
     INAO: Optional[str] = None
 
 
-WikidataPanel = Union[TextElementItem, WikidataElementsItem]
+WikidataPanel = Union[TextItemWikiData, LinksItemWikiData]
 
 
-class WikidataKnowledgePanelItem(BaseModel):
-    title: str
+class ElementsWikidata(BaseModel):
+    id: int
     subtitle: Optional[str] = None
     source_url: Optional[str] = None
     elements: Optional[list[WikidataPanel]] = None
 
 
+class WikidataKnowledgePanelItem(BaseModel):
+    title: str
+    elements: Optional[list[ElementsWikidata]] = None
+
+
 class HungerGameKnowledgePanelItem(BaseModel):
     title: str
-    subtitle: Optional[str] = None
-    elements: Optional[list[TextElementItem]] = None
+    elements: Optional[list[ElementsForHungerGame]] = None
 
 
 class HungerGameResponse(BaseModel):
@@ -140,19 +161,21 @@ class HungerGameResponse(BaseModel):
 
 
 class DataQualityResponse(BaseModel):
-    Quality: KnowledgePanelItem
+    Quality: ItemsForDataQualityAndLastEdits
 
 
 class LastEditsResponse(BaseModel):
-    LastEdits: KnowledgePanelItem
+    LastEdits: ItemsForDataQualityAndLastEdits
 
 
 class WikidataResponse(BaseModel):
     WikiData: WikidataKnowledgePanelItem
 
 
-KnowledgePanel = Union[HungerGameResponse, DataQualityResponse, LastEditsResponse, WikidataResponse]
+KnowledgePanels = Union[
+    HungerGameResponse, DataQualityResponse, LastEditsResponse, WikidataResponse
+]
 
 
 class FacetResponse(BaseModel):
-    knowledge_panels: Optional[list[KnowledgePanel]] = None
+    knowledge_panels: Optional[list[KnowledgePanels]] = None

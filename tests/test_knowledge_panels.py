@@ -24,13 +24,13 @@ async def test_hunger_game_kp_with_filter_value_and_country():
     assert await KnowledgePanels(
         facet="country", value="germany", country="france"
     ).hunger_game_kp() == {
-        "hunger-game": {
+        "hunger_game": {
             "title": "hunger-games",
             "elements": [
                 {
                     "id": 0,
                     "element_type": "text",
-                    "text_element": {"html": html},
+                    "text_element": html,
                 }
             ],
         }
@@ -43,13 +43,13 @@ async def test_hunger_game_kp_with_category():
         "Answer robotoff questions about category</a></p>"
     )
     assert await KnowledgePanels(facet="category").hunger_game_kp() == {
-        "hunger-game": {
+        "hunger_game": {
             "title": "hunger-games",
             "elements": [
                 {
                     "id": 0,
                     "element_type": "text",
-                    "text_element": {"html": html},
+                    "text_element": html,
                 }
             ],
         }
@@ -66,11 +66,11 @@ async def test_hunger_game_kp_category_with_country():
         "Answer robotoff questions about category  for country france</a></p>"
     )
     assert await KnowledgePanels(facet="category", country="france").hunger_game_kp() == {
-        "hunger-game": {
+        "hunger_game": {
             "title": "hunger-games",
             "elements": [
-                {"id": 0, "element_type": "text", "text_element": {"html": html0}},
-                {"id": 1, "element_type": "text", "text_element": {"html": html1}},
+                {"id": 0, "element_type": "text", "text_element": html0},
+                {"id": 1, "element_type": "text", "text_element": html1},
             ],
         }
     }
@@ -82,13 +82,13 @@ async def test_hunger_game_kp_category_with_value():
         "Answer robotoff questions about category en:beers</a></p>"
     )
     assert await KnowledgePanels(facet="category", value="en:beers").hunger_game_kp() == {
-        "hunger-game": {
+        "hunger_game": {
             "title": "hunger-games",
             "elements": [
                 {
                     "id": 0,
                     "element_type": "text",
-                    "text_element": {"html": html},
+                    "text_element": html,
                 }
             ],
         }
@@ -101,9 +101,9 @@ async def test_hunger_game_kp_brand_with_value():
         "Answer robotoff questions about brand nestle</a></p>"
     )
     assert await KnowledgePanels(facet="brand", value="nestle").hunger_game_kp() == {
-        "hunger-game": {
+        "hunger_game": {
             "title": "hunger-games",
-            "elements": [{"id": 0, "element_type": "text", "text_element": {"html": html}}],
+            "elements": [{"id": 0, "element_type": "text", "text_element": html}],
         }
     }
 
@@ -114,13 +114,13 @@ async def test_hunger_game_kp_label_with_value():
         "Answer robotoff questions about label en:organic</a></p>"
     )
     assert await KnowledgePanels(facet="label", value="en:organic").hunger_game_kp() == {
-        "hunger-game": {
+        "hunger_game": {
             "title": "hunger-games",
             "elements": [
                 {
                     "id": 0,
                     "element_type": "text",
-                    "text_element": {"html": html},
+                    "text_element": html,
                 }
             ],
         }
@@ -143,11 +143,11 @@ async def test_hunger_game_kp_with_all_tag_1():
         sec_value="lidl",
         country="france",
     ).hunger_game_kp() == {
-        "hunger-game": {
+        "hunger_game": {
             "title": "hunger-games",
             "elements": [
-                {"id": 0, "element_type": "text", "text_element": {"html": html0}},
-                {"id": 1, "element_type": "text", "text_element": {"html": html1}},
+                {"id": 0, "element_type": "text", "text_element": html0},
+                {"id": 1, "element_type": "text", "text_element": html1},
             ],
         }
     }
@@ -168,11 +168,11 @@ async def test_hunger_game_kp_with_all_tag_2():
         sec_facet="category",
         sec_value="en:coffees",
     ).hunger_game_kp() == {
-        "hunger-game": {
+        "hunger_game": {
             "title": "hunger-games",
             "elements": [
-                {"id": 0, "element_type": "text", "text_element": {"html": html0}},
-                {"id": 1, "element_type": "text", "text_element": {"html": html1}},
+                {"id": 0, "element_type": "text", "text_element": html0},
+                {"id": 1, "element_type": "text", "text_element": html1},
             ],
         }
     }
@@ -198,12 +198,12 @@ async def test_hunger_game_kp_with_all_tag_3():
         sec_value="vegan",
         country="italy",
     ).hunger_game_kp() == {
-        "hunger-game": {
+        "hunger_game": {
             "title": "hunger-games",
             "elements": [
-                {"id": 0, "element_type": "text", "text_element": {"html": html0}},
-                {"id": 1, "element_type": "text", "text_element": {"html": html1}},
-                {"id": 2, "element_type": "text", "text_element": {"html": html2}},
+                {"id": 0, "element_type": "text", "text_element": html0},
+                {"id": 1, "element_type": "text", "text_element": html1},
+                {"id": 2, "element_type": "text", "text_element": html2},
             ],
         }
     }

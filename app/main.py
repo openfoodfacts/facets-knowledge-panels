@@ -6,9 +6,9 @@ from fastapi import FastAPI
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import FacetName, HungerGameFilter, Taxonomies
+from .models import FacetName, FacetResponse, HungerGameFilter, Taxonomies
 
-
+# Metadata for the API
 tags_metadata = [
     {
         "name": "knowledge-panel",
@@ -19,7 +19,7 @@ description = """
 Providing knowledge panels for a particular Open Food Facts facet (category, brand, etc...)
 
 A standardized way for clients to get semi-structured but generic data that they can present to users on product pages.
-"""
+"""  # noqa: E501
 
 app = FastAPI(
     title="Open Food Facts knowledge Panels API",
@@ -42,7 +42,7 @@ async def hello():
     return {"message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"}
 
 
-@app.get("/knowledge_panel")
+@app.get("/knowledge_panel", response_model=FacetResponse)
 async def knowledge_panel(
     facet_tag: FacetName,
     value_tag: Union[str, None] = None,
