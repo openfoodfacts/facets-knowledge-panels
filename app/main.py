@@ -1,11 +1,12 @@
 import logging
 from typing import Union
 
+import asyncer
 from fastapi import FastAPI
 
 from .i18n import active_translation
-from .knowledge_panels import data_quality_kp, hunger_game_kp, last_edits_kp, wikidata_kp
-from .models import FacetName, FacetResponse, HungerGameFilter, Taxonomies
+from .knowledge_panels import KnowledgePanels
+from .models import FacetName, HungerGameFilter, Taxonomies
 
 
 tags_metadata = [
@@ -37,14 +38,16 @@ app = FastAPI(
 
 
 @app.get("/")
-def hello():
+async def hello():
     return {"message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"}
 
 
-@app.get("/knowledge_panel", tags=["knowledge-panel"], response_model=FacetResponse)
-def knowledge_panel(
+@app.get("/knowledge_panel")
+async def knowledge_panel(
     facet_tag: FacetName,
     value_tag: Union[str, None] = None,
+    sec_facet_tag: Union[str, None] = None,
+    sec_value_tag: Union[str, None] = None,
     lang_code: Union[str, None] = None,
     country: Union[str, None] = None,
 ):
@@ -55,22 +58,34 @@ def knowledge_panel(
     """
     with active_translation(lang_code):
         panels = []
-        if facet_tag in HungerGameFilter.list():
-            panels.append(
-                hunger_game_kp(hunger_game_filter=facet_tag, value=value_tag, country=country)
-            )
-        try:
-            panels.append(data_quality_kp(facet=facet_tag, value=value_tag, country=country))
-        except Exception:
-            logging.exception("error occued while appending data-quality-kp")
-        try:
-            panels.append(last_edits_kp(facet=facet_tag, value=value_tag, country=country))
-        except Exception:
-            logging.exception("error occued while appending last-edits-kp")
-        try:
+        # creating object that will compute knowledge panels
+        obj_kp = KnowledgePanels(
+            facet=facet_tag.value,
+            value=value_tag,
+            sec_facet=sec_facet_tag,
+            sec_value=sec_value_tag,
+            country=country,
+        )
+        # this will contains panels computations
+        soon_panels = []
+        # the task_group will run these knowledge_panels async functions concurrently
+        async with asyncer.create_task_group() as task_group:
+            # launch each panels computation
+            if facet_tag in HungerGameFilter.list():
+                soon_panels.append(task_group.soonify(obj_kp.hunger_game_kp)())
+            soon_panels.append(task_group.soonify(obj_kp.data_quality_kp)())
+            soon_panels.append(task_group.soonify(obj_kp.last_edits_kp)())
             if facet_tag in Taxonomies.list():
-                panels.append(wikidata_kp(facet=facet_tag, value=value_tag))
-        except Exception:
-            logging.exception("error occurred while appending wikidata-kp")
+                soon_panels.append(task_group.soonify(obj_kp.wikidata_kp)())
+        # collect panels results
+        for soon_value in soon_panels:
+            # if an exception was raised during computation
+            # we will get it on value retrieval
+            # but we don't want to sacrifice whole result for a single failure
+            # as most panels depends on external resources that may not be available
+            try:
+                panels.append(soon_value.value)
+            except Exception:
+                logging.exception()
 
         return {"knowledge_panels": panels}

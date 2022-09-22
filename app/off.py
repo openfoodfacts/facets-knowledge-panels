@@ -1,21 +1,23 @@
 from collections import namedtuple
 from urllib.parse import urljoin
 
-import requests
+import aiohttp
+from asyncer import asyncify
 
 from .i18n import DEFAULT_LANGUAGE, get_current_lang
 from .i18n import translate as _
 from .wikidata_utils import get_wikidata_entity, wikidata_props
 
 
-def data_quality(url, path):
+async def data_quality(url, path):
     """
     Helper function to return issues for data-quality
     """
-    source_url = urljoin(url, path)
-    quality_url = f"{source_url}/data-quality.json"
-    response_API = requests.get(quality_url)
-    data = response_API.json()
+    async with aiohttp.ClientSession() as session:
+        source_url = urljoin(url, path)
+        quality_url = f"{source_url}/data-quality.json"
+        async with session.get(quality_url) as resp:
+            data = await resp.json()
     total_issues = data["count"]
     tags = data["tags"]
     html = []
@@ -24,7 +26,7 @@ def data_quality(url, path):
             "products": tag["products"],
             "name": tag["name"],
         }
-        html.append(f'<li><a href={tag["url"]}>')
+        html.append(f"""<li><a href='{tag["url"]}'>""")
         html.append(_("{products} products with {name}").format(**info))
         html.append("</a></li>")
 
@@ -44,13 +46,14 @@ def data_quality(url, path):
     return text, source_url, description, title
 
 
-def last_edit(url, query):
+async def last_edit(url, query):
     """
     Helper function to return data for last-edits
     """
-    search_url = f"{url}/api/v2/search"
-    response_API = requests.get(search_url, params=query)
-    data = response_API.json()
+    async with aiohttp.ClientSession() as session:
+        search_url = f"{url}/api/v2/search"
+        async with session.get(search_url, params=query) as resp:
+            data = await resp.json()
     counts = data["count"]
     tags = data["products"]
 
@@ -108,17 +111,18 @@ def in_lang(data, lang, suffix=""):
         return data[DEFAULT_LANGUAGE + suffix]
 
 
-def wikidata_helper(query, value):
+async def wikidata_helper(query, value):
     """
     Helper function to return wikidata eg:label,description,image_url
     """
     lang = get_current_lang()
-    url = "https://world.openfoodfacts.org/api/v2/taxonomy"
-    response_API = requests.get(url, params=query)
-    data = response_API.json()
+    async with aiohttp.ClientSession() as session:
+        url = "https://world.openfoodfacts.org/api/v2/taxonomy"
+        async with session.get(url, params=query) as resp:
+            data = await resp.json()
     tag = data[value]
     entity_id = in_lang(tag["wikidata"], lang)
-    entity = get_wikidata_entity(entity_id=entity_id)
+    entity = await asyncify(get_wikidata_entity)(entity_id=entity_id)
     if wikidata_props.image_prop in entity:
         image = entity[wikidata_props.image_prop]
         image_url = image.image_url
@@ -136,6 +140,7 @@ def wikidata_helper(query, value):
         OSM_relation = "https://www.openstreetmap.org/relation/{}".format(osm)
     else:
         OSM_relation = ""
+
     entities = Entities(
         in_lang(entity.label, lang),
         in_lang(entity.description, lang),
@@ -148,7 +153,8 @@ def wikidata_helper(query, value):
     return entities
 
 
-def hungergame():
+async def hungergame():
+
     """Helper function for making Translation easy"""
     description = _("Answer robotoff questions about")
     return description

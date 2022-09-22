@@ -1,169 +1,233 @@
+import logging
 from typing import Union
 from urllib.parse import urlencode
 
-from .models import HungerGameFilter, country_to_ISO_code, facet_plural
+from .models import country_to_ISO_code, facet_plural
 from .off import data_quality, hungergame, last_edit, wikidata_helper
 
 
-def hunger_game_kp(
-    hunger_game_filter: HungerGameFilter,
-    value: Union[str, None] = None,
-    country: Union[str, None] = None,
-):
-    query = {}
-    description = ""
-    if hunger_game_filter == "country":
-        country = value
-        hunger_game_filter = value = None
-    if country is not None:
-        query["country"] = country
-        description = country
-    if hunger_game_filter is not None:
-        query["type"] = f"{hunger_game_filter}"
-        description = f"{hunger_game_filter}"
-    if value is not None:
-        query["value_tag"] = value
-        description = f"{value} {hunger_game_filter}"
-    questions_url = "https://hunger.openfoodfacts.org/questions"
-    if query:
-        questions_url += f"?{urlencode(query)}"
-    t_description = hungergame()
-    description = f"{t_description} {description}"
-    html = f"<a href='{questions_url}'</a>\n"
-    return {
-        "hunger_game": {
-            "title": "hunger-games",
-            "subtitle": description,
-            "elements": [
+class KnowledgePanels:
+    def __init__(
+        self,
+        facet: str,
+        value: Union[str, None] = None,
+        sec_facet: Union[str, None] = None,
+        sec_value: Union[str, None] = None,
+        country: Union[str, None] = None,
+    ):
+        self.facet = facet
+        self.value = value
+        self.sec_facet = sec_facet
+        self.sec_value = sec_value
+        self.country = country
+
+    async def hunger_game_kp(self):
+        query = {}
+        questions_url = "https://hunger.openfoodfacts.org/questions"
+        facets = {self.facet: self.value, self.sec_facet: self.sec_value}
+        filtered = {k: v for k, v in facets.items() if k is not None}
+        facets.clear()
+        facets.update(filtered)
+        urls = set()
+        description = ""
+        html = []
+        if self.country is not None:
+            query["country"] = f"en:{self.country}"
+            description = f"for country {self.country}"
+        if facets.get("country"):
+            country_value = facets.pop("country")
+            query["country"] = f"en:{country_value}"
+            description = f"{country_value}"
+        if facets.get("brand") and len(facets) > 1:
+            brand_value = facets.pop("brand")
+            query["brand"] = brand_value
+            description += f" for brand {brand_value}"
+        # generate an url for each remaining facets
+        for k, v in facets.items():
+            value_description = ""
+            facet_query = dict(query)
+            facet_query["type"] = k
+            facet_description = k
+            if v is not None:
+                facet_query["value_tag"] = v
+                value_description += v
+            urls.add(
+                (
+                    f"{questions_url}?{urlencode(facet_query)}",
+                    f"{facet_description} {value_description} {description}".strip(),
+                )
+            )
+        if query:
+            urls.add((f"{questions_url}?{urlencode(query)}", description))
+
+        t_description = await hungergame()
+        for id, val in enumerate(sorted(urls)):
+            url, des = val
+            html.append(
                 {
+                    "id": id,
                     "element_type": "text",
-                    "text_element": html,
+                    "text_element": {"html": f"<p><a href='{url}'>{t_description} {des}</a></p>"},
                 },
-            ],
-        },
-    }
+            )
 
+        kp = {"hunger-game": {"title": "hunger-games", "elements": html}}
 
-def data_quality_kp(
-    facet,
-    value: Union[str, None] = None,
-    country: Union[str, None] = None,
-):
-    """
-    Get data corresponding to differnet facet
-    """
-    path = ""
-    description = ""
-    if facet == "country":
-        country = value
-        country_code = country_to_ISO_code(value=value)
-        url = f"https://{country_code}-en.openfoodfacts.org"
+        return kp
+
+    async def data_quality_kp(self):
+        """
+        Get data corresponding to differnet facet
+        """
         path = ""
-        facet = value = None
-    if country is not None:
-        country_code = country_to_ISO_code(value=country)
-        url = f"https://{country_code}-en.openfoodfacts.org"
-        path = ""
-        description += f"{country} "
-    if country is None:
-        url = "https://world.openfoodfacts.org/"
-    if facet is not None:
-        path += facet
-        description += f"{facet}"
-    if value is not None:
-        path += f"/{value}"
-        description += f" {value}"
-    (quality_html, source_url, t_description, t_title) = data_quality(url=url, path=path)
+        description = ""
+        if self.facet == "country":
+            self.country = self.value
+            country_code = country_to_ISO_code(value=self.value)
+            url = f"https://{country_code}.openfoodfacts.org"
+            path = ""
+            self.facet = self.value = None
+        if self.sec_facet == "country":
+            self.country = self.sec_value
+            country_code = country_to_ISO_code(value=self.sec_value)
+            url = f"https://{country_code}.openfoodfacts.org"
+            path = ""
+            self.sec_facet = self.sec_value = None
+        if self.country is not None:
+            country_code = country_to_ISO_code(value=self.country)
+            url = f"https://{country_code}.openfoodfacts.org"
+            path = ""
+            description += f"{self.country} "
+        if self.country is None:
+            url = "https://world.openfoodfacts.org/"
+        if self.facet is not None:
+            path += self.facet
+            description += f"{self.facet}"
+        if self.value is not None:
+            path += f"/{self.value}"
+            description += f" {self.value}"
+        # Checking if secondary facet is provided
+        if self.sec_facet is not None:
+            path += f"/{self.sec_facet}"
+            description += f" {self.sec_facet}"
+        if self.sec_value is not None:
+            path += f"/{self.sec_value}"
+            description += f" {self.sec_value}"
+        (t_html, source_url, t_description, t_title) = await data_quality(url=url, path=path)
 
-    return {
-        "Quality": {
-            "title": t_title,
-            "subtitle": f"{t_description} {description}",
-            "source_url": f"{source_url}/data-quality",
-            "elements": [
+        return {
+            "Quality": {
+                "title": t_title,
+                "subtitle": f"{t_description} {description}",
+                "source_url": f"{source_url}/data-quality",
+                "elements": [
+                    {
+                        "element_type": "text",
+                        "text_element": t_html,
+                    }
+                ],
+            },
+        }
+
+    async def last_edits_kp(self):
+        """
+        Return knowledge panel for last-edits corresponding to different facet
+        """
+        query = {
+            "fields": "product_name,code,last_editor,last_edit_dates_tags",
+            "sort_by": "last_modified_t",
+        }
+        description = ""
+        if self.facet == "country":
+            self.country = self.value
+            country_code = country_to_ISO_code(value=self.value)
+            url = f"https://{country_code}.openfoodfacts.org"
+            self.facet = self.value = None
+        if self.sec_facet == "country":
+            self.country = self.sec_value
+            country_code = country_to_ISO_code(value=self.sec_value)
+            url = f"https://{country_code}.openfoodfacts.org"
+            self.sec_facet = self.sec_value = None
+        if self.country is not None:
+            country_code = country_to_ISO_code(value=self.country)
+            url = f"https://{country_code}.openfoodfacts.org"
+            description += f"{self.country} "
+        if self.country is None:
+            url = "https://world.openfoodfacts.org"
+        if self.facet is not None:
+            description += f"{self.facet}"
+            source_url = f"{url}/{self.facet}?sort_by=last_modified_t"
+        if self.value is not None:
+            query[f"{facet_plural(facet=self.facet)}_tags_en"] = self.value
+            description += f" {self.value}"
+            source_url = f"{url}/{self.facet}/{self.value}?sort_by=last_modified_t"
+        if self.sec_value and self.sec_facet is not None:
+            query[f"{facet_plural(facet=self.sec_facet)}_tags_en"] = self.sec_value
+            description += f" {self.sec_facet} {self.sec_value}"
+            source_url = f"{url}/{self.facet}/{self.value}/{self.sec_facet}/{self.sec_value}?sort_by=last_modified_t"  # noqa: E501
+        t_html, t_description, t_title = await last_edit(url=url, query=query)
+
+        return {
+            "LastEdits": {
+                "title": t_title,
+                "subtitle": f"{t_description} {description}",
+                "source_url": source_url,
+                "elements": [
+                    {
+                        "element_type": "text",
+                        "text_element": t_html,
+                    },
+                ],
+            },
+        }
+
+    async def _wikidata_kp(self, facet, value):
+        query = {}
+        if value:
+            query["tagtype"] = facet_plural(facet=facet)
+            query["fields"] = "wikidata"
+            query["tags"] = value
+
+        entities = await wikidata_helper(query=query, value=value)
+
+        return entities
+
+    async def wikidata_kp(self):
+        """
+        Return knowledge panel for wikidata
+        """
+        entities = set()
+        try:
+            entities.add(await self._wikidata_kp(facet=self.facet, value=self.value))
+        except Exception:
+            logging.exception("While adding wikidata for primary facet")
+        try:
+            entities.add(await self._wikidata_kp(facet=self.sec_facet, value=self.sec_value))
+        except Exception:
+            logging.exception("While adding wikidata for secandary facet")
+
+        html = []
+        for id, val in enumerate(entities):
+            html.append(
                 {
-                    "element_type": "text",
-                    "text_element": quality_html,
+                    "id": id,
+                    "subtitle": val.description_tag,
+                    "source_url": f"https://www.wikidata.org/wiki/{val.entity_id}",
+                    "elements": [
+                        {
+                            "element_type": "text",
+                            "text_element": val.label_tag,
+                        },
+                        {
+                            "element_type": "links",
+                            "wikipedia": val.wikipedia_relation,
+                            "image_url": val.image_url,
+                            "open_street_map": val.OSM_relation,
+                            "INAO": val.INAO_relation,
+                        },
+                    ],
                 }
-            ],
-        },
-    }
-
-
-def last_edits_kp(
-    facet: str,
-    value: Union[str, None] = None,
-    country: Union[str, None] = None,
-):
-    """
-    Return knowledge panel for last-edits corresponding to different facet
-    """
-    query = {
-        "fields": "product_name,code,last_editor,last_edit_dates_tags",
-        "sort_by": "last_modified_t",
-    }
-    description = ""
-    if facet == "country":
-        country = value
-        country_code = country_to_ISO_code(value=value)
-        url = f"https://{country_code}-en.openfoodfacts.org"
-        facet = value = None
-    if country is not None:
-        country_code = country_to_ISO_code(value=country)
-        url = f"https://{country_code}-en.openfoodfacts.org"
-        description += f"{country} "
-    if country is None:
-        url = "https://world.openfoodfacts.org"
-    if facet is not None:
-        description += f"{facet}"
-    if value is not None:
-        query[f"{facet_plural(facet=facet)}_tags_en"] = value
-        description += f" {value}"
-    expected_html, t_description, t_title = last_edit(url=url, query=query)
-
-    return {
-        "LastEdits": {
-            "title": t_title,
-            "subtitle": f"{t_description} {description}",
-            "source_url": f"{url}/{facet}/{value}?sort_by=last_modified_t",
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": expected_html,
-                },
-            ],
-        },
-    }
-
-
-def wikidata_kp(facet: str, value: str):
-    """
-    Return knowledge panel for wikidata
-    """
-    query = {}
-    if value:
-        query["tagtype"] = facet_plural(facet=facet)
-        query["fields"] = "wikidata"
-        query["tags"] = value
-
-    entities = wikidata_helper(query=query, value=value)
-    return {
-        "WikiData": {
-            "title": "wiki-data",
-            "subtitle": entities.description_tag,
-            "source_url": f"https://www.wikidata.org/wiki/{entities.entity_id}",
-            "elements": [
-                {
-                    "element_type": "text",
-                    "text_element": entities.label_tag,
-                },
-                {
-                    "element_type": "links",
-                    "image_url": entities.image_url,
-                    "wikipedia": entities.wikipedia_relation,
-                    "open_street_map": entities.OSM_relation,
-                    "INAO": entities.INAO_relation,
-                },
-            ],
-        },
-    }
+            )
+        return {
+            "WikiData": {"title": "wiki-data", "elements": html},
+        }

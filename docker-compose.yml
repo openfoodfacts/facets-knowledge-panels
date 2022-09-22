@@ -8,5 +8,4 @@ services:
       - .:/code
     ports:
       - "127.0.0.1:80:80"
-    
-  
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
