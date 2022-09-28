@@ -51,12 +51,12 @@ async def knowledge_panel(
     value_tag: Union[str, None] = Query(
         default=None,
         title="Value tag string",
-        description="value tag string for the items to search in the database eg:-categoy/beers etc.",  # noqa: E501
+        description="value tag string for the items to search in the database eg:-categoy/en:beers etc.",  # noqa: E501
     ),
     sec_facet_tag: Union[str, None] = Query(
         default=None,
         title="secondary facet tag string",
-        description="secondary facet tag string for the items to search in the database eg:-category/beers/brand etc.",  # noqa: E501
+        description="secondary facet tag string for the items to search in the database eg:-category/en:beers/brand etc.",  # noqa: E501
     ),
     sec_value_tag: Union[str, None] = Query(
         default=None,
@@ -66,12 +66,12 @@ async def knowledge_panel(
     lang_code: Union[str, None] = Query(
         default=None,
         title="language code string",
-        description="To return knowledge panels in native language.",
+        description="To return knowledge panels in native language (defualt lang: `en`).",
     ),
     country: Union[str, None] = Query(
         default=None,
         title="Country tag string",
-        description="To return knowledge panels for specific country.",
+        description="To return knowledge panels for specific country (ex: `france`).",
     ),
 ):
     """
