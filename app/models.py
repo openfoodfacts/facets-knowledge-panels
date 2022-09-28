@@ -115,13 +115,8 @@ class TextFacet(BaseModel):
     )
 
 
-class HungerGameElement(BaseModel):
+class HungerGameElement(TextFacet):
     id: int
-    element_type: str
-    text_element: Optional[str] = Field(
-        default=None,
-        description="Html value with desciption of the item",
-    )
 
 
 class DataQualityAndLastEditsItem(BaseModel):
@@ -132,7 +127,7 @@ class DataQualityAndLastEditsItem(BaseModel):
     title: str
     subtitle: Optional[str] = Field(
         default=None,
-        description="Short description of different facet and value in which it computes the data. ",
+        description="Short description of different facet and value in which it computes the data. ",  # noqa: E501
     )
     source_url: Optional[str] = Field(
         default=None,
@@ -141,12 +136,11 @@ class DataQualityAndLastEditsItem(BaseModel):
     elements: Optional[list[TextFacet]] = None
 
 
-class TextFacetWikiData(BaseModel):
+class TextFacetWikiData(TextFacet):
     """Base facet for wikidata conating text elements"""
 
-    element_type: str
     text_element: str = Field(
-        description="label of the item coming from wikidata",
+        description="label for given facet coming from wikidata.",
     )
 
 
@@ -170,7 +164,7 @@ class WikiDataLinksItem(BaseModel):
     )
     INAO: Optional[str] = Field(
         default=None,
-        description="link to the INAO(Institut national de l'origine et de la qualité) for the given parameter.",
+        description="link to the INAO(Institut national de l'origine et de la qualité) for the given parameter.",  # noqa: E501
     )
 
 
@@ -194,17 +188,16 @@ class WikidtaElement(BaseModel):
     elements: Optional[list[WikidataPanel]] = None
 
 
-class WikidataKnowledgePanelItem(BaseModel):
-    title: str = Field(
-        title="wikidata",
-    )
+class BasePanel(BaseModel):
+    title: str
+    elements: list
+
+
+class WikidataKnowledgePanelItem(BasePanel):
     elements: Optional[list[WikidtaElement]] = None
 
 
-class HungerGameKnowledgePanelItem(BaseModel):
-    title: str = Field(
-        title="HungerGames",
-    )
+class HungerGameKnowledgePanelItem(BasePanel):
     elements: Optional[list[HungerGameElement]] = None
 
 

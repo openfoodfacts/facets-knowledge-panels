@@ -51,17 +51,17 @@ async def knowledge_panel(
     value_tag: Union[str, None] = Query(
         default=None,
         title="Value tag string",
-        description="value tag string for the items to search in the database eg:-categoy/beers etc.",
+        description="value tag string for the items to search in the database eg:-categoy/beers etc.",  # noqa: E501
     ),
     sec_facet_tag: Union[str, None] = Query(
         default=None,
         title="secondary facet tag string",
-        description="secondary facet tag string for the items to search in the database eg:-category/beers/brand etc.",
+        description="secondary facet tag string for the items to search in the database eg:-category/beers/brand etc.",  # noqa: E501
     ),
     sec_value_tag: Union[str, None] = Query(
         default=None,
         title="secondary value tag string",
-        description="secondary value tag string for the items to search in the database eg:-category/beers/brand/lidl etc.",
+        description="secondary value tag string for the items to search in the database eg:-category/beers/brand/lidl etc.",  # noqa: E501
     ),
     lang_code: Union[str, None] = Query(
         default=None,
