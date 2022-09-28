@@ -2,13 +2,39 @@ import logging
 from typing import Union
 
 import asyncer
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import FacetName, HungerGameFilter, Taxonomies
+from .models import FacetName, FacetResponse, HungerGameFilter, Taxonomies
 
-app = FastAPI()
+# Metadata for the API
+tags_metadata = [
+    {
+        "name": "knowledge-panel",
+        "description": "Return different knowledge panels based on the facet provided.",
+    },
+]
+description = """
+Providing knowledge panels for a particular Open Food Facts facet (category, brand, etc...)
+
+A standardized way for clients to get semi-structured but generic data that they can present to users on product pages.
+"""  # noqa: E501
+
+app = FastAPI(
+    title="Open Food Facts knowledge Panels API",
+    description=description,
+    version="0.0.1",
+    contact={
+        "name": "Slack",
+        "url": "https://openfoodfacts.slack.com/archives/C03LFRKLVBQ",
+    },
+    license_info={
+        "name": "GNU Affero General Public License v3.0",
+        "url": "https://www.gnu.org/licenses/agpl-3.0.en.html",
+    },
+    openapi_tags=tags_metadata,
+)
 
 
 @app.get("/")
@@ -16,14 +42,37 @@ async def hello():
     return {"message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"}
 
 
-@app.get("/knowledge_panel")
+@app.get("/knowledge_panel", tags=["knowledge-panel"], response_model=FacetResponse)
 async def knowledge_panel(
-    facet_tag: FacetName,
-    value_tag: Union[str, None] = None,
-    sec_facet_tag: Union[str, None] = None,
-    sec_value_tag: Union[str, None] = None,
-    lang_code: Union[str, None] = None,
-    country: Union[str, None] = None,
+    facet_tag: FacetName = Query(
+        title="Facet tag string",
+        description="Facet tag string for the items to search in the database eg:- category etc.",
+    ),
+    value_tag: Union[str, None] = Query(
+        default=None,
+        title="Value tag string",
+        description="value tag string for the items to search in the database eg:-categoy/en:beers etc.",  # noqa: E501
+    ),
+    sec_facet_tag: Union[str, None] = Query(
+        default=None,
+        title="secondary facet tag string",
+        description="secondary facet tag string for the items to search in the database eg:-category/en:beers/brand etc.",  # noqa: E501
+    ),
+    sec_value_tag: Union[str, None] = Query(
+        default=None,
+        title="secondary value tag string",
+        description="secondary value tag string for the items to search in the database eg:-category/beers/brand/lidl etc.",  # noqa: E501
+    ),
+    lang_code: Union[str, None] = Query(
+        default=None,
+        title="language code string",
+        description="To return knowledge panels in native language (defualt lang: `en`).",
+    ),
+    country: Union[str, None] = Query(
+        default=None,
+        title="Country tag string",
+        description="To return knowledge panels for specific country (ex: `france`).",
+    ),
 ):
     """
     FacetName is the model that have list of values
