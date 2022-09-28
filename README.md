@@ -9,3 +9,10 @@ The primary goal is to allow high level contributions by users that maybe intere
 
 We reuse the knowledge panel format, which remove the need for the application to change as the server side code change, or to implement specific business logic.
 
+## How do I get started?
+
+* Join us on Slack at <https://openfoodfacts.slack.com/archives/C03LFRKLVBQ>
+* Developer documentation:
+    * [Project setup](./docs/how-to-guides/Project-setup-locally.md)
+    * [Testing](./docs/how-to-guides/Testing.md)
+* [API Documentation](./docs/references/API%20references.md)

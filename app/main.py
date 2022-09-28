@@ -2,7 +2,7 @@ import logging
 from typing import Union
 
 import asyncer
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
@@ -42,14 +42,37 @@ async def hello():
     return {"message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"}
 
 
-@app.get("/knowledge_panel", response_model=FacetResponse)
+@app.get("/knowledge_panel", tags=["knowledge-panel"], response_model=FacetResponse)
 async def knowledge_panel(
-    facet_tag: FacetName,
-    value_tag: Union[str, None] = None,
-    sec_facet_tag: Union[str, None] = None,
-    sec_value_tag: Union[str, None] = None,
-    lang_code: Union[str, None] = None,
-    country: Union[str, None] = None,
+    facet_tag: FacetName = Query(
+        title="Facet tag string",
+        description="Facet tag string for the items to search in the database eg:- category etc.",
+    ),
+    value_tag: Union[str, None] = Query(
+        default=None,
+        title="Value tag string",
+        description="value tag string for the items to search in the database eg:-categoy/beers etc.",
+    ),
+    sec_facet_tag: Union[str, None] = Query(
+        default=None,
+        title="secondary facet tag string",
+        description="secondary facet tag string for the items to search in the database eg:-category/beers/brand etc.",
+    ),
+    sec_value_tag: Union[str, None] = Query(
+        default=None,
+        title="secondary value tag string",
+        description="secondary value tag string for the items to search in the database eg:-category/beers/brand/lidl etc.",
+    ),
+    lang_code: Union[str, None] = Query(
+        default=None,
+        title="language code string",
+        description="To return knowledge panels in native language.",
+    ),
+    country: Union[str, None] = Query(
+        default=None,
+        title="Country tag string",
+        description="To return knowledge panels for specific country.",
+    ),
 ):
     """
     FacetName is the model that have list of values

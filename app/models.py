@@ -3,7 +3,7 @@ from typing import Optional, Union
 
 import inflect
 import pycountry
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class FacetName(str, Enum):
@@ -105,77 +105,132 @@ def facet_plural(facet: str):
 # --------------------------------------------
 
 
-class ElementsForDataQualityAndLastEdits(BaseModel):
+class TextFacet(BaseModel):
+    """Base facet containing text"""
+
     element_type: str
-    text_element: Optional[str] = None
+    text_element: Optional[str] = Field(
+        default=None,
+        description="Html value with desciption of the item",
+    )
 
 
-class ElementsForHungerGame(BaseModel):
+class HungerGameElement(BaseModel):
     id: int
     element_type: str
-    text_element: str
+    text_element: Optional[str] = Field(
+        default=None,
+        description="Html value with desciption of the item",
+    )
 
 
-class ItemsForDataQualityAndLastEdits(BaseModel):
+class DataQualityAndLastEditsItem(BaseModel):
+    """
+    contains link and text elements
+    """
+
     title: str
-    subtitle: Optional[str] = None
-    source_url: Optional[str] = None
-    elements: Optional[list[ElementsForDataQualityAndLastEdits]] = None
+    subtitle: Optional[str] = Field(
+        default=None,
+        description="Short description of different facet and value in which it computes the data. ",
+    )
+    source_url: Optional[str] = Field(
+        default=None,
+        description="Link to the source of the data l.e, OpenFoodFacts page.",
+    )
+    elements: Optional[list[TextFacet]] = None
 
 
-class TextItemWikiData(BaseModel):
+class TextFacetWikiData(BaseModel):
+    """Base facet for wikidata conating text elements"""
+
     element_type: str
-    text_element: str
+    text_element: str = Field(
+        description="label of the item coming from wikidata",
+    )
 
 
-class LinksItemWikiData(BaseModel):
+class WikiDataLinksItem(BaseModel):
+    """
+    Contains all different links fom wikidata
+    """
+
     element_type: str
-    wikipedia: Optional[str] = None
-    image_url: Optional[str] = None
-    open_street_map: Optional[str] = None
-    INAO: Optional[str] = None
+    wikipedia: Optional[str] = Field(
+        default=None,
+        description="Link to the wikipedia for the given parameter.",
+    )
+    image_url: Optional[str] = Field(
+        default=None,
+        description="Link for the wikidata image.",
+    )
+    open_street_map: Optional[str] = Field(
+        default=None,
+        description="link to the OpenStreetMap relation through wikidata.",
+    )
+    INAO: Optional[str] = Field(
+        default=None,
+        description="link to the INAO(Institut national de l'origine et de la qualité) for the given parameter.",
+    )
 
 
-WikidataPanel = Union[TextItemWikiData, LinksItemWikiData]
+WikidataPanel = Union[TextFacetWikiData, WikiDataLinksItem]
 
 
-class ElementsWikidata(BaseModel):
+class WikidtaElement(BaseModel):
+    """
+    contains wikidata description and text elements
+    """
+
     id: int
-    subtitle: Optional[str] = None
-    source_url: Optional[str] = None
+    subtitle: Optional[str] = Field(
+        default=None,
+        description="description of the item coming from wikidata.",
+    )
+    source_url: Optional[str] = Field(
+        default=None,
+        description="Link to the source of the data l.e, wikidata page.",
+    )
     elements: Optional[list[WikidataPanel]] = None
 
 
 class WikidataKnowledgePanelItem(BaseModel):
-    title: str
-    elements: Optional[list[ElementsWikidata]] = None
+    title: str = Field(
+        title="wikidata",
+    )
+    elements: Optional[list[WikidtaElement]] = None
 
 
 class HungerGameKnowledgePanelItem(BaseModel):
-    title: str
-    elements: Optional[list[ElementsForHungerGame]] = None
+    title: str = Field(
+        title="HungerGames",
+    )
+    elements: Optional[list[HungerGameElement]] = None
 
 
-class HungerGameResponse(BaseModel):
+class HungerGamePanel(BaseModel):
+    # return hungergamespanel response
     hunger_game: HungerGameKnowledgePanelItem
 
 
-class DataQualityResponse(BaseModel):
-    Quality: ItemsForDataQualityAndLastEdits
+class DataQualityPanel(BaseModel):
+    # return dataqualitypanel response
+    Quality: DataQualityAndLastEditsItem
 
 
-class LastEditsResponse(BaseModel):
-    LastEdits: ItemsForDataQualityAndLastEdits
+class LastEditsPanel(BaseModel):
+    # return lasteditspanel response
+    LastEdits: DataQualityAndLastEditsItem
 
 
-class WikidataResponse(BaseModel):
+class WikidataPanel(BaseModel):
+    # return wikidatapanel response
     WikiData: WikidataKnowledgePanelItem
 
 
-KnowledgePanels = Union[
-    HungerGameResponse, DataQualityResponse, LastEditsResponse, WikidataResponse
-]
+KnowledgePanel = Union[HungerGamePanel, DataQualityPanel, LastEditsPanel, WikidataPanel]
 
 
 class FacetResponse(BaseModel):
-    knowledge_panels: Optional[list[KnowledgePanels]] = None
+    # Return facetresponse l.e, all differnt knowledge panel
+    knowledge_panels: Optional[list[KnowledgePanel]] = None
