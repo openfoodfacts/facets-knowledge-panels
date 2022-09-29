@@ -46,32 +46,32 @@ async def hello():
 async def knowledge_panel(
     facet_tag: FacetName = Query(
         title="Facet tag string",
-        description="Facet tag string for the items to search in the database eg:- category etc.",
+        description="Facet tag string for the items to search in the database eg:- `category` etc.",
     ),
     value_tag: Union[str, None] = Query(
         default=None,
         title="Value tag string",
-        description="value tag string for the items to search in the database eg:-categoy/en:beers etc.",  # noqa: E501
+        description="value tag string for the items to search in the database eg:-`en:beers` etc.",  # noqa: E501
     ),
     sec_facet_tag: Union[str, None] = Query(
         default=None,
         title="secondary facet tag string",
-        description="secondary facet tag string for the items to search in the database eg:-category/en:beers/brand etc.",  # noqa: E501
+        description="secondary facet tag string for the items to search in the database eg:-`brand` etc.",  # noqa: E501
     ),
     sec_value_tag: Union[str, None] = Query(
         default=None,
         title="secondary value tag string",
-        description="secondary value tag string for the items to search in the database eg:-category/beers/brand/lidl etc.",  # noqa: E501
+        description="secondary value tag string for the items to search in the database eg:-`lidl` etc.",  # noqa: E501
     ),
     lang_code: Union[str, None] = Query(
         default=None,
         title="language code string",
-        description="To return knowledge panels in native language (defualt lang: `en`).",
+        description="To return knowledge panels in native language, defualt lang: `en`.",
     ),
     country: Union[str, None] = Query(
         default=None,
         title="Country tag string",
-        description="To return knowledge panels for specific country (ex: `france`).",
+        description="To return knowledge panels for specific country, ex: `france`.",
     ),
 ):
     """
