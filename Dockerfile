@@ -9,12 +9,12 @@ FROM python:3.9
 RUN apt-get update && apt-get -y install gettext
 
 ARG USER_UID
-ARG USER_GID
+ARG USER_GIDWORKDIR /code
+WORKDIR /code
 RUN groupadd -g $USER_GID off && \
     useradd -u $USER_UID -g off -m off && \ 
     mkdir -p /home/off && \ 
     chown off:off -R /code /home/off
-WORKDIR /code
 
 COPY --chown=off:off ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
