@@ -7,7 +7,6 @@ services:
     container_name: knowledge-panel
     build:
       context: .
-      dockerfile: Dockerfile
       # align user id
       args:
         USER_UID: ${USER_UID:-1000}
