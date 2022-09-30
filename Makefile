@@ -6,7 +6,6 @@ DOCKER_RUN=docker-compose run --rm --no-deps facets-api
 
 
 docker_build:
-	docker volume create --name=knowledge-panel
 	docker-compose build
 
 docker_up:
