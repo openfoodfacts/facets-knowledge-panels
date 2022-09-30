@@ -9,52 +9,10 @@ The primary goal is to allow high level contributions by users that maybe intere
 
 We reuse the knowledge panel format, which remove the need for the application to change as the server side code change, or to implement specific business logic.
 
+## How do I get started?
 
-## Project Setup
-
-### Through Docker
-
-After forking the repository
-
-to build:
-```bash
-docker-compose build
-```
-
-to run:
-```bash
-docker-compose up
-```
-
-- Visit `http://127.0.0.1/` with the endpoints or `/docs` for documentation
-
-### Through virtual env
-
-- After forking the repository
-- Create [virtual env](https://docs.python.org/3/library/venv.html)
-- Install requirements.txt
-```
-pip install -r requirements.txt
-```
-```
-uvicorn app.main:app --reload
-```
-- Checkout your local host `http://127.0.0.1:8000/` with the endpoints or /docs for documentation
-
-## Testing
-
-### docker setup
-```bash
-docker-compose run --rm facets-api pytest tests
-```
-or
-```bash
-make tests
-```
-
-### virtual env setup
-- Checkout `tests` directory
-```
-pytest 
-```
-
+* Join us on Slack at <https://openfoodfacts.slack.com/archives/C03LFRKLVBQ>
+* Developer documentation:
+    * [Project setup](./docs/how-to-guides/Project-setup-locally.md)
+    * [Testing](./docs/how-to-guides/Testing.md)
+* [API Documentation](./docs/references/API%20references.md)
