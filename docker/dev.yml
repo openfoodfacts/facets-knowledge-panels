@@ -2,18 +2,9 @@ version: '3'
 
 services:
   facets-api:
-    ports:
-      - "${API_EXPOSE}:80"
-    container_name: knowledge-panel
     build:
       context: .
       # align user id
       args:
         USER_UID: ${USER_UID:-1000}
         USER_GID: ${USER_GID:-1000}
-    volumes:
-      - .:/code
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
-
-volumes:
-  name: ${COMPOSE_PROJECT_NAME}
