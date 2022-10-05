@@ -18,40 +18,40 @@ msgstr ""
 #: app/off.py:26
 #, python-brace-format
 msgid "{products} products with {name}"
-msgstr ""
+msgstr "{products} produktov s {name}"
 
 #: app/off.py:32
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr ""
+msgstr "Celkový počet problémov je {total_issues}"
 
 #: app/off.py:41
 msgid "Data-quality issues related to"
-msgstr ""
+msgstr "Problémy s kvalitou údajov súvisiace s"
 
 #: app/off.py:42
 msgid "Data-quality issues"
-msgstr ""
+msgstr "Problémy s kvalitou údajov"
 
 #: app/off.py:68
 #, python-brace-format
 msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-msgstr ""
+msgstr "{product_name} ({code}) upravil/a {last_editor} dňa {edit_date}"
 
 #: app/off.py:76
 #, python-brace-format
 msgid "Total number of edits {counts}"
-msgstr ""
+msgstr "Celkový počet úprav {counts}"
 
 #: app/off.py:83
 msgid "last-edits issues related to"
-msgstr ""
+msgstr "problémy týkajúce sa posledných úprav"
 
 #: app/off.py:84
 msgid "Last-edits"
-msgstr ""
+msgstr "Posledné úpravy"
 
 #: app/off.py:91
 msgid "Answer robotoff questions about"
-msgstr ""
+msgstr "Odpovedzte na otázky robotoff týkajúce sa"
 
