@@ -9,7 +9,8 @@ FROM python:3.9
 RUN apt-get update && apt-get -y install gettext
 
 ARG USER_UID
-ARG USER_GIDWORKDIR /code
+ARG USER_GID
+
 WORKDIR /code
 RUN groupadd -g $USER_GID off && \
     useradd -u $USER_UID -g off -m off && \ 
