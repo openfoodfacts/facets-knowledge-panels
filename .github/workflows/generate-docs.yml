@@ -26,7 +26,7 @@ jobs:
       - run: pip install mkdocs-material 
       - run: mkdocs gh-deploy --force
       - name: Deploy 🚀
-        # we only deploy on push to master
+        # we only deploy on push to main
         if: |
           github.event_name == 'push' && github.event.ref == 'refs/heads/master'
         uses: JamesIves/github-pages-deploy-action@v4.4.0
