@@ -24,8 +24,7 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install mkdocs-material 
-      - run: mkdocs gh-deploy --force
-      - name: Deploy 🚀
+      - name: Deploy documentation to Github Pages 🚀
         # we only deploy on push to main
         if: |
           github.event_name == 'push' && github.event.ref == 'refs/heads/main'
