@@ -15,7 +15,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: build docker
-        run: DOCKER_BUILDKIT=1 docker-compose build
+        run: |
+          export USER_UID=$(id -u)
+          export USER_GID=$(id -g)
+          DOCKER_BUILDKIT=1 docker-compose build
       - name: build languages
         run: make build_lang
       - name: Make checks

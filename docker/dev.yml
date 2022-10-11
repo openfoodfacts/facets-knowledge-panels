@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  facets-api:
+    build:
+      context: .
+      # align user id
+      args:
+        USER_UID: ${USER_UID:-1000}
+        USER_GID: ${USER_GID:-1000}
