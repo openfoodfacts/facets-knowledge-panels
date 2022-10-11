@@ -1,0 +1,27 @@
+#----------------------------------------------
+# Generate and upload documentation (only push to main)
+#----------------------------------------------
+
+name: Generate documentation
+on:
+  pull_request:
+    # on pull request we just want to build to see nothing is broken
+    paths:
+    - "README.md"
+    - "docs/**"
+    - ".github/workflows/generate-docs.yml"
+    - "mkdocs.yml"
+  push:
+    branches:
+      - main
+      
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: pip install mkdocs-material 
+      - run: mkdocs gh-deploy --force
