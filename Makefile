@@ -11,9 +11,8 @@ docker_build:
 docker_up:
 	docker-compose up
 
-
+# recompile languages files
 build_lang:
-	# recompile languages files
 	${DOCKER_RUN} find i18n -name \*.po -execdir msgfmt knowledge-panel.po -o knowledge-panel.mo \;
 
 # lint code
