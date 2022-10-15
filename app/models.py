@@ -105,51 +105,66 @@ def facet_plural(facet: str):
 # --------------------------------------------
 
 
+class BaseText(BaseModel):
+    title: str
+
+
+class BasePanel(BaseModel):
+    html: str
+    source_text: str
+    source_url: str
+
+
 class TextFacet(BaseModel):
     """Base facet containing text"""
 
     element_type: str
-    text_element: Optional[str] = Field(
-        default=None,
-        description="Html value with desciption of the item",
-    )
+    text_element: BasePanel
 
 
-class HungerGameElement(TextFacet):
-    id: int
+class KnowledgePanelItem(BaseModel):
+    elements: Optional[list] = None
+    title_element: BaseText
 
 
-class DataQualityAndLastEditsItem(BaseModel):
+class HungerGameTextElement(BaseModel):
+    html: str
+
+
+class DataQualityAndLastEditsItem(KnowledgePanelItem):
     """
     contains link and text elements
     """
 
-    title: str
-    subtitle: Optional[str] = Field(
+    elements: Optional[list[TextFacet]] = None
+
+
+class WikidataTextElements(BaseModel):
+    source_label: Optional[str] = Field(
         default=None,
-        description="Short description of different facet and value in which it computes the data. ",  # noqa: E501
+        description="Link to the wikipedia for the given parameter.",
+    )
+    source_description: Optional[str] = Field(
+        default=None,
+        description="Link to the wikipedia for the given parameter.",
+    )
+    source_text: Optional[str] = Field(
+        default=None,
+        description="Link to the wikipedia for the given parameter.",
     )
     source_url: Optional[str] = Field(
         default=None,
-        description="Link to the source of the data l.e, OpenFoodFacts page.",
+        description="Link to the wikipedia for the given parameter.",
     )
-    elements: Optional[list[TextFacet]] = None
 
 
 class TextFacetWikiData(TextFacet):
     """Base facet for wikidata conating text elements"""
 
-    text_element: str = Field(
-        description="label for given facet coming from wikidata.",
-    )
+    text_element: WikidataTextElements
 
 
-class WikiDataLinksItem(BaseModel):
-    """
-    Contains all different links fom wikidata
-    """
-
-    element_type: str
+class WikiDataLinkElement(BaseModel):
     wikipedia: Optional[str] = Field(
         default=None,
         description="Link to the wikipedia for the given parameter.",
@@ -168,36 +183,27 @@ class WikiDataLinksItem(BaseModel):
     )
 
 
+class WikiDataLinksItem(BaseModel):
+    """
+    Contains all different links fom wikidata
+    """
+
+    element_type: str
+    link_element: WikiDataLinkElement
+
+
 WikidataPanel = Union[TextFacetWikiData, WikiDataLinksItem]
 
 
-class WikidtaElement(BaseModel):
-    """
-    contains wikidata description and text elements
-    """
+class HungerGameElement(TextFacet):
+    text_element: HungerGameTextElement
 
-    id: int
-    subtitle: Optional[str] = Field(
-        default=None,
-        description="description of the item coming from wikidata.",
-    )
-    source_url: Optional[str] = Field(
-        default=None,
-        description="Link to the source of the data l.e, wikidata page.",
-    )
+
+class WikidataKnowledgePanelItem(KnowledgePanelItem):
     elements: Optional[list[WikidataPanel]] = None
 
 
-class BasePanel(BaseModel):
-    title: str
-    elements: list
-
-
-class WikidataKnowledgePanelItem(BasePanel):
-    elements: Optional[list[WikidtaElement]] = None
-
-
-class HungerGameKnowledgePanelItem(BasePanel):
+class HungerGameKnowledgePanelItem(KnowledgePanelItem):
     elements: Optional[list[HungerGameElement]] = None
 
 
