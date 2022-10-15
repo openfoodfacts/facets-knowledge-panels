@@ -106,13 +106,20 @@ def facet_plural(facet: str):
 
 
 class BaseText(BaseModel):
-    title: str
+    title: str = Field(
+        description="title of the panel",
+    )
 
 
 class BasePanel(BaseModel):
-    html: str
+    html: Optional[str] = Field(
+        default=None,
+        description="Text to display in HTML format",
+    )
     source_text: str
-    source_url: str
+    source_url: str = Field(
+        description="Source link for the panel",
+    )
 
 
 class TextFacet(BaseModel):
@@ -142,19 +149,19 @@ class DataQualityAndLastEditsItem(KnowledgePanelItem):
 class WikidataTextElements(BaseModel):
     source_label: Optional[str] = Field(
         default=None,
-        description="Link to the wikipedia for the given parameter.",
+        description="Source label of wikidata.",
     )
     source_description: Optional[str] = Field(
         default=None,
-        description="Link to the wikipedia for the given parameter.",
+        description="Source description of wikidata for the given parameter.",
     )
     source_text: Optional[str] = Field(
         default=None,
-        description="Link to the wikipedia for the given parameter.",
+        description="wikidata.",
     )
     source_url: Optional[str] = Field(
         default=None,
-        description="Link to the wikipedia for the given parameter.",
+        description="Link to the wikidata for the given parameter.",
     )
 
 

@@ -404,7 +404,7 @@ async def test_data_quality_kp_with_all_tags(monkeypatch):
                     "text_element": {
                         "html": "ok",
                         "source_text": "Data-quality issues",
-                        "source_url": "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality",
+                        "source_url": "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality",  # noqa: E501
                     },
                 }
             ],
@@ -472,7 +472,7 @@ async def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
                     "text_element": {
                         "html": "ok",
                         "source_text": "Last-edits",
-                        "source_url": "https://hu-en.openfoodfacts.org/vitamin/vitamin-k?sort_by=last_modified_t",
+                        "source_url": "https://hu-en.openfoodfacts.org/vitamin/vitamin-k?sort_by=last_modified_t",  # noqa: E501
                     },
                 }
             ],
@@ -623,7 +623,7 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
                     "text_element": {
                         "html": "ok",
                         "source_text": "Last-edits",
-                        "source_url": "https://fr-en.openfoodfacts.org/brand/nestle/category/coffees?sort_by=last_modified_t",
+                        "source_url": "https://fr-en.openfoodfacts.org/brand/nestle/category/coffees?sort_by=last_modified_t",  # noqa: E501
                     },
                 }
             ],
@@ -729,7 +729,7 @@ async def test_wikidata_kp(monkeypatch):
                         "element_type": "links",
                         "link_element": {
                             "wikipedia": "http://fr.wikipedia.org/wiki/Fitou_AOC",
-                            "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Paziols_%28France%29_Vue_du_village.jpg",
+                            "image_url": image_url,
                             "open_street_map": "https://www.openstreetmap.org/relation/2727716",
                             "INAO": "https://www.inao.gouv.fr/produit/6159",
                         },
