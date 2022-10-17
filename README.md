@@ -13,14 +13,6 @@ Providing knowledge panels for a particular Open Food Facts facet (category, bra
 
 <br>
 
-## About Repo
-
-![GitHub language count](https://img.shields.io/github/languages/count/openfoodfacts/facets-knowledge-panels?style=for-the-badge&color=brightgreen)
-![GitHub top language](https://img.shields.io/github/languages/top/openfoodfacts/facets-knowledge-panels?style=for-the-badge&color=aqua)
-![GitHub last commit](https://img.shields.io/github/last-commit/openfoodfacts/facets-knowledge-panels?style=for-the-badge&color=blue)
-![Github Repo Size](https://img.shields.io/github/repo-size/openfoodfacts/facets-knowledge-panels?style=for-the-badge&color=aqua)
-
-<br>
 
 ## How do I get started?
 
@@ -29,6 +21,15 @@ Providing knowledge panels for a particular Open Food Facts facet (category, bra
     * [Project setup](./docs/how-to-guides/Project-setup-locally.md)
     * [Testing](./docs/how-to-guides/Testing.md)
 * [API Documentation](./docs/references/API%20references.md)
+
+<br>
+
+## About Repo
+
+![GitHub language count](https://img.shields.io/github/languages/count/openfoodfacts/facets-knowledge-panels?style=for-the-badge&color=brightgreen)
+![GitHub top language](https://img.shields.io/github/languages/top/openfoodfacts/facets-knowledge-panels?style=for-the-badge&color=aqua)
+![GitHub last commit](https://img.shields.io/github/last-commit/openfoodfacts/facets-knowledge-panels?style=for-the-badge&color=blue)
+![Github Repo Size](https://img.shields.io/github/repo-size/openfoodfacts/facets-knowledge-panels?style=for-the-badge&color=aqua)
 
 <br>
 
