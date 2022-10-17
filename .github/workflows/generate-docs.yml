@@ -16,7 +16,7 @@ on:
       - main
       
 jobs:
-  publish-docs:
+  build-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
