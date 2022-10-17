@@ -49,9 +49,9 @@ msgstr ""
 
 #: app/off.py:84
 msgid "Last-edits"
-msgstr ""
+msgstr "সর্বশেষ করা পরিবর্তন"
 
 #: app/off.py:91
 msgid "Answer robotoff questions about"
-msgstr ""
+msgstr "সম্পর্কে রোবটঅফ প্রশ্নের উত্তর দিন"
 
