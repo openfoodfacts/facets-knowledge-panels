@@ -1,0 +1,12 @@
+site_name: Facets Knowledge Panels
+site_dir: gh_pages
+
+# Where to find documentation
+docs_dir: docs
+
+# Link to Github on every page
+repo_url: https://github.com/openfoodfacts/facets-knowledge-panels
+edit_uri: blob/main/docs/
+
+theme:
+  name: material
