@@ -1,0 +1,27 @@
+github:
+- .github/**/*
+
+documentation:
+- any: ['*.MD']
+
+translations:
+- i18n/**/*
+- app/i18n.py
+
+tests:
+- tests/**/*
+
+docker:
+- docker/**/*
+- Dockerfile
+- docker-compose.yml
+
+api:
+- app/knowledge_panels.py
+- app/main.py
+- app/off.py
+- app/wikidata_utils.py
+- app/settings.py
+
+models:
+- app/models.py
