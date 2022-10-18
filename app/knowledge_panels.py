@@ -215,8 +215,7 @@ class KnowledgePanels:
                 {
                     "element_type": "text",
                     "text_element": {
-                        "source_label": val.label_tag,
-                        "source_description": val.description_tag,
+                        "html": f"<p><em>{val.label_tag}</em></p><p><small>{val.description_tag}</small></p>",  # noqa: E501
                         "source_text": "wikidata",
                         "source_url": f"https://www.wikidata.org/wiki/{val.entity_id}",
                     },
@@ -225,12 +224,16 @@ class KnowledgePanels:
 
             html.append(
                 {
-                    "element_type": "links",
-                    "link_element": {
-                        "wikipedia": val.wikipedia_relation,
-                        "image_url": val.image_url,
-                        "open_street_map": val.OSM_relation,
-                        "INAO": val.INAO_relation,
+                    "element_type": "text",
+                    "text_element": {
+                        "html": (
+                            "<ul>"
+                            f"<li><a href={val.wikipedia_relation}'>wikipedia</a></li>"
+                            f"<li><a href={val.image_url}>wikidata thumbnail</a></li>"
+                            f"<li><a href={val.OSM_relation}>OpenSteetMap Relation</a></li>"
+                            f"<li><a href={val.INAO_relation}>INAO relation</a></li>"
+                            "</ul>"
+                        )
                     },
                 }
             )

@@ -105,113 +105,60 @@ def facet_plural(facet: str):
 # --------------------------------------------
 
 
-class BaseText(BaseModel):
+class BaseTitleElement(BaseModel):
+    # Containing title element
     title: str = Field(
         description="title of the panel",
     )
 
 
-class BasePanel(BaseModel):
+class BaseTextElement(BaseModel):
+    # Conataning text element
     html: Optional[str] = Field(
         default=None,
         description="Text to display in HTML format",
     )
-    source_text: str
-    source_url: str = Field(
-        description="Source link for the panel",
+    source_text: Optional[str] = Field(
+        description="name of the source",
+    )
+
+    source_url: Optional[str] = Field(
+        description="Link to the source",
     )
 
 
-class TextFacet(BaseModel):
-    """Base facet containing text"""
+class BaseElement(BaseModel):
+    # Contains base elements of panel
 
-    element_type: str
-    text_element: BasePanel
+    element_type: str = Field(
+        description="The type of the included element object."
+        "The type also indicates which field contains the included element object. "
+        """e.g. if the type is "text", the included element object will be in the "text_element" field.""",  # noqa: E501
+    )
+    text_element: BaseTextElement = Field(
+        description="A text in simple HTML format to display.",
+    )
 
 
 class KnowledgePanelItem(BaseModel):
+    # Helper class for reccuring item
     elements: Optional[list] = None
-    title_element: BaseText
-
-
-class HungerGameTextElement(BaseModel):
-    html: str
+    title_element: BaseTitleElement
 
 
 class DataQualityAndLastEditsItem(KnowledgePanelItem):
-    """
-    contains link and text elements
-    """
+    # contains dataquality and lastedits elements
 
-    elements: Optional[list[TextFacet]] = None
+    elements: Optional[list[BaseElement]] = None
 
 
-class WikidataTextElements(BaseModel):
-    source_label: Optional[str] = Field(
-        default=None,
-        description="Source label of wikidata.",
-    )
-    source_description: Optional[str] = Field(
-        default=None,
-        description="Source description of wikidata for the given parameter.",
-    )
-    source_text: Optional[str] = Field(
-        default=None,
-        description="wikidata.",
-    )
-    source_url: Optional[str] = Field(
-        default=None,
-        description="Link to the wikidata for the given parameter.",
-    )
-
-
-class TextFacetWikiData(TextFacet):
-    """Base facet for wikidata conating text elements"""
-
-    text_element: WikidataTextElements
-
-
-class WikiDataLinkElement(BaseModel):
-    wikipedia: Optional[str] = Field(
-        default=None,
-        description="Link to the wikipedia for the given parameter.",
-    )
-    image_url: Optional[str] = Field(
-        default=None,
-        description="Link for the wikidata image.",
-    )
-    open_street_map: Optional[str] = Field(
-        default=None,
-        description="link to the OpenStreetMap relation through wikidata.",
-    )
-    INAO: Optional[str] = Field(
-        default=None,
-        description="link to the INAO(Institut national de l'origine et de la qualité) for the given parameter.",  # noqa: E501
-    )
-
-
-class WikiDataLinksItem(BaseModel):
-    """
-    Contains all different links fom wikidata
-    """
-
-    element_type: str
-    link_element: WikiDataLinkElement
-
-
-WikidataPanel = Union[TextFacetWikiData, WikiDataLinksItem]
-
-
-class HungerGameElement(TextFacet):
-    text_element: HungerGameTextElement
-
-
-class WikidataKnowledgePanelItem(KnowledgePanelItem):
-    elements: Optional[list[WikidataPanel]] = None
+class WikidataKnowledgePanelItem(BaseModel):
+    elements: Optional[list[BaseElement]] = None
+    title_element: BaseTitleElement
 
 
 class HungerGameKnowledgePanelItem(KnowledgePanelItem):
-    elements: Optional[list[HungerGameElement]] = None
+    elements: Optional[list[BaseElement]] = None
 
 
 class HungerGamePanel(BaseModel):

@@ -680,25 +680,29 @@ async def test_wikidata_kp(monkeypatch):
     )
     # run the test
     result = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
+    clean_html = (
+        "<ul>"
+        "<li><a href=http://en.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a></li>"
+        f"<li><a href={image_url}>wikidata thumbnail</a></li>"
+        "<li><a href=https://www.openstreetmap.org/relation/2727716>OpenSteetMap Relation</a></li>"
+        "<li><a href=https://www.inao.gouv.fr/produit/6159>INAO relation</a></li>"
+        "</ul>"
+    )
     expected_result = {
         "WikiData": {
             "elements": [
                 {
                     "element_type": "text",
                     "text_element": {
-                        "source_label": "Fitou AOC",
-                        "source_description": "French wine appellation",
+                        "html": "<p><em>Fitou AOC</em></p><p><small>French wine appellation</small></p>",  # noqa: E501
                         "source_text": "wikidata",
                         "source_url": "https://www.wikidata.org/wiki/Q470974",
                     },
                 },
                 {
-                    "element_type": "links",
-                    "link_element": {
-                        "wikipedia": "http://en.wikipedia.org/wiki/Fitou_AOC",
-                        "image_url": image_url,
-                        "open_street_map": "https://www.openstreetmap.org/relation/2727716",
-                        "INAO": "https://www.inao.gouv.fr/produit/6159",
+                    "element_type": "text",
+                    "text_element": {
+                        "html": clean_html,
                     },
                 },
             ],
@@ -713,25 +717,29 @@ async def test_wikidata_kp(monkeypatch):
         assert result_it == expected_result
     with active_translation("fr"):
         # only some items varies
+        clean_html = (
+            "<ul>"
+            "<li><a href=http://fr.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a></li>"
+            f"<li><a href={image_url}>wikidata thumbnail</a></li>"
+            "<li><a href=https://www.openstreetmap.org/relation/2727716>OpenSteetMap Relation</a></li>"  # noqa: E501
+            "<li><a href=https://www.inao.gouv.fr/produit/6159>INAO relation</a></li>"
+            "</ul>"
+        )
         expected_result_fr = {
             "WikiData": {
                 "elements": [
                     {
                         "element_type": "text",
                         "text_element": {
-                            "source_label": "Fitou",
-                            "source_description": "région viticole",
+                            "html": "<p><em>Fitou</em></p><p><small>région viticole</small></p>",
                             "source_text": "wikidata",
                             "source_url": "https://www.wikidata.org/wiki/Q470974",
                         },
                     },
                     {
-                        "element_type": "links",
-                        "link_element": {
-                            "wikipedia": "http://fr.wikipedia.org/wiki/Fitou_AOC",
-                            "image_url": image_url,
-                            "open_street_map": "https://www.openstreetmap.org/relation/2727716",
-                            "INAO": "https://www.inao.gouv.fr/produit/6159",
+                        "element_type": "text",
+                        "text_element": {
+                            "html": clean_html,
                         },
                     },
                 ],
