@@ -18,9 +18,9 @@ Providing knowledge panels for a particular Open Food Facts facet (category, bra
 
 * Join us on [Slack](https://openfoodfacts.slack.com/archives/C03LFRKLVBQ)
 * Developer documentation
-    * [Project setup](./docs/how-to-guides/Project-setup-locally.md)
-    * [Testing](./docs/how-to-guides/Testing.md)
-* [API Documentation](./docs/references/API%20references.md)
+    * [Project setup](./how-to-guides/Project-setup-locally.md)
+    * [Testing](./how-to-guides/Testing.md)
+* [API Documentation](./references/API%20references.md)
 
 <br>
 
