@@ -681,11 +681,14 @@ async def test_wikidata_kp(monkeypatch):
     # run the test
     result = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
     clean_html = (
+        f"<p><img alt='wikidata image' src='{image_url}'></p>"
         "<ul>"
-        "<li><a href=http://en.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a></li>"
-        f"<li><a href={image_url}>wikidata thumbnail</a></li>"
-        "<li><a href=https://www.openstreetmap.org/relation/2727716>OpenSteetMap Relation</a></li>"
-        "<li><a href=https://www.inao.gouv.fr/produit/6159>INAO relation</a></li>"
+        "<li><a href='http://en.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a>"
+        "</li>"
+        "<li><a href='https://www.openstreetmap.org/relation/2727716'>OpenSteetMap Relation</a>"
+        "</li>"
+        "<li><a href='https://www.inao.gouv.fr/produit/6159'>INAO relation</a>"
+        "</li>"
         "</ul>"
     )
     expected_result = {
@@ -718,11 +721,14 @@ async def test_wikidata_kp(monkeypatch):
     with active_translation("fr"):
         # only some items varies
         clean_html = (
+            f"<p><img alt='wikidata image' src='{image_url}'></p>"
             "<ul>"
-            "<li><a href=http://fr.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a></li>"
-            f"<li><a href={image_url}>wikidata thumbnail</a></li>"
-            "<li><a href=https://www.openstreetmap.org/relation/2727716>OpenSteetMap Relation</a></li>"  # noqa: E501
-            "<li><a href=https://www.inao.gouv.fr/produit/6159>INAO relation</a></li>"
+            "<li><a href='http://fr.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a>"
+            "</li>"
+            "<li><a href='https://www.openstreetmap.org/relation/2727716'>OpenSteetMap Relation</a>"
+            "</li>"
+            "<li><a href='https://www.inao.gouv.fr/produit/6159'>INAO relation</a>"
+            "</li>"
             "</ul>"
         )
         expected_result_fr = {

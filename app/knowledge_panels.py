@@ -210,6 +210,7 @@ class KnowledgePanels:
             logging.exception("While adding wikidata for secandary facet")
 
         html = []
+        info = []
         for id, val in enumerate(entities):
             html.append(
                 {
@@ -221,20 +222,21 @@ class KnowledgePanels:
                     },
                 }
             )
-
+            if val.image_url != "":
+                info.append(f"""<p><img alt='wikidata image' src='{val.image_url}'></p>""")
+            info.append("<ul>")
+            if val.wikipedia_relation != "":
+                info.append(f"""<li><a href='{val.wikipedia_relation}'>wikipedia</a></li>""")
+            if val.OSM_relation != "":
+                info.append(f"""<li><a href='{val.OSM_relation}'>OpenSteetMap Relation</a></li>""")
+            if val.INAO_relation != "":
+                info.append(f"""<li><a href='{val.INAO_relation}'>INAO relation</a></li>""")
+            info.append("</ul>")
+            link = "".join(info)
             html.append(
                 {
                     "element_type": "text",
-                    "text_element": {
-                        "html": (
-                            "<ul>"
-                            f"<li><a href={val.wikipedia_relation}'>wikipedia</a></li>"
-                            f"<li><a href={val.image_url}>wikidata thumbnail</a></li>"
-                            f"<li><a href={val.OSM_relation}>OpenSteetMap Relation</a></li>"
-                            f"<li><a href={val.INAO_relation}>INAO relation</a></li>"
-                            "</ul>"
-                        )
-                    },
+                    "text_element": {"html": link},
                 }
             )
 

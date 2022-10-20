@@ -129,7 +129,7 @@ async def wikidata_helper(query, value):
     else:
         image_url = ""
     wiki_links = in_lang(entity.attributes["sitelinks"], lang, "wiki")
-    wikipedia_relation = wiki_links.get("url")
+    wikipedia_relation = wiki_links.get("url", "")
     if wikidata_props.INAO_prop in entity:
         INAO = entity[wikidata_props.INAO_prop]
         INAO_relation = "https://www.inao.gouv.fr/produit/{}".format(INAO)

@@ -142,43 +142,28 @@ class BaseElement(BaseModel):
 
 class KnowledgePanelItem(BaseModel):
     # Helper class for reccuring item
-    elements: Optional[list] = None
-    title_element: BaseTitleElement
-
-
-class DataQualityAndLastEditsItem(KnowledgePanelItem):
-    # contains dataquality and lastedits elements
-
-    elements: Optional[list[BaseElement]] = None
-
-
-class WikidataKnowledgePanelItem(BaseModel):
     elements: Optional[list[BaseElement]] = None
     title_element: BaseTitleElement
-
-
-class HungerGameKnowledgePanelItem(KnowledgePanelItem):
-    elements: Optional[list[BaseElement]] = None
 
 
 class HungerGamePanel(BaseModel):
     # return hungergamespanel response
-    hunger_game: HungerGameKnowledgePanelItem
+    hunger_game: KnowledgePanelItem
 
 
 class DataQualityPanel(BaseModel):
     # return dataqualitypanel response
-    Quality: DataQualityAndLastEditsItem
+    Quality: KnowledgePanelItem
 
 
 class LastEditsPanel(BaseModel):
     # return lasteditspanel response
-    LastEdits: DataQualityAndLastEditsItem
+    LastEdits: KnowledgePanelItem
 
 
 class WikidataPanel(BaseModel):
     # return wikidatapanel response
-    WikiData: WikidataKnowledgePanelItem
+    WikiData: KnowledgePanelItem
 
 
 KnowledgePanel = Union[HungerGamePanel, DataQualityPanel, LastEditsPanel, WikidataPanel]
