@@ -190,24 +190,21 @@ class KnowledgePanels:
             query["tagtype"] = facet_plural(facet=facet)
             query["fields"] = "wikidata"
             query["tags"] = value
-
-        entities = await wikidata_helper(query=query, value=value)
-
-        return entities
+            return await wikidata_helper(query=query, value=value)
 
     async def wikidata_kp(self):
         """
         Return knowledge panel for wikidata
         """
         entities = set()
-        try:
-            entities.add(await self._wikidata_kp(facet=self.facet, value=self.value))
-        except Exception:
-            logging.exception("While adding wikidata for primary facet")
-        try:
-            entities.add(await self._wikidata_kp(facet=self.sec_facet, value=self.sec_value))
-        except Exception:
-            logging.exception("While adding wikidata for secandary facet")
+        params = ((self.facet, self.value), (self.sec_facet, self.sec_value))
+        for facet, value in params:
+            try:
+                entity = await self._wikidata_kp(facet=facet, value=value)
+                if entity is not None:
+                    entities.add(entity)
+            except Exception:
+                logging.exception("While adding wikidata for primary facet")
 
         html = []
         info = []
