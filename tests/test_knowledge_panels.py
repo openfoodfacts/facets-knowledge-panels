@@ -25,14 +25,8 @@ async def test_hunger_game_kp_with_filter_value_and_country():
         facet="country", value="germany", country="france"
     ).hunger_game_kp() == {
         "hunger_game": {
-            "title": "hunger-games",
-            "elements": [
-                {
-                    "id": 0,
-                    "element_type": "text",
-                    "text_element": html,
-                }
-            ],
+            "elements": [{"element_type": "text", "text_element": {"html": html}}],
+            "title_element": {"title": "hunger-games"},
         }
     }
 
@@ -44,14 +38,8 @@ async def test_hunger_game_kp_with_category():
     )
     assert await KnowledgePanels(facet="category").hunger_game_kp() == {
         "hunger_game": {
-            "title": "hunger-games",
-            "elements": [
-                {
-                    "id": 0,
-                    "element_type": "text",
-                    "text_element": html,
-                }
-            ],
+            "elements": [{"element_type": "text", "text_element": {"html": html}}],
+            "title_element": {"title": "hunger-games"},
         }
     }
 
@@ -67,11 +55,11 @@ async def test_hunger_game_kp_category_with_country():
     )
     assert await KnowledgePanels(facet="category", country="france").hunger_game_kp() == {
         "hunger_game": {
-            "title": "hunger-games",
             "elements": [
-                {"id": 0, "element_type": "text", "text_element": html0},
-                {"id": 1, "element_type": "text", "text_element": html1},
+                {"element_type": "text", "text_element": {"html": html0}},
+                {"element_type": "text", "text_element": {"html": html1}},
             ],
+            "title_element": {"title": "hunger-games"},
         }
     }
 
@@ -83,14 +71,8 @@ async def test_hunger_game_kp_category_with_value():
     )
     assert await KnowledgePanels(facet="category", value="en:beers").hunger_game_kp() == {
         "hunger_game": {
-            "title": "hunger-games",
-            "elements": [
-                {
-                    "id": 0,
-                    "element_type": "text",
-                    "text_element": html,
-                }
-            ],
+            "elements": [{"element_type": "text", "text_element": {"html": html}}],
+            "title_element": {"title": "hunger-games"},
         }
     }
 
@@ -102,8 +84,8 @@ async def test_hunger_game_kp_brand_with_value():
     )
     assert await KnowledgePanels(facet="brand", value="nestle").hunger_game_kp() == {
         "hunger_game": {
-            "title": "hunger-games",
-            "elements": [{"id": 0, "element_type": "text", "text_element": html}],
+            "elements": [{"element_type": "text", "text_element": {"html": html}}],
+            "title_element": {"title": "hunger-games"},
         }
     }
 
@@ -115,14 +97,8 @@ async def test_hunger_game_kp_label_with_value():
     )
     assert await KnowledgePanels(facet="label", value="en:organic").hunger_game_kp() == {
         "hunger_game": {
-            "title": "hunger-games",
-            "elements": [
-                {
-                    "id": 0,
-                    "element_type": "text",
-                    "text_element": html,
-                }
-            ],
+            "elements": [{"element_type": "text", "text_element": {"html": html}}],
+            "title_element": {"title": "hunger-games"},
         }
     }
 
@@ -144,11 +120,11 @@ async def test_hunger_game_kp_with_all_tag_1():
         country="france",
     ).hunger_game_kp() == {
         "hunger_game": {
-            "title": "hunger-games",
             "elements": [
-                {"id": 0, "element_type": "text", "text_element": html0},
-                {"id": 1, "element_type": "text", "text_element": html1},
+                {"element_type": "text", "text_element": {"html": html0}},
+                {"element_type": "text", "text_element": {"html": html1}},
             ],
+            "title_element": {"title": "hunger-games"},
         }
     }
 
@@ -169,11 +145,11 @@ async def test_hunger_game_kp_with_all_tag_2():
         sec_value="en:coffees",
     ).hunger_game_kp() == {
         "hunger_game": {
-            "title": "hunger-games",
             "elements": [
-                {"id": 0, "element_type": "text", "text_element": html0},
-                {"id": 1, "element_type": "text", "text_element": html1},
+                {"element_type": "text", "text_element": {"html": html0}},
+                {"element_type": "text", "text_element": {"html": html1}},
             ],
+            "title_element": {"title": "hunger-games"},
         }
     }
 
@@ -199,12 +175,12 @@ async def test_hunger_game_kp_with_all_tag_3():
         country="italy",
     ).hunger_game_kp() == {
         "hunger_game": {
-            "title": "hunger-games",
             "elements": [
-                {"id": 0, "element_type": "text", "text_element": html0},
-                {"id": 1, "element_type": "text", "text_element": html1},
-                {"id": 2, "element_type": "text", "text_element": html2},
+                {"element_type": "text", "text_element": {"html": html0}},
+                {"element_type": "text", "text_element": {"html": html1}},
+                {"element_type": "text", "text_element": {"html": html2}},
             ],
+            "title_element": {"title": "hunger-games"},
         }
     }
 
@@ -250,7 +226,7 @@ async def test_data_quality_kp_with_country(monkeypatch):
         facet="country", value="Turkey", country="Hungary"
     ).data_quality_kp()
     first_element = result["Quality"]["elements"][0]
-    first_element["text_element"] = tidy_html(first_element["text_element"])
+    first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
     expected_text = """
     <ul>
         <p>The total number of issues are 129</p>
@@ -266,20 +242,22 @@ async def test_data_quality_kp_with_country(monkeypatch):
     </ul>
     """  # noqa: E501  # allow long lines
     # assert html separately to have better output in case of error
-    assert first_element["text_element"] == tidy_html(expected_text)
+    assert first_element["text_element"]["html"] == tidy_html(expected_text)
     # now replace it for concision of output
-    first_element["text_element"] = "ok"
+    first_element["text_element"]["html"] = "ok"
     assert result == {
         "Quality": {
-            "title": "Data-quality issues",
-            "subtitle": "Data-quality issues related to Turkey ",
-            "source_url": "https://tr-en.openfoodfacts.org/data-quality",
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": "ok",
+                    "text_element": {
+                        "html": "ok",
+                        "source_text": "Data-quality issues",
+                        "source_url": "https://tr-en.openfoodfacts.org/data-quality",
+                    },
                 }
             ],
+            "title_element": {"title": "Data-quality issues related to Turkey "},
         }
     }
 
@@ -323,7 +301,7 @@ async def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
     )
     result = await KnowledgePanels(facet="brand", value="lidl").data_quality_kp()
     first_element = result["Quality"]["elements"][0]
-    first_element["text_element"] = tidy_html(first_element["text_element"])
+    first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
     expected_text = """
     <ul>
         <p>The total number of issues are 181</p>
@@ -339,20 +317,22 @@ async def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
     </ul>
     """  # noqa: E501  # allow long lines
     # assert html separately to have better output in case of error
-    assert first_element["text_element"] == tidy_html(expected_text)
+    assert first_element["text_element"]["html"] == tidy_html(expected_text)
     # now replace it for concision of output
-    first_element["text_element"] = "ok"
+    first_element["text_element"]["html"] = "ok"
     assert result == {
         "Quality": {
-            "title": "Data-quality issues",
-            "subtitle": "Data-quality issues related to brand lidl",
-            "source_url": "https://world.openfoodfacts.org/brand/lidl/data-quality",
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": "ok",
+                    "text_element": {
+                        "html": "ok",
+                        "source_text": "Data-quality issues",
+                        "source_url": "https://world.openfoodfacts.org/brand/lidl/data-quality",
+                    },
                 }
             ],
+            "title_element": {"title": "Data-quality issues related to brand lidl"},
         }
     }
 
@@ -397,7 +377,7 @@ async def test_data_quality_kp_with_all_tags(monkeypatch):
         facet="category", value="beers", sec_facet="brand", sec_value="budweiser"
     ).data_quality_kp()
     first_element = result["Quality"]["elements"][0]
-    first_element["text_element"] = tidy_html(first_element["text_element"])
+    first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
     expected_text = """
     <ul>
         <p>The total number of issues are 24</p>
@@ -413,20 +393,24 @@ async def test_data_quality_kp_with_all_tags(monkeypatch):
     </ul>
     """  # noqa: E501  # allow long lines
     # assert html separately to have better output in case of error
-    assert first_element["text_element"] == tidy_html(expected_text)
+    assert first_element["text_element"]["html"] == tidy_html(expected_text)
     # now replace it for concision of output
-    first_element["text_element"] = "ok"
+    first_element["text_element"]["html"] = "ok"
     assert result == {
         "Quality": {
-            "title": "Data-quality issues",
-            "subtitle": "Data-quality issues related to category beers brand budweiser",
-            "source_url": "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality",  # noqa: E501  # allow long lines
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": "ok",
+                    "text_element": {
+                        "html": "ok",
+                        "source_text": "Data-quality issues",
+                        "source_url": "https://world.openfoodfacts.org/category/beers/brand/budweiser/data-quality",  # noqa: E501
+                    },
                 }
             ],
+            "title_element": {
+                "title": "Data-quality issues related to category beers brand budweiser"
+            },
         }
     }
 
@@ -467,7 +451,7 @@ async def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
         facet="vitamin", value="vitamin-k", country="hungary"
     ).last_edits_kp()
     first_element = result["LastEdits"]["elements"][0]
-    first_element["text_element"] = tidy_html(first_element["text_element"])
+    first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
     last_edits_text = """
     <ul>
         <p>Total number of edits 1 </p>
@@ -477,22 +461,22 @@ async def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
     </ul>
     """
     # assert html separately to have better output in case of error
-    assert first_element["text_element"] == tidy_html(last_edits_text)
+    assert first_element["text_element"]["html"] == tidy_html(last_edits_text)
     # now replace it for concision of output
-    first_element["text_element"] = "ok"
+    first_element["text_element"]["html"] = "ok"
     assert result == {
         "LastEdits": {
-            "title": "Last-edits",
-            "subtitle": "last-edits issues related to hungary vitamin vitamin-k",
-            "source_url": (
-                "https://hu-en.openfoodfacts.org/vitamin/vitamin-k?sort_by=last_modified_t"
-            ),
             "elements": [
                 {
                     "element_type": "text",
-                    "text_element": "ok",
+                    "text_element": {
+                        "html": "ok",
+                        "source_text": "Last-edits",
+                        "source_url": "https://hu-en.openfoodfacts.org/vitamin/vitamin-k?sort_by=last_modified_t",  # noqa: E501
+                    },
                 }
             ],
+            "title_element": {"title": "last-edits issues related to hungary vitamin vitamin-k"},
         }
     }
 
@@ -591,7 +575,7 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
         country="france",
     ).last_edits_kp()
     first_element = result["LastEdits"]["elements"][0]
-    first_element["text_element"] = tidy_html(first_element["text_element"])
+    first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
     last_edits_text = """
     <ul>
         <p>Total number of edits 116</p>
@@ -628,15 +612,24 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
     </ul>
     """  # noqa: E501  # allow long lines
     # assert html separately to have better output in case of error
-    assert first_element["text_element"] == tidy_html(last_edits_text)
+    assert first_element["text_element"]["html"] == tidy_html(last_edits_text)
     # now replace it for concision of output
-    first_element["text_element"] = "ok"
+    first_element["text_element"]["html"] = "ok"
     assert result == {
         "LastEdits": {
-            "title": "Last-edits",
-            "subtitle": "last-edits issues related to france brand nestle category coffees",
-            "source_url": "https://fr-en.openfoodfacts.org/brand/nestle/category/coffees?sort_by=last_modified_t",  # noqa: E501  # allow long lines
-            "elements": [{"element_type": "text", "text_element": "ok"}],
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": {
+                        "html": "ok",
+                        "source_text": "Last-edits",
+                        "source_url": "https://fr-en.openfoodfacts.org/brand/nestle/category/coffees?sort_by=last_modified_t",  # noqa: E501
+                    },
+                }
+            ],
+            "title_element": {
+                "title": "last-edits issues related to france brand nestle category coffees"
+            },
         }
     }
 
@@ -687,26 +680,36 @@ async def test_wikidata_kp(monkeypatch):
     )
     # run the test
     result = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
+    clean_html = (
+        f"<p><img alt='wikidata image' src='{image_url}'></p>"
+        "<ul>"
+        "<li><a href='http://en.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a>"
+        "</li>"
+        "<li><a href='https://www.openstreetmap.org/relation/2727716'>OpenSteetMap Relation</a>"
+        "</li>"
+        "<li><a href='https://www.inao.gouv.fr/produit/6159'>INAO relation</a>"
+        "</li>"
+        "</ul>"
+    )
     expected_result = {
         "WikiData": {
-            "title": "wiki-data",
             "elements": [
                 {
-                    "id": 0,
-                    "subtitle": "French wine appellation",
-                    "source_url": "https://www.wikidata.org/wiki/Q470974",
-                    "elements": [
-                        {"element_type": "text", "text_element": "Fitou AOC"},
-                        {
-                            "element_type": "links",
-                            "wikipedia": "http://en.wikipedia.org/wiki/Fitou_AOC",
-                            "image_url": image_url,
-                            "open_street_map": "https://www.openstreetmap.org/relation/2727716",
-                            "INAO": "https://www.inao.gouv.fr/produit/6159",
-                        },
-                    ],
+                    "element_type": "text",
+                    "text_element": {
+                        "html": "<p><em>Fitou AOC</em></p><p><small>French wine appellation</small></p>",  # noqa: E501
+                        "source_text": "wikidata",
+                        "source_url": "https://www.wikidata.org/wiki/Q470974",
+                    },
+                },
+                {
+                    "element_type": "text",
+                    "text_element": {
+                        "html": clean_html,
+                    },
                 },
             ],
+            "title_element": {"title": "wikidata"},
         }
     }
 
@@ -717,26 +720,36 @@ async def test_wikidata_kp(monkeypatch):
         assert result_it == expected_result
     with active_translation("fr"):
         # only some items varies
+        clean_html = (
+            f"<p><img alt='wikidata image' src='{image_url}'></p>"
+            "<ul>"
+            "<li><a href='http://fr.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a>"
+            "</li>"
+            "<li><a href='https://www.openstreetmap.org/relation/2727716'>OpenSteetMap Relation</a>"
+            "</li>"
+            "<li><a href='https://www.inao.gouv.fr/produit/6159'>INAO relation</a>"
+            "</li>"
+            "</ul>"
+        )
         expected_result_fr = {
             "WikiData": {
-                "title": "wiki-data",
                 "elements": [
                     {
-                        "id": 0,
-                        "subtitle": "région viticole",
-                        "source_url": "https://www.wikidata.org/wiki/Q470974",
-                        "elements": [
-                            {"element_type": "text", "text_element": "Fitou"},
-                            {
-                                "element_type": "links",
-                                "wikipedia": "http://fr.wikipedia.org/wiki/Fitou_AOC",
-                                "image_url": image_url,
-                                "open_street_map": "https://www.openstreetmap.org/relation/2727716",
-                                "INAO": "https://www.inao.gouv.fr/produit/6159",
-                            },
-                        ],
+                        "element_type": "text",
+                        "text_element": {
+                            "html": "<p><em>Fitou</em></p><p><small>région viticole</small></p>",
+                            "source_text": "wikidata",
+                            "source_url": "https://www.wikidata.org/wiki/Q470974",
+                        },
+                    },
+                    {
+                        "element_type": "text",
+                        "text_element": {
+                            "html": clean_html,
+                        },
                     },
                 ],
+                "title_element": {"title": "wikidata"},
             }
         }
         result_fr = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()

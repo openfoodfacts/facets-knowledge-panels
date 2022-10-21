@@ -105,120 +105,65 @@ def facet_plural(facet: str):
 # --------------------------------------------
 
 
-class TextFacet(BaseModel):
-    """Base facet containing text"""
-
-    element_type: str
-    text_element: Optional[str] = Field(
-        default=None,
-        description="Html value with desciption of the item",
+class BaseTitleElement(BaseModel):
+    # Containing title element
+    title: str = Field(
+        description="title of the panel",
     )
 
 
-class HungerGameElement(TextFacet):
-    id: int
-
-
-class DataQualityAndLastEditsItem(BaseModel):
-    """
-    contains link and text elements
-    """
-
-    title: str
-    subtitle: Optional[str] = Field(
+class BaseTextElement(BaseModel):
+    # Conataning text element
+    html: Optional[str] = Field(
         default=None,
-        description="Short description of different facet and value in which it computes the data. ",  # noqa: E501
+        description="Text to display in HTML format",
     )
+    source_text: Optional[str] = Field(
+        description="name of the source",
+    )
+
     source_url: Optional[str] = Field(
-        default=None,
-        description="Link to the source of the data l.e, OpenFoodFacts page.",
-    )
-    elements: Optional[list[TextFacet]] = None
-
-
-class TextFacetWikiData(TextFacet):
-    """Base facet for wikidata conating text elements"""
-
-    text_element: str = Field(
-        description="label for given facet coming from wikidata.",
+        description="Link to the source",
     )
 
 
-class WikiDataLinksItem(BaseModel):
-    """
-    Contains all different links fom wikidata
-    """
+class BaseElement(BaseModel):
+    # Contains base elements of panel
 
-    element_type: str
-    wikipedia: Optional[str] = Field(
-        default=None,
-        description="Link to the wikipedia for the given parameter.",
+    element_type: str = Field(
+        description="The type of the included element object."
+        "The type also indicates which field contains the included element object. "
+        """e.g. if the type is "text", the included element object will be in the "text_element" field.""",  # noqa: E501
     )
-    image_url: Optional[str] = Field(
-        default=None,
-        description="Link for the wikidata image.",
-    )
-    open_street_map: Optional[str] = Field(
-        default=None,
-        description="link to the OpenStreetMap relation through wikidata.",
-    )
-    INAO: Optional[str] = Field(
-        default=None,
-        description="link to the INAO(Institut national de l'origine et de la qualité) for the given parameter.",  # noqa: E501
+    text_element: BaseTextElement = Field(
+        description="A text in simple HTML format to display.",
     )
 
 
-WikidataPanel = Union[TextFacetWikiData, WikiDataLinksItem]
-
-
-class WikidtaElement(BaseModel):
-    """
-    contains wikidata description and text elements
-    """
-
-    id: int
-    subtitle: Optional[str] = Field(
-        default=None,
-        description="description of the item coming from wikidata.",
-    )
-    source_url: Optional[str] = Field(
-        default=None,
-        description="Link to the source of the data l.e, wikidata page.",
-    )
-    elements: Optional[list[WikidataPanel]] = None
-
-
-class BasePanel(BaseModel):
-    title: str
-    elements: list
-
-
-class WikidataKnowledgePanelItem(BasePanel):
-    elements: Optional[list[WikidtaElement]] = None
-
-
-class HungerGameKnowledgePanelItem(BasePanel):
-    elements: Optional[list[HungerGameElement]] = None
+class KnowledgePanelItem(BaseModel):
+    # Helper class for reccuring item
+    elements: Optional[list[BaseElement]] = None
+    title_element: BaseTitleElement
 
 
 class HungerGamePanel(BaseModel):
     # return hungergamespanel response
-    hunger_game: HungerGameKnowledgePanelItem
+    hunger_game: KnowledgePanelItem
 
 
 class DataQualityPanel(BaseModel):
     # return dataqualitypanel response
-    Quality: DataQualityAndLastEditsItem
+    Quality: KnowledgePanelItem
 
 
 class LastEditsPanel(BaseModel):
     # return lasteditspanel response
-    LastEdits: DataQualityAndLastEditsItem
+    LastEdits: KnowledgePanelItem
 
 
 class WikidataPanel(BaseModel):
     # return wikidatapanel response
-    WikiData: WikidataKnowledgePanelItem
+    WikiData: KnowledgePanelItem
 
 
 KnowledgePanel = Union[HungerGamePanel, DataQualityPanel, LastEditsPanel, WikidataPanel]

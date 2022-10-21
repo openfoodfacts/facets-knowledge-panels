@@ -65,13 +65,12 @@ class KnowledgePanels:
             url, des = val
             html.append(
                 {
-                    "id": int(id),
                     "element_type": "text",
-                    "text_element": f"<p><a href='{url}'>{t_description} {des}</a></p>",
+                    "text_element": {"html": f"<p><a href='{url}'>{t_description} {des}</a></p>"},
                 },
             )
 
-        kp = {"hunger_game": {"title": "hunger-games", "elements": html}}
+        kp = {"hunger_game": {"elements": html, "title_element": {"title": "hunger-games"}}}
 
         return kp
 
@@ -117,15 +116,17 @@ class KnowledgePanels:
 
         return {
             "Quality": {
-                "title": t_title,
-                "subtitle": f"{t_description} {description}",
-                "source_url": f"{source_url}/data-quality",
                 "elements": [
                     {
                         "element_type": "text",
-                        "text_element": t_html,
+                        "text_element": {
+                            "html": t_html,
+                            "source_text": t_title,
+                            "source_url": f"{source_url}/data-quality",
+                        },
                     }
                 ],
+                "title_element": {"title": f"{t_description} {description}"},
             },
         }
 
@@ -169,15 +170,17 @@ class KnowledgePanels:
 
         return {
             "LastEdits": {
-                "title": t_title,
-                "subtitle": f"{t_description} {description}",
-                "source_url": source_url,
                 "elements": [
                     {
                         "element_type": "text",
-                        "text_element": t_html,
+                        "text_element": {
+                            "html": t_html,
+                            "source_text": t_title,
+                            "source_url": source_url,
+                        },
                     },
                 ],
+                "title_element": {"title": f"{t_description} {description}"},
             },
         }
 
@@ -207,27 +210,36 @@ class KnowledgePanels:
             logging.exception("While adding wikidata for secandary facet")
 
         html = []
+        info = []
         for id, val in enumerate(entities):
             html.append(
                 {
-                    "id": int(id),
-                    "subtitle": val.description_tag,
-                    "source_url": f"https://www.wikidata.org/wiki/{val.entity_id}",
-                    "elements": [
-                        {
-                            "element_type": "text",
-                            "text_element": val.label_tag,
-                        },
-                        {
-                            "element_type": "links",
-                            "wikipedia": val.wikipedia_relation,
-                            "image_url": val.image_url,
-                            "open_street_map": val.OSM_relation,
-                            "INAO": val.INAO_relation,
-                        },
-                    ],
+                    "element_type": "text",
+                    "text_element": {
+                        "html": f"<p><em>{val.label_tag}</em></p><p><small>{val.description_tag}</small></p>",  # noqa: E501
+                        "source_text": "wikidata",
+                        "source_url": f"https://www.wikidata.org/wiki/{val.entity_id}",
+                    },
                 }
             )
+            if val.image_url != "":
+                info.append(f"""<p><img alt='wikidata image' src='{val.image_url}'></p>""")
+            info.append("<ul>")
+            if val.wikipedia_relation != "":
+                info.append(f"""<li><a href='{val.wikipedia_relation}'>wikipedia</a></li>""")
+            if val.OSM_relation != "":
+                info.append(f"""<li><a href='{val.OSM_relation}'>OpenSteetMap Relation</a></li>""")
+            if val.INAO_relation != "":
+                info.append(f"""<li><a href='{val.INAO_relation}'>INAO relation</a></li>""")
+            info.append("</ul>")
+            link = "".join(info)
+            html.append(
+                {
+                    "element_type": "text",
+                    "text_element": {"html": link},
+                }
+            )
+
         return {
-            "WikiData": {"title": "wiki-data", "elements": html},
+            "WikiData": {"elements": html, "title_element": {"title": "wikidata"}},
         }
