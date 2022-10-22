@@ -20,6 +20,7 @@ Providing knowledge panels for a particular Open Food Facts facet (category, bra
 * Developer documentation
     * [Project setup](./how-to-guides/Project-setup-locally.md)
     * [Testing](./how-to-guides/Testing.md)
+    * [Contributing Guidelines](./how-to-guides/CONTRIBUTING.md)
 * [API Documentation](./references/API%20references.md)
 
 <br>
