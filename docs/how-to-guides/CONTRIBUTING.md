@@ -48,10 +48,13 @@ git push origin <type>/<issue-issueNumber>/{<additional-fixes>}
 # exp - Experimental; random experimental features;
 ```
 
-- On Task Completion:
+- Setup project locally:
 
 ```bash
 ## Committing and pushing your work
+
+# format your code
+make tests
 
 # Ensure branch
 git branch
