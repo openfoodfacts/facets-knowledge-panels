@@ -18,6 +18,8 @@ This project and everyone participating in it is governed by the [Open Food Fact
 
 - Git Workflow (all the commands are to run in your console)
 
+#### Step 1
+
 ```bash
 ## Step 1: Fork Repository
 
@@ -47,14 +49,18 @@ git push origin <type>/<issue-issueNumber>/{<additional-fixes>}
 # bug - Bug Fixes
 # exp - Experimental; random experimental features;
 ```
+#### Step 2
+- [Setup project locally](./Project-setup-locally.md)
 
-- Setup project locally:
-
+#### Step 3
 ```bash
 ## Committing and pushing your work
 
+# recompile languages files
+make build_lang
+
 # format your code
-make tests
+make checks
 
 # Ensure branch
 git branch
