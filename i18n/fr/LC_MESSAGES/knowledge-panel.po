@@ -36,7 +36,7 @@ msgstr "Problèmes de qualité des données"
 #: app/off.py:68
 #, python-brace-format
 msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-msgstr "{product_name} ({code}) modifié par {last_editor} le {edit_date}"
+msgstr "{product_name} ({code}) modifié par {last_editor}, le {edit_date}"
 
 #: app/off.py:76
 #, python-brace-format
