@@ -18,40 +18,40 @@ msgstr ""
 #: app/off.py:26
 #, python-brace-format
 msgid "{products} products with {name}"
-msgstr ""
+msgstr "sản phẩm {products} với tên {name}"
 
 #: app/off.py:32
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr ""
+msgstr "Tổng số vấn đề là {total_issues}"
 
 #: app/off.py:41
 msgid "Data-quality issues related to"
-msgstr ""
+msgstr "Các vấn đề về chất lượng dữ liệu liên quan đến"
 
 #: app/off.py:42
 msgid "Data-quality issues"
-msgstr ""
+msgstr "Các vấn đề về chất lượng dữ liệu"
 
 #: app/off.py:68
 #, python-brace-format
 msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-msgstr ""
+msgstr "{product_name} ({code}) được chỉnh sửa bởi {last_editor} vào ngày {edit_date}"
 
 #: app/off.py:76
 #, python-brace-format
 msgid "Total number of edits {counts}"
-msgstr ""
+msgstr "Tổng số lần chỉnh sửa {counts}"
 
 #: app/off.py:83
 msgid "last-edits issues related to"
-msgstr ""
+msgstr "các vấn đề chỉnh sửa lần cuối liên quan đến"
 
 #: app/off.py:84
 msgid "Last-edits"
-msgstr ""
+msgstr "Các lần sửa cuối"
 
 #: app/off.py:91
 msgid "Answer robotoff questions about"
-msgstr ""
+msgstr "Trả lời các câu hỏi robotoff về"
 
