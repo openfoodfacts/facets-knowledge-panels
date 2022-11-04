@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--CDN https://handlebarsjs.com/installation/#cdns -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.js"></script>
+    <script src="knowledge_panels.js"></script>
+  </head>
+  <body>
+    <div id="contentDiv"></div>
+
+    <!-- Compile with handlebars knowledge_panels.handlebars -f knowledge_panels.js -->
+
+    <script type="text/javascript">
+      // Assign the template name
+      var template = Handlebars.templates["knowledge_panels"];
+      // Compile the template
+      var context = {
+        // Response from the API
+      };
+      var templateData = template(context);
+
+      document.getElementById("contentDiv").innerHTML += templateData;
+    </script>
+  </body>
+</html>
