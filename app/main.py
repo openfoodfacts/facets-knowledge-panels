@@ -5,6 +5,7 @@ import asyncer
 from fastapi import FastAPI, Query, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
 from .models import FacetName, FacetResponse, HungerGameFilter, Taxonomies
