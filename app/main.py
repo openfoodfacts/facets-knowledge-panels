@@ -2,8 +2,9 @@ import logging
 from typing import Union
 
 import asyncer
-from fastapi import FastAPI, Query
-
+from fastapi import FastAPI, Query, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
 from .models import FacetName, FacetResponse, HungerGameFilter, Taxonomies
@@ -13,6 +14,10 @@ tags_metadata = [
     {
         "name": "knowledge-panel",
         "description": "Return different knowledge panels based on the facet provided.",
+    },
+    {
+        "name": "Render to HTML",
+        "description": "Render html based on knowledge panels.",
     },
 ]
 description = """
@@ -112,3 +117,53 @@ async def knowledge_panel(
                 logging.exception()
 
         return {"knowledge_panels": panels}
+
+
+templates = Jinja2Templates(directory="template")
+
+
+@app.get("/render-to-html", tags=["Render to HTML"], response_class=HTMLResponse)
+async def render_html(
+    request: Request,
+    facet_tag: FacetName = Query(
+        title="Facet tag string",
+        description="Facet tag string for the items to search in the database eg:- `category` etc.",
+    ),
+    value_tag: Union[str, None] = Query(
+        default=None,
+        title="Value tag string",
+        description="value tag string for the items to search in the database eg:-`en:beers` etc.",  # noqa: E501
+    ),
+    sec_facet_tag: Union[str, None] = Query(
+        default=None,
+        title="secondary facet tag string",
+        description="secondary facet tag string for the items to search in the database eg:-`brand` etc.",  # noqa: E501
+    ),
+    sec_value_tag: Union[str, None] = Query(
+        default=None,
+        title="secondary value tag string",
+        description="secondary value tag string for the items to search in the database eg:-`lidl` etc.",  # noqa: E501
+    ),
+    lang_code: Union[str, None] = Query(
+        default=None,
+        title="language code string",
+        description="To return knowledge panels in native language, defualt lang: `en`.",
+    ),
+    country: Union[str, None] = Query(
+        default=None,
+        title="Country tag string",
+        description="To return knowledge panels for specific country, ex: `france`.",
+    ),
+):
+    """
+    Render item.html using jinja2
+    """
+    panels = await knowledge_panel(
+        facet_tag,
+        value_tag,
+        sec_facet_tag,
+        sec_value_tag,
+        country,
+        lang_code,
+    )
+    return templates.TemplateResponse("item.html", {"request": request, "panels": panels})
