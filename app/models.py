@@ -3,6 +3,7 @@ from typing import Optional, Union
 
 import inflect
 import pycountry
+from fastapi import Query
 from pydantic import BaseModel, Field
 
 
@@ -98,6 +99,60 @@ def facet_plural(facet: str):
         facet_plural = facet
 
     return facet_plural
+
+
+class QueryData:
+    """
+    Helper class for handling repetition of query
+    """
+
+    def facet_tag_query():
+
+        query = Query(
+            title="Facet tag string",
+            description="Facet tag string for the items to search in the database eg:- `category` etc.",  # noqa: E501
+        )
+        return query
+
+    def value_tag_query():
+        query = Query(
+            default=None,
+            title="Value tag string",
+            description="value tag string for the items to search in the database eg:-`en:beers` etc.",  # noqa: E501
+        )
+        return query
+
+    def secondary_facet_tag_query():
+        query = Query(
+            default=None,
+            title="secondary facet tag string",
+            description="secondary facet tag string for the items to search in the database eg:-`brand` etc.",  # noqa: E501
+        )
+        return query
+
+    def secondary_value_tag_query():
+        query = Query(
+            default=None,
+            title="secondary value tag string",
+            description="secondary value tag string for the items to search in the database eg:-`lidl` etc.",  # noqa: E501
+        )
+        return query
+
+    def language_code_query():
+        query = Query(
+            default=None,
+            title="language code string",
+            description="To return knowledge panels in native language, defualt lang: `en`.",
+        )
+        return query
+
+    def country_query():
+        query = Query(
+            default=None,
+            title="Country tag string",
+            description="To return knowledge panels for specific country, ex: `france`.",
+        )
+        return query
 
 
 # --------------------------------------------

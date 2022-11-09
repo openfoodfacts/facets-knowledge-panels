@@ -1,14 +1,14 @@
 import logging
-from typing import Union
+from typing import Optional
 
 import asyncer
-from fastapi import FastAPI, Query, Request
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import FacetName, FacetResponse, HungerGameFilter, Taxonomies
+from .models import FacetName, FacetResponse, HungerGameFilter, QueryData, Taxonomies
 
 # Metadata for the API
 tags_metadata = [
@@ -50,35 +50,12 @@ async def hello():
 
 @app.get("/knowledge_panel", tags=["knowledge-panel"], response_model=FacetResponse)
 async def knowledge_panel(
-    facet_tag: FacetName = Query(
-        title="Facet tag string",
-        description="Facet tag string for the items to search in the database eg:- `category` etc.",
-    ),
-    value_tag: Union[str, None] = Query(
-        default=None,
-        title="Value tag string",
-        description="value tag string for the items to search in the database eg:-`en:beers` etc.",  # noqa: E501
-    ),
-    sec_facet_tag: Union[str, None] = Query(
-        default=None,
-        title="secondary facet tag string",
-        description="secondary facet tag string for the items to search in the database eg:-`brand` etc.",  # noqa: E501
-    ),
-    sec_value_tag: Union[str, None] = Query(
-        default=None,
-        title="secondary value tag string",
-        description="secondary value tag string for the items to search in the database eg:-`lidl` etc.",  # noqa: E501
-    ),
-    lang_code: Union[str, None] = Query(
-        default=None,
-        title="language code string",
-        description="To return knowledge panels in native language, defualt lang: `en`.",
-    ),
-    country: Union[str, None] = Query(
-        default=None,
-        title="Country tag string",
-        description="To return knowledge panels for specific country, ex: `france`.",
-    ),
+    facet_tag: FacetName = QueryData.facet_tag_query(),
+    value_tag: Optional[str] = QueryData.value_tag_query(),
+    sec_facet_tag: Optional[str] = QueryData.secondary_facet_tag_query(),
+    sec_value_tag: Optional[str] = QueryData.secondary_value_tag_query(),
+    lang_code: Optional[str] = QueryData.language_code_query(),
+    country: Optional[str] = QueryData.country_query(),
 ):
     """
     FacetName is the model that have list of values
@@ -126,35 +103,12 @@ templates = Jinja2Templates(directory="template")
 @app.get("/render-to-html", tags=["Render to HTML"], response_class=HTMLResponse)
 async def render_html(
     request: Request,
-    facet_tag: FacetName = Query(
-        title="Facet tag string",
-        description="Facet tag string for the items to search in the database eg:- `category` etc.",
-    ),
-    value_tag: Union[str, None] = Query(
-        default=None,
-        title="Value tag string",
-        description="value tag string for the items to search in the database eg:-`en:beers` etc.",  # noqa: E501
-    ),
-    sec_facet_tag: Union[str, None] = Query(
-        default=None,
-        title="secondary facet tag string",
-        description="secondary facet tag string for the items to search in the database eg:-`brand` etc.",  # noqa: E501
-    ),
-    sec_value_tag: Union[str, None] = Query(
-        default=None,
-        title="secondary value tag string",
-        description="secondary value tag string for the items to search in the database eg:-`lidl` etc.",  # noqa: E501
-    ),
-    lang_code: Union[str, None] = Query(
-        default=None,
-        title="language code string",
-        description="To return knowledge panels in native language, defualt lang: `en`.",
-    ),
-    country: Union[str, None] = Query(
-        default=None,
-        title="Country tag string",
-        description="To return knowledge panels for specific country, ex: `france`.",
-    ),
+    facet_tag: FacetName = QueryData.facet_tag_query(),
+    value_tag: Optional[str] = QueryData.value_tag_query(),
+    sec_facet_tag: Optional[str] = QueryData.secondary_facet_tag_query(),
+    sec_value_tag: Optional[str] = QueryData.secondary_value_tag_query(),
+    lang_code: Optional[str] = QueryData.language_code_query(),
+    country: Optional[str] = QueryData.country_query(),
 ):
     """
     Render item.html using jinja2

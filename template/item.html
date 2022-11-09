@@ -1,9 +1,4 @@
-<html>
-  <head>
-    <title>Panel Details</title>
-  </head>
-  <body>
-    <div class="entry">
+<div class="knowledge-facts-panel entry">
       {% if panels.get("knowledge_panels") %} 
         {% for panel in panels.get("knowledge_panels") %} {% for i in panel.values() %}
           <!--  rendering title of the panel  -->
@@ -22,7 +17,6 @@
             {% endif %} 
           {% endfor %}
         {% endfor %}
+       {% endfor %}
       {% endif %}
-    </div>
-  </body>
-</html>
+</div>
