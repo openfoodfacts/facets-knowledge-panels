@@ -456,7 +456,9 @@ async def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
     <ul>
         <p>Total number of edits 1 </p>
         <li>
-            Tiqle Sticks Strawberry taste (0715235567418) edited by packbot on 2022-02-10
+            <a class="edit_entry" href="https://hu-en.openfoodfacts.org/product/0715235567418">
+                Tiqle Sticks Strawberry taste (0715235567418) edited by packbot on 2022-02-10
+            </a>
         </li>
     </ul>
     """
@@ -580,34 +582,54 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
     <ul>
         <p>Total number of edits 116</p>
         <li>
-            Capsules NESCAFE Dolce Gusto Cappuccino Extra Crema 16 Capsules (7613036271868) edited by org-nestle-france on 2022-08-31
+            <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/7613036271868">
+                Capsules NESCAFE Dolce Gusto Cappuccino Extra Crema 16 Capsules (7613036271868) edited by org-nestle-france on 2022-08-31
+            </a>
         </li>
         <li>
-            RICORE Original, Café & Chicorée, Boîte 260g (7613032655495) edited by feat on 2022-08-30
+            <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/7613032655495">
+                RICORE Original, Café & Chicorée, Boîte 260g (7613032655495) edited by feat on 2022-08-30
+            </a>
         </li>
         <li>
-            Ricoré (7613036303521) edited by feat on 2022-08-28
+            <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/7613036303521">
+                Ricoré (7613036303521) edited by feat on 2022-08-28
+            </a>
         </li>
         <li>
-            NESCAFÉ NES, Café Soluble, Boîte de 25 Sticks (2g chacun) (3033710072927) edited by org-nestle-france on 2022-08-28
+            <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/3033710072927">
+                NESCAFÉ NES, Café Soluble, Boîte de 25 Sticks (2g chacun) (3033710072927) edited by org-nestle-france on 2022-08-28
+            </a>
         </li>
         <li>
-            NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Boîte de 25 Sticks (3033710076017) edited by org-nestle-france on 2022-08-28
+            <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/3033710076017">
+                NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Boîte de 25 Sticks (3033710076017) edited by org-nestle-france on 2022-08-28
+            </a>
         </li>
         <li>
-            NESCAFÉ SPECIAL FILTRE Décaféiné, Café Soluble, Flacon de 200g (3033710074624) edited by org-nestle-france on 2022-08-28
+            <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/3033710074624">
+                NESCAFÉ SPECIAL FILTRE Décaféiné, Café Soluble, Flacon de 200g (3033710074624) edited by org-nestle-france on 2022-08-28
+            </a>
         </li>
         <li>
-            NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Recharge de 150g (7613034056122) edited by org-nestle-france on 2022-08-28
+            <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/7613034056122">
+                NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Recharge de 150g (7613034056122) edited by org-nestle-france on 2022-08-28
+            </a>
         </li>
         <li>
-            NESCAFÉ SPECIAL FILTRE L'Original Flacon de 200g (3033710074525) edited by org-nestle-france on 2022-08-28
+            <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/3033710074525">
+                NESCAFÉ SPECIAL FILTRE L'Original Flacon de 200g (3033710074525) edited by org-nestle-france on 2022-08-28
+            </a>
         </li>
         <li>
-             (3033710074518) edited by org-nestle-france on 2022-08-28
+            <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/3033710074518">
+                (3033710074518) edited by org-nestle-france on 2022-08-28
+                </a>
         </li>
         <li>
-            Original (7891000300602) edited by 5m4u9 on 2022-08-27
+            <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/7891000300602">
+                Original (7891000300602) edited by 5m4u9 on 2022-08-27
+            </a>
         </li>
     </ul>
     """  # noqa: E501  # allow long lines
@@ -680,8 +702,9 @@ async def test_wikidata_kp(monkeypatch):
     )
     # run the test
     result = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
+    image_thumb = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Paziols_%28France%29_Vue_du_village.jpg/320px-thumbnail.jpg"
     clean_html = (
-        f"<p><img alt='wikidata image' src='{image_url}'></p>"
+        f"<p><img alt='wikidata image' src='{image_thumb}'></p>"
         "<ul>"
         "<li><a href='http://en.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a>"
         "</li>"
@@ -721,7 +744,7 @@ async def test_wikidata_kp(monkeypatch):
     with active_translation("fr"):
         # only some items varies
         clean_html = (
-            f"<p><img alt='wikidata image' src='{image_url}'></p>"
+            f"<p><img alt='wikidata image' src='{image_thumb}'></p>"
             "<ul>"
             "<li><a href='http://fr.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a>"
             "</li>"
