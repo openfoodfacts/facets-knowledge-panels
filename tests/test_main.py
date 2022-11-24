@@ -74,7 +74,7 @@ def test_knowledge_panel_with_facet(client, monkeypatch):
         "get",
         multi_mock_async_get_factory(
             {
-                f"{base_url}/packaging/plastic-box/data-quality.json": {
+                f"{base_url}/packaging/plastic-box/label/fr:fitou/data-quality.json": {
                     "expected_kwargs": None,
                     "json_content": data_quality_sample(base_url),
                 },
@@ -96,11 +96,18 @@ def test_knowledge_panel_with_facet(client, monkeypatch):
         mock_wikidata_get("Q470974", wikidata_sample()),
     )
     response = client.get(
-        "/knowledge_panel?facet_tag=packaging&value_tag=plastic-box&country=Germany"
+        "/knowledge_panel?facet_tag=packaging&value_tag=plastic-box"
+        "&sec_facet_tag=label&sec_value_tag=fr:fitou&country=Germany"
     )
     assert response.status_code == 200
     result = response.json()
-    assert set(result["knowledge_panels"].keys()) == {"Quality", "LastEdits", "hunger_game"}
+    assert set(result["knowledge_panels"].keys()) == {
+        "Quality",
+        "LastEdits",
+        "hunger_game",
+        "WikiData",
+    }
     assert len(result["knowledge_panels"]["Quality"]["elements"]) == 1
     assert len(result["knowledge_panels"]["LastEdits"]["elements"]) == 1
-    assert len(result["knowledge_panels"]["hunger_game"]["elements"]) == 1
+    assert len(result["knowledge_panels"]["hunger_game"]["elements"]) == 2
+    assert len(result["knowledge_panels"]["WikiData"]["elements"]) == 2

@@ -16,6 +16,17 @@ def auto_activate_lang():
         yield
 
 
+async def test_hunger_game_kp_no_result():
+    # not all facets are compatible with hunger game
+    result = await KnowledgePanels(
+        facet="allergen",
+        value="gluten",
+        sec_facet="mineral",
+        sec_value="zinc",
+    ).hunger_game_kp()
+    assert result is None
+
+
 async def test_hunger_game_kp_with_filter_value_and_country():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Agermany'>"
@@ -699,6 +710,37 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
             },
         }
     }
+
+
+async def test_wikidata_kp_no_value():
+    # wikidata only fetched if there is a value
+    result = await KnowledgePanels(facet="category").wikidata_kp()
+    assert result is None
+
+
+async def test_wikidata_no_wikidata_property(monkeypatch):
+    # first mock the call to open food facts (to get the wikidata property)
+    expected_url = "https://world.openfoodfacts.org/api/v2/taxonomy"
+    expected_kwargs = {
+        "params": {
+            "tagtype": "categories",
+            "fields": "wikidata",
+            "tags": "fr:fitou",
+        }
+    }
+    # no wikidata entry !
+    json_content = {"fr:fitou": {"parents": []}}
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        mock_async_get_factory(
+            expected_url,
+            expected_kwargs,
+            json_content,
+        ),
+    )
+    result = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
+    assert result is None
 
 
 async def test_wikidata_kp(monkeypatch):
