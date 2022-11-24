@@ -702,7 +702,10 @@ async def test_wikidata_kp(monkeypatch):
     )
     # run the test
     result = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
-    image_thumb = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Paziols_%28France%29_Vue_du_village.jpg/320px-thumbnail.jpg"
+    image_thumb = (
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/"
+        "Paziols_%28France%29_Vue_du_village.jpg/320px-thumbnail.jpg"
+    )
     clean_html = (
         f"<p><img alt='wikidata image' src='{image_thumb}'></p>"
         "<ul>"
