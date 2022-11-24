@@ -1,9 +1,11 @@
+import collections
 import logging
 from typing import Union
 from urllib.parse import urlencode
 
-from .models import country_to_ISO_code, facet_plural
-from .off import data_quality, hungergame, last_edit, wikidata_helper
+from .i18n import translate as _
+from .models import HungerGameFilter, Taxonomies, country_to_ISO_code, facet_plural
+from .off import data_quality, last_edit, wikidata_helper
 
 
 class KnowledgePanels:
@@ -25,23 +27,28 @@ class KnowledgePanels:
         query = {}
         questions_url = "https://hunger.openfoodfacts.org/questions"
         facets = {self.facet: self.value, self.sec_facet: self.sec_value}
-        filtered = {k: v for k, v in facets.items() if k is not None}
-        facets.clear()
-        facets.update(filtered)
+        # remove empty values and facets that are not hunger games related
+        facets = {k: v for k, v in facets.items() if k is not None and k in HungerGameFilter.list()}
         urls = set()
-        description = ""
+        descriptions = collections.OrderedDict()
         html = []
+        # a country is specified
         if self.country is not None:
             query["country"] = f"en:{self.country}"
-            description = f"for country {self.country}"
+            descriptions["country"] = f"for country {self.country}"
+        # one of the facet is a country, use it as a country parameter
         if facets.get("country"):
             country_value = facets.pop("country")
+            # remove eventual prefix
+            country_value = country_value.split(":", 1)[-1]
             query["country"] = f"en:{country_value}"
-            description = f"{country_value}"
+            descriptions["country"] = f"for country {country_value}"
+        # brand can be used as a filter, if we have more than one facet
         if facets.get("brand") and len(facets) > 1:
             brand_value = facets.pop("brand")
             query["brand"] = brand_value
-            description += f" for brand {brand_value}"
+            descriptions["brand"] = f"for brand {brand_value}"
+        description = " ".join(descriptions.values())
         # generate an url for each remaining facets
         for k, v in facets.items():
             value_description = ""
@@ -51,16 +58,18 @@ class KnowledgePanels:
             if v is not None:
                 facet_query["value_tag"] = v
                 value_description += v
+            if value_description:
+                value_description += " "
             urls.add(
                 (
                     f"{questions_url}?{urlencode(facet_query)}",
-                    f"{facet_description} {value_description} {description}".strip(),
+                    f"about {facet_description} {value_description}{description}".strip(),
                 )
             )
         if query:
             urls.add((f"{questions_url}?{urlencode(query)}", description))
 
-        t_description = await hungergame()
+        t_description = _("Answer robotoff questions")
         for id, val in enumerate(sorted(urls)):
             url, des = val
             html.append(
@@ -72,7 +81,7 @@ class KnowledgePanels:
 
         kp = {"hunger_game": {"elements": html, "title_element": {"title": "hunger-games"}}}
 
-        return kp
+        return kp if urls else None
 
     async def data_quality_kp(self):
         """
@@ -199,6 +208,8 @@ class KnowledgePanels:
         entities = set()
         params = ((self.facet, self.value), (self.sec_facet, self.sec_value))
         for facet, value in params:
+            if facet not in Taxonomies.list():
+                continue
             try:
                 entity = await self._wikidata_kp(facet=facet, value=value)
                 if entity is not None:
@@ -236,7 +247,5 @@ class KnowledgePanels:
                     "text_element": {"html": link},
                 }
             )
-
-        return {
-            "WikiData": {"elements": html, "title_element": {"title": "wikidata"}},
-        }
+        panel = {"WikiData": {"elements": html, "title_element": {"title": "wikidata"}}}
+        return panel if entities else None

@@ -1,12 +1,27 @@
+import aiohttp
+import pytest
+import wikidata.client
 from fastapi.testclient import TestClient
 
 import app.main
 from app.main import app
 
-client = TestClient(app)
+from .test_utils import (
+    data_quality_sample,
+    last_edits_sample,
+    mock_wikidata_get,
+    multi_mock_async_get_factory,
+    taxonomy_sample,
+    wikidata_sample,
+)
 
 
-def test_hello():
+@pytest.fixture
+def client():
+    yield TestClient(app)
+
+
+def test_hello(client):
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {
@@ -14,19 +29,78 @@ def test_hello():
     }
 
 
-def test_knowledge_panel():
+def test_knowledge_panel_no_value(client, monkeypatch):
+    # we do an approximate patching, data is clearly not right, it's just to get some
+    base_url = "https://world.openfoodfacts.org"
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        multi_mock_async_get_factory(
+            {
+                f"{base_url}/origin/data-quality.json": {
+                    "expected_kwargs": None,
+                    "json_content": data_quality_sample(base_url),
+                },
+                f"{base_url}/api/v2/search": {
+                    "expected_kwargs": None,
+                    "json_content": last_edits_sample(base_url),
+                },
+            },
+        ),
+    )
+    monkeypatch.setattr(
+        wikidata.client.Client,
+        "get",
+        # this is the entity of taxonomy_sample
+        mock_wikidata_get("Q470974", wikidata_sample()),
+    )
     response = client.get("/knowledge_panel?facet_tag=origin")
     assert response.status_code == 200
+    result = response.json()
+    assert set(result["knowledge_panels"].keys()) == {"Quality", "LastEdits"}
+    assert len(result["knowledge_panels"]["Quality"]["elements"]) == 1
+    assert len(result["knowledge_panels"]["LastEdits"]["elements"]) == 1
 
 
-def test_knowledge_panel_badendpoint():
+def test_knowledge_panel_badendpoint(client):
     response = client.get("/knowledge_panel_bad")
     assert response.status_code == 404
 
 
-def test_knowledge_panel_with_facet():
+def test_knowledge_panel_with_facet(client, monkeypatch):
+    base_url = "https://de-en.openfoodfacts.org"
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        multi_mock_async_get_factory(
+            {
+                f"{base_url}/packaging/plastic-box/data-quality.json": {
+                    "expected_kwargs": None,
+                    "json_content": data_quality_sample(base_url),
+                },
+                f"{base_url}/api/v2/search": {
+                    "expected_kwargs": None,
+                    "json_content": last_edits_sample(base_url),
+                },
+                "https://world.openfoodfacts.org/api/v2/taxonomy": {
+                    "expected_kwargs": None,
+                    "json_content": taxonomy_sample(),
+                },
+            },
+        ),
+    )
+    monkeypatch.setattr(
+        wikidata.client.Client,
+        "get",
+        # this is the entity of taxonomy_sample
+        mock_wikidata_get("Q470974", wikidata_sample()),
+    )
     response = client.get(
         "/knowledge_panel?facet_tag=packaging&value_tag=plastic-box&country=Germany"
     )
     assert response.status_code == 200
-    assert response.json()
+    result = response.json()
+    assert set(result["knowledge_panels"].keys()) == {"Quality", "LastEdits", "hunger_game"}
+    assert len(result["knowledge_panels"]["Quality"]["elements"]) == 1
+    assert len(result["knowledge_panels"]["LastEdits"]["elements"]) == 1
+    assert len(result["knowledge_panels"]["hunger_game"]["elements"]) == 1
