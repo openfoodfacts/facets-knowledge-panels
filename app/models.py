@@ -207,7 +207,7 @@ class KnowledgePanelItem(BaseModel):
 class HungerGamePanel(TypedDict, total=False):
     """Panel linking to Hunger Games"""
 
-    hunger_game: KnowledgePanelItem
+    HungerGames: KnowledgePanelItem
 
 
 class DataQualityPanel(TypedDict, total=False):

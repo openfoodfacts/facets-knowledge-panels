@@ -36,7 +36,7 @@ async def test_hunger_game_kp_with_filter_value_and_country():
         facet="country", value="germany", country="france"
     ).hunger_game_kp()
     assert result == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
             "title_element": {"title": "hunger-games"},
         }
@@ -50,7 +50,7 @@ async def test_hunger_game_kp_with_category():
     )
     result = await KnowledgePanels(facet="category").hunger_game_kp()
     assert result == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
             "title_element": {"title": "hunger-games"},
         }
@@ -68,7 +68,7 @@ async def test_hunger_game_kp_category_with_country():
     )
     result = await KnowledgePanels(facet="category", country="france").hunger_game_kp()
     assert result == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
@@ -85,7 +85,7 @@ async def test_hunger_game_kp_category_with_value():
     )
     result = await KnowledgePanels(facet="category", value="en:beers").hunger_game_kp()
     assert result == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
             "title_element": {"title": "hunger-games"},
         }
@@ -99,7 +99,7 @@ async def test_hunger_game_kp_brand_with_value():
     )
     result = await KnowledgePanels(facet="brand", value="nestle").hunger_game_kp()
     assert result == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
             "title_element": {"title": "hunger-games"},
         }
@@ -113,14 +113,14 @@ async def test_hunger_game_kp_label_with_value():
     )
     result = await KnowledgePanels(facet="label", value="en:organic").hunger_game_kp()
     assert result == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
             "title_element": {"title": "hunger-games"},
         }
     }
 
 
-async def test_hunger_game_double_country_and_value():
+async def test_HungerGame_double_country_and_value():
     # facet country have priority
     html1 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance'>"
@@ -139,7 +139,7 @@ async def test_hunger_game_double_country_and_value():
     )
     result = await kp.hunger_game_kp()
     assert result == {
-        "hunger_game": {
+        "HungerGames": {
             "title_element": {"title": "hunger-games"},
             "elements": [
                 {
@@ -175,7 +175,7 @@ async def test_hunger_game_kp_with_all_tag_1():
         sec_value="lidl",
         country="france",
     ).hunger_game_kp() == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
@@ -200,7 +200,7 @@ async def test_hunger_game_kp_with_all_tag_2():
         sec_facet="category",
         sec_value="en:coffees",
     ).hunger_game_kp() == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
@@ -230,7 +230,7 @@ async def test_hunger_game_kp_with_all_tag_3():
         sec_value="vegan",
         country="italy",
     ).hunger_game_kp() == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
