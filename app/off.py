@@ -6,7 +6,7 @@ from asyncer import asyncify
 
 from .i18n import DEFAULT_LANGUAGE, get_current_lang
 from .i18n import translate as _
-from .wikidata_utils import get_wikidata_entity, wikidata_props
+from .wikidata_utils import get_wikidata_entity, image_thumbnail, wikidata_props
 
 
 async def data_quality(url, path):
@@ -64,10 +64,17 @@ async def last_edit(url, query):
             "code": tag["code"],
             "last_editor": tag.get("last_editor", ""),
             "edit_date": tag["last_edit_dates_tags"][0],
+            "url": f"{url}/product/{tag['code']}",
         }
         html.append("<li>")
         html.append(
-            _("{product_name} ({code}) edited by {last_editor} on {edit_date}").format(**info)
+            _(
+                """
+            <a class="edit_entry" href="{url}">
+              {product_name} ({code}) edited by {last_editor} on {edit_date}
+            </a>
+        """
+            ).format(**info)
         )
         html.append("</li>")
     html = (
@@ -125,7 +132,7 @@ async def wikidata_helper(query, value):
     entity = await asyncify(get_wikidata_entity)(entity_id=entity_id)
     if wikidata_props.image_prop in entity:
         image = entity[wikidata_props.image_prop]
-        image_url = image.image_url
+        image_url = image_thumbnail(image.image_url, width=320)
     else:
         image_url = ""
     wiki_links = in_lang(entity.attributes["sitelinks"], lang, "wiki")
