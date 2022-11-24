@@ -38,7 +38,7 @@ async def test_hunger_game_kp_with_filter_value_and_country():
     assert result == {
         "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -52,7 +52,7 @@ async def test_hunger_game_kp_with_category():
     assert result == {
         "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -73,7 +73,7 @@ async def test_hunger_game_kp_category_with_country():
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
             ],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -87,7 +87,7 @@ async def test_hunger_game_kp_category_with_value():
     assert result == {
         "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -101,7 +101,7 @@ async def test_hunger_game_kp_brand_with_value():
     assert result == {
         "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -115,7 +115,7 @@ async def test_hunger_game_kp_label_with_value():
     assert result == {
         "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -140,7 +140,7 @@ async def test_HungerGame_double_country_and_value():
     result = await kp.hunger_game_kp()
     assert result == {
         "HungerGames": {
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
             "elements": [
                 {
                     "element_type": "text",
@@ -180,7 +180,7 @@ async def test_hunger_game_kp_with_all_tag_1():
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
             ],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -205,7 +205,7 @@ async def test_hunger_game_kp_with_all_tag_2():
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
             ],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -236,7 +236,7 @@ async def test_hunger_game_kp_with_all_tag_3():
                 {"element_type": "text", "text_element": {"html": html1}},
                 {"element_type": "text", "text_element": {"html": html2}},
             ],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
