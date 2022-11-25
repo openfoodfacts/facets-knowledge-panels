@@ -118,7 +118,7 @@ jobs:
 
           # App environment variables
           # expose globally (on the VM)
-          echo "API_EXPOSE= {{ env.API_EXPOSE }}" >> .env
+          echo "API_EXPOSE= ${{ env.API_EXPOSE }}" >> .env
 
     # No volume to create, yet
     # - name: Create external Docker volumes
