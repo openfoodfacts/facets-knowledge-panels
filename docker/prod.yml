@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  facets-api:
+    environment:
+      # enable prometheus metrics
+      FACETS_ENABLE_METRICS: "true"
