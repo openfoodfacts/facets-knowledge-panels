@@ -3,7 +3,7 @@ name: Docker Compose Deployment CI
 on:
   push:
     branches:
-    - $default-branch
+    - main
     - deploy-*
   tags:
     - v*.*.*
