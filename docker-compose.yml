@@ -2,9 +2,17 @@ version: '3'
 
 services:
   facets-api:
-    image : off-facets-knowledge-panels-api:${VERSION:-dev}
-    volumes:
-      - .:/code
+    image : ghcr.io/openfoodfacts/facets-knowledge-panels:${TAG:-dev}
     ports:
       - "${API_EXPOSE}:80"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
+    healthcheck:
+      # very simple health check
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent --fail localhost:80/ >/dev/null || exit 1",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3

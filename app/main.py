@@ -5,6 +5,7 @@ import asyncer
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
@@ -27,6 +28,7 @@ Providing knowledge panels for a particular Open Food Facts facet (category, bra
 A standardized way for clients to get semi-structured but generic data that they can present to users on product pages.
 """  # noqa: E501
 
+
 app = FastAPI(
     title="Open Food Facts knowledge Panels API",
     description=description,
@@ -41,6 +43,15 @@ app = FastAPI(
     },
     openapi_tags=tags_metadata,
 )
+
+
+@app.on_event("startup")
+async def start_prometheus_metrics():
+    """setup metrics on startup"""
+    # condition instrumentation by FACETS_ENABLE_METRICS
+    Instrumentator(should_respect_env_var=True, env_var_name="FACETS_ENABLE_METRICS").instrument(
+        app
+    ).expose(app)
 
 
 @app.get("/")
