@@ -6,3 +6,13 @@ services:
     ports:
       - "${API_EXPOSE}:80"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
+    healthcheck:
+      # very simple health check
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent --fail localhost:80/ >/dev/null || exit 1",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
