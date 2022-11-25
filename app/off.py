@@ -158,10 +158,3 @@ async def wikidata_helper(query, value):
         wikipedia_relation,
     )
     return entities
-
-
-async def hungergame():
-
-    """Helper function for making Translation easy"""
-    description = _("Answer robotoff questions about")
-    return description

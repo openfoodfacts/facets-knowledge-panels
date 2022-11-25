@@ -1,29 +1,27 @@
 <div class="facets-knowledge-panels">
   {% if panels.get("knowledge_panels") %}
-    {% for panel in panels.get("knowledge_panels") %}
-      {% for panel_name, content in panel.items() %}
-        <!-- only display panels with elements -->
-        {% if content.elements %}
-          <!-- rendering a panel -->
-          <div class="knowledge-panel entry {{ panel_name }}">
-            <!--  rendering title of the panel  -->
-            <h3 class="panel title">{{ content.title_element.title }}</h3>
-            {% for element in content.elements -%}
-              <!-- Rendering html data, escaping html characters -->
-              {{ element.text_element.html|safe }}
-              <!-- Rendering source url and source text  -->
-              {%if element.text_element.source_url +%}
-                <em>
-                  source:
-                  <a href="{{element.text_element.source_url}}"
-                    >{{ element.text_element.source_text }}
-                  </a>
-                </em>
-              {% endif %}
-            </div>
-          {% endfor %}
-        {% endif %}
-      {% endfor %}
+    {% for panel_name, content in panels.get("knowledge_panels").items() %}
+      <!-- only display panels with elements -->
+      {% if content.elements %}
+        <!-- rendering a panel -->
+        <div class="knowledge-panel entry {{ panel_name }}">
+          <!--  rendering title of the panel  -->
+          <h3 class="panel title">{{ content.title_element.title }}</h3>
+          {% for element in content.elements -%}
+            <!-- Rendering html data, escaping html characters -->
+            {{ element.text_element.html|safe }}
+            <!-- Rendering source url and source text  -->
+            {%if element.text_element.source_url +%}
+              <em>
+                source:
+                <a href="{{element.text_element.source_url}}"
+                  >{{ element.text_element.source_text }}
+                </a>
+              </em>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
     {% endfor %}
   {% endif %}
 </div>

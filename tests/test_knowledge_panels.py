@@ -16,17 +16,29 @@ def auto_activate_lang():
         yield
 
 
+async def test_hunger_game_kp_no_result():
+    # not all facets are compatible with hunger game
+    result = await KnowledgePanels(
+        facet="allergen",
+        value="gluten",
+        sec_facet="mineral",
+        sec_value="zinc",
+    ).hunger_game_kp()
+    assert result is None
+
+
 async def test_hunger_game_kp_with_filter_value_and_country():
     html = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Agermany'>"
-        "Answer robotoff questions about germany</a></p>"
+        "Answer robotoff questions for country germany</a></p>"
     )
-    assert await KnowledgePanels(
+    result = await KnowledgePanels(
         facet="country", value="germany", country="france"
-    ).hunger_game_kp() == {
-        "hunger_game": {
+    ).hunger_game_kp()
+    assert result == {
+        "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -36,10 +48,11 @@ async def test_hunger_game_kp_with_category():
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=category'>"
         "Answer robotoff questions about category</a></p>"
     )
-    assert await KnowledgePanels(facet="category").hunger_game_kp() == {
-        "hunger_game": {
+    result = await KnowledgePanels(facet="category").hunger_game_kp()
+    assert result == {
+        "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -47,19 +60,20 @@ async def test_hunger_game_kp_with_category():
 async def test_hunger_game_kp_category_with_country():
     html0 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance'>"
-        "Answer robotoff questions about for country france</a></p>"
+        "Answer robotoff questions for country france</a></p>"
     )
     html1 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category'>"
-        "Answer robotoff questions about category  for country france</a></p>"
+        "Answer robotoff questions about category for country france</a></p>"
     )
-    assert await KnowledgePanels(facet="category", country="france").hunger_game_kp() == {
-        "hunger_game": {
+    result = await KnowledgePanels(facet="category", country="france").hunger_game_kp()
+    assert result == {
+        "HungerGames": {
             "elements": [
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
             ],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -69,10 +83,11 @@ async def test_hunger_game_kp_category_with_value():
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"  # noqa: E501
         "Answer robotoff questions about category en:beers</a></p>"
     )
-    assert await KnowledgePanels(facet="category", value="en:beers").hunger_game_kp() == {
-        "hunger_game": {
+    result = await KnowledgePanels(facet="category", value="en:beers").hunger_game_kp()
+    assert result == {
+        "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -82,10 +97,11 @@ async def test_hunger_game_kp_brand_with_value():
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand&value_tag=nestle'>"
         "Answer robotoff questions about brand nestle</a></p>"
     )
-    assert await KnowledgePanels(facet="brand", value="nestle").hunger_game_kp() == {
-        "hunger_game": {
+    result = await KnowledgePanels(facet="brand", value="nestle").hunger_game_kp()
+    assert result == {
+        "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -95,10 +111,50 @@ async def test_hunger_game_kp_label_with_value():
         "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=en%3Aorganic'>"
         "Answer robotoff questions about label en:organic</a></p>"
     )
-    assert await KnowledgePanels(facet="label", value="en:organic").hunger_game_kp() == {
-        "hunger_game": {
+    result = await KnowledgePanels(facet="label", value="en:organic").hunger_game_kp()
+    assert result == {
+        "HungerGames": {
             "elements": [{"element_type": "text", "text_element": {"html": html}}],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
+        }
+    }
+
+
+async def test_HungerGame_double_country_and_value():
+    # facet country have priority
+    html1 = (
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance'>"
+        "Answer robotoff questions for country france</a></p>"
+    )
+    html2 = (
+        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category&value_tag=beers'>"  # noqa:E501
+        "Answer robotoff questions about category beers for country france</a></p>"
+    )
+    kp = KnowledgePanels(
+        facet="country",
+        value="en:france",
+        country="germany",
+        sec_facet="category",
+        sec_value="beers",
+    )
+    result = await kp.hunger_game_kp()
+    assert result == {
+        "HungerGames": {
+            "title_element": {"title": "Hunger games"},
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": {
+                        "html": html1,
+                    },
+                },
+                {
+                    "element_type": "text",
+                    "text_element": {
+                        "html": html2,
+                    },
+                },
+            ],
         }
     }
 
@@ -106,7 +162,7 @@ async def test_hunger_game_kp_label_with_value():
 async def test_hunger_game_kp_with_all_tag_1():
     html0 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl'>"
-        "Answer robotoff questions about for country france for brand lidl</a></p>"
+        "Answer robotoff questions for country france for brand lidl</a></p>"
     )
     html1 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value_tag=en%3Abeers'>"  # noqa: E501
@@ -119,12 +175,12 @@ async def test_hunger_game_kp_with_all_tag_1():
         sec_value="lidl",
         country="france",
     ).hunger_game_kp() == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
             ],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -144,12 +200,12 @@ async def test_hunger_game_kp_with_all_tag_2():
         sec_facet="category",
         sec_value="en:coffees",
     ).hunger_game_kp() == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
             ],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -157,7 +213,7 @@ async def test_hunger_game_kp_with_all_tag_2():
 async def test_hunger_game_kp_with_all_tag_3():
     html0 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly'>"
-        "Answer robotoff questions about for country italy</a></p>"
+        "Answer robotoff questions for country italy</a></p>"
     )
     html1 = (
         "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value_tag=en%3Ameals'>"  # noqa: E501
@@ -174,13 +230,13 @@ async def test_hunger_game_kp_with_all_tag_3():
         sec_value="vegan",
         country="italy",
     ).hunger_game_kp() == {
-        "hunger_game": {
+        "HungerGames": {
             "elements": [
                 {"element_type": "text", "text_element": {"html": html0}},
                 {"element_type": "text", "text_element": {"html": html1}},
                 {"element_type": "text", "text_element": {"html": html2}},
             ],
-            "title_element": {"title": "hunger-games"},
+            "title_element": {"title": "Hunger games"},
         }
     }
 
@@ -654,6 +710,37 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
             },
         }
     }
+
+
+async def test_wikidata_kp_no_value():
+    # wikidata only fetched if there is a value
+    result = await KnowledgePanels(facet="category").wikidata_kp()
+    assert result is None
+
+
+async def test_wikidata_no_wikidata_property(monkeypatch):
+    # first mock the call to open food facts (to get the wikidata property)
+    expected_url = "https://world.openfoodfacts.org/api/v2/taxonomy"
+    expected_kwargs = {
+        "params": {
+            "tagtype": "categories",
+            "fields": "wikidata",
+            "tags": "fr:fitou",
+        }
+    }
+    # no wikidata entry !
+    json_content = {"fr:fitou": {"parents": []}}
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        mock_async_get_factory(
+            expected_url,
+            expected_kwargs,
+            json_content,
+        ),
+    )
+    result = await KnowledgePanels(facet="category", value="fr:fitou").wikidata_kp()
+    assert result is None
 
 
 async def test_wikidata_kp(monkeypatch):

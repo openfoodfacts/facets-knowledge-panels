@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional, Union
+from typing import Optional, TypedDict
 
 import inflect
 import pycountry
@@ -161,14 +161,16 @@ class QueryData:
 
 
 class BaseTitleElement(BaseModel):
-    # Containing title element
+    """An element containing a title"""
+
     title: str = Field(
         description="title of the panel",
     )
 
 
 class BaseTextElement(BaseModel):
-    # Conataning text element
+    """An element with simple HTML to display"""
+
     html: Optional[str] = Field(
         default=None,
         description="Text to display in HTML format",
@@ -183,7 +185,7 @@ class BaseTextElement(BaseModel):
 
 
 class BaseElement(BaseModel):
-    # Contains base elements of panel
+    """Element container"""
 
     element_type: str = Field(
         description="The type of the included element object."
@@ -196,34 +198,40 @@ class BaseElement(BaseModel):
 
 
 class KnowledgePanelItem(BaseModel):
-    # Helper class for reccuring item
+    """A Panel, made of multiple sub elements"""
+
     elements: Optional[list[BaseElement]] = None
     title_element: BaseTitleElement
 
 
-class HungerGamePanel(BaseModel):
-    # return hungergamespanel response
-    hunger_game: KnowledgePanelItem
+class HungerGamePanel(TypedDict, total=False):
+    """Panel linking to Hunger Games"""
+
+    HungerGames: KnowledgePanelItem
 
 
-class DataQualityPanel(BaseModel):
-    # return dataqualitypanel response
+class DataQualityPanel(TypedDict, total=False):
+    """Panel with elements of data quality"""
+
     Quality: KnowledgePanelItem
 
 
-class LastEditsPanel(BaseModel):
-    # return lasteditspanel response
+class LastEditsPanel(TypedDict, total=False):
+    """Panel reporting last edits for the facet"""
+
     LastEdits: KnowledgePanelItem
 
 
-class WikidataPanel(BaseModel):
-    # return wikidatapanel response
+class WikidataPanel(TypedDict, total=False):
+    """Panel with informations taken from wikidata"""
+
     WikiData: KnowledgePanelItem
 
 
-KnowledgePanel = Union[HungerGamePanel, DataQualityPanel, LastEditsPanel, WikidataPanel]
+class KnowledgePanel(HungerGamePanel, DataQualityPanel, LastEditsPanel, WikidataPanel):
+    pass
 
 
 class FacetResponse(BaseModel):
     # Return facetresponse l.e, all differnt knowledge panel
-    knowledge_panels: Optional[list[KnowledgePanel]] = None
+    knowledge_panels: Optional[KnowledgePanel] = None
