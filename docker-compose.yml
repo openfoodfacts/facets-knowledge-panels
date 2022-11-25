@@ -2,7 +2,7 @@ version: '3'
 
 services:
   facets-api:
-    image : ghcr.io/openfoodfacts/facets-knowledge-panels:${VERSION:-dev}
+    image : ghcr.io/openfoodfacts/facets-knowledge-panels:${TAG:-dev}
     ports:
       - "${API_EXPOSE}:80"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
