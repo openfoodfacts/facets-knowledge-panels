@@ -5,8 +5,8 @@ on:
     branches:
     - main
     - deploy-*
-  tags:
-    - v*.*.*
+    tags:
+      - v*.*.*
 
 jobs:
   deploy:
