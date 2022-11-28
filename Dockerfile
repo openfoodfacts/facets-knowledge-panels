@@ -23,6 +23,7 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 USER off:off
 COPY --chown=off:off ./app /code/app
 COPY --chown=off:off ./i18n /code/i18n
+COPY --chown=off:off ./template /code/template
 
 # format language files
 RUN find i18n -name \*.po -execdir msgfmt knowledge-panel.po -o knowledge-panel.mo \;
