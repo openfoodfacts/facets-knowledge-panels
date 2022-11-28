@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.0.0...v1.0.1) (2022-11-28)
+
+
+### Bug Fixes
+
+* fix release process ([#66](https://github.com/openfoodfacts/facets-knowledge-panels/issues/66)) ([4370bae](https://github.com/openfoodfacts/facets-knowledge-panels/commit/4370bae0fbdc05aee7e03ff8b9917abcde725b52))
+
 ## 1.0.0 (2022-11-25)
 
 
