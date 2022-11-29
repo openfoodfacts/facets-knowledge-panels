@@ -30,3 +30,6 @@ tests:
 	${DOCKER_RUN} pytest .
 
 checks: quality tests
+
+# To ease the process for contributors
+all: build_lang lint checks

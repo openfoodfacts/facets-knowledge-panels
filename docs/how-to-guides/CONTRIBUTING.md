@@ -53,14 +53,11 @@ git push origin <type>/<issue-issueNumber>/{<additional-fixes>}
 - [Setup project locally](./Project-setup-locally.md)
 
 #### Step 3
+- [Testing the work before push](./Testing.md)
+
+#### Step 4
 ```bash
 ## Committing and pushing your work
-
-# recompile languages files
-make build_lang
-
-# format your code
-make checks
 
 # Ensure branch
 git branch
