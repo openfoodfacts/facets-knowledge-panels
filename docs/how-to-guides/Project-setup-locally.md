@@ -1,7 +1,7 @@
 # Project Setup
 You may choose Docker-compose(recommended), or Through virtual env 
 
-### Through Docker
+### Through Docker[Recommended]
 
 - Prerequisite - [Docker](https://docs.docker.com/get-docker/)
 
@@ -11,10 +11,18 @@ to build:
 ```bash
 docker-compose build
 ```
+or
+```bash
+make docker_build
+```
 
 to run:
 ```bash
 docker-compose up
+```
+or
+```bash
+make docker_up
 ```
 
 - Visit `http://127.0.0.1/` with the endpoints or /docs for documentation

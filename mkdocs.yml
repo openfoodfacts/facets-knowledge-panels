@@ -10,3 +10,29 @@ edit_uri: blob/main/docs/
 
 theme:
   name: material
+  logo: https://static.openfoodfacts.org/images/logos/off-logo-horizontal-light.svg
+  favicon: https://static.openfoodfacts.org/images/logos/off-logo-favicon-light.png
+  palette: 
+
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - footnotes
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - toc:
+      # add permalink after titles
+      permalink: "#"
+      # this one allow to have two space indentation
+  # counts as nested list
+  - mdx_truly_sane_lists
