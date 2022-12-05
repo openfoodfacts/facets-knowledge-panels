@@ -3,6 +3,7 @@ import logging
 from typing import Union
 from urllib.parse import urlencode
 
+from .config import openFoodFacts, settings
 from .i18n import translate as _
 from .models import HungerGameFilter, Taxonomies, country_to_ISO_code, facet_plural
 from .off import data_quality, last_edit, wikidata_helper
@@ -25,7 +26,7 @@ class KnowledgePanels:
 
     async def hunger_game_kp(self):
         query = {}
-        questions_url = "https://hunger.openfoodfacts.org/questions"
+        questions_url = settings.HUNGER_GAME
         facets = {self.facet: self.value, self.sec_facet: self.sec_value}
         # remove empty values and facets that are not hunger games related
         facets = {k: v for k, v in facets.items() if k is not None and k in HungerGameFilter.list()}
@@ -92,22 +93,22 @@ class KnowledgePanels:
         if self.facet == "country":
             self.country = self.value
             country_code = country_to_ISO_code(value=self.value)
-            url = f"https://{country_code}.openfoodfacts.org"
+            url = openFoodFacts(country_code)
             path = ""
             self.facet = self.value = None
         if self.sec_facet == "country":
             self.country = self.sec_value
             country_code = country_to_ISO_code(value=self.sec_value)
-            url = f"https://{country_code}.openfoodfacts.org"
+            url = openFoodFacts(country_code)
             path = ""
             self.sec_facet = self.sec_value = None
         if self.country is not None:
             country_code = country_to_ISO_code(value=self.country)
-            url = f"https://{country_code}.openfoodfacts.org"
+            url = openFoodFacts(country_code)
             path = ""
             description += f"{self.country} "
         if self.country is None:
-            url = "https://world.openfoodfacts.org/"
+            url = openFoodFacts("world")
         if self.facet is not None:
             path += self.facet
             description += f"{self.facet}"
@@ -151,19 +152,19 @@ class KnowledgePanels:
         if self.facet == "country":
             self.country = self.value
             country_code = country_to_ISO_code(value=self.value)
-            url = f"https://{country_code}.openfoodfacts.org"
+            url = openFoodFacts(country_code)
             self.facet = self.value = None
         if self.sec_facet == "country":
             self.country = self.sec_value
             country_code = country_to_ISO_code(value=self.sec_value)
-            url = f"https://{country_code}.openfoodfacts.org"
+            url = openFoodFacts(country_code)
             self.sec_facet = self.sec_value = None
         if self.country is not None:
             country_code = country_to_ISO_code(value=self.country)
-            url = f"https://{country_code}.openfoodfacts.org"
+            url = openFoodFacts(country_code)
             description += f"{self.country} "
         if self.country is None:
-            url = "https://world.openfoodfacts.org"
+            url = openFoodFacts("world")
         if self.facet is not None:
             description += f"{self.facet}"
             source_url = f"{url}/{self.facet}?sort_by=last_modified_t"
@@ -226,7 +227,7 @@ class KnowledgePanels:
                     "text_element": {
                         "html": f"<p><em>{val.label_tag}</em></p><p><small>{val.description_tag}</small></p>",  # noqa: E501
                         "source_text": "wikidata",
-                        "source_url": f"https://www.wikidata.org/wiki/{val.entity_id}",
+                        "source_url": settings.WIKIDATA + val.entity_id,
                     },
                 }
             )
