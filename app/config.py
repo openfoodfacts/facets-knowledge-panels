@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from pydantic import BaseSettings
 
 
@@ -14,8 +16,10 @@ class Settings(BaseSettings):
         env_file_encoding = "utf-8"
 
 
-settings = Settings()
+@lru_cache()
+def settings():
+    return Settings()
 
 
 def openFoodFacts(country):
-    return str("https://" + country + "." + settings.OPENFOODFACTS)
+    return str("https://" + country + "." + settings().OPENFOODFACTS)

@@ -125,7 +125,7 @@ async def wikidata_helper(query, value):
     """
     lang = get_current_lang()
     async with aiohttp.ClientSession() as session:
-        url = settings.TAXONOMY
+        url = settings().TAXONOMY
         async with session.get(url, params=query) as resp:
             data = await resp.json()
     tag = data[value]
@@ -140,12 +140,12 @@ async def wikidata_helper(query, value):
     wikipedia_relation = wiki_links.get("url", "")
     if wikidata_props.INAO_prop in entity:
         INAO = entity[wikidata_props.INAO_prop]
-        INAO_relation = settings.INAO + INAO
+        INAO_relation = settings().INAO + INAO
     else:
         INAO_relation = ""
     if wikidata_props.OSM_prop in entity:
         osm = entity[wikidata_props.OSM_prop]
-        OSM_relation = settings.OPENSTREETMAP + osm
+        OSM_relation = settings().OPENSTREETMAP + osm
     else:
         OSM_relation = ""
 

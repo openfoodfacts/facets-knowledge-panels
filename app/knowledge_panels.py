@@ -26,7 +26,7 @@ class KnowledgePanels:
 
     async def hunger_game_kp(self):
         query = {}
-        questions_url = settings.HUNGER_GAME
+        questions_url = settings().HUNGER_GAME
         facets = {self.facet: self.value, self.sec_facet: self.sec_value}
         # remove empty values and facets that are not hunger games related
         facets = {k: v for k, v in facets.items() if k is not None and k in HungerGameFilter.list()}
@@ -227,7 +227,7 @@ class KnowledgePanels:
                     "text_element": {
                         "html": f"<p><em>{val.label_tag}</em></p><p><small>{val.description_tag}</small></p>",  # noqa: E501
                         "source_text": "wikidata",
-                        "source_url": settings.WIKIDATA + val.entity_id,
+                        "source_url": settings().WIKIDATA + val.entity_id,
                     },
                 }
             )
