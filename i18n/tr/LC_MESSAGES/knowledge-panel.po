@@ -49,7 +49,7 @@ msgstr ""
 
 #: app/off.py:84
 msgid "Last-edits"
-msgstr ""
+msgstr "Son düzenlemeler"
 
 #: app/off.py:91
 msgid "Answer robotoff questions about"
