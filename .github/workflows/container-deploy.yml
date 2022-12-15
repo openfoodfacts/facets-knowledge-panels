@@ -119,6 +119,12 @@ jobs:
           # App environment variables
           # expose globally (on the VM)
           echo "API_EXPOSE= ${{ env.API_EXPOSE }}" >> .env
+          echo "FACETS_HUNGER_GAME= ${{ env.FACETS_HUNGER_GAME }}" >> .env
+          echo "FACETS_OPENFOODFACTS= ${{ env.FACETS_OPENFOODFACTS }}" >> .env
+          echo "FACETS_WIKIDATA= ${{ env.FACETS_WIKIDATA }}" >> .env
+          echo "FACETS_TAXONOMY= ${{ env.FACETS_TAXONOMY }}" >> .env
+          echo "FACETS_INAO= ${{ env.FACETS_INAO }}" >> .env
+          echo "FACETS_OPENSTREETMAP= ${{ env.FACETS_OPENSTREETMAP }}" >> .env
 
     # No volume to create, yet
     # - name: Create external Docker volumes
