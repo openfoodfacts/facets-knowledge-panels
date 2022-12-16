@@ -36,6 +36,25 @@ make docker_up
 ```
 pip install -r requirements.txt
 ```
+
+- For setup the environment, please copy "external urls" value from ".env" file to "Settings" class of "config.py".
+- After this step your local "Settings" class in "config.py" look like this:
+
+```
+class Settings(BaseSettings):
+
+    HUNGER_GAME: str = "https://hunger.openfoodfacts.org/questions"
+    OPENFOODFACTS: str = "openfoodfacts.org"
+    WIKIDATA: str = "https://www.wikidata.org/wiki/"
+    TAXONOMY: str = "https://world.openfoodfacts.org/api/v2/taxonomy"
+    INAO: str = "https://www.inao.gouv.fr/produit/"
+    OPENSTREETMAP: str = "https://www.openstreetmap.org/relation/"
+
+    class Config:
+        env_prefix = "FACETS_"
+```
+
+- Now you ready to runserver.
 ```
 uvicorn app.main:app --reload
 ```
