@@ -29,31 +29,19 @@ make docker_up
 
 ### Through virtual env
 
-- Prerequisite - [Python](https://www.python.org/downloads/)
+- Prerequisite 
+  - [Python](https://www.python.org/downloads/)
+  - use a [git bash](https://gitforwindows.org/#bash) console to run the commands below
 - After forking the repository
 - Create [virtual env](https://docs.python.org/3/library/venv.html)
+- Activate you virtual environment `. path/to/virtualenv/bin/activate`
 - Install requirements.txt
 ```
 pip install -r requirements.txt
 ```
 
-- For setup the environment, please copy "external urls" value from ".env" file to "Settings" class of "config.py".
-- After this step your local "Settings" class in "config.py" look like this:
 
-```
-class Settings(BaseSettings):
-
-    HUNGER_GAME: str = "https://hunger.openfoodfacts.org/questions"
-    OPENFOODFACTS: str = "openfoodfacts.org"
-    WIKIDATA: str = "https://www.wikidata.org/wiki/"
-    TAXONOMY: str = "https://world.openfoodfacts.org/api/v2/taxonomy"
-    INAO: str = "https://www.inao.gouv.fr/produit/"
-    OPENSTREETMAP: str = "https://www.openstreetmap.org/relation/"
-
-    class Config:
-        env_prefix = "FACETS_"
-```
-
+- Load the environment variables: `. load_env.sh`
 - Now you ready to runserver.
 ```
 uvicorn app.main:app --reload
