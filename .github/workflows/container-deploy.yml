@@ -29,6 +29,9 @@ jobs:
         echo "SSH_USERNAME=off" >> $GITHUB_ENV
         # expose port
         echo "API_EXPOSE=8032" >> $GITHUB_ENV
+        # app parameters
+        echo "FACETS_OPENFOODFACTS=openfoodfacts.net" >> $GITHUB_ENV
+        echo "FACETS_TAXONOMY=https://world.openfoodfacts.net/api/v2/taxonomy" >> $GITHUB_ENV
 
     - name: Set various variable for production deployment
       if: matrix.env == 'facets-kp-org'
@@ -39,6 +42,9 @@ jobs:
         echo "SSH_USERNAME=off" >> $GITHUB_ENV
         # expose port
         echo "API_EXPOSE=8032" >> $GITHUB_ENV
+        # app parameters
+        echo "FACETS_OPENFOODFACTS=openfoodfacts.org" >> $GITHUB_ENV
+        echo "FACETS_TAXONOMY=https://world.openfoodfacts.org/api/v2/taxonomy" >> $GITHUB_ENV
 
     - name: Wait for container build workflow
       uses: tomchv/wait-my-workflow@v1.1.0
@@ -118,13 +124,13 @@ jobs:
 
           # App environment variables
           # expose globally (on the VM)
-          echo "API_EXPOSE= ${{ env.API_EXPOSE }}" >> .env
-          echo "FACETS_HUNGER_GAME= ${{ env.FACETS_HUNGER_GAME }}" >> .env
-          echo "FACETS_OPENFOODFACTS= ${{ env.FACETS_OPENFOODFACTS }}" >> .env
-          echo "FACETS_WIKIDATA= ${{ env.FACETS_WIKIDATA }}" >> .env
-          echo "FACETS_TAXONOMY= ${{ env.FACETS_TAXONOMY }}" >> .env
-          echo "FACETS_INAO= ${{ env.FACETS_INAO }}" >> .env
-          echo "FACETS_OPENSTREETMAP= ${{ env.FACETS_OPENSTREETMAP }}" >> .env
+          echo "API_EXPOSE=${{ env.API_EXPOSE }}" >> .env
+          echo "FACETS_HUNGER_GAME=https://hunger.openfoodfactnet.org/questions" >> .env
+          echo "FACETS_WIKIDATA=https://www.wikidata.org/wiki/" >> .env
+          echo "FACETS_INAO=https://www.inao.gouv.fr/produit/" >> .env
+          echo "FACETS_OPENSTREETMAP=https://www.openstreetmap.org/relation/" >> .env
+          echo "FACETS_OPENFOODFACTS=${{ env.FACETS_OPENFOODFACTS }}" >> .env
+          echo "FACETS_TAXONOMY=${{ env.FACETS_TAXONOMY }}" >> .env
 
     # No volume to create, yet
     # - name: Create external Docker volumes
