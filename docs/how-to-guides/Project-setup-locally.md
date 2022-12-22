@@ -29,13 +29,20 @@ make docker_up
 
 ### Through virtual env
 
-- Prerequisite - [Python](https://www.python.org/downloads/)
+- Prerequisite 
+  - [Python](https://www.python.org/downloads/)
+  - use a [git bash](https://gitforwindows.org/#bash) console to run the commands below
 - After forking the repository
 - Create [virtual env](https://docs.python.org/3/library/venv.html)
+- Activate you virtual environment `. path/to/virtualenv/bin/activate`
 - Install requirements.txt
 ```
 pip install -r requirements.txt
 ```
+
+
+- Load the environment variables: `. load_env.sh`
+- Now you ready to runserver.
 ```
 uvicorn app.main:app --reload
 ```

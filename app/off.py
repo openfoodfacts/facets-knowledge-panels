@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 import aiohttp
 from asyncer import asyncify
 
+from .config import settings
 from .i18n import DEFAULT_LANGUAGE, get_current_lang
 from .i18n import translate as _
 from .wikidata_utils import get_wikidata_entity, image_thumbnail, wikidata_props
@@ -124,7 +125,7 @@ async def wikidata_helper(query, value):
     """
     lang = get_current_lang()
     async with aiohttp.ClientSession() as session:
-        url = "https://world.openfoodfacts.org/api/v2/taxonomy"
+        url = settings().TAXONOMY
         async with session.get(url, params=query) as resp:
             data = await resp.json()
     tag = data[value]
@@ -139,12 +140,12 @@ async def wikidata_helper(query, value):
     wikipedia_relation = wiki_links.get("url", "")
     if wikidata_props.INAO_prop in entity:
         INAO = entity[wikidata_props.INAO_prop]
-        INAO_relation = "https://www.inao.gouv.fr/produit/{}".format(INAO)
+        INAO_relation = settings().INAO + INAO
     else:
         INAO_relation = ""
     if wikidata_props.OSM_prop in entity:
         osm = entity[wikidata_props.OSM_prop]
-        OSM_relation = "https://www.openstreetmap.org/relation/{}".format(osm)
+        OSM_relation = settings().OPENSTREETMAP + osm
     else:
         OSM_relation = ""
 
