@@ -496,12 +496,21 @@ or
 </ul>
 <h3 id="through-virtual-env">Through virtual env<a class="headerlink" href="#through-virtual-env" title="Permanent link">#</a></h3>
 <ul>
-<li>Prerequisite - <a href="https://www.python.org/downloads/">Python</a></li>
+<li>Prerequisite <ul>
+<li><a href="https://www.python.org/downloads/">Python</a></li>
+<li>use a <a href="https://gitforwindows.org/#bash">git bash</a> console to run the commands below</li>
+</ul>
+</li>
 <li>After forking the repository</li>
 <li>Create <a href="https://docs.python.org/3/library/venv.html">virtual env</a></li>
+<li>Activate you virtual environment <code>. path/to/virtualenv/bin/activate</code></li>
 <li>Install requirements.txt
 <div class="highlight"><pre><span></span><code>pip install -r requirements.txt
-</code></pre></div>
+</code></pre></div></li>
+</ul>
+<ul>
+<li>Load the environment variables: <code>. load_env.sh</code></li>
+<li>Now you ready to runserver.
 <div class="highlight"><pre><span></span><code>uvicorn app.main:app --reload
 </code></pre></div></li>
 <li>Checkout your local host <code>http://127.0.0.1:8000/</code> with the endpoints or /docs for documentation</li>
