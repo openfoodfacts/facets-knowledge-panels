@@ -1,8 +1,8 @@
 from collections import namedtuple
 from urllib.parse import urljoin
-from functools import lru_cache
 
 import aiohttp
+from async_lru import alru_cache
 from asyncer import asyncify
 
 from .config import settings
@@ -11,7 +11,7 @@ from .i18n import translate as _
 from .wikidata_utils import get_wikidata_entity, image_thumbnail, wikidata_props
 
 
-@lru_cache()
+@alru_cache()
 async def global_quality(source_url):
     async with aiohttp.ClientSession() as session:
         quality_url = f"{source_url}/data-quality.json"

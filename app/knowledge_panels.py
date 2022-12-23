@@ -110,7 +110,7 @@ class KnowledgePanels:
         if self.country is None:
             url = openFoodFacts("world")
         if self.value is None:
-            description += f"{self.facet}"
+            path = ""
         if self.value is not None:
             path += f"{self.facet}/{self.value}"
             description += f"{self.facet} {self.value}"
@@ -161,6 +161,7 @@ class KnowledgePanels:
         if self.country is not None:
             country_code = country_to_ISO_code(value=self.country)
             url = openFoodFacts(country_code)
+            source_url = f"{url}?sort_by=last_modified_t"
             description += f"{self.country} "
         if self.country is None:
             url = openFoodFacts("world")
