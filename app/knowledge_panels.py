@@ -114,9 +114,6 @@ class KnowledgePanels:
         if self.value is not None:
             path += f"{self.facet}/{self.value}"
             description += f"{self.facet} {self.value}"
-        # if self.value is not None:
-        #     path += f"/{self.value}"
-        #     description += f" {self.value}"
         # Checking if secondary facet is provided
         if self.sec_facet is not None:
             path += f"/{self.sec_facet}"
