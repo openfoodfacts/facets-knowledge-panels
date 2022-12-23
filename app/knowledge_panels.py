@@ -109,12 +109,14 @@ class KnowledgePanels:
             description += f"{self.country} "
         if self.country is None:
             url = openFoodFacts("world")
-        if self.facet is not None:
-            path += self.facet
+        if self.value is None:
             description += f"{self.facet}"
         if self.value is not None:
-            path += f"/{self.value}"
-            description += f" {self.value}"
+            path += f"{self.facet}/{self.value}"
+            description += f"{self.facet} {self.value}"
+        # if self.value is not None:
+        #     path += f"/{self.value}"
+        #     description += f" {self.value}"
         # Checking if secondary facet is provided
         if self.sec_facet is not None:
             path += f"/{self.sec_facet}"

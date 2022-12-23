@@ -1,5 +1,6 @@
 from collections import namedtuple
 from urllib.parse import urljoin
+from functools import lru_cache
 
 import aiohttp
 from asyncer import asyncify
@@ -10,15 +11,20 @@ from .i18n import translate as _
 from .wikidata_utils import get_wikidata_entity, image_thumbnail, wikidata_props
 
 
+@lru_cache()
+async def global_quality(source_url):
+    async with aiohttp.ClientSession() as session:
+        quality_url = f"{source_url}/data-quality.json"
+        async with session.get(quality_url) as resp:
+            return await resp.json()
+
+
 async def data_quality(url, path):
     """
     Helper function to return issues for data-quality
     """
-    async with aiohttp.ClientSession() as session:
-        source_url = urljoin(url, path)
-        quality_url = f"{source_url}/data-quality.json"
-        async with session.get(quality_url) as resp:
-            data = await resp.json()
+    source_url = urljoin(url, path)
+    data = await global_quality(source_url)
     total_issues = data["count"]
     tags = data["tags"]
     html = []
