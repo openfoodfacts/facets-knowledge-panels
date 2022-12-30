@@ -121,23 +121,24 @@ class KnowledgePanels:
         if self.sec_value is not None:
             path += f"/{self.sec_value}"
             description += f" {self.sec_value}"
-        (t_html, source_url, t_description, t_title) = await data_quality(url=url, path=path)
-
-        return {
-            "Quality": {
-                "elements": [
-                    {
-                        "element_type": "text",
-                        "text_element": {
-                            "html": t_html,
-                            "source_text": t_title,
-                            "source_url": f"{source_url}/data-quality",
-                        },
-                    }
-                ],
-                "title_element": {"title": f"{t_description} {description}"},
-            },
-        }
+        data = await data_quality(url=url, path=path)
+        if data:
+            return {
+                "Quality": {
+                    "elements": [
+                        {
+                            "element_type": "text",
+                            "text_element": {
+                                "html": data.text,
+                                "source_text": data.title,
+                                "source_url": f"{data.source_url}/data-quality",
+                            },
+                        }
+                    ],
+                    "title_element": {"title": f"{data.description} {description}"},
+                },
+            }
+        return None
 
     async def last_edits_kp(self):
         """
@@ -176,23 +177,24 @@ class KnowledgePanels:
             query[f"{facet_plural(facet=self.sec_facet)}_tags_en"] = self.sec_value
             description += f" {self.sec_facet} {self.sec_value}"
             source_url = f"{url}/{self.facet}/{self.value}/{self.sec_facet}/{self.sec_value}?sort_by=last_modified_t"  # noqa: E501
-        t_html, t_description, t_title = await last_edit(url=url, query=query)
-
-        return {
-            "LastEdits": {
-                "elements": [
-                    {
-                        "element_type": "text",
-                        "text_element": {
-                            "html": t_html,
-                            "source_text": t_title,
-                            "source_url": source_url,
+        data = await last_edit(url=url, query=query)
+        if data:
+            return {
+                "LastEdits": {
+                    "elements": [
+                        {
+                            "element_type": "text",
+                            "text_element": {
+                                "html": data.text,
+                                "source_text": data.title,
+                                "source_url": source_url,
+                            },
                         },
-                    },
-                ],
-                "title_element": {"title": f"{t_description} {description}"},
-            },
-        }
+                    ],
+                    "title_element": {"title": f"{data.description} {description}"},
+                },
+            }
+        return None
 
     async def _wikidata_kp(self, facet, value):
         query = {}

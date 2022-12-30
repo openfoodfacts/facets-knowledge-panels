@@ -11,12 +11,25 @@ from .i18n import translate as _
 from .wikidata_utils import get_wikidata_entity, image_thumbnail, wikidata_props
 
 
-@alru_cache()
-async def global_quality(source_url):
+async def fetch_quality(source_url):
     async with aiohttp.ClientSession() as session:
         quality_url = f"{source_url}/data-quality.json"
         async with session.get(quality_url) as resp:
             return await resp.json()
+
+
+# cached version of fetch_quality for slow requests
+global_quality = alru_cache(fetch_quality)
+
+DataQuality = namedtuple(
+    "DataQuality",
+    [
+        "text",
+        "source_url",
+        "description",
+        "title",
+    ],
+)
 
 
 async def data_quality(url, path):
@@ -24,7 +37,10 @@ async def data_quality(url, path):
     Helper function to return issues for data-quality
     """
     source_url = urljoin(url, path)
-    data = await global_quality(source_url)
+    try:
+        data = global_quality if path == "" else await fetch_quality(source_url)
+    except aiohttp.ClientError:
+        return None
     total_issues = data["count"]
     tags = data["tags"]
     html = []
@@ -49,21 +65,33 @@ async def data_quality(url, path):
     text = "".join(html)
     description = _("Data-quality issues related to")
     title = _("Data-quality issues")
+    result = DataQuality(text, source_url, description, title)
+    return result
 
-    return text, source_url, description, title
+
+LastEdit = namedtuple(
+    "LastEdit",
+    [
+        "text",
+        "description",
+        "title",
+    ],
+)
 
 
 async def last_edit(url, query):
     """
     Helper function to return data for last-edits
     """
-    async with aiohttp.ClientSession() as session:
-        search_url = f"{url}/api/v2/search"
-        async with session.get(search_url, params=query) as resp:
-            data = await resp.json()
-    counts = data["count"]
-    tags = data["products"]
-
+    try:
+        async with aiohttp.ClientSession() as session:
+            search_url = f"{url}/api/v2/search"
+            async with session.get(search_url, params=query) as resp:
+                data = await resp.json()
+        counts = data["count"]
+        tags = data["products"]
+    except aiohttp.ClientError:
+        return None
     html = []
     for tag in tags[0:10]:
         info = {
@@ -78,7 +106,7 @@ async def last_edit(url, query):
             _(
                 """
             <a class="edit_entry" href="{url}">
-              {product_name} ({code}) edited by {last_editor} on {edit_date}
+            {product_name} ({code}) edited by {last_editor} on {edit_date}
             </a>
         """
             ).format(**info)
@@ -96,7 +124,8 @@ async def last_edit(url, query):
     text = "".join(html)
     description = _("last-edits issues related to")
     title = _("Last-edits")
-    return text, description, title
+    result = LastEdit(text, description, title)
+    return result
 
 
 Entities = namedtuple(

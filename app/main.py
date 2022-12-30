@@ -2,7 +2,7 @@ import logging
 from typing import Optional
 
 import asyncer
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from prometheus_fastapi_instrumentator import Instrumentator
@@ -73,6 +73,8 @@ async def knowledge_panel(
     facet_tag are the list of values connecting to FacetName
     eg:- category/beer, here beer is the value
     """
+    if facet_tag.country and value_tag is None:
+        raise HTTPException(status_code=400, detail="Value_tag can't be empty!")
     with active_translation(lang_code):
         # creating object that will compute knowledge panels
         obj_kp = KnowledgePanels(
