@@ -73,7 +73,7 @@ async def knowledge_panel(
     facet_tag are the list of values connecting to FacetName
     eg:- category/beer, here beer is the value
     """
-    if facet_tag.country and value_tag is None:
+    if facet_tag == "country" and value_tag is None:
         raise HTTPException(status_code=400, detail="Value_tag can't be empty!")
     with active_translation(lang_code):
         # creating object that will compute knowledge panels
