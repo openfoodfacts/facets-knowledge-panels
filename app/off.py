@@ -38,7 +38,7 @@ async def data_quality(url, path):
     """
     source_url = urljoin(url, path)
     try:
-        data = global_quality if path == "" else await fetch_quality(source_url)
+        data = await global_quality(source_url) if path == "" else await fetch_quality(source_url)
     except aiohttp.ClientError:
         return None
     total_issues = data["count"]
