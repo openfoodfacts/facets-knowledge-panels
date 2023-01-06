@@ -3,9 +3,9 @@ from collections import namedtuple
 from urllib.parse import urljoin
 
 import aiohttp
-from fastapi_utils.tasks import repeat_every
 from async_lru import alru_cache
 from asyncer import asyncify
+from fastapi_utils.tasks import repeat_every
 
 from .config import settings
 from .i18n import DEFAULT_LANGUAGE, get_current_lang

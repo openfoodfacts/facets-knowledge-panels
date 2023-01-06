@@ -4,7 +4,6 @@ from typing import Optional
 import asyncer
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-
 from fastapi.templating import Jinja2Templates
 from prometheus_fastapi_instrumentator import Instrumentator
 
@@ -12,7 +11,6 @@ from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
 from .models import FacetName, FacetResponse, QueryData
 from .off import global_quality_refresh
-
 
 tags_metadata = [
     {
