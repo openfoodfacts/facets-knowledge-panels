@@ -2,16 +2,18 @@ import logging
 from typing import Optional
 
 import asyncer
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
+
 from fastapi.templating import Jinja2Templates
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
 from .models import FacetName, FacetResponse, QueryData
+from .off import global_quality_refresh
 
-# Metadata for the API
+
 tags_metadata = [
     {
         "name": "knowledge-panel",
@@ -27,7 +29,6 @@ Providing knowledge panels for a particular Open Food Facts facet (category, bra
 
 A standardized way for clients to get semi-structured but generic data that they can present to users on product pages.
 """  # noqa: E501
-
 
 app = FastAPI(
     title="Open Food Facts knowledge Panels API",
@@ -46,12 +47,15 @@ app = FastAPI(
 
 
 @app.on_event("startup")
-async def start_prometheus_metrics():
+async def start_service():
     """setup metrics on startup"""
     # condition instrumentation by FACETS_ENABLE_METRICS
     Instrumentator(should_respect_env_var=True, env_var_name="FACETS_ENABLE_METRICS").instrument(
         app
-    ).expose(app)
+    ).expose(app),
+    # Clearing cache and refetching data-quality
+    # Refetching data every hour
+    global_quality_refresh
 
 
 @app.get("/")
@@ -73,8 +77,6 @@ async def knowledge_panel(
     facet_tag are the list of values connecting to FacetName
     eg:- category/beer, here beer is the value
     """
-    if facet_tag == "country" and value_tag is None:
-        raise HTTPException(status_code=400, detail="Value_tag can't be empty!")
     with active_translation(lang_code):
         # creating object that will compute knowledge panels
         obj_kp = KnowledgePanels(

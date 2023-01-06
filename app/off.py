@@ -1,7 +1,9 @@
+import logging
 from collections import namedtuple
 from urllib.parse import urljoin
 
 import aiohttp
+from fastapi_utils.tasks import repeat_every
 from async_lru import alru_cache
 from asyncer import asyncify
 
@@ -10,8 +12,11 @@ from .i18n import DEFAULT_LANGUAGE, get_current_lang
 from .i18n import translate as _
 from .wikidata_utils import get_wikidata_entity, image_thumbnail, wikidata_props
 
+logger = logging.getLogger(__name__ + ".global_taxonomy_refresh")
+
 
 async def fetch_quality(source_url):
+    """Function to fetch data-quality"""
     async with aiohttp.ClientSession() as session:
         quality_url = f"{source_url}/data-quality.json"
         async with session.get(quality_url) as resp:
@@ -20,6 +25,13 @@ async def fetch_quality(source_url):
 
 # cached version of fetch_quality for slow requests
 global_quality = alru_cache(fetch_quality)
+
+
+@repeat_every(seconds=60 * 60, logger=logger, wait_first=True)
+async def global_quality_refresh():
+    # Clearing the cache every hour
+    global_quality.cache_clear()
+
 
 DataQuality = namedtuple(
     "DataQuality",
