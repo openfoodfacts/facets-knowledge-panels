@@ -1,18 +1,14 @@
-import logging
 from collections import namedtuple
 from urllib.parse import urljoin
 
 import aiohttp
 from async_lru import alru_cache
 from asyncer import asyncify
-from fastapi_utils.tasks import repeat_every
 
 from .config import settings
 from .i18n import DEFAULT_LANGUAGE, get_current_lang
 from .i18n import translate as _
 from .wikidata_utils import get_wikidata_entity, image_thumbnail, wikidata_props
-
-logger = logging.getLogger(__name__ + ".global_taxonomy_refresh")
 
 
 async def fetch_quality(source_url):
@@ -27,7 +23,6 @@ async def fetch_quality(source_url):
 global_quality = alru_cache(fetch_quality)
 
 
-@repeat_every(seconds=60 * 60, logger=logger, wait_first=True)
 async def global_quality_refresh():
     # Clearing the cache every hour
     global_quality.cache_clear()

@@ -5,6 +5,7 @@ import asyncer
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi_utils.tasks import repeat_every
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from .i18n import active_translation
@@ -45,15 +46,23 @@ app = FastAPI(
 
 
 @app.on_event("startup")
-async def start_service():
+async def start_prometheus_metrics():
     """setup metrics on startup"""
     # condition instrumentation by FACETS_ENABLE_METRICS
     Instrumentator(should_respect_env_var=True, env_var_name="FACETS_ENABLE_METRICS").instrument(
         app
-    ).expose(app),
+    ).expose(app)
+
+
+logger = logging.getLogger(__name__ + ".global_taxonomy_refresh")
+
+
+@app.on_event("startup")
+@repeat_every(seconds=60 * 60, logger=logger, wait_first=True)
+async def start_global_quality_refresh():
     # Clearing cache and refetching data-quality
     # Refetching data every hour
-    global_quality_refresh
+    global_quality_refresh()
 
 
 @app.get("/")
