@@ -166,10 +166,13 @@ async def wikidata_helper(query, value):
     Helper function to return wikidata eg:label,description,image_url
     """
     lang = get_current_lang()
-    async with aiohttp.ClientSession() as session:
-        url = settings().TAXONOMY
-        async with session.get(url, params=query) as resp:
-            data = await resp.json()
+    try:
+        async with aiohttp.ClientSession() as session:
+            url = settings().TAXONOMY
+            async with session.get(url, params=query) as resp:
+                data = await resp.json()
+    except aiohttp.ClientError:
+        return None
     tag = data[value]
     entity_id = in_lang(tag["wikidata"], lang)
     entity = await asyncify(get_wikidata_entity)(entity_id=entity_id)
