@@ -58,7 +58,7 @@ logger = logging.getLogger(__name__ + ".global_taxonomy_refresh")
 
 
 @app.on_event("startup")
-@repeat_every(seconds=60 * 60, logger=logger, wait_first=True)
+@repeat_every(seconds=3 * 60 * 60, logger=logger, wait_first=True)
 async def start_global_quality_refresh():
     # Clearing cache and refetching data-quality
     # Refetching data every hour
