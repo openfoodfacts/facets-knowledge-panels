@@ -37,7 +37,7 @@ def test_knowledge_panel_no_value(client, monkeypatch):
         "get",
         multi_mock_async_get_factory(
             {
-                f"{base_url}/origin/data-quality.json": {
+                f"{base_url}/data-quality.json": {
                     "expected_kwargs": None,
                     "json_content": data_quality_sample(base_url),
                 },
