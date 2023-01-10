@@ -125,7 +125,7 @@ jobs:
           # App environment variables
           # expose globally (on the VM)
           echo "API_EXPOSE=${{ env.API_EXPOSE }}" >> .env
-          echo "FACETS_HUNGER_GAME=https://hunger.openfoodfactnet.org/questions" >> .env
+          echo "FACETS_HUNGER_GAME=https://hunger.openfoodfacts.org/questions" >> .env
           echo "FACETS_WIKIDATA=https://www.wikidata.org/wiki/" >> .env
           echo "FACETS_INAO=https://www.inao.gouv.fr/produit/" >> .env
           echo "FACETS_OPENSTREETMAP=https://www.openstreetmap.org/relation/" >> .env
