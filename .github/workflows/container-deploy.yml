@@ -30,8 +30,8 @@ jobs:
         # expose port
         echo "API_EXPOSE=8032" >> $GITHUB_ENV
         # app parameters
-        echo "FACETS_OPENFOODFACTS=openfoodfacts.net" >> $GITHUB_ENV
-        echo "FACETS_TAXONOMY=https://world.openfoodfacts.net/api/v2/taxonomy" >> $GITHUB_ENV
+        echo "FACETS_OPENFOODFACTS=off:off@world.openfoodfacts.net" >> $GITHUB_ENV
+        echo "FACETS_TAXONOMY=https://off:off@world.openfoodfacts.net/api/v2/taxonomy" >> $GITHUB_ENV
 
     - name: Set various variable for production deployment
       if: matrix.env == 'facets-kp-org'
@@ -43,7 +43,7 @@ jobs:
         # expose port
         echo "API_EXPOSE=8032" >> $GITHUB_ENV
         # app parameters
-        echo "FACETS_OPENFOODFACTS=openfoodfacts.org" >> $GITHUB_ENV
+        echo "FACETS_OPENFOODFACTS=world.openfoodfacts.org" >> $GITHUB_ENV
         echo "FACETS_TAXONOMY=https://world.openfoodfacts.org/api/v2/taxonomy" >> $GITHUB_ENV
 
     - name: Wait for container build workflow
