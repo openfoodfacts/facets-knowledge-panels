@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.2](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.0.1...v1.0.2) (2023-01-13)
+
+
+### Bug Fixes
+
+* add link in API references.md ([#73](https://github.com/openfoodfacts/facets-knowledge-panels/issues/73)) ([9deb27c](https://github.com/openfoodfacts/facets-knowledge-panels/commit/9deb27cd252d9f89c293b2e9061bd513bf9f360a))
+* build mkdocs script and update doc ([#68](https://github.com/openfoodfacts/facets-knowledge-panels/issues/68)) ([9d05f20](https://github.com/openfoodfacts/facets-knowledge-panels/commit/9d05f20e0cdf94d73a1fe42214d1a07da7216302))
+* hungergame url ([#82](https://github.com/openfoodfacts/facets-knowledge-panels/issues/82)) ([8214e8e](https://github.com/openfoodfacts/facets-knowledge-panels/commit/8214e8ee562f54b2efaed833c53e9713665f7260))
+* Implementing caching ([#79](https://github.com/openfoodfacts/facets-knowledge-panels/issues/79)) ([93a7405](https://github.com/openfoodfacts/facets-knowledge-panels/commit/93a740549a65b793fc3a8db8fc33b7b196df5a1f))
+* Make external services URLs configurable ([#74](https://github.com/openfoodfacts/facets-knowledge-panels/issues/74)) ([7236e68](https://github.com/openfoodfacts/facets-knowledge-panels/commit/7236e6850dbce36329a5d9e61e91b8401f65ea7c))
+* staging deployment for off.net ([#84](https://github.com/openfoodfacts/facets-knowledge-panels/issues/84)) ([25abc08](https://github.com/openfoodfacts/facets-knowledge-panels/commit/25abc08bc097fd12503bcf3d05e13a63d3e234da))
+
 ## [1.0.1](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.0.0...v1.0.1) (2022-11-28)
 
 
