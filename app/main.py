@@ -112,8 +112,8 @@ async def knowledge_panel(
             try:
                 if soon_value.value:
                     panels.update(soon_value.value)
-            except Exception:
-                logging.exception()
+            except Exception as e:
+                logging.exception(msg=e)
         return {"knowledge_panels": panels}
 
 
