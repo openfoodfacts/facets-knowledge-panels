@@ -109,11 +109,9 @@ async def knowledge_panel(
             # we will get it on value retrieval
             # but we don't want to sacrifice whole result for a single failure
             # as most panels depends on external resources that may not be available
-            try:
-                if soon_value.value:
-                    panels.update(soon_value.value)
-            except Exception as e:
-                logging.exception(msg=e)
+
+            if soon_value.value:
+                panels.update(soon_value.value)
         return {"knowledge_panels": panels}
 
 

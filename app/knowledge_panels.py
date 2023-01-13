@@ -121,8 +121,9 @@ class KnowledgePanels:
         if self.sec_value is not None:
             path += f"/{self.sec_value}"
             description += f" {self.sec_value}"
-        data = await data_quality(url=url, path=path)
-        if data:
+        try:
+            data = await data_quality(url=url, path=path)
+
             return {
                 "Quality": {
                     "elements": [
@@ -138,7 +139,8 @@ class KnowledgePanels:
                     "title_element": {"title": f"{data.description} {description}"},
                 },
             }
-        return None
+        except Exception as e:
+            logging.exception(msg=e)
 
     async def last_edits_kp(self):
         """
@@ -177,8 +179,8 @@ class KnowledgePanels:
             query[f"{facet_plural(facet=self.sec_facet)}_tags_en"] = self.sec_value
             description += f" {self.sec_facet} {self.sec_value}"
             source_url = f"{url}/{self.facet}/{self.value}/{self.sec_facet}/{self.sec_value}?sort_by=last_modified_t"  # noqa: E501
-        data = await last_edit(url=url, query=query)
-        if data:
+        try:
+            data = await last_edit(url=url, query=query)
             return {
                 "LastEdits": {
                     "elements": [
@@ -194,7 +196,8 @@ class KnowledgePanels:
                     "title_element": {"title": f"{data.description} {description}"},
                 },
             }
-        return None
+        except Exception as e:
+            logging.exception(msg=e)
 
     async def _wikidata_kp(self, facet, value):
         query = {}
@@ -217,8 +220,8 @@ class KnowledgePanels:
                 entity = await self._wikidata_kp(facet=facet, value=value)
                 if entity is not None:
                     entities.add(entity)
-            except Exception:
-                logging.exception("While adding wikidata for primary facet")
+            except Exception as e:
+                logging.exception(msg=e)
 
         html = []
         info = []
