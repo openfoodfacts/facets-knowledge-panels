@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.0.2...v1.0.3) (2023-01-17)
+
+
+### Bug Fixes
+
+* Sever side error ([#86](https://github.com/openfoodfacts/facets-knowledge-panels/issues/86)) ([adb3107](https://github.com/openfoodfacts/facets-knowledge-panels/commit/adb3107cdae79b168b33e197db3f13372b0e5543))
+
 ## [1.0.2](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.0.1...v1.0.2) (2023-01-13)
 
 
