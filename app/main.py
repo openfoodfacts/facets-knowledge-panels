@@ -105,15 +105,10 @@ async def knowledge_panel(
         # collect panels results
         panels = {}
         for soon_value in soon_panels:
-            # if an exception was raised during computation
-            # we will get it on value retrieval
-            # but we don't want to sacrifice whole result for a single failure
-            # as most panels depends on external resources that may not be available
-            try:
-                if soon_value.value:
-                    panels.update(soon_value.value)
-            except Exception as e:
-                logging.exception(msg=e)
+            # Appending soon_value value in panels
+            # as soon_panels needs to access outside taskgroup.
+            if soon_value.value:
+                panels.update(soon_value.value)
         return {"knowledge_panels": panels}
 
 

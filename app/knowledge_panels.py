@@ -1,9 +1,9 @@
 import collections
-import logging
 from typing import Union
 from urllib.parse import urlencode
 
 from .config import openFoodFacts, settings
+from .exception_wrapper import no_exception
 from .i18n import translate as _
 from .models import HungerGameFilter, Taxonomies, country_to_ISO_code, facet_plural
 from .off import data_quality, last_edit, wikidata_helper
@@ -84,6 +84,7 @@ class KnowledgePanels:
 
         return kp if urls else None
 
+    @no_exception()
     async def data_quality_kp(self):
         """
         Get data corresponding to differnet facet
@@ -122,24 +123,24 @@ class KnowledgePanels:
             path += f"/{self.sec_value}"
             description += f" {self.sec_value}"
         data = await data_quality(url=url, path=path)
-        if data:
-            return {
-                "Quality": {
-                    "elements": [
-                        {
-                            "element_type": "text",
-                            "text_element": {
-                                "html": data.text,
-                                "source_text": data.title,
-                                "source_url": f"{data.source_url}/data-quality",
-                            },
-                        }
-                    ],
-                    "title_element": {"title": f"{data.description} {description}"},
-                },
-            }
-        return None
 
+        return {
+            "Quality": {
+                "elements": [
+                    {
+                        "element_type": "text",
+                        "text_element": {
+                            "html": data.text,
+                            "source_text": data.title,
+                            "source_url": f"{data.source_url}/data-quality",
+                        },
+                    }
+                ],
+                "title_element": {"title": f"{data.description} {description}"},
+            },
+        }
+
+    @no_exception()
     async def last_edits_kp(self):
         """
         Return knowledge panel for last-edits corresponding to different facet
@@ -178,24 +179,23 @@ class KnowledgePanels:
             description += f" {self.sec_facet} {self.sec_value}"
             source_url = f"{url}/{self.facet}/{self.value}/{self.sec_facet}/{self.sec_value}?sort_by=last_modified_t"  # noqa: E501
         data = await last_edit(url=url, query=query)
-        if data:
-            return {
-                "LastEdits": {
-                    "elements": [
-                        {
-                            "element_type": "text",
-                            "text_element": {
-                                "html": data.text,
-                                "source_text": data.title,
-                                "source_url": source_url,
-                            },
+        return {
+            "LastEdits": {
+                "elements": [
+                    {
+                        "element_type": "text",
+                        "text_element": {
+                            "html": data.text,
+                            "source_text": data.title,
+                            "source_url": source_url,
                         },
-                    ],
-                    "title_element": {"title": f"{data.description} {description}"},
-                },
-            }
-        return None
+                    },
+                ],
+                "title_element": {"title": f"{data.description} {description}"},
+            },
+        }
 
+    @no_exception()
     async def _wikidata_kp(self, facet, value):
         query = {}
         if value:
@@ -213,12 +213,9 @@ class KnowledgePanels:
         for facet, value in params:
             if facet not in Taxonomies.list():
                 continue
-            try:
-                entity = await self._wikidata_kp(facet=facet, value=value)
-                if entity is not None:
-                    entities.add(entity)
-            except Exception:
-                logging.exception("While adding wikidata for primary facet")
+            entity = await self._wikidata_kp(facet=facet, value=value)
+            if entity is not None:
+                entities.add(entity)
 
         html = []
         info = []

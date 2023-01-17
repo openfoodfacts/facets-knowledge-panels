@@ -44,10 +44,8 @@ async def data_quality(url, path):
     Helper function to return issues for data-quality
     """
     source_url = urljoin(url, path)
-    try:
-        data = await global_quality(source_url) if path == "" else await fetch_quality(source_url)
-    except aiohttp.ClientError:
-        return None
+
+    data = await global_quality(source_url) if path == "" else await fetch_quality(source_url)
     total_issues = data["count"]
     tags = data["tags"]
     html = []
@@ -90,15 +88,14 @@ async def last_edit(url, query):
     """
     Helper function to return data for last-edits
     """
-    try:
-        async with aiohttp.ClientSession() as session:
-            search_url = f"{url}/api/v2/search"
-            async with session.get(search_url, params=query) as resp:
-                data = await resp.json()
-        counts = data["count"]
-        tags = data["products"]
-    except aiohttp.ClientError:
-        return None
+
+    async with aiohttp.ClientSession() as session:
+        search_url = f"{url}/api/v2/search"
+        async with session.get(search_url, params=query) as resp:
+            data = await resp.json()
+    counts = data["count"]
+    tags = data["products"]
+
     html = []
     for tag in tags[0:10]:
         info = {
@@ -166,13 +163,10 @@ async def wikidata_helper(query, value):
     Helper function to return wikidata eg:label,description,image_url
     """
     lang = get_current_lang()
-    try:
-        async with aiohttp.ClientSession() as session:
-            url = settings().TAXONOMY
-            async with session.get(url, params=query) as resp:
-                data = await resp.json()
-    except aiohttp.ClientError:
-        return None
+    async with aiohttp.ClientSession() as session:
+        url = settings().TAXONOMY
+        async with session.get(url, params=query) as resp:
+            data = await resp.json()
     tag = data[value]
     entity_id = in_lang(tag["wikidata"], lang)
     entity = await asyncify(get_wikidata_entity)(entity_id=entity_id)
