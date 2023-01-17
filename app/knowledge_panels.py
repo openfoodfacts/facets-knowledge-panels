@@ -3,7 +3,7 @@ from typing import Union
 from urllib.parse import urlencode
 
 from .config import openFoodFacts, settings
-from .exception_wrapper import exceptionCatcher
+from .exception_wrapper import no_exception
 from .i18n import translate as _
 from .models import HungerGameFilter, Taxonomies, country_to_ISO_code, facet_plural
 from .off import data_quality, last_edit, wikidata_helper
@@ -84,7 +84,7 @@ class KnowledgePanels:
 
         return kp if urls else None
 
-    @exceptionCatcher()
+    @no_exception()
     async def data_quality_kp(self):
         """
         Get data corresponding to differnet facet
@@ -140,7 +140,7 @@ class KnowledgePanels:
             },
         }
 
-    @exceptionCatcher()
+    @no_exception()
     async def last_edits_kp(self):
         """
         Return knowledge panel for last-edits corresponding to different facet
@@ -195,7 +195,7 @@ class KnowledgePanels:
             },
         }
 
-    @exceptionCatcher()
+    @no_exception()
     async def _wikidata_kp(self, facet, value):
         query = {}
         if value:

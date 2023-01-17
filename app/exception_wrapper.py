@@ -2,7 +2,7 @@ import functools
 import logging
 
 
-def exceptionCatcher():
+def no_exception():
     """
     Exception wrapper function,
     if an exception was raised during computation
