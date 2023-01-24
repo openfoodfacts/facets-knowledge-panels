@@ -45,7 +45,7 @@ msgstr "Общ брой редакции {counts}"
 
 #: app/off.py:83
 msgid "last-edits issues related to"
-msgstr ""
+msgstr "проблеми с последните редакции, свързани с"
 
 #: app/off.py:84
 msgid "Last-edits"
@@ -53,5 +53,5 @@ msgstr "Последни редакции"
 
 #: app/off.py:91
 msgid "Answer robotoff questions about"
-msgstr ""
+msgstr "Отговорете на въпросите на robotoff относно"
 
