@@ -53,8 +53,7 @@ app.add_middleware(
     # which is fine for us
     # If in the future you want to use allow-credentials, use `allow_origin_regex`
     # see: https://github.com/tiangolo/fastapi/issues/133#issuecomment-646985050
-    allow_origin_regex="https?://.*",
-    allow_credentials=False,
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"],
