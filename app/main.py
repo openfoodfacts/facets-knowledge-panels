@@ -49,11 +49,11 @@ app.add_middleware(
     CORSMiddleware,
     # FastAPI doc related to allow_origin (to avoid CORS issues):
     # "It's also possible to declare the list as "*" (a "wildcard") to say that all are allowed.
-    # This will exclude credentials (cookies, authorization headers, etc.) 
+    # This will exclude credentials (cookies, authorization headers, etc.)
     # which is fine for us
     # If in the future you want to use allow-credentials, use `allow_origin_regex`
     # see: https://github.com/tiangolo/fastapi/issues/133#issuecomment-646985050
-    allow_origin=["*"],
+    allow_origin_regex="https?://.*",
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
