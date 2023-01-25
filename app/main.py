@@ -5,6 +5,7 @@ import asyncer
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi_utils.tasks import repeat_every
 from prometheus_fastapi_instrumentator import Instrumentator
 
@@ -42,6 +43,22 @@ app = FastAPI(
         "url": "https://www.gnu.org/licenses/agpl-3.0.en.html",
     },
     openapi_tags=tags_metadata,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    # FastAPI doc related to allow_origin (to avoid CORS issues):
+    # "It's also possible to declare the list as "*" (a "wildcard") to say that all are allowed.
+    # But that will only allow certain types of communication, excluding everything that involves
+    # credentials: Cookies, Authorization headers like those used with Bearer Tokens, etc.
+    # So, for everything to work correctly, it's better to specify explicitly the allowed origins."
+    # => Workaround: use allow_origin_regex
+    # Source: https://github.com/tiangolo/fastapi/issues/133#issuecomment-646985050
+    allow_origin_regex="https?://.*",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 
