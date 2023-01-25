@@ -3,9 +3,9 @@ from typing import Optional
 
 import asyncer
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi_utils.tasks import repeat_every
 from prometheus_fastapi_instrumentator import Instrumentator
 
