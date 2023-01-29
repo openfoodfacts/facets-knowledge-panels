@@ -61,7 +61,9 @@ async def data_quality(url, path):
     html = (
         [
             "<ul><p>",
-            _("The total number of issues are {total_issues}").format(total_issues=total_issues),
+            _("The total number of issues are <b>{total_issues}</b>").format(
+                total_issues=total_issues
+            ),
             "</p>",
         ]
         + html
@@ -119,7 +121,7 @@ async def last_edit(url, query):
     html = (
         [
             "<ul><p>",
-            _("Total number of edits {counts}").format(counts=counts),
+            _("Total number of edits <b>{counts}</b>").format(counts=counts),
             "</p>",
         ]
         + html

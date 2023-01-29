@@ -76,7 +76,10 @@ class KnowledgePanels:
             html.append(
                 {
                     "element_type": "text",
-                    "text_element": {"html": f"<p><a href='{url}'>{t_description} {des}</a></p>"},
+                    "text_element": {
+                        "html": f"<ul><li><p><a href='{url}'><em>{t_description} {des}</em>"
+                        + "</a></p></li></ul>"
+                    },
                 },
             )
 
@@ -224,7 +227,7 @@ class KnowledgePanels:
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": f"<p><em>{val.label_tag}</em></p><p><small>{val.description_tag}</small></p>",  # noqa: E501
+                        "html": f"<ul><p><em>{val.label_tag}</em></p><p>{val.description_tag}</p>",  # noqa: E501
                         "source_text": "wikidata",
                         "source_url": settings().WIKIDATA + val.entity_id,
                     },
@@ -232,7 +235,6 @@ class KnowledgePanels:
             )
             if val.image_url != "":
                 info.append(f"""<p><img alt='wikidata image' src='{val.image_url}'></p>""")
-            info.append("<ul>")
             if val.wikipedia_relation != "":
                 info.append(f"""<li><a href='{val.wikipedia_relation}'>wikipedia</a></li>""")
             if val.OSM_relation != "":
@@ -247,5 +249,6 @@ class KnowledgePanels:
                     "text_element": {"html": link},
                 }
             )
+            info.clear()
         panel = {"WikiData": {"elements": html, "title_element": {"title": "wikidata"}}}
         return panel if entities else None
