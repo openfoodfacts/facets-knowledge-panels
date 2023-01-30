@@ -29,8 +29,8 @@ async def test_hunger_game_kp_no_result():
 
 async def test_hunger_game_kp_with_filter_value_and_country():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Agermany'>"
-        "Answer robotoff questions for country germany</a></p>"
+        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Agermany'>"
+        "<em>Answer robotoff questions for country germany</em></a></p></li></ul>"
     )
     result = await KnowledgePanels(
         facet="country", value="germany", country="france"
@@ -45,8 +45,8 @@ async def test_hunger_game_kp_with_filter_value_and_country():
 
 async def test_hunger_game_kp_with_category():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category'>"
-        "Answer robotoff questions about category</a></p>"
+        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?type=category'>"
+        "<em>Answer robotoff questions about category</em></a></p></li></ul>"
     )
     result = await KnowledgePanels(facet="category").hunger_game_kp()
     assert result == {
@@ -59,12 +59,13 @@ async def test_hunger_game_kp_with_category():
 
 async def test_hunger_game_kp_category_with_country():
     html0 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance'>"
-        "Answer robotoff questions for country france</a></p>"
+        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance'>"
+        "<em>Answer robotoff questions for country france</em></a></p></li></ul>"
     )
     html1 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category'>"
-        "Answer robotoff questions about category for country france</a></p>"
+        "<ul><li><p>"
+        "<a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category'>"
+        "<em>Answer robotoff questions about category for country france</em></a></p></li></ul>"
     )
     result = await KnowledgePanels(facet="category", country="france").hunger_game_kp()
     assert result == {
@@ -80,8 +81,8 @@ async def test_hunger_game_kp_category_with_country():
 
 async def test_hunger_game_kp_category_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"  # noqa: E501
-        "Answer robotoff questions about category en:beers</a></p>"
+        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Abeers'>"  # noqa: E501
+        "<em>Answer robotoff questions about category en:beers</em></a></p></li></ul>"
     )
     result = await KnowledgePanels(facet="category", value="en:beers").hunger_game_kp()
     assert result == {
@@ -94,8 +95,9 @@ async def test_hunger_game_kp_category_with_value():
 
 async def test_hunger_game_kp_brand_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand&value_tag=nestle'>"
-        "Answer robotoff questions about brand nestle</a></p>"
+        "<ul><li><p>"
+        "<a href='https://hunger.openfoodfacts.org/questions?type=brand&value_tag=nestle'>"
+        "<em>Answer robotoff questions about brand nestle</em></a></p></li></ul>"
     )
     result = await KnowledgePanels(facet="brand", value="nestle").hunger_game_kp()
     assert result == {
@@ -108,8 +110,9 @@ async def test_hunger_game_kp_brand_with_value():
 
 async def test_hunger_game_kp_label_with_value():
     html = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=en%3Aorganic'>"
-        "Answer robotoff questions about label en:organic</a></p>"
+        "<ul><li><p>"
+        "<a href='https://hunger.openfoodfacts.org/questions?type=label&value_tag=en%3Aorganic'>"
+        "<em>Answer robotoff questions about label en:organic</em></a></p></li></ul>"
     )
     result = await KnowledgePanels(facet="label", value="en:organic").hunger_game_kp()
     assert result == {
@@ -123,12 +126,14 @@ async def test_hunger_game_kp_label_with_value():
 async def test_HungerGame_double_country_and_value():
     # facet country have priority
     html1 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance'>"
-        "Answer robotoff questions for country france</a></p>"
+        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance'>"
+        "<em>Answer robotoff questions for country france</em></a></p></li></ul>"
     )
     html2 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category&value_tag=beers'>"  # noqa:E501
-        "Answer robotoff questions about category beers for country france</a></p>"
+        "<ul><li><p>"
+        "<a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&type=category&value_tag=beers'>"  # noqa:E501
+        "<em>Answer robotoff questions about category beers for country france</em></a>"
+        "</p></li></ul>"
     )
     kp = KnowledgePanels(
         facet="country",
@@ -161,12 +166,14 @@ async def test_HungerGame_double_country_and_value():
 
 async def test_hunger_game_kp_with_all_tag_1():
     html0 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl'>"
-        "Answer robotoff questions for country france for brand lidl</a></p>"
+        "<ul><li><p>"
+        "<a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl'>"
+        "<em>Answer robotoff questions for country france for brand lidl</em></a>"
+        "</p></li></ul>"
     )
     html1 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value_tag=en%3Abeers'>"  # noqa: E501
-        "Answer robotoff questions about category en:beers for country france for brand lidl</a></p>"  # noqa: E501
+        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Afrance&brand=lidl&type=category&value_tag=en%3Abeers'>"  # noqa: E501
+        "<em>Answer robotoff questions about category en:beers for country france for brand lidl</em></a></p></li></ul>"  # noqa: E501
     )
     assert await KnowledgePanels(
         facet="category",
@@ -188,12 +195,12 @@ async def test_hunger_game_kp_with_all_tag_1():
 async def test_hunger_game_kp_with_all_tag_2():
 
     html0 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=brand'>"
-        "Answer robotoff questions about brand</a></p>"
+        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?type=brand'>"
+        "<em>Answer robotoff questions about brand</em></a></p></li></ul>"
     )
     html1 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Acoffees'>"  # noqa: E501
-        "Answer robotoff questions about category en:coffees</a></p>"
+        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?type=category&value_tag=en%3Acoffees'>"  # noqa: E501
+        "<em>Answer robotoff questions about category en:coffees</em></a></p></li></ul>"
     )
     assert await KnowledgePanels(
         facet="brand",
@@ -212,16 +219,19 @@ async def test_hunger_game_kp_with_all_tag_2():
 
 async def test_hunger_game_kp_with_all_tag_3():
     html0 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly'>"
-        "Answer robotoff questions for country italy</a></p>"
+        "<ul><li><p>"
+        "<a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly'>"
+        "<em>Answer robotoff questions for country italy</em></a></p></li></ul>"
     )
     html1 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value_tag=en%3Ameals'>"  # noqa: E501
-        "Answer robotoff questions about category en:meals for country italy</a></p>"
+        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=category&value_tag=en%3Ameals'>"  # noqa: E501
+        "<em>Answer robotoff questions about category en:meals for country italy</em></a>"
+        "</p></li></ul>"
     )
     html2 = (
-        "<p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=label&value_tag=vegan'>"  # noqa: E501
-        "Answer robotoff questions about label vegan for country italy</a></p>"
+        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?country=en%3Aitaly&type=label&value_tag=vegan'>"  # noqa: E501
+        "<em>Answer robotoff questions about label vegan for country italy</em></a>"
+        "</p></li></ul>"
     )
     assert await KnowledgePanels(
         facet="category",
@@ -285,7 +295,7 @@ async def test_data_quality_kp_with_country(monkeypatch):
     first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
     expected_text = """
     <ul>
-        <p>The total number of issues are 129</p>
+        <p>The total number of issues are <b>129</b></p>
         <li>
             <a href="https://tr-en.openfoodfacts.org/data-quality/ecoscore-production-system-no-label">1848 products with ecoscore-production-system-no-label</a>
         </li>
@@ -360,7 +370,7 @@ async def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
     first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
     expected_text = """
     <ul>
-        <p>The total number of issues are 181</p>
+        <p>The total number of issues are <b>181</b></p>
         <li>
             <a href="https://world.openfoodfacts.org/brand/lidl/data-quality/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">7898 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
         </li>
@@ -436,7 +446,7 @@ async def test_data_quality_kp_with_all_tags(monkeypatch):
     first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
     expected_text = """
     <ul>
-        <p>The total number of issues are 24</p>
+        <p>The total number of issues are <b>24</b></p>
         <li>
             <a href="https://world.openfoodfacts.org/category/beers/data-quality/alcoholic-beverages-category-without-alcohol-value">13 products with alcoholic-beverages-category-without-alcohol-value</a>
         </li>
@@ -510,7 +520,7 @@ async def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
     first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
     last_edits_text = """
     <ul>
-        <p>Total number of edits 1 </p>
+        <p>Total number of edits <b>1 </b></p>
         <li>
             <a class="edit_entry" href="https://hu-en.openfoodfacts.org/product/0715235567418">
                 Tiqle Sticks Strawberry taste (0715235567418) edited by packbot on 2022-02-10
@@ -636,7 +646,7 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
     first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
     last_edits_text = """
     <ul>
-        <p>Total number of edits 116</p>
+        <p>Total number of edits <b>116</b></p>
         <li>
             <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/7613036271868">
                 Capsules NESCAFE Dolce Gusto Cappuccino Extra Crema 16 Capsules (7613036271868) edited by org-nestle-france on 2022-08-31
@@ -795,7 +805,6 @@ async def test_wikidata_kp(monkeypatch):
     )
     clean_html = (
         f"<p><img alt='wikidata image' src='{image_thumb}'></p>"
-        "<ul>"
         "<li><a href='http://en.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a>"
         "</li>"
         "<li><a href='https://www.openstreetmap.org/relation/2727716'>OpenSteetMap Relation</a>"
@@ -810,7 +819,7 @@ async def test_wikidata_kp(monkeypatch):
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": "<p><em>Fitou AOC</em></p><p><small>French wine appellation</small></p>",  # noqa: E501
+                        "html": "<ul><p><em>Fitou AOC</em></p><p>French wine appellation</p>",  # noqa: E501
                         "source_text": "wikidata",
                         "source_url": "https://www.wikidata.org/wiki/Q470974",
                     },
@@ -835,7 +844,6 @@ async def test_wikidata_kp(monkeypatch):
         # only some items varies
         clean_html = (
             f"<p><img alt='wikidata image' src='{image_thumb}'></p>"
-            "<ul>"
             "<li><a href='http://fr.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a>"
             "</li>"
             "<li><a href='https://www.openstreetmap.org/relation/2727716'>OpenSteetMap Relation</a>"
@@ -850,7 +858,7 @@ async def test_wikidata_kp(monkeypatch):
                     {
                         "element_type": "text",
                         "text_element": {
-                            "html": "<p><em>Fitou</em></p><p><small>région viticole</small></p>",
+                            "html": "<ul><p><em>Fitou</em></p><p>région viticole</p>",
                             "source_text": "wikidata",
                             "source_url": "https://www.wikidata.org/wiki/Q470974",
                         },
