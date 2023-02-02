@@ -148,7 +148,7 @@ async def render_html(
         value_tag,
         sec_facet_tag,
         sec_value_tag,
-        country,
         lang_code,
+        country,
     )
     return templates.TemplateResponse("item.html", {"request": request, "panels": panels})
