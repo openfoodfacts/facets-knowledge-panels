@@ -8,33 +8,33 @@ from pydantic import BaseModel, Field
 
 
 class FacetName(str, Enum):
-    country = "country"
-    nutrition_grade = "nutrition_grade"
-    nova_group = "nova_group"
-    brand = "brand"
-    category = "category"
-    label = "label"
+    country = "countries"
+    nutrition_grade = "nutrition_grades"
+    nova_group = "nova_groups"
+    brand = "brands"
+    category = "categories"
+    label = "labels"
     packaging = "packaging"
-    origin_of_ingredient = "origin"
-    manufacturing_place = "manufacturing_place"
-    packager_code = "packager_code"
-    ingredient = "ingredient"
-    additive = "additive"
-    vitamin = "vitamin"
-    mineral = "mineral"
-    amino_acid = "amino_acid"
-    nucleotide = "nucleotide"
-    allergen = "allergen"
-    trace = "trace"
-    language = "language"
-    contributor = "contributor"
-    state = "state"
-    data_source = "data_source"
-    entry_date = "entry_date"
-    last_edit_date = "last_edit_date"
-    last_check_date = "last_check_date"
+    origin_of_ingredient = "origins"
+    manufacturing_place = "manufacturing_places"
+    packager_code = "packager_codes"
+    ingredient = "ingredients"
+    additive = "additives"
+    vitamin = "vitamins"
+    mineral = "minerals"
+    amino_acid = "amino_acids"
+    nucleotide = "nucleotides"
+    allergen = "allergens"
+    trace = "traces"
+    language = "languages"
+    contributor = "contributors"
+    state = "states"
+    data_source = "data_sources"
+    entry_date = "entry_dates"
+    last_edit_date = "last_edit_dates"
+    last_check_date = "last_check_dates"
     other_nutritional_substances = "other_nutritional_substances"
-    team = "team"
+    team = "teams"
 
     @staticmethod
     def list():
@@ -88,17 +88,24 @@ def country_to_ISO_code(value: str):
     return "world"
 
 
+inflectEngine = inflect.engine()
+
+
 def facet_plural(facet: str):
     """
-    Return plural of facet
+    Return plural form of facet
     """
-    p = inflect.engine()
-    plural = p.plural(facet)
-    facet_plural = plural
-    if facet == "packaging":
-        facet_plural = facet
+    return facet if facet == "packaging" else inflectEngine.plural_noun(facet)
 
-    return facet_plural
+
+def singularize(facet: Optional[str]):
+    """
+    Return singular form of facet
+    """
+    if facet is not None:
+        return (
+            facet if not inflectEngine.singular_noun(facet) else inflectEngine.singular_noun(facet)
+        )
 
 
 class QueryData:
