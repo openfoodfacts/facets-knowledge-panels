@@ -7,40 +7,6 @@ from fastapi import Query
 from pydantic import BaseModel, Field
 
 
-class FacetName(str, Enum):
-    country = "country"
-    nutrition_grade = "nutrition_grade"
-    nova_group = "nova_group"
-    brand = "brand"
-    category = "category"
-    label = "label"
-    packaging = "packaging"
-    origin_of_ingredient = "origin"
-    manufacturing_place = "manufacturing_place"
-    packager_code = "packager_code"
-    ingredient = "ingredient"
-    additive = "additive"
-    vitamin = "vitamin"
-    mineral = "mineral"
-    amino_acid = "amino_acid"
-    nucleotide = "nucleotide"
-    allergen = "allergen"
-    trace = "trace"
-    language = "language"
-    contributor = "contributor"
-    state = "state"
-    data_source = "data_source"
-    entry_date = "entry_date"
-    last_edit_date = "last_edit_date"
-    last_check_date = "last_check_date"
-    other_nutritional_substances = "other_nutritional_substances"
-    team = "team"
-
-    @staticmethod
-    def list():
-        return [c.value for c in FacetName]
-
-
 class HungerGameFilter(str, Enum):
     label = "label"
     category = "category"
@@ -88,17 +54,24 @@ def country_to_ISO_code(value: str):
     return "world"
 
 
+inflectEngine = inflect.engine()
+
+
 def facet_plural(facet: str):
     """
-    Return plural of facet
+    Return plural form of facet
     """
-    p = inflect.engine()
-    plural = p.plural(facet)
-    facet_plural = plural
-    if facet == "packaging":
-        facet_plural = facet
+    return facet if facet == "packaging" else inflectEngine.plural_noun(facet)
 
-    return facet_plural
+
+def singularize(facet: Optional[str]):
+    """
+    Return singular form of facet
+    """
+    if facet is not None:
+        return (
+            facet if not inflectEngine.singular_noun(facet) else inflectEngine.singular_noun(facet)
+        )
 
 
 class QueryData:

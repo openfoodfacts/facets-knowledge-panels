@@ -11,7 +11,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import FacetName, FacetResponse, QueryData
+from .models import FacetResponse, QueryData
 from .off import global_quality_refresh
 
 tags_metadata = [
@@ -87,7 +87,7 @@ async def hello():
 
 @app.get("/knowledge_panel", tags=["knowledge-panel"], response_model=FacetResponse)
 async def knowledge_panel(
-    facet_tag: FacetName = QueryData.facet_tag_query(),
+    facet_tag: str = QueryData.facet_tag_query(),
     value_tag: Optional[str] = QueryData.value_tag_query(),
     sec_facet_tag: Optional[str] = QueryData.secondary_facet_tag_query(),
     sec_value_tag: Optional[str] = QueryData.secondary_value_tag_query(),
@@ -102,7 +102,7 @@ async def knowledge_panel(
     with active_translation(lang_code):
         # creating object that will compute knowledge panels
         obj_kp = KnowledgePanels(
-            facet=facet_tag.value,
+            facet=facet_tag,
             value=value_tag,
             sec_facet=sec_facet_tag,
             sec_value=sec_value_tag,
@@ -133,7 +133,7 @@ templates = Jinja2Templates(directory="template")
 @app.get("/render-to-html", tags=["Render to HTML"], response_class=HTMLResponse)
 async def render_html(
     request: Request,
-    facet_tag: FacetName = QueryData.facet_tag_query(),
+    facet_tag: str = QueryData.facet_tag_query(),
     value_tag: Optional[str] = QueryData.value_tag_query(),
     sec_facet_tag: Optional[str] = QueryData.secondary_facet_tag_query(),
     sec_value_tag: Optional[str] = QueryData.secondary_value_tag_query(),
@@ -142,6 +142,7 @@ async def render_html(
 ):
     """
     Render item.html using jinja2
+    This is helper function to make thing easier while injecting facet_kp in off-server
     """
     panels = await knowledge_panel(
         facet_tag,
