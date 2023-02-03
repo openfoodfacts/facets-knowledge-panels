@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 from .config import openFoodFacts, settings
 from .exception_wrapper import no_exception
 from .i18n import translate as _
-from .models import HungerGameFilter, Taxonomies, country_to_ISO_code, facet_plural
+from .models import HungerGameFilter, Taxonomies, country_to_ISO_code, facet_plural, singularize
 from .off import data_quality, last_edit, wikidata_helper
 
 
@@ -18,9 +18,9 @@ class KnowledgePanels:
         sec_value: Union[str, None] = None,
         country: Union[str, None] = None,
     ):
-        self.facet = facet
+        self.facet = singularize(facet)
         self.value = value
-        self.sec_facet = sec_facet
+        self.sec_facet = singularize(sec_facet)
         self.sec_value = sec_value
         self.country = country
 

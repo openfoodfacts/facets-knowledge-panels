@@ -11,7 +11,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import FacetName, FacetResponse, QueryData, singularize
+from .models import FacetResponse, QueryData
 from .off import global_quality_refresh
 
 tags_metadata = [
@@ -133,9 +133,9 @@ templates = Jinja2Templates(directory="template")
 @app.get("/render-to-html", tags=["Render to HTML"], response_class=HTMLResponse)
 async def render_html(
     request: Request,
-    facet_tag: FacetName = QueryData.facet_tag_query(),
+    facet_tag: str = QueryData.facet_tag_query(),
     value_tag: Optional[str] = QueryData.value_tag_query(),
-    sec_facet_tag: Optional[FacetName] = QueryData.secondary_facet_tag_query(),
+    sec_facet_tag: Optional[str] = QueryData.secondary_facet_tag_query(),
     sec_value_tag: Optional[str] = QueryData.secondary_value_tag_query(),
     lang_code: Optional[str] = QueryData.language_code_query(),
     country: Optional[str] = QueryData.country_query(),
@@ -145,9 +145,9 @@ async def render_html(
     This is helper function to make thing easier while injecting facet_kp in off-server
     """
     panels = await knowledge_panel(
-        singularize(facet_tag),
+        facet_tag,
         value_tag,
-        singularize(sec_facet_tag),
+        sec_facet_tag,
         sec_value_tag,
         lang_code,
         country,

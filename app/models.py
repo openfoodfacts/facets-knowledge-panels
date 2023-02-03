@@ -7,40 +7,6 @@ from fastapi import Query
 from pydantic import BaseModel, Field
 
 
-class FacetName(str, Enum):
-    country = "countries"
-    nutrition_grade = "nutrition_grades"
-    nova_group = "nova_groups"
-    brand = "brands"
-    category = "categories"
-    label = "labels"
-    packaging = "packaging"
-    origin_of_ingredient = "origins"
-    manufacturing_place = "manufacturing_places"
-    packager_code = "packager_codes"
-    ingredient = "ingredients"
-    additive = "additives"
-    vitamin = "vitamins"
-    mineral = "minerals"
-    amino_acid = "amino_acids"
-    nucleotide = "nucleotides"
-    allergen = "allergens"
-    trace = "traces"
-    language = "languages"
-    contributor = "contributors"
-    state = "states"
-    data_source = "data_sources"
-    entry_date = "entry_dates"
-    last_edit_date = "last_edit_dates"
-    last_check_date = "last_check_dates"
-    other_nutritional_substances = "other_nutritional_substances"
-    team = "teams"
-
-    @staticmethod
-    def list():
-        return [c.value for c in FacetName]
-
-
 class HungerGameFilter(str, Enum):
     label = "label"
     category = "category"
