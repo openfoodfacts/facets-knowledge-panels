@@ -43,21 +43,31 @@ class Taxonomies(str, Enum):
         return [c.value for c in Taxonomies]
 
 
-def country_to_ISO_code(value: str):
+def alpha2_to_country_name(value: Optional[str]):
     """
-    Helper function that return ISO code for country
+    Helper function to return country name for aplha2 code
     """
-    country_data = pycountry.countries.get(name=value)
-    if country_data is not None:
-        country_iso_code = country_data.alpha_2
-        return f"{country_iso_code.lower()}-en"
+    if value is not None and len(value) == 2:
+        country = pycountry.countries.get(alpha_2=value)
+        if country is not None:
+            return f"{country.name}"
+    return value
+
+
+def country_name_to_alpha2(value: Optional[str]):
+    """
+    Helper function that return alpha2 code for country name
+    """
+    country = pycountry.countries.get(name=value)
+    if country is not None:
+        return f"{(country.alpha_2).lower()}-en"
     return "world"
 
 
 inflectEngine = inflect.engine()
 
 
-def facet_plural(facet: str):
+def pluralize(facet: str):
     """
     Return plural form of facet
     """
@@ -123,7 +133,7 @@ class QueryData:
         query = Query(
             default=None,
             title="Country tag string",
-            description="To return knowledge panels for specific country, ex: `france`.",
+            description="To return knowledge panels for specific country, ex: `france` or `fr`.",
         )
         return query
 
