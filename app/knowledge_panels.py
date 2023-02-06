@@ -5,7 +5,14 @@ from urllib.parse import urlencode
 from .config import openFoodFacts, settings
 from .exception_wrapper import no_exception
 from .i18n import translate as _
-from .models import HungerGameFilter, Taxonomies, country_to_ISO_code, facet_plural, singularize
+from .models import (
+    HungerGameFilter,
+    Taxonomies,
+    alpha2_to_country_name,
+    country_name_to_alpha2,
+    pluralize,
+    singularize,
+)
 from .off import data_quality, last_edit, wikidata_helper
 
 
@@ -22,7 +29,7 @@ class KnowledgePanels:
         self.value = value
         self.sec_facet = singularize(sec_facet)
         self.sec_value = sec_value
-        self.country = country
+        self.country = alpha2_to_country_name(country)
 
     async def hunger_game_kp(self):
         query = {}
@@ -96,18 +103,18 @@ class KnowledgePanels:
         description = ""
         if self.facet == "country":
             self.country = self.value
-            country_code = country_to_ISO_code(value=self.value)
+            country_code = country_name_to_alpha2(value=self.value)
             url = openFoodFacts(country_code)
             path = ""
             self.facet = self.value = None
         if self.sec_facet == "country":
             self.country = self.sec_value
-            country_code = country_to_ISO_code(value=self.sec_value)
+            country_code = country_name_to_alpha2(value=self.sec_value)
             url = openFoodFacts(country_code)
             path = ""
             self.sec_facet = self.sec_value = None
         if self.country is not None:
-            country_code = country_to_ISO_code(value=self.country)
+            country_code = country_name_to_alpha2(value=self.country)
             url = openFoodFacts(country_code)
             path = ""
             description += f"{self.country} "
@@ -155,16 +162,16 @@ class KnowledgePanels:
         description = ""
         if self.facet == "country":
             self.country = self.value
-            country_code = country_to_ISO_code(value=self.value)
+            country_code = country_name_to_alpha2(value=self.value)
             url = openFoodFacts(country_code)
             self.facet = self.value = None
         if self.sec_facet == "country":
             self.country = self.sec_value
-            country_code = country_to_ISO_code(value=self.sec_value)
+            country_code = country_name_to_alpha2(value=self.sec_value)
             url = openFoodFacts(country_code)
             self.sec_facet = self.sec_value = None
         if self.country is not None:
-            country_code = country_to_ISO_code(value=self.country)
+            country_code = country_name_to_alpha2(value=self.country)
             url = openFoodFacts(country_code)
             source_url = f"{url}?sort_by=last_modified_t"
             description += f"{self.country} "
@@ -174,11 +181,11 @@ class KnowledgePanels:
             description += f"{self.facet}"
             source_url = f"{url}/{self.facet}?sort_by=last_modified_t"
         if self.value is not None:
-            query[f"{facet_plural(facet=self.facet)}_tags_en"] = self.value
+            query[f"{pluralize(facet=self.facet)}_tags_en"] = self.value
             description += f" {self.value}"
             source_url = f"{url}/{self.facet}/{self.value}?sort_by=last_modified_t"
         if self.sec_value and self.sec_facet is not None:
-            query[f"{facet_plural(facet=self.sec_facet)}_tags_en"] = self.sec_value
+            query[f"{pluralize(facet=self.sec_facet)}_tags_en"] = self.sec_value
             description += f" {self.sec_facet} {self.sec_value}"
             source_url = f"{url}/{self.facet}/{self.value}/{self.sec_facet}/{self.sec_value}?sort_by=last_modified_t"  # noqa: E501
         data = await last_edit(url=url, query=query)
@@ -202,7 +209,7 @@ class KnowledgePanels:
     async def _wikidata_kp(self, facet, value):
         query = {}
         if value:
-            query["tagtype"] = facet_plural(facet=facet)
+            query["tagtype"] = pluralize(facet=facet)
             query["fields"] = "wikidata"
             query["tags"] = value
             return await wikidata_helper(query=query, value=value)
