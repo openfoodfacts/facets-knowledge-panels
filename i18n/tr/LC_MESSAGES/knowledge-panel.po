@@ -18,34 +18,34 @@ msgstr ""
 #: app/off.py:26
 #, python-brace-format
 msgid "{products} products with {name}"
-msgstr ""
+msgstr "{products} ürün ile {name}"
 
 #: app/off.py:32
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr ""
+msgstr "Toplam sorun sayısı {total_issues}"
 
 #: app/off.py:41
 msgid "Data-quality issues related to"
-msgstr ""
+msgstr "İle ilgili veri kalitesi sorunları"
 
 #: app/off.py:42
 msgid "Data-quality issues"
-msgstr ""
+msgstr "Veri kalitesi sorunları"
 
 #: app/off.py:68
 #, python-brace-format
 msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-msgstr ""
+msgstr "{product_name} ({code}) {last_editor} üzerinde {edit_date} tarafından düzenlendi"
 
 #: app/off.py:76
 #, python-brace-format
 msgid "Total number of edits {counts}"
-msgstr ""
+msgstr "Toplam düzenleme sayısı {counts}"
 
 #: app/off.py:83
 msgid "last-edits issues related to"
-msgstr ""
+msgstr "ilgili son düzenleme sorunları"
 
 #: app/off.py:84
 msgid "Last-edits"
@@ -53,5 +53,5 @@ msgstr "Son düzenlemeler"
 
 #: app/off.py:91
 msgid "Answer robotoff questions about"
-msgstr ""
+msgstr "Hakkında robotoff sorularını yanıtlayın"
 
