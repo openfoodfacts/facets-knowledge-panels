@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.0](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.0.3...v1.1.0) (2023-02-13)
+
+
+### Features
+
+* Now support alpha2 code ([#95](https://github.com/openfoodfacts/facets-knowledge-panels/issues/95)) ([6eda756](https://github.com/openfoodfacts/facets-knowledge-panels/commit/6eda756eca7703f9cf0e1a7fad9cf868366df12d))
+* now support both forms of Noun for facet ([#94](https://github.com/openfoodfacts/facets-knowledge-panels/issues/94)) ([a66d07f](https://github.com/openfoodfacts/facets-knowledge-panels/commit/a66d07f6c6070dc5f0a113070040a971650289c0))
+
+
+### Bug Fixes
+
+* CORS - Allow all origin ([#90](https://github.com/openfoodfacts/facets-knowledge-panels/issues/90)) ([343d9c1](https://github.com/openfoodfacts/facets-knowledge-panels/commit/343d9c1f547b4dc4acc724fbfa84ad3ffe666eb4))
+* small fix ([#93](https://github.com/openfoodfacts/facets-knowledge-panels/issues/93)) ([2b702f7](https://github.com/openfoodfacts/facets-knowledge-panels/commit/2b702f7a236abf1ca5b3a5de28c17d3b982021f7))
+
 ## [1.0.3](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.0.2...v1.0.3) (2023-01-17)
 
 
