@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.1.0...v1.1.1) (2023-02-22)
+
+
+### Bug Fixes
+
+* add panel id ([eb7a295](https://github.com/openfoodfacts/facets-knowledge-panels/commit/eb7a2950ba05d69e324abba4207375d8938bad66))
+
 ## [1.1.0](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.0.3...v1.1.0) (2023-02-13)
 
 
