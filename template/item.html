@@ -4,7 +4,7 @@
       <!-- only display panels with elements -->
       {% if content.elements %}
         <!-- rendering a panel -->
-      <details>
+      <details id="{{ panel_name }}">
         <!--  rendering title of the panel  -->
         <summary><i>{{ content.title_element.title }}</i></summary>
             {% for element in content.elements -%}
