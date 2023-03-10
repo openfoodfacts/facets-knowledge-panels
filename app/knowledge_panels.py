@@ -142,7 +142,7 @@ class KnowledgePanels:
                         "text_element": {
                             "html": data.text,
                             "source_text": data.title,
-                            "source_url": f"{data.source_url}/data-quality",
+                            "source_url": f"{data.source_url}/data-quality-errors",
                         },
                     }
                 ],

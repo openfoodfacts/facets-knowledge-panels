@@ -14,7 +14,7 @@ from .wikidata_utils import get_wikidata_entity, image_thumbnail, wikidata_props
 async def fetch_quality(source_url):
     """Function to fetch data-quality"""
     async with aiohttp.ClientSession() as session:
-        quality_url = f"{source_url}/data-quality.json"
+        quality_url = f"{source_url}/data-quality-errors.json"
         async with session.get(quality_url) as resp:
             return await resp.json()
 
