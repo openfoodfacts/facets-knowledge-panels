@@ -170,7 +170,10 @@ async def wikidata_helper(query, value):
         async with session.get(url, params=query) as resp:
             data = await resp.json()
     tag = data[value]
-    entity_id = in_lang(tag["wikidata"], lang)
+    try:
+        entity_id = in_lang(tag["wikidata"], lang)
+    except KeyError:
+        return None
     entity = await asyncify(get_wikidata_entity)(entity_id=entity_id)
     if wikidata_props.image_prop in entity:
         image = entity[wikidata_props.image_prop]
