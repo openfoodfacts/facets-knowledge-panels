@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.1.2...v1.1.3) (2023-03-17)
+
+
+### Bug Fixes
+
+* avoid failing on known situations ([#104](https://github.com/openfoodfacts/facets-knowledge-panels/issues/104)) ([5d23e3b](https://github.com/openfoodfacts/facets-knowledge-panels/commit/5d23e3ba5d812af9bbe621f5e2f6f13396c3d7a5)), closes [#103](https://github.com/openfoodfacts/facets-knowledge-panels/issues/103)
+
 ## [1.1.2](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.1.1...v1.1.2) (2023-03-10)
 
 
