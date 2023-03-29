@@ -44,8 +44,8 @@ msgid "Total number of edits {counts}"
 msgstr "संपादनों की कुल संख्या {counts}"
 
 #: app/off.py:83
-msgid "last-edits issues related to"
-msgstr "अंतिम-संपादन मुद्दे से संबंधित"
+msgid "last-edits related to"
+msgstr "अंतिम-संपादन से संबंधित"
 
 #: app/off.py:84
 msgid "Last-edits"

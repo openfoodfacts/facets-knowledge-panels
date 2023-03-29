@@ -636,7 +636,7 @@ async def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
                     },
                 }
             ],
-            "title_element": {"title": "last-edits issues related to hungary vitamin vitamin-k"},
+            "title_element": {"title": "last-edits related to hungary vitamin vitamin-k"},
         }
     }
 
@@ -704,7 +704,7 @@ async def test_last_edits_kp_with_one_facet_and_value_plural_facet(monkeypatch):
                     },
                 }
             ],
-            "title_element": {"title": "last-edits issues related to hungary vitamin vitamin-k"},
+            "title_element": {"title": "last-edits related to hungary vitamin vitamin-k"},
         }
     }
 
@@ -876,7 +876,7 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
                 }
             ],
             "title_element": {
-                "title": "last-edits issues related to france brand nestle category coffees"
+                "title": "last-edits related to france brand nestle category coffees"
             },
         }
     }

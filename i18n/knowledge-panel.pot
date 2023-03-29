@@ -40,7 +40,7 @@ msgid "Total number of edits {counts}"
 msgstr ""
 
 #: app/off.py:83
-msgid "last-edits issues related to"
+msgid "last-edits related to"
 msgstr ""
 
 #: app/off.py:84
