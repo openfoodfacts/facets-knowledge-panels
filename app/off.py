@@ -128,7 +128,7 @@ async def last_edit(url, query):
         + ["</ul>"]
     )
     text = "".join(html)
-    description = _("last-edits issues related to")
+    description = _("last-edits related to")
     title = _("Last-edits")
     result = LastEdit(text, description, title)
     return result
