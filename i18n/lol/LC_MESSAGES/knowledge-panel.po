@@ -44,8 +44,8 @@ msgid "Total number of edits {counts}"
 msgstr "crwdns201124:0{counts}crwdne201124:0"
 
 #: app/off.py:83
-msgid "last-edits issues related to"
-msgstr "crwdns201126:0crwdne201126:0"
+msgid "last-edits related to"
+msgstr "crwdns208187:0crwdne208187:0"
 
 #: app/off.py:84
 msgid "Last-edits"
