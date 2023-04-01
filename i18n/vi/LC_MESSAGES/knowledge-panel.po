@@ -44,8 +44,8 @@ msgid "Total number of edits {counts}"
 msgstr "Tổng số lần chỉnh sửa {counts}"
 
 #: app/off.py:83
-msgid "last-edits issues related to"
-msgstr "các vấn đề chỉnh sửa lần cuối liên quan đến"
+msgid "last-edits related to"
+msgstr ""
 
 #: app/off.py:84
 msgid "Last-edits"

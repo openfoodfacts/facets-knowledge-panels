@@ -44,8 +44,8 @@ msgid "Total number of edits {counts}"
 msgstr "Celkový počet úprav {counts}"
 
 #: app/off.py:83
-msgid "last-edits issues related to"
-msgstr "problémy související s posledními úpravami"
+msgid "last-edits related to"
+msgstr ""
 
 #: app/off.py:84
 msgid "Last-edits"
