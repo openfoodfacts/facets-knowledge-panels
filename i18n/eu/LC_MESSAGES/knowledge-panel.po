@@ -45,7 +45,7 @@ msgstr ""
 
 #: app/off.py:83
 msgid "last-edits related to"
-msgstr ""
+msgstr "azken aldaketak honi lotua"
 
 #: app/off.py:84
 msgid "Last-edits"

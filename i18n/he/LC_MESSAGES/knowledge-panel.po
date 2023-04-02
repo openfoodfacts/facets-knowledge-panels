@@ -45,7 +45,7 @@ msgstr "מספר העריכות הכולל הוא {counts}"
 
 #: app/off.py:83
 msgid "last-edits related to"
-msgstr ""
+msgstr "עריכות אחרונות שקשורות אל"
 
 #: app/off.py:84
 msgid "Last-edits"

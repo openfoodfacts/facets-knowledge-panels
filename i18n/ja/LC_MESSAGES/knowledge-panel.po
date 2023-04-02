@@ -45,7 +45,7 @@ msgstr "編集の合計数 {counts}"
 
 #: app/off.py:83
 msgid "last-edits related to"
-msgstr ""
+msgstr "関連する最終編集"
 
 #: app/off.py:84
 msgid "Last-edits"
