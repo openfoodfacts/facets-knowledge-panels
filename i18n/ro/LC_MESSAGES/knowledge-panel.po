@@ -45,7 +45,7 @@ msgstr "Numărul total de editări {counts}"
 
 #: app/off.py:83
 msgid "last-edits related to"
-msgstr ""
+msgstr "ultimele editări legate de"
 
 #: app/off.py:84
 msgid "Last-edits"
