@@ -10,10 +10,15 @@ from .i18n import DEFAULT_LANGUAGE, get_current_lang
 from .i18n import translate as _
 from .wikidata_utils import get_wikidata_entity, image_thumbnail, wikidata_props
 
+# User-Agent header to use for all requests
+# This is to ingore the logs
+# As it doing a lot of requests to OpenFoodFacts
+header = {"User-Agent": "Facets-Knowledge-Panels"}
+
 
 async def fetch_quality(source_url):
     """Function to fetch data-quality"""
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(headers=header) as session:
         quality_url = f"{source_url}/data-quality-errors.json"
         async with session.get(quality_url) as resp:
             return await resp.json()
@@ -91,7 +96,7 @@ async def last_edit(url, query):
     Helper function to return data for last-edits
     """
 
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(headers=header) as session:
         search_url = f"{url}/api/v2/search"
         async with session.get(search_url, params=query) as resp:
             data = await resp.json()
@@ -165,7 +170,7 @@ async def wikidata_helper(query, value):
     Helper function to return wikidata eg:label,description,image_url
     """
     lang = get_current_lang()
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(headers=header) as session:
         url = settings().TAXONOMY
         async with session.get(url, params=query) as resp:
             data = await resp.json()
