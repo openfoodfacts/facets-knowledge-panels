@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.1.3...v1.2.0) (2023-07-20)
+
+
+### Features
+
+* use specific User-Agent ([#117](https://github.com/openfoodfacts/facets-knowledge-panels/issues/117)) ([e71c713](https://github.com/openfoodfacts/facets-knowledge-panels/commit/e71c71364ad008cabfb4f1772943b038f519dc7a))
+
+
+### Bug Fixes
+
+* small change in .pot ([#107](https://github.com/openfoodfacts/facets-knowledge-panels/issues/107)) ([a8565ef](https://github.com/openfoodfacts/facets-knowledge-panels/commit/a8565ef51df3611f152a77a46ecd0e64db34163a))
+
 ## [1.1.3](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.1.2...v1.1.3) (2023-03-17)
 
 
