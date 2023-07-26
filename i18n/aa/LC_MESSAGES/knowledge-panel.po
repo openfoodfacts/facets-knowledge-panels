@@ -13,7 +13,7 @@ msgstr ""
 "X-Crowdin-Project: openfoodfacts\n"
 "X-Crowdin-Project-ID: 243092\n"
 "X-Crowdin-Language: aa\n"
-"X-Crowdin-File-ID: 2586\n"
+"X-Crowdin-File-ID: 3479\n"
 
 #: app/off.py:26
 #, python-brace-format

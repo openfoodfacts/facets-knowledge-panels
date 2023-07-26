@@ -13,45 +13,45 @@ msgstr ""
 "X-Crowdin-Project: openfoodfacts\n"
 "X-Crowdin-Project-ID: 243092\n"
 "X-Crowdin-Language: lol\n"
-"X-Crowdin-File-ID: 2586\n"
+"X-Crowdin-File-ID: 3479\n"
 
 #: app/off.py:26
 #, python-brace-format
 msgid "{products} products with {name}"
-msgstr "crwdns201114:0{products}crwdnd201114:0{name}crwdne201114:0"
+msgstr "crwdns244691:0{products}crwdnd244691:0{name}crwdne244691:0"
 
 #: app/off.py:32
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr "crwdns201116:0{total_issues}crwdne201116:0"
+msgstr "crwdns244693:0{total_issues}crwdne244693:0"
 
 #: app/off.py:41
 msgid "Data-quality issues related to"
-msgstr "crwdns201118:0crwdne201118:0"
+msgstr "crwdns244695:0crwdne244695:0"
 
 #: app/off.py:42
 msgid "Data-quality issues"
-msgstr "crwdns201120:0crwdne201120:0"
+msgstr "crwdns244697:0crwdne244697:0"
 
 #: app/off.py:68
 #, python-brace-format
 msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-msgstr "crwdns201122:0{product_name}crwdnd201122:0{code}crwdnd201122:0{last_editor}crwdnd201122:0{edit_date}crwdne201122:0"
+msgstr "crwdns244699:0{product_name}crwdnd244699:0{code}crwdnd244699:0{last_editor}crwdnd244699:0{edit_date}crwdne244699:0"
 
 #: app/off.py:76
 #, python-brace-format
 msgid "Total number of edits {counts}"
-msgstr "crwdns201124:0{counts}crwdne201124:0"
+msgstr "crwdns244701:0{counts}crwdne244701:0"
 
 #: app/off.py:83
 msgid "last-edits related to"
-msgstr "crwdns208187:0crwdne208187:0"
+msgstr "crwdns244703:0crwdne244703:0"
 
 #: app/off.py:84
 msgid "Last-edits"
-msgstr "crwdns201128:0crwdne201128:0"
+msgstr "crwdns244705:0crwdne244705:0"
 
 #: app/off.py:91
 msgid "Answer robotoff questions about"
-msgstr "crwdns201130:0crwdne201130:0"
+msgstr "crwdns244707:0crwdne244707:0"
 
