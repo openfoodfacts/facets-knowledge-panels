@@ -18,30 +18,30 @@ msgstr ""
 #: app/off.py:26
 #, python-brace-format
 msgid "{products} products with {name}"
-msgstr ""
+msgstr "{products} продуктів з {name}"
 
 #: app/off.py:32
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr ""
+msgstr "Загальна кількість задач {total_issues}"
 
 #: app/off.py:41
 msgid "Data-quality issues related to"
-msgstr ""
+msgstr "Проблеми з якістю даних, пов’язані з"
 
 #: app/off.py:42
 msgid "Data-quality issues"
-msgstr ""
+msgstr "Проблеми з якістю даних"
 
 #: app/off.py:68
 #, python-brace-format
 msgid "{product_name} ({code}) edited by {last_editor} on {edit_date}"
-msgstr ""
+msgstr "{product_name} ({code}) відредаговано {last_editor} на {edit_date}"
 
 #: app/off.py:76
 #, python-brace-format
 msgid "Total number of edits {counts}"
-msgstr ""
+msgstr "Загальна кількість редагувань {counts}"
 
 #: app/off.py:83
 msgid "last-edits related to"
@@ -49,9 +49,9 @@ msgstr "останні зміни, пов'язані з"
 
 #: app/off.py:84
 msgid "Last-edits"
-msgstr ""
+msgstr "Остання зміна"
 
 #: app/off.py:91
 msgid "Answer robotoff questions about"
-msgstr ""
+msgstr "Відповісти на запитання robotoff про"
 

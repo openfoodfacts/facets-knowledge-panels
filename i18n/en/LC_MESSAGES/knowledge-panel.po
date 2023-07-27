@@ -18,16 +18,16 @@ msgstr ""
 #: app/off.py:26
 #, python-brace-format
 msgid "{products} products with {name}"
-msgstr ""
+msgstr "{products} produtos com {name}"
 
 #: app/off.py:32
 #, python-brace-format
 msgid "The total number of issues are {total_issues}"
-msgstr ""
+msgstr "O número total de problemas é {total_issues}"
 
 #: app/off.py:41
 msgid "Data-quality issues related to"
-msgstr ""
+msgstr "Problemas de qualidade de dados relacionados"
 
 #: app/off.py:42
 msgid "Data-quality issues"
