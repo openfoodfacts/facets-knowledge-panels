@@ -5,8 +5,6 @@ on:
     #paths:
     #  - 'i18n/kp.pot'
     branches: [ 'crowdin-trigger' ]
-  schedule:
-  - cron: "0 1 * * *"
 jobs:
   synchronize-with-crowdin:
     runs-on: ubuntu-latest
