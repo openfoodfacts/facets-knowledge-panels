@@ -165,6 +165,7 @@ async def render_html(
     This is helper function to make thing easier while injecting facet_kp in off-server
     """
     panels = await knowledge_panel(
+        request,
         facet_tag,
         value_tag,
         sec_facet_tag,
