@@ -1,4 +1,5 @@
 import logging
+import re
 from typing import Optional
 
 import asyncer
@@ -72,6 +73,20 @@ async def start_prometheus_metrics():
 logger = logging.getLogger(__name__ + ".global_taxonomy_refresh")
 
 
+CRAWL_BOT_RE = re.compile(
+    r"Googlebot|Googlebot-Image|bingbot|Applebot|YandexBot|"
+    r"YandexRenderResourcesBot|DuckDuckBot|DotBot|SeekportBot|AhrefsBot|"
+    r"DataForSeoBot|SeznamBot|ZoomBot|MojeekBot|QRbot|www\.qwant\.com|"
+    r"facebookexternalhit"
+)
+
+
+def is_crawling_bot(request: Request):
+    """Return True if the client is a web crawler, based on User-Agent header."""
+    user_agent = request.headers.get("User-Agent", "")
+    return CRAWL_BOT_RE.search(user_agent) is not None
+
+
 @app.on_event("startup")
 @repeat_every(seconds=3 * 60 * 60, logger=logger, wait_first=True)
 async def start_global_quality_refresh():
@@ -87,6 +102,7 @@ async def hello():
 
 @app.get("/knowledge_panel", tags=["knowledge-panel"], response_model=FacetResponse)
 async def knowledge_panel(
+    request: Request,
     facet_tag: str = QueryData.facet_tag_query(),
     value_tag: Optional[str] = QueryData.value_tag_query(),
     sec_facet_tag: Optional[str] = QueryData.secondary_facet_tag_query(),
@@ -99,6 +115,10 @@ async def knowledge_panel(
     facet_tag are the list of values connecting to FacetName
     eg:- category/beer, here beer is the value
     """
+    if is_crawling_bot(request):
+        # Don't return any knowledge panel if the client is a crawling bot
+        return {"knowledge_panels": {}}
+
     with active_translation(lang_code):
         # creating object that will compute knowledge panels
         obj_kp = KnowledgePanels(
