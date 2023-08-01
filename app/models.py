@@ -125,7 +125,7 @@ class QueryData:
         query = Query(
             default=None,
             title="language code string",
-            description="To return knowledge panels in native language, defualt lang: `en`.",
+            description="To return knowledge panels in native language, default lang: `en`.",
         )
         return query
 
