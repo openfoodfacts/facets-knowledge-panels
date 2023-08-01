@@ -77,7 +77,7 @@ logger = logging.getLogger(__name__ + ".global_taxonomy_refresh")
 async def start_global_quality_refresh():
     # Clearing cache and refetching data-quality
     # Refetching data every hour
-    global_quality_refresh()
+    await global_quality_refresh()
 
 
 @app.get("/")
