@@ -13,7 +13,7 @@ docker-compose build
 ```
 or
 ```bash
-make docker_build
+make build
 ```
 
 to run:
@@ -22,7 +22,7 @@ docker-compose up
 ```
 or
 ```bash
-make docker_up
+make up
 ```
 
 - Visit `http://127.0.0.1/` with the endpoints or /docs for documentation

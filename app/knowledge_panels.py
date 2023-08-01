@@ -1,5 +1,5 @@
 import collections
-from typing import Union
+from typing import Optional, Union
 from urllib.parse import urlencode
 
 from .config import openFoodFacts, settings
@@ -31,7 +31,7 @@ class KnowledgePanels:
         self.sec_value = sec_value
         self.country = alpha2_to_country_name(country)
 
-    async def hunger_game_kp(self):
+    async def hunger_game_kp(self) -> Optional[dict]:
         query = {}
         questions_url = settings().HUNGER_GAME
         facets = {self.facet: self.value, self.sec_facet: self.sec_value}
@@ -95,7 +95,7 @@ class KnowledgePanels:
         return kp if urls else None
 
     @no_exception()
-    async def data_quality_kp(self):
+    async def data_quality_kp(self) -> dict:
         """
         Get data corresponding to differnet facet
         """
@@ -151,7 +151,7 @@ class KnowledgePanels:
         }
 
     @no_exception()
-    async def last_edits_kp(self):
+    async def last_edits_kp(self) -> dict:
         """
         Return knowledge panel for last-edits corresponding to different facet
         """
@@ -206,7 +206,7 @@ class KnowledgePanels:
         }
 
     @no_exception()
-    async def _wikidata_kp(self, facet, value):
+    async def _wikidata_kp(self, facet, value) -> Optional[dict]:
         query = {}
         if value:
             query["tagtype"] = pluralize(facet=facet)
@@ -214,7 +214,7 @@ class KnowledgePanels:
             query["tags"] = value
             return await wikidata_helper(query=query, value=value)
 
-    async def wikidata_kp(self):
+    async def wikidata_kp(self) -> Optional[dict]:
         """
         Return knowledge panel for wikidata
         """

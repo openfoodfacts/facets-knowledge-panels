@@ -5,10 +5,10 @@ DOCKER_BUILDKIT=1
 DOCKER_RUN=docker-compose run --rm --no-deps facets-api
 
 
-docker_build:
+build:
 	docker-compose build
 
-docker_up:
+up:
 	docker-compose up
 
 # recompile languages files

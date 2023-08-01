@@ -29,6 +29,19 @@ def test_hello(client):
     }
 
 
+def test_knowledge_panel_crawl_bot(client):
+    response = client.get(
+        "/knowledge_panel?facet_tag=packaging&value_tag=plastic-box",
+        headers={
+            "User-Agent": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 "
+            "(compatible; Googlebot/2.1; +http://www.google.com/bot.html) "
+        },
+    )
+    assert response.status_code == 200
+    assert response.json() == {"knowledge_panels": {}}
+
+
 def test_knowledge_panel_no_value(client, monkeypatch):
     # we do an approximate patching, data is clearly not right, it's just to get some
     base_url = "https://world.openfoodfacts.org"
