@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.2.0...v1.3.0) (2023-08-01)
+
+
+### Features
+
+* return empty knowledge panels to crawl bots ([#123](https://github.com/openfoodfacts/facets-knowledge-panels/issues/123)) ([87779ac](https://github.com/openfoodfacts/facets-knowledge-panels/commit/87779ac0238398f9f1f0643e3b5a95c53652da19))
+
+
+### Bug Fixes
+
+* fix bug in /render-to-html ([d4aae45](https://github.com/openfoodfacts/facets-knowledge-panels/commit/d4aae452e0b0bb48843db1cadd84ded628aea475))
+* fix the crowdin branch ([#121](https://github.com/openfoodfacts/facets-knowledge-panels/issues/121)) ([7223019](https://github.com/openfoodfacts/facets-knowledge-panels/commit/72230193fda5cb0fba4ea9fe410b23af88138e83))
+
 ## [1.2.0](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.1.3...v1.2.0) (2023-07-20)
 
 
