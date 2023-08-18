@@ -5,6 +5,8 @@ services:
     image: ghcr.io/openfoodfacts/facets-knowledge-panels:${TAG:-dev}
     ports:
       - "${API_EXPOSE}:80"
+    volumes:
+      - ./html:/code/html
     environment:
       FACETS_HUNGER_GAME:
       FACETS_OPENFOODFACTS:
