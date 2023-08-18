@@ -60,14 +60,9 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
-
-@app.on_event("startup")
-async def start_prometheus_metrics():
-    """setup metrics on startup"""
-    # condition instrumentation by FACETS_ENABLE_METRICS
-    Instrumentator(should_respect_env_var=True, env_var_name="FACETS_ENABLE_METRICS").instrument(
-        app
-    ).expose(app)
+Instrumentator(should_respect_env_var=True, env_var_name="FACETS_ENABLE_METRICS").instrument(
+    app
+).expose(app)
 
 
 logger = logging.getLogger(__name__ + ".global_taxonomy_refresh")
