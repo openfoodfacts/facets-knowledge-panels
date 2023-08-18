@@ -2,17 +2,12 @@ import collections
 from typing import Optional, Union
 from urllib.parse import urlencode
 
+from app.utils import alpha2_to_country_name, country_name_to_alpha2, pluralize
+
 from .config import openFoodFacts, settings
 from .exception_wrapper import no_exception
 from .i18n import translate as _
-from .models import (
-    HungerGameFilter,
-    Taxonomies,
-    alpha2_to_country_name,
-    country_name_to_alpha2,
-    pluralize,
-    singularize,
-)
+from .models import HungerGameFilter, Taxonomies
 from .off import data_quality, last_edit, wikidata_helper
 
 
@@ -25,9 +20,9 @@ class KnowledgePanels:
         sec_value: Union[str, None] = None,
         country: Union[str, None] = None,
     ):
-        self.facet = singularize(facet)
+        self.facet = facet
         self.value = value
-        self.sec_facet = singularize(sec_facet)
+        self.sec_facet = sec_facet
         self.sec_value = sec_value
         self.country = alpha2_to_country_name(country)
 

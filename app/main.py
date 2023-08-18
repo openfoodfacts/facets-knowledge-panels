@@ -1,19 +1,33 @@
 import logging
 import re
-from typing import Optional
+from typing import Annotated
 
 import asyncer
+from aiofile import async_open
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi_utils.tasks import repeat_every
+from openfoodfacts.types import Country, Lang
 from prometheus_fastapi_instrumentator import Instrumentator
 
-from .i18n import active_translation
+from app.information_kp import find_kp_html_path
+from app.settings import HTML_DIR
+
+from .i18n import DEFAULT_LANGUAGE, active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import FacetResponse, QueryData
+from .models import (
+    COUNTRY_QUERY,
+    FACET_TAG_QUERY,
+    LANGUAGE_CODE_QUERY,
+    SECONDARY_FACET_TAG_QUERY,
+    SECONDARY_VALUE_TAG_QUERY,
+    VALUE_TAG_QUERY,
+    FacetResponse,
+)
 from .off import global_quality_refresh
+from .utils import secure_filename, singularize
 
 tags_metadata = [
     {
@@ -103,74 +117,116 @@ async def hello():
 @app.get("/knowledge_panel", tags=["knowledge-panel"], response_model=FacetResponse)
 async def knowledge_panel(
     request: Request,
-    facet_tag: str = QueryData.facet_tag_query(),
-    value_tag: Optional[str] = QueryData.value_tag_query(),
-    sec_facet_tag: Optional[str] = QueryData.secondary_facet_tag_query(),
-    sec_value_tag: Optional[str] = QueryData.secondary_value_tag_query(),
-    lang_code: Optional[str] = QueryData.language_code_query(),
-    country: Optional[str] = QueryData.country_query(),
+    facet_tag: Annotated[str, FACET_TAG_QUERY],
+    value_tag: Annotated[str | None, VALUE_TAG_QUERY] = None,
+    sec_facet_tag: Annotated[str | None, SECONDARY_FACET_TAG_QUERY] = None,
+    sec_value_tag: Annotated[str | None, SECONDARY_VALUE_TAG_QUERY] = None,
+    lang_code: Annotated[Lang, LANGUAGE_CODE_QUERY] = Lang[DEFAULT_LANGUAGE],
+    country: Annotated[Country, COUNTRY_QUERY] = Country.world,
+    add_contribution_panels: bool = True,
+    add_information_panels: bool = True,
 ):
+    """Return knowledge panels for a `facet_tag` and an optional `facet_value`.
+    `sec_facet_tag` and `sec_value_tag` are used when accessing nested facets
+    on Open Food Facts website.
+
+    This endpoint returns 2 types of knowledge panels (controlled by
+    `add_contribution_panels` and `add_information_panels` flags respectively):
+
+    - contribution knowledge panels: knowledge panels useful for contributors (Hunger
+      Game links, last edits,...)
+    - information knowledge panel: description of the category/label...
+
+    Information knowledge panels are country-specific and language-specific.
+    If no knowledge panel was found for the requested country, Country.world is
+    used as a fallback.
+
+    This mechanism allows for example to have a different knowledge panel for `en:organic`
+    in France and in the USA (where we will mostly talk about en:usda-organic) label.
     """
-    FacetName is the model that have list of values
-    facet_tag are the list of values connecting to FacetName
-    eg:- category/beer, here beer is the value
-    """
-    if is_crawling_bot(request):
+    panels = {}
+    facet_tag = singularize(facet_tag)
+    sec_facet_tag = singularize(sec_facet_tag)
+
+    if not is_crawling_bot(request) and add_contribution_panels:
         # Don't return any knowledge panel if the client is a crawling bot
-        return {"knowledge_panels": {}}
+        with active_translation(lang_code.value):
+            # creating object that will compute knowledge panels
 
-    with active_translation(lang_code):
-        # creating object that will compute knowledge panels
-        obj_kp = KnowledgePanels(
-            facet=facet_tag,
-            value=value_tag,
-            sec_facet=sec_facet_tag,
-            sec_value=sec_value_tag,
-            country=country,
-        )
-        # this will contains panels computations
-        soon_panels = []
-        # the task_group will run these knowledge_panels async functions concurrently
-        async with asyncer.create_task_group() as task_group:
-            # launch each panels computation
-            soon_panels.append(task_group.soonify(obj_kp.hunger_game_kp)())
-            soon_panels.append(task_group.soonify(obj_kp.data_quality_kp)())
-            soon_panels.append(task_group.soonify(obj_kp.last_edits_kp)())
-            soon_panels.append(task_group.soonify(obj_kp.wikidata_kp)())
-        # collect panels results
-        panels = {}
-        for soon_value in soon_panels:
-            # Appending soon_value value in panels
-            # as soon_panels needs to access outside taskgroup.
-            if soon_value.value:
-                panels.update(soon_value.value)
-        return {"knowledge_panels": panels}
+            obj_kp = KnowledgePanels(
+                facet=facet_tag,
+                value=value_tag,
+                sec_facet=sec_facet_tag,
+                sec_value=sec_value_tag,
+                country=country.value if country is not Country.world else None,
+            )
+            # this will contains panels computations
+            soon_panels = []
+            # the task_group will run these knowledge_panels async functions concurrently
+            async with asyncer.create_task_group() as task_group:
+                # launch each panels computation
+                soon_panels.append(task_group.soonify(obj_kp.hunger_game_kp)())
+                soon_panels.append(task_group.soonify(obj_kp.data_quality_kp)())
+                soon_panels.append(task_group.soonify(obj_kp.last_edits_kp)())
+                soon_panels.append(task_group.soonify(obj_kp.wikidata_kp)())
+            # collect panels results
+            for soon_value in soon_panels:
+                # Appending soon_value value in panels
+                # as soon_panels needs to access outside taskgroup.
+                if soon_value.value:
+                    panels.update(soon_value.value)
+
+    if add_information_panels and value_tag is not None:
+        # As we're using user-provided data to access filesystem,
+        # generate secure filename
+        facet_tag_safe = secure_filename(facet_tag)
+        value_tag_safe = secure_filename(value_tag)
+
+        if facet_tag_safe and value_tag_safe:
+            file_path = find_kp_html_path(
+                HTML_DIR, facet_tag_safe, value_tag_safe, country, lang_code
+            )
+            panel = None
+            if file_path is not None:
+                async with async_open(file_path, "r") as f:
+                    html_content = await f.read()
+                panel = {
+                    "elements": [{"element_type": "text", "text_element": {"html": html_content}}],
+                    "title_element": {"title": "Description"},
+                }
+                panels["Description"] = panel
+
+    return {"knowledge_panels": panels}
 
 
-templates = Jinja2Templates(directory="template")
+templates = Jinja2Templates(directory="template", trim_blocks=True, lstrip_blocks=True)
 
 
 @app.get("/render-to-html", tags=["Render to HTML"], response_class=HTMLResponse)
 async def render_html(
     request: Request,
-    facet_tag: str = QueryData.facet_tag_query(),
-    value_tag: Optional[str] = QueryData.value_tag_query(),
-    sec_facet_tag: Optional[str] = QueryData.secondary_facet_tag_query(),
-    sec_value_tag: Optional[str] = QueryData.secondary_value_tag_query(),
-    lang_code: Optional[str] = QueryData.language_code_query(),
-    country: Optional[str] = QueryData.country_query(),
+    facet_tag: Annotated[str, FACET_TAG_QUERY],
+    value_tag: Annotated[str | None, VALUE_TAG_QUERY] = None,
+    sec_facet_tag: Annotated[str | None, SECONDARY_FACET_TAG_QUERY] = None,
+    sec_value_tag: Annotated[str | None, SECONDARY_VALUE_TAG_QUERY] = None,
+    lang_code: Annotated[Lang, LANGUAGE_CODE_QUERY] = Lang[DEFAULT_LANGUAGE],
+    country: Annotated[Country, COUNTRY_QUERY] = Country.world,
+    add_contribution_panels: bool = True,
+    add_information_panels: bool = True,
 ):
     """
     Render item.html using jinja2
     This is helper function to make thing easier while injecting facet_kp in off-server
     """
     panels = await knowledge_panel(
-        request,
-        facet_tag,
-        value_tag,
-        sec_facet_tag,
-        sec_value_tag,
-        lang_code,
-        country,
+        request=request,
+        facet_tag=facet_tag,
+        value_tag=value_tag,
+        sec_facet_tag=sec_facet_tag,
+        sec_value_tag=sec_value_tag,
+        lang_code=lang_code,
+        country=country,
+        add_contribution_panels=add_contribution_panels,
+        add_information_panels=add_information_panels,
     )
     return templates.TemplateResponse("item.html", {"request": request, "panels": panels})

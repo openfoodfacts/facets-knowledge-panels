@@ -1,10 +1,16 @@
+import os
+
 import aiohttp
 import pytest
 import wikidata.client
 from fastapi.testclient import TestClient
+from openfoodfacts import Country, Lang
 
 import app.main
+from app.information_kp import generate_file_path
 from app.main import app
+from app.models import KnowledgeContentItem
+from app.settings import HTML_DIR
 
 from .test_utils import (
     data_quality_sample,
@@ -110,7 +116,7 @@ def test_knowledge_panel_with_facet(client, monkeypatch):
     )
     response = client.get(
         "/knowledge_panel?facet_tag=packaging&value_tag=plastic-box"
-        "&sec_facet_tag=label&sec_value_tag=fr:fitou&country=Germany"
+        "&sec_facet_tag=label&sec_value_tag=fr:fitou&country=de"
     )
     assert response.status_code == 200
     result = response.json()
@@ -124,3 +130,64 @@ def test_knowledge_panel_with_facet(client, monkeypatch):
     assert len(result["knowledge_panels"]["LastEdits"]["elements"]) == 1
     assert len(result["knowledge_panels"]["HungerGames"]["elements"]) == 2
     assert len(result["knowledge_panels"]["WikiData"]["elements"]) == 2
+
+
+@pytest.fixture()
+def knowledge_content_item():
+    content_item = KnowledgeContentItem(
+        lang=Lang.it,
+        tag_type="label",
+        value_tag="en:specific-label",
+        content="Dummy content",
+        country=Country.it,
+    )
+    file_path = generate_file_path(
+        HTML_DIR,
+        content_item,
+    )
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    file_path.write_text(
+        f"<p>DATA about {content_item.value_tag} for "
+        f"{content_item.country.value}-{content_item.lang.value}</p>"
+    )
+    yield content_item
+    file_path.unlink()
+    os.rmdir(file_path.parent)
+
+
+def test_knowledge_panel_with_information_kp(client, knowledge_content_item: KnowledgeContentItem):
+    for tag_type_suffix in ("", "s"):
+        # test with singular and plural form of facet tag
+        response = client.get(
+            f"/knowledge_panel?facet_tag={knowledge_content_item.tag_type}{tag_type_suffix}"
+            f"&value_tag={knowledge_content_item.value_tag}"
+            f"&country={knowledge_content_item.country.value}"
+            f"&lang_code={knowledge_content_item.lang.value}"
+            "&add_contribution_panels=false"
+        )
+        assert response.status_code == 200
+        result = response.json()
+        assert set(result["knowledge_panels"].keys()) == {"Description"}
+        kp = result["knowledge_panels"]["Description"]
+        assert len(kp["elements"]) == 1
+        element = kp["elements"][0]
+        assert element == {
+            "element_type": "text",
+            "text_element": {"html": "<p>DATA about en:specific-label for it-it</p>"},
+        }
+
+
+def test_knowledge_panel_with_information_kp_unknown_value(
+    client, knowledge_content_item: KnowledgeContentItem
+):
+    # test with singular and plural form of facet tag
+    response = client.get(
+        f"/knowledge_panel?facet_tag={knowledge_content_item.tag_type}"
+        f"&value_tag=en:value-without-kp"
+        f"&country={knowledge_content_item.country.value}"
+        f"&lang_code={knowledge_content_item.lang.value}"
+        "&add_contribution_panels=false"
+    )
+    assert response.status_code == 200
+    result = response.json()
+    assert result["knowledge_panels"] == {}
