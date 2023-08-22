@@ -67,7 +67,9 @@ def test_knowledge_panel_no_value(client, monkeypatch):
         # this is the entity of taxonomy_sample
         mock_wikidata_get("Q470974", wikidata_sample()),
     )
-    response = client.get("/knowledge_panel?facet_tag=origin")
+    response = client.get(
+        "/knowledge_panel?facet_tag=origin&include=last_edits&include=data_quality"
+    )
     assert response.status_code == 200
     result = response.json()
     assert set(result["knowledge_panels"].keys()) == {"Quality", "LastEdits"}
@@ -111,6 +113,7 @@ def test_knowledge_panel_with_facet(client, monkeypatch):
     response = client.get(
         "/knowledge_panel?facet_tag=packaging&value_tag=plastic-box"
         "&sec_facet_tag=label&sec_value_tag=fr:fitou&country=Germany"
+        "&include=data_quality&include=last_edits&include=hunger_game&include=wikidata",
     )
     assert response.status_code == 200
     result = response.json()

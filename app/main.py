@@ -1,9 +1,9 @@
 import logging
 import re
-from typing import Optional
+from typing import Annotated, Optional
 
 import asyncer
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -12,7 +12,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 
 from .i18n import active_translation
 from .knowledge_panels import KnowledgePanels
-from .models import FacetResponse, QueryData
+from .models import FacetResponse, PanelName, QueryData
 from .off import global_quality_refresh
 
 tags_metadata = [
@@ -104,12 +104,23 @@ async def knowledge_panel(
     sec_value_tag: Optional[str] = QueryData.secondary_value_tag_query(),
     lang_code: Optional[str] = QueryData.language_code_query(),
     country: Optional[str] = QueryData.country_query(),
+    include: Annotated[list[PanelName] | None, QueryData.include_panel_query()] = None,
+    exclude: Annotated[list[PanelName] | None, QueryData.exclude_panel_query()] = None,
 ):
     """
     FacetName is the model that have list of values
     facet_tag are the list of values connecting to FacetName
     eg:- category/beer, here beer is the value
     """
+    if include is not None and exclude is not None:
+        raise HTTPException(status_code=400, detail="include and exclude parameters are exclusive")
+
+    panel_names = {PanelName.hunger_game, PanelName.wikidata}
+    if include is not None:
+        panel_names = set(include)
+    elif exclude is not None:
+        panel_names -= set(exclude)
+
     if is_crawling_bot(request):
         # Don't return any knowledge panel if the client is a crawling bot
         return {"knowledge_panels": {}}
@@ -128,10 +139,14 @@ async def knowledge_panel(
         # the task_group will run these knowledge_panels async functions concurrently
         async with asyncer.create_task_group() as task_group:
             # launch each panels computation
-            soon_panels.append(task_group.soonify(obj_kp.hunger_game_kp)())
-            soon_panels.append(task_group.soonify(obj_kp.data_quality_kp)())
-            soon_panels.append(task_group.soonify(obj_kp.last_edits_kp)())
-            soon_panels.append(task_group.soonify(obj_kp.wikidata_kp)())
+            if PanelName.hunger_game in panel_names:
+                soon_panels.append(task_group.soonify(obj_kp.hunger_game_kp)())
+            if PanelName.data_quality in panel_names:
+                soon_panels.append(task_group.soonify(obj_kp.data_quality_kp)())
+            if PanelName.last_edits in panel_names:
+                soon_panels.append(task_group.soonify(obj_kp.last_edits_kp)())
+            if PanelName.wikidata in panel_names:
+                soon_panels.append(task_group.soonify(obj_kp.wikidata_kp)())
         # collect panels results
         panels = {}
         for soon_value in soon_panels:
@@ -154,6 +169,8 @@ async def render_html(
     sec_value_tag: Optional[str] = QueryData.secondary_value_tag_query(),
     lang_code: Optional[str] = QueryData.language_code_query(),
     country: Optional[str] = QueryData.country_query(),
+    include: Annotated[list[PanelName] | None, QueryData.include_panel_query()] = None,
+    exclude: Annotated[list[PanelName] | None, QueryData.exclude_panel_query()] = None,
 ):
     """
     Render item.html using jinja2
@@ -167,5 +184,7 @@ async def render_html(
         sec_value_tag,
         lang_code,
         country,
+        include,
+        exclude,
     )
     return templates.TemplateResponse("item.html", {"request": request, "panels": panels})
