@@ -72,7 +72,9 @@ CRAWL_BOT_RE = re.compile(
     r"Googlebot|Googlebot-Image|bingbot|Applebot|YandexBot|"
     r"YandexRenderResourcesBot|DuckDuckBot|DotBot|SeekportBot|AhrefsBot|"
     r"DataForSeoBot|SeznamBot|ZoomBot|MojeekBot|QRbot|www\.qwant\.com|"
-    r"facebookexternalhit"
+    r"facebookexternalhit|Bytespider|GPTBot|SEOkicks-Robot|SearchmetricsBot"
+    r"MJ12bot|SurveyBot|SEOdiver|wotbox|Cliqzbot|Paracrawl|VelenPublicWebCrawler"
+    r"SemrushBot|MegaIndex\.ru|YandexMarket|Amazonbot"
 )
 
 
