@@ -7,6 +7,13 @@ from fastapi import Query
 from pydantic import BaseModel, Field
 
 
+class PanelName(str, Enum):
+    last_edits = "last_edits"
+    data_quality = "data_quality"
+    hunger_game = "hunger_game"
+    wikidata = "wikidata"
+
+
 class HungerGameFilter(str, Enum):
     label = "label"
     category = "category"
@@ -89,53 +96,68 @@ class QueryData:
     Helper class for handling repetition of query
     """
 
+    @staticmethod
     def facet_tag_query():
-
-        query = Query(
+        return Query(
             title="Facet tag string",
             description="Facet tag string for the items to search in the database eg:- `category` etc.",  # noqa: E501
         )
-        return query
 
     def value_tag_query():
-        query = Query(
+        return Query(
             default=None,
             title="Value tag string",
             description="value tag string for the items to search in the database eg:-`en:beers` etc.",  # noqa: E501
         )
-        return query
 
+    @staticmethod
     def secondary_facet_tag_query():
-        query = Query(
+        return Query(
             default=None,
             title="secondary facet tag string",
             description="secondary facet tag string for the items to search in the database eg:-`brand` etc.",  # noqa: E501
         )
-        return query
 
+    @staticmethod
     def secondary_value_tag_query():
-        query = Query(
+        return Query(
             default=None,
             title="secondary value tag string",
             description="secondary value tag string for the items to search in the database eg:-`lidl` etc.",  # noqa: E501
         )
-        return query
 
+    @staticmethod
     def language_code_query():
-        query = Query(
+        return Query(
             default=None,
             title="language code string",
             description="To return knowledge panels in native language, default lang: `en`.",
         )
-        return query
 
+    @staticmethod
     def country_query():
-        query = Query(
+        return Query(
             default=None,
             title="Country tag string",
             description="To return knowledge panels for specific country, ex: `france` or `fr`.",
         )
-        return query
+
+    @staticmethod
+    def exclude_panel_query():
+        return Query(
+            title="Panel name exclude list",
+            description="a list of panel names to exclude, it is incompatible with `include` "
+            "parameter",
+        )
+
+    @staticmethod
+    def include_panel_query():
+        return Query(
+            title="Panel name exclude list",
+            description="a list of panel names to include, it is incompatible with `exclude` "
+            "parameter. If neither `include` or `exclude` is provided, we display `hunger_game` "
+            "and `wikidata` by default.",
+        )
 
 
 # --------------------------------------------
