@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.0](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.3.0...v1.4.0) (2023-08-23)
+
+
+### Features
+
+* allow to specify knowledge panels through include and exclude ([8d12768](https://github.com/openfoodfacts/facets-knowledge-panels/commit/8d1276872d351218cd5d7741845a96af3606ec3e))
+
+
+### Bug Fixes
+
+* disable auto-reload in production ([c9c6453](https://github.com/openfoodfacts/facets-knowledge-panels/commit/c9c64532b83c76b65980df5801a27264325afb0b))
+* fix prometheus metrics ([a71cee4](https://github.com/openfoodfacts/facets-knowledge-panels/commit/a71cee4e2695cec946dc17377d35ec7a548aba23))
+* fix requirements.txt ([f858c52](https://github.com/openfoodfacts/facets-knowledge-panels/commit/f858c52713a5acfc14940466b733dc2a398f4041))
+* update list of crawlers ([d5f5fc0](https://github.com/openfoodfacts/facets-knowledge-panels/commit/d5f5fc05e0467f08eafc788b9332e1dcaadd220e))
+
 ## [1.3.0](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.2.0...v1.3.0) (2023-08-01)
 
 
