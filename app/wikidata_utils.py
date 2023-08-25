@@ -19,10 +19,16 @@ class WikiDataProperties:
     def OSM_prop(self):
         return self._client.get("P402")
 
-    @cached_property
-    def INAO_prop(self):
-        return self._client.get("P3895")
+@cached_property
+def inao_product_id(self):
+    return self._client.get("P3895")
+    # INAO product ID
 
+@cached_property
+def ratebeer_brewery_id(self):
+    return self._client.get("P2905")
+    # RateBeer brewery ID
+    
     @cached_property
     def acceptable_daily_intake(self):
         return self._client.get("P2542")
@@ -33,6 +39,11 @@ class WikiDataProperties:
         return self._client.get("P1820")
         # Open Food Facts additive https://world.openfoodfacts.org/additives/
 
+@cached_property
+def open_food_facts_food_category_id(self):
+    return self._client.get("P1821")
+    # Open Food Facts food category ID
+    
     @cached_property
     def E_number(self):
         return self._client.get("P628")
@@ -90,6 +101,77 @@ def findsmiley_id(self):
 @cached_property
 def alcohol_by_volume(self):
     return self._client.get("P2665")
+    # alcohol by volume
+
+@cached_property
+def jmpr_database_id(self):
+    return self._client.get("P4853")
+    # JMPR database ID
+
+@cached_property
+def beer_bitterness(self):
+    return self._client.get("P6088")
+    # beer bitterness
+
+@cached_property
+def beer_color(self):
+    return self._client.get("P6089")
+    # beer color
+
+@cached_property
+def foodon_id(self):
+    return self._client.get("P6767")
+    # FoodOn ID
+
+@cached_property
+def fema_number(self):
+    return self._client.get("P8266")
+    # FEMA number
+
+@cached_property
+def food_energy(self):
+    return self._client.get("P7971")
+    # food energy
+
+@cached_property
+def tasteatlas_id(self):
+    return self._client.get("P5456")
+    # TasteAtlas ID
+
+@cached_property
+def course(self):
+    return self._client.get("P8431")
+    # course
+
+@cached_property
+def drizly_product_id(self):
+    return self._client.get("P8858")
+    # Drizly product ID
+
+@cached_property
+def barnivore_product_id(self):
+    return self._client.get("P9031")
+    # Barnivore product ID
+
+@cached_property
+def thecocktaildb_drink_id(self):
+    return self._client.get("P9056")
+    # TheCocktailDB drink ID
+
+@cached_property
+def thecocktaildb_ingredient_id(self):
+    return self._client.get("P9057")
+    # TheCocktailDB ingredient ID
+
+@cached_property
+def fl_number(self):
+    return self._client.get("P9066")
+    # FL number
+
+@cached_property
+def open_food_facts_ingredient_id(self):
+    return self._client.get("P5930")
+    # Open Food Facts ingredient ID
 
 @cached_property
 def okp_id_of_the_good_or_service(self):
@@ -106,6 +188,7 @@ def okpd2_product_code(self):
 @cached_property
 def usda_ndb_number(self):
     return self._client.get("P1978")
+    # USDA NDB number
 
 @cached_property
 def ausnut_food_id(self):
@@ -116,12 +199,39 @@ def nuttab_food_id(self):
     return self._client.get("P2760")
 
 @cached_property
+def vivc_grape_variety_id(self):
+    return self._client.get("P3904")
+    # VIVC grape variety ID
+
+@cached_property
+def foodex2_code(self):
+    return self._client.get("P4637")
+    # FoodEx2 code
+
+@cached_property
+def gems_code(self):
+    return self._client.get("P4695")
+    # GEMS Code
+
+@cached_property
+def ciqual2017_id(self):
+    return self._client.get("P4696")
+    # CIQUAL2017 ID
+
+@cached_property
+def inran_italian_food_id(self):
+    return self._client.get("P4729")
+    # INRAN Italian Food ID
+
+@cached_property
 def fao_risk_status(self):
     return self._client.get("P2371")
+    # FAO risk status
 
 @cached_property
 def main_food_source(self):
     return self._client.get("P1034")
+    # main food source
 
 @cached_property
 def image(self):
@@ -155,6 +265,66 @@ def icd_code_to_food_allergies(self):
 @cached_property
 def plu_code(self):
     return self._client.get("P4030")
+
+@cached_property
+def edibility(self):
+    return self._client.get("P789")
+    # edibility
+
+@cached_property
+def foods_traditionally_associated(self):
+    return self._client.get("P868")
+    # foods traditionally associated
+
+@cached_property
+def marmiton_id(self):
+    return self._client.get("P9769")
+    # Marmiton ID
+
+@cached_property
+def food_com_id(self):
+    return self._client.get("P9840")
+    # Food.com ID
+
+@cached_property
+def eambrosia_id(self):
+    return self._client.get("P9854")
+    # eAmbrosia ID
+
+@cached_property
+def swedish_food_agency_food_id(self):
+    return self._client.get("P9894")
+    # Swedish Food Agency food ID
+
+@cached_property
+def bbc_food_id(self):
+    return self._client.get("P9925")
+    # BBC Food ID
+
+@cached_property
+def lambic_info_id(self):
+    return self._client.get("P10172")
+    # Lambic.Info ID
+
+@cached_property
+def faoterm_id(self):
+    return self._client.get("P10584")
+    # FAOTERM ID
+
+@cached_property
+def culinary_heritage_of_switzerland_id(self):
+    return self._client.get("P11217")
+    # Culinary Heritage of Switzerland ID
+
+@cached_property
+def dizionario_dei_prodotti_dop_e_igp_id(self):
+    return self._client.get("P11773")
+    # Dizionario dei prodotti DOP e IGP ID
+
+@cached_property
+def qualigeo_id(self):
+    return self._client.get("P11794")
+    # Qualigeo ID
 
 wikidata_props = WikiDataProperties()
 
