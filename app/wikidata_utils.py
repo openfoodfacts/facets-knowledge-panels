@@ -28,11 +28,11 @@ class WikiDataProperties:
     def ratebeer_brewery_id(self):
         return self._client.get("P2905")
         # RateBeer brewery ID
-    
+
     @cached_property
     def acceptable_daily_intake(self):
         return self._client.get("P2542")
-        #estimate of the amount of a food additive, expressed on a body weight basis, that can be ingested daily over a lifetime without appreciable health risk
+        # estimate of the amount of a food additive, expressed on a body weight basis, that can be ingested daily over a lifetime without appreciable health risk
 
     @cached_property
     def Open_Food_Facts_food_additive_ID(self):
@@ -43,26 +43,26 @@ class WikiDataProperties:
     def open_food_facts_food_category_id(self):
         return self._client.get("P1821")
         # Open Food Facts food category ID
-    
+
     @cached_property
     def E_number(self):
         return self._client.get("P628")
-        #E number - for food additives - european system also used outside Europe.
+        # E number - for food additives - european system also used outside Europe.
 
     @cached_property
     def International_Numbering_System_number(self):
         return self._client.get("P4849")
-        #International Numbering System number - for food additives - UN FAO identification system.
+        # International Numbering System number - for food additives - UN FAO identification system.
 
     @cached_property
     def JECFA_database_id(self):
         return self._client.get("P4852")
-        #JECFA database ID - for food additives, pesticides and veterinary drugs present in foods - UN FAO database identifier.
+        # JECFA database ID - for food additives, pesticides and veterinary drugs present in foods - UN FAO database identifier.
 
     @cached_property
     def permitted_food_additive(self):
         return self._client.get("P4850")
-        #permitted food additive - additives allowed to be present in a particular food product according to the UN FAO.
+        # permitted food additive - additives allowed to be present in a particular food product according to the UN FAO.
 
     @cached_property
     def maximum_food_additive_use_level(self):
@@ -325,6 +325,7 @@ class WikiDataProperties:
     def qualigeo_id(self):
         return self._client.get("P11794")
         # Qualigeo ID
+
 
 wikidata_props = WikiDataProperties()
 
