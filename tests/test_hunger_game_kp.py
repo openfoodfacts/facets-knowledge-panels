@@ -98,7 +98,8 @@ async def test_hunger_game_kp_category_with_value():
 async def test_hunger_game_kp_brand_with_value():
     """test_hunger_game_kp_brand_with_value"""
     html = (
-        "<ul><li><p><a href='https://hunger.openfoodfacts.org/questions?type=brand&value_tag=nestle'>"
+        "<ul><li><p>"
+        "<a href='https://hunger.openfoodfacts.org/questions?type=brand&value_tag=nestle'>"
         "<em>Answer robotoff questions about brand nestle</em></a></p></li></ul>"
     )
     result = await KnowledgePanels(facet="brand", value="nestle").hunger_game_kp()
