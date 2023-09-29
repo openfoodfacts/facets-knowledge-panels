@@ -2,7 +2,7 @@ name: code quality checks and unit tests
 
 on:
   pull_request:
-
+  workflow_dispatch:
 jobs:
   # quality
   quality_checks:
