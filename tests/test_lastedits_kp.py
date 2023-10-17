@@ -75,8 +75,8 @@ async def test_last_edits_kp_with_one_facet_and_value(monkeypatch):
                     "text_element": {
                         "html": "ok",
                         "source_text": "Last-edits",
-                        "source_url": "https://hu-en.openfoodfacts.org/vitamin\
-                        /vitamin-k?sort_by=last_modified_t",
+                        "source_url": "https://hu-en.openfoodfacts.org/"
+                        "vitamin/vitamin-k?sort_by=last_modified_t",
                         # noqa: E501
                     },
                 }
@@ -146,8 +146,8 @@ async def test_last_edits_kp_with_one_facet_and_value_plural_facet(monkeypatch):
                     "text_element": {
                         "html": "ok",
                         "source_text": "Last-edits",
-                        "source_url": "https://hu-en.openfoodfacts.org/vitamin\
-                        /vitamin-k?sort_by=last_modified_t",
+                        "source_url": "https://hu-en.openfoodfacts.org/vitamin/"
+                        "vitamin-k?sort_by=last_modified_t",
                         # noqa: E501
                     },
                 }
@@ -178,8 +178,8 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
                 "code": "7613036271868",
                 "last_edit_dates_tags": ["2022-08-31", "2022-08", "2022"],
                 "last_editor": "org-nestle-france",
-                "product_name": "Capsules NESCAFE Dolce Gusto\
-                Cappuccino Extra Crema 16 Capsules",
+                "product_name": "Capsules NESCAFE Dolce Gusto"
+                "Cappuccino Extra Crema 16 Capsules",
             },
             {
                 "code": "7613032655495",
@@ -203,23 +203,23 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
                 "code": "3033710076017",
                 "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
                 "last_editor": "org-nestle-france",
-                "product_name": "NESCAFÉ SPECIAL FILTRE L'Original,\
-                Café Soluble, Boîte de 25 Sticks",
+                "product_name": "NESCAFÉ SPECIAL FILTRE L'Original,"
+                "Café Soluble, Boîte de 25 Sticks",
                 # noqa: E501  # allow long lines
             },
             {
                 "code": "3033710074624",
                 "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
                 "last_editor": "org-nestle-france",
-                "product_name": "NESCAFÉ SPECIAL FILTRE Décaféiné,\
-                Café Soluble, Flacon de 200g",
+                "product_name": "NESCAFÉ SPECIAL FILTRE Décaféiné,"
+                "Café Soluble, Flacon de 200g",
             },
             {
                 "code": "7613034056122",
                 "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
                 "last_editor": "org-nestle-france",
-                "product_name": "NESCAFÉ SPECIAL FILTRE L'Original,\
-                Café Soluble, Recharge de 150g",
+                "product_name": "NESCAFÉ SPECIAL FILTRE L'Original,"
+                "Café Soluble, Recharge de 150g",
             },
             {
                 "code": "3033710074525",
@@ -332,8 +332,8 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
                     "text_element": {
                         "html": "ok",
                         "source_text": "Last-edits",
-                        "source_url": "https://fr-en.openfoodfacts.org/brand\
-                        /nestle/category/coffees?sort_by=last_modified_t",
+                        "source_url": "https://fr-en.openfoodfacts.org/brand/"
+                        "nestle/category/coffees?sort_by=last_modified_t",
                         # noqa: E501
                     },
                 }
