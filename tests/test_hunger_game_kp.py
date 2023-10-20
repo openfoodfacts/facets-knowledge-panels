@@ -198,9 +198,8 @@ async def test_hunger_game_kp_with_all_tag_1():
     html1 = (
         "<ul><li><p><a href='https://hunger.openfoodfacts.org/"
         "questions?country=en%3Afrance&brand=lidl&type=category&value_tag=en%3Abeers'>"
-        # noqa: E501
-        "<em>Answer robotoff questions about category en:beers for country"
-        "france for brand lidl</em></a></p></li></ul>"  # noqa: E501
+        "<em>Answer robotoff questions about category en:beers for country france for brand lidl"
+        "</em></a></p></li></ul>"  # noqa: E501
     )
     assert await KnowledgePanels(
         facet="category",

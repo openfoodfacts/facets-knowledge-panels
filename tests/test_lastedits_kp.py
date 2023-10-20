@@ -178,8 +178,7 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
                 "code": "7613036271868",
                 "last_edit_dates_tags": ["2022-08-31", "2022-08", "2022"],
                 "last_editor": "org-nestle-france",
-                "product_name": "Capsules NESCAFE Dolce Gusto"
-                "Cappuccino Extra Crema 16 Capsules",
+                "product_name": "Capsules NESCAFE Dolce Gusto" "Cappuccino Extra Crema 16 Capsules",
             },
             {
                 "code": "7613032655495",
@@ -211,8 +210,7 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
                 "code": "3033710074624",
                 "last_edit_dates_tags": ["2022-08-28", "2022-08", "2022"],
                 "last_editor": "org-nestle-france",
-                "product_name": "NESCAFÉ SPECIAL FILTRE Décaféiné,"
-                "Café Soluble, Flacon de 200g",
+                "product_name": "NESCAFÉ SPECIAL FILTRE Décaféiné," "Café Soluble, Flacon de 200g",
             },
             {
                 "code": "7613034056122",
@@ -263,13 +261,13 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
         <p>Total number of edits <b>116</b></p>
         <li>
             <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/7613036271868">
-                Capsules NESCAFE Dolce Gusto Cappuccino Extra Crema 16 Capsules\
-                (7613036271868) edited by org-nestle-france on 2022-08-31\
+                "Capsules NESCAFE Dolce GustoCappuccino Extra Crema 16 Capsules"
+                "(7613036271868) edited by org-nestle-france on 2022-08-31"
             </a>
         </li>
         <li>
             <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/7613032655495">
-                RICORE Original, Café & Chicorée, Boîte 260g (7613032655495)\
+                RICORE Original, Café & Chicorée, Boîte 260g (7613032655495)
                 edited by feat on 2022-08-30\
             </a>
         </li>
@@ -280,38 +278,38 @@ async def test_last_edits_kp_with_all_tags(monkeypatch):
         </li>
         <li>
             <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/3033710072927">
-                NESCAFÉ NES, Café Soluble, Boîte de 25 Sticks (2g chacun)\
+                NESCAFÉ NES, Café Soluble, Boîte de 25 Sticks (2g chacun)
                 (3033710072927) edited by org-nestle-france on 2022-08-28\
             </a>
         </li>
         <li>
             <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/3033710076017">
-                NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Boîte de 25 Sticks\
+                NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Boîte de 25 Sticks
                 (3033710076017) edited by org-nestle-france on 2022-08-28\
             </a>
         </li>
         <li>
             <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/3033710074624">
-                NESCAFÉ SPECIAL FILTRE Décaféiné, Café Soluble, Flacon de 200g\
+                NESCAFÉ SPECIAL FILTRE Décaféiné, Café Soluble, Flacon de 200g
                 (3033710074624) edited by org-nestle-france on 2022-08-28\
             </a>
         </li>
         <li>
             <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/7613034056122">
-                NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Recharge de 150g\
+                NESCAFÉ SPECIAL FILTRE L'Original, Café Soluble, Recharge de 150g
                 (7613034056122) edited by org-nestle-france on 2022-08-28\
             </a>
         </li>
         <li>
             <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/3033710074525">
-                NESCAFÉ SPECIAL FILTRE L'Original Flacon de 200g (3033710074525)\
+                NESCAFÉ SPECIAL FILTRE L'Original Flacon de 200g (3033710074525)
                 edited by org-nestle-france on 2022-08-28\
             </a>
         </li>
         <li>
             <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/3033710074518">
                 (3033710074518) edited by org-nestle-france on 2022-08-28\
-                </a>
+            </a>
         </li>
         <li>
             <a class="edit_entry" href="https://fr-en.openfoodfacts.org/product/7891000300602">
