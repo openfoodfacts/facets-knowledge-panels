@@ -1,7 +1,7 @@
 aiohttp==3.8.5
 async-lru==2.0.4 # async lru_cache https://github.com/aio-libs/async-lru
 asyncer==0.0.1
-fastapi==0.101.0
+fastapi==0.109.1
 jinja2==3.1.3
 fastapi_utils==0.2.1
 inflect==7.0.0
