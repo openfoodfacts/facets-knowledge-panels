@@ -3,6 +3,8 @@ version: '3'
 services:
   facets-api:
     image: ghcr.io/openfoodfacts/facets-knowledge-panels:${TAG:-dev}
+    # default to restart, use RESTART_POLICY=no in dev
+    restart: ${RESTART_POLICY:-always}
     ports:
       - "${API_EXPOSE}:80"
     environment:
