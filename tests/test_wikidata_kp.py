@@ -1,4 +1,5 @@
 """separate file for tests of wikidata_kp"""
+
 import aiohttp
 import pytest
 import wikidata.client
