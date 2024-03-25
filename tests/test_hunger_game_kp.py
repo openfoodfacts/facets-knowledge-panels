@@ -1,4 +1,5 @@
 """separate file for tests of hungergame_kp"""
+
 import pytest
 
 from app.i18n import active_translation
