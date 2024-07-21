@@ -1,5 +1,6 @@
 """i18n handling
 """
+
 import contextlib
 import contextvars
 import gettext

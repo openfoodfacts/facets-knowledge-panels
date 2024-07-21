@@ -119,6 +119,7 @@ jobs:
           echo "COMPOSE_HTTP_TIMEOUT=120" >> .env
           # echo "COMPOSE_PROJECT_NAME=${{ matrix.env }}" >> .env
           echo "COMPOSE_PATH_SEPARATOR=;" >> .env
+          echo "RESTART_POLICY=always" >> .env
           echo "COMPOSE_FILE=docker-compose.yml;docker/prod.yml" >> .env
           echo "TAG=sha-${{ github.sha }}" >> .env
 
@@ -201,7 +202,7 @@ jobs:
           cd ${{ matrix.env }}
           docker system prune -af
 
-    - uses: frankie567/grafana-annotation-action@v1.0.2
+    - uses: basos9/grafana-annotation-action@v1.0.3
       if: ${{ always() }}
       with:
         apiHost: https://grafana.openfoodfacts.org
