@@ -67,12 +67,14 @@ class WikiDataProperties:
     @cached_property
     def maximum_food_additive_use_level(self):
         return self._client.get("P4851")
-        # maximum food additive use level - used as a qualifier for permitted food additive (P4850) - maximum quantity of a food additive permitted to be present in a particular food product according to the UN FAO.
+        # maximum food additive use level - used as a qualifier for permitted food additive (P4850) - 
+        # maximum quantity of a food additive permitted to be present in a particular food product according to the UN FAO.
 
     @cached_property
     def gs1_country_code(self):
         return self._client.get("P3067")
-        # GS1 Prefix - 3 digits at the start of a barcode, usually identifying the national GS1 Member Organization to which the manufacturer is registered (not necessarily where the product is actually made)
+        # GS1 Prefix - 3 digits at the start of a barcode, usually identifying the national GS1 Member Organization to which the manufacturer is registered 
+        #(not necessarily where the product is actually made)
 
     @cached_property
     def gs1_company_prefix(self):
