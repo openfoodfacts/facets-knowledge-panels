@@ -1,23 +1,23 @@
-github:
+GitHub:
 - changed-files:
   - any-glob-to-any-file: '.github/**/*'
 
-translations:
+🌐 Translations:
 - changed-files:
   - any-glob-to-any-file: 'i18n/**/*'
   - any-glob-to-any-file: 'app/i18n.py'
 
-tests:
+🧪 Tests:
 - changed-files:
   - any-glob-to-any-file: 'tests/**/*'
 
-docker:
+🐳 Docker:
 - changed-files:
   - any-glob-to-any-file: 'docker/**/*'
   - any-glob-to-any-file: 'Dockerfile'
   - any-glob-to-any-file: 'docker-compose.yml'
 
-api:
+API:
 - changed-files:
   - any-glob-to-any-file: 'app/knowledge_panels.py'
   - any-glob-to-any-file: 'app/main.py'
@@ -25,9 +25,9 @@ api:
   - any-glob-to-any-file: 'app/wikidata_utils.py'
   - any-glob-to-any-file: 'app/settings.py'
 
-models:
+Models:
 - changed-files:
   - any-glob-to-any-file: 'app/models.py'
 
-documentation:
+📚 Documentation:
   - any-glob-to-any-file: ['*.MD']
