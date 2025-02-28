@@ -33,9 +33,9 @@ cd facets-knowledge-panels
 # Add upstream remote
 git remote add upstream https://github.com/openfoodfacts/facets-knowledge-panels.git
 
-# Fetch and merge with upstream/master
+# Fetch and merge with upstream/main
 git fetch upstream
-git merge upstream/master
+git merge upstream/main
 
 ## Step 2: Create and Publish Working Branch
 git checkout -b <type>/<issue-issueNumber>/{<additional-fixes>}
@@ -62,9 +62,9 @@ git push origin <type>/<issue-issueNumber>/{<additional-fixes>}
 # Ensure branch
 git branch
 
-# Fetch and merge with upstream/master
+# Fetch and merge with upstream/main
 git fetch upstream
-git merge upstream/master
+git merge upstream/main
 
 # Add untracked files
 git add .
@@ -72,15 +72,15 @@ git add .
 # Commit all changes with appropriate commit message and description
 git commit -m "your-commit-message"
 
-# Fetch and merge with upstream/master again
+# Fetch and merge with upstream/main again
 git fetch upstream
-git merge upstream/master
+git merge upstream/main
 
 # Push changes to your forked repository
 git push origin <type>/<issue-issueNumber>/{<additional-fixes>}
 
 ## Creating the PR using GitHub Website
-# Create Pull Request from <type>/<issue-issueNumber>/{<additional-fixes>} branch in your forked repository to the master branch in the upstream repository
+# Create Pull Request from <type>/<issue-issueNumber>/{<additional-fixes>} branch in your forked repository to the main branch in the upstream repository
 # After creating PR, add a Reviewer (Any Admin) and yourself as the assignee
 # Link Pull Request to appropriate Issue, or Project+Milestone (if no issue created)
 # IMPORTANT: Do Not Merge the PR unless specifically asked to by an admin.
@@ -93,8 +93,8 @@ git push origin <type>/<issue-issueNumber>/{<additional-fixes>}
 git branch -d <type>/<issue-issueNumber>/{<additional-fixes>}
 git push --delete origin <type>/<issue-issueNumber>/{<additional-fixes>}
 
-# Fetch and merge with upstream/master
-git checkout master
+# Fetch and merge with upstream/main
+git checkout main
 git pull upstream
 git push origin
 ```
