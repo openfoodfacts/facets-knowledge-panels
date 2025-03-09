@@ -1,5 +1,6 @@
 import logging
 import re
+from contextlib import asynccontextmanager
 from typing import Annotated, Optional
 
 import asyncer
@@ -88,7 +89,16 @@ def is_crawling_bot(request: Request):
     return CRAWL_BOT_RE.search(user_agent) is not None
 
 
-@app.on_event("startup")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    start_global_quality_refresh()
+    yield
+    # Shutdown
+    ...
+
+app = FastAPI(lifespan=lifespan)
+
 @repeat_every(seconds=3 * 60 * 60, logger=logger, wait_first=True)
 async def start_global_quality_refresh():
     # Clearing cache and refetching data-quality
