@@ -13,12 +13,12 @@ jobs:
       #       check-out repo and set-up python
       #----------------------------------------------
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: build docker
         run: |
           export USER_UID=$(id -u)
           export USER_GID=$(id -g)
-          DOCKER_BUILDKIT=1 docker-compose build
+          DOCKER_BUILDKIT=1 docker compose build
       - name: build languages
         run: make build_lang
       - name: Make checks
