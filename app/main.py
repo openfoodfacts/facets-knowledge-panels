@@ -92,7 +92,7 @@ def is_crawling_bot(request: Request):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    start_global_quality_refresh()
+    await start_global_quality_refresh()
     yield
     # Shutdown
     ...
