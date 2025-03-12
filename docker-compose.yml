@@ -31,3 +31,5 @@ services:
       interval: 10s
       timeout: 10s
       retries: 3
+    volumes:
+      - ./i18n:/app/i18n  

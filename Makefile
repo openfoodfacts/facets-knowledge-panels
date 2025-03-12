@@ -2,14 +2,14 @@
 
 # buildkit is more efficient
 DOCKER_BUILDKIT=1
-DOCKER_RUN=docker-compose run --rm --no-deps facets-api
+DOCKER_RUN=docker compose run --rm --no-deps facets-api
 
 
 build:
-	docker-compose build
+	docker compose build
 
 up:
-	docker-compose up
+	docker compose up
 
 # recompile languages files
 build_lang:
