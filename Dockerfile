@@ -12,9 +12,9 @@ ARG USER_UID
 ARG USER_GID
 
 WORKDIR /code
-RUN groupadd -g $USER_GID off && \
-    useradd -u $USER_UID -g off -m off && \ 
-    mkdir -p /home/off && \ 
+RUN groupadd -g 1000 off && \
+    useradd -u 1000 -g off -m off && \
+    mkdir -p /home/off && \
     chown off:off -R /code /home/off
 
 COPY --chown=off:off ./requirements.txt /code/requirements.txt
