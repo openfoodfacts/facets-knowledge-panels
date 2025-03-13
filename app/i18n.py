@@ -1,5 +1,4 @@
-"""i18n handling
-"""
+"""i18n handling"""
 
 import contextlib
 import contextvars
