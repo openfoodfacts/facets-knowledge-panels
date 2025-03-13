@@ -3,7 +3,7 @@
 ### docker setup
 ```bash
 make build_lang
-docker-compose run --rm facets-api pytest tests
+docker compose run --rm facets-api pytest tests
 ```
 or
 ```bash
