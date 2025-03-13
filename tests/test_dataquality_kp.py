@@ -16,6 +16,82 @@ def auto_activate_lang():
         yield
 
 
+async def test_data_quality_kp_with_world(monkeypatch):
+    """test_data_quality_kp_with_world"""
+    expected_url = "https://world.openfoodfacts.org/data-quality-errors.json"
+    base_url = "https://world.openfoodfacts.org/data-quality-errors"
+    json_content = {
+        "count": 129,
+        "tags": [
+            {
+                "id": "en:ecoscore-production-system-no-label",
+                "known": 0,
+                "name": "ecoscore-production-system-no-label",
+                "products": 1848,
+                "url": f"{base_url}/ecoscore-production-system-no-label",
+            },
+            {
+                "id": "en:no-packaging-data",
+                "known": 0,
+                "name": "no-packaging-data",
+                "products": 1788,
+                "url": f"{base_url}/no-packaging-data",
+            },
+            {
+                "id": "en:ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "known": 0,
+                "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "products": 1778,
+                "url": (
+                    f"{base_url}/" "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown"
+                ),
+            },
+        ],
+    }
+
+    monkeypatch.setattr(
+        aiohttp.ClientSession,
+        "get",
+        mock_async_get_factory(expected_url, json_content=json_content),
+    )
+    result = await KnowledgePanels(facet="world").data_quality_kp()
+    first_element = result["Quality"]["elements"][0]
+    first_element["text_element"]["html"] = tidy_html(first_element["text_element"]["html"])
+    expected_text = """
+    <ul>
+        <p>The total number of issues are <b>129</b></p>
+        <li>
+            <a href="https://world.openfoodfacts.org/data-quality-errors/ecoscore-production-system-no-label">1848 products with ecoscore-production-system-no-label</a>
+        </li>
+        <li>
+            <a href="https://world.openfoodfacts.org/data-quality-errors/no-packaging-data">1788 products with no-packaging-data</a>
+        </li>
+        <li>
+            <a href="https://world.openfoodfacts.org/data-quality-errors/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown">1778 products with ecoscore-origins-of-ingredients-origins-are-100-percent-unknown</a>
+        </li>
+    </ul>
+    """  # noqa: E501  # allow long lines
+    # assert html separately to have better output in case of error
+    assert first_element["text_element"]["html"] == tidy_html(expected_text)
+    # now replace it for concision of output
+    first_element["text_element"]["html"] = "ok"
+    assert result == {
+        "Quality": {
+            "elements": [
+                {
+                    "element_type": "text",
+                    "text_element": {
+                        "html": "ok",
+                        "source_text": "Data-quality issues",
+                        "source_url": "https://world.openfoodfacts.org/data-quality-errors",
+                    },
+                }
+            ],
+            "title_element": {"title": "Data-quality issues related to "},
+        }
+    }
+
+
 async def test_data_quality_kp_with_country(monkeypatch):
     """test_data_quality_kp_with_country"""
     expected_url = "https://tr-en.openfoodfacts.org/data-quality-errors.json"
