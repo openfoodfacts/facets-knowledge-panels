@@ -10,7 +10,6 @@ on: [pull_request]
 
 jobs:
   label:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -18,6 +17,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/labeler@v4
+    - name: Run Labeler
+      if: github.repository == 'openfoodfacts/knowledge-panels'
+      uses: actions/labeler@v4
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
