@@ -1,5 +1,5 @@
 # Project Setup
-You may choose Docker-compose(recommended), or Through virtual env 
+You may choose Docker compose(recommended), or Through virtual env 
 
 ### Through Docker[Recommended]
 
@@ -9,7 +9,7 @@ After forking the repository
 
 to build:
 ```bash
-docker-compose build
+docker compose build
 ```
 or
 ```bash
@@ -18,7 +18,7 @@ make build
 
 to run:
 ```bash
-docker-compose up
+docker compose up
 ```
 or
 ```bash
