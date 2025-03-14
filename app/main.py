@@ -1,5 +1,6 @@
 import logging
 import re
+from contextlib import asynccontextmanager
 from typing import Annotated, Optional
 
 import asyncer
@@ -25,15 +26,17 @@ tags_metadata = [
         "description": "Render html based on knowledge panels.",
     },
 ]
-description = """
-Providing knowledge panels for a particular Open Food Facts facet (category, brand, etc...)
-
-A standardized way for clients to get semi-structured but generic data that they can present 
-to users on product pages.
-You can contribute at https://github.com/openfoodfacts/facets-knowledge-panels
-You should also read https://openfoodfacts.github.io/openfoodfacts-server/api/explain-knowledge-panels/ 
-for the Product Page knowledge panels which follow the same syntax (the docs provides a conceptual overview).
-"""  # noqa: E501
+description = (
+    "Providing knowledge panels for a particular Open Food Facts facet "
+    "(category, brand, etc...)\n\n"
+    "A standardized way for clients to get semi-structured "
+    "but generic data that they can present to users on product pages.\n"
+    "You can contribute at https://github.com/openfoodfacts/facets-knowledge-panels\n"
+    "You should also read "
+    "https://openfoodfacts.github.io/openfoodfacts-server/api/explain-knowledge-panels/ "
+    "for the Product Page knowledge panels "
+    "which follow the same syntax (the docs provides a conceptual overview)."
+)  # noqa: E501
 
 app = FastAPI(
     title="Open Food Facts knowledge Panels API",
@@ -88,7 +91,18 @@ def is_crawling_bot(request: Request):
     return CRAWL_BOT_RE.search(user_agent) is not None
 
 
-@app.on_event("startup")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    await start_global_quality_refresh()
+    yield
+    # Shutdown
+    ...
+
+
+app = FastAPI(lifespan=lifespan)
+
+
 @repeat_every(seconds=3 * 60 * 60, logger=logger, wait_first=True)
 async def start_global_quality_refresh():
     # Clearing cache and refetching data-quality

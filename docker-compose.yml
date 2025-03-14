@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   facets-api:
     image: ghcr.io/openfoodfacts/facets-knowledge-panels:${TAG:-dev}
