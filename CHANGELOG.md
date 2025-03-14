@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.1](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.4.0...v1.4.1) (2025-03-14)
+
+
+### Bug Fixes
+
+* Fix CI workflow to skip add-to-project actions on forks ([#167](https://github.com/openfoodfacts/facets-knowledge-panels/issues/167)) ([cbc15ce](https://github.com/openfoodfacts/facets-knowledge-panels/commit/cbc15ce6bdfefcf3c60b3661bc95f0804e8e4cf6))
+* pytest warnings ([#153](https://github.com/openfoodfacts/facets-knowledge-panels/issues/153)) ([5b715ef](https://github.com/openfoodfacts/facets-knowledge-panels/commit/5b715ef52edb3df76951f439f55da8ae6c4469e8)), closes [#152](https://github.com/openfoodfacts/facets-knowledge-panels/issues/152)
+* Set fallback=True in i18n.py ([#161](https://github.com/openfoodfacts/facets-knowledge-panels/issues/161)) ([dbb0a81](https://github.com/openfoodfacts/facets-knowledge-panels/commit/dbb0a81ca4a972e38d89d9541f5dea1d91e8e1d6))
+
 ## [1.4.0](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.3.0...v1.4.0) (2023-08-23)
 
 
