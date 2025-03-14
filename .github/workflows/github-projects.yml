@@ -12,7 +12,7 @@ on:
 jobs:
   add-to-project:
     name: Add issue to project
-    if: github.actor != 'dependabot[bot]'
+    if: ${{ github.repository == 'openfoodfacts/knowledge-panels' && github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/add-to-project@main
@@ -22,6 +22,7 @@ jobs:
           label-operator: AND
   add-to-design-project:
     name: 🎨 Add issue to the openfoodfacts-design project
+    if: ${{ github.repository == 'openfoodfacts/knowledge-panels' && github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/add-to-project@main
