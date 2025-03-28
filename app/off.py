@@ -2,6 +2,7 @@ from collections import namedtuple
 from urllib.parse import urljoin
 
 import aiohttp
+from aiohttp.client_exceptions import ContentTypeError
 from async_lru import alru_cache
 from asyncer import asyncify
 
@@ -19,9 +20,15 @@ header = {"User-Agent": "Facets-Knowledge-Panels"}
 async def fetch_quality(source_url):
     """Function to fetch data-quality"""
     async with aiohttp.ClientSession(headers=header) as session:
-        quality_url = f"{source_url}/data-quality-errors.json"
-        async with session.get(quality_url) as resp:
-            return await resp.json()
+        try:
+            quality_url = f"{source_url}/data-quality-errors.json"
+            async with session.get(quality_url) as resp:
+                return await resp.json()
+
+        except ContentTypeError as e:
+            quality_url = f"{e.request_info.real_url}.json"
+            async with session.get(quality_url) as resp:
+                return await resp.json()
 
 
 # cached version of fetch_quality for slow requests
