@@ -8,14 +8,19 @@ from app.wikidata_utils import wikidata_props
 class AsyncMockResponse:
     """Mocking aiohttp response object with only the json method"""
 
-    def __init__(self, json_content):
+    def __init__(self, json_content, headers):
         self.json_content = json_content
+        self.headers = headers
 
     async def json(self):
         return self.json_content
 
+    def headers(self):
+        """Simulate the headers property of a real response"""
+        return self.headers
 
-def mock_async_get_factory(target_url, expected_kwargs={}, json_content=None):
+
+def mock_async_get_factory(target_url, expected_kwargs={}, json_content=None, headers=None):
     """generate a mock to patch aiohttp.get with a json response
 
     Use None for target_url and expected_kwargs to avoid checks
@@ -27,7 +32,7 @@ def mock_async_get_factory(target_url, expected_kwargs={}, json_content=None):
             assert url == target_url
         if expected_kwargs is not None:
             assert kwargs == expected_kwargs
-        yield AsyncMockResponse(json_content)
+        yield AsyncMockResponse(json_content, headers=headers)
 
     return mock_async_get
 
