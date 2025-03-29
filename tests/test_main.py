@@ -92,14 +92,17 @@ def test_knowledge_panel_with_facet(client, monkeypatch):
                 f"{base_url}/packaging/plastic-box/label/fr:fitou/data-quality-errors.json": {
                     "expected_kwargs": None,
                     "json_content": data_quality_sample(base_url),
+                    "headers": {"content-type": "application/json"},
                 },
                 f"{base_url}/api/v2/search": {
                     "expected_kwargs": None,
                     "json_content": last_edits_sample(base_url),
+                    "headers": {"content-type": "application/json"},
                 },
                 "https://world.openfoodfacts.org/api/v2/taxonomy": {
                     "expected_kwargs": None,
                     "json_content": taxonomy_sample(),
+                    "headers": {"content-type": "application/json"},
                 },
             },
         ),
