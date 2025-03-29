@@ -52,7 +52,9 @@ async def test_data_quality_kp_with_world(monkeypatch):
     monkeypatch.setattr(
         aiohttp.ClientSession,
         "get",
-        mock_async_get_factory(expected_url, json_content=json_content),
+        mock_async_get_factory(
+            expected_url, json_content=json_content, headers={"content-type": "application/json"}
+        ),
     )
     result = await KnowledgePanels(facet="world").data_quality_kp()
     first_element = result["Quality"]["elements"][0]
@@ -128,7 +130,9 @@ async def test_data_quality_kp_with_country(monkeypatch):
     monkeypatch.setattr(
         aiohttp.ClientSession,
         "get",
-        mock_async_get_factory(expected_url, json_content=json_content),
+        mock_async_get_factory(
+            expected_url, json_content=json_content, headers={"content-type": "application/json"}
+        ),
     )
     result = await KnowledgePanels(
         facet="country", value="Turkey", country="Hungary"
@@ -206,7 +210,9 @@ async def test_data_quality_kp_with_one_facet_and_value(monkeypatch):
     monkeypatch.setattr(
         aiohttp.ClientSession,
         "get",
-        mock_async_get_factory(expected_url, json_content=json_content),
+        mock_async_get_factory(
+            expected_url, json_content=json_content, headers={"content-type": "application/json"}
+        ),
     )
     result = await KnowledgePanels(facet="brand", value="lidl").data_quality_kp()
     first_element = result["Quality"]["elements"][0]
@@ -283,7 +289,9 @@ async def test_data_quality_kp_with_one_facet_and_value_plural_facet(monkeypatch
     monkeypatch.setattr(
         aiohttp.ClientSession,
         "get",
-        mock_async_get_factory(expected_url, json_content=json_content),
+        mock_async_get_factory(
+            expected_url, json_content=json_content, headers={"content-type": "application/json"}
+        ),
     )
     result = await KnowledgePanels(facet="brands", value="lidl").data_quality_kp()
     first_element = result["Quality"]["elements"][0]
@@ -365,7 +373,9 @@ async def test_data_quality_kp_with_all_tags(monkeypatch):
     monkeypatch.setattr(
         aiohttp.ClientSession,
         "get",
-        mock_async_get_factory(expected_url, json_content=json_content),
+        mock_async_get_factory(
+            expected_url, json_content=json_content, headers={"content-type": "application/json"}
+        ),
     )
     result = await KnowledgePanels(
         facet="category", value="beers", sec_facet="brand", sec_value="budweiser"
