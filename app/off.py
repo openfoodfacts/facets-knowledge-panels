@@ -21,7 +21,11 @@ async def fetch_quality(source_url):
     async with aiohttp.ClientSession(headers=header) as session:
         quality_url = f"{source_url}/data-quality-errors.json"
         async with session.get(quality_url) as resp:
-            return await resp.json()
+            if "application/json" in resp.headers.get("content-type"):
+                return await resp.json()
+            else:
+                async with session.get(f"{resp.url}.json") as resp:
+                    return await resp.json()
 
 
 # cached version of fetch_quality for slow requests
