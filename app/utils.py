@@ -4,9 +4,9 @@ def wrap_text(text, wrapper):
     E.g 'text' if wrapper = single_quotes
     """
     if wrapper == "single_quotes":
-        return  f"'{text}'"
+        return f"'{text}'"
     elif wrapper == "quotes":
-        return  f'"{text}"'
+        return f'"{text}"'
     elif wrapper == "bold":
         return f"<b>{text}</b>"
     elif wrapper == "italic":
@@ -14,4 +14,4 @@ def wrap_text(text, wrapper):
     elif wrapper == "underline":
         return f"<u>{text}</u>"
     else:
-        return text #if given wrapper isn't valid then return the given text.
+        return text  # if given wrapper isn't valid then return the given text.
