@@ -51,6 +51,7 @@ msgstr ""
 msgid "Answer robotoff questions about"
 msgstr ""
 
+#: The next 7 robotoff strings are in app/knowledge_panels.py:106
 #, python-brace-format
 msgid "Answer robotoff questions for the country - {country}"
 msgstr ""
@@ -63,10 +64,12 @@ msgstr ""
 msgid "Answer robotoff questions about the {brand_name} brand for the country - {country}"
 msgstr ""
 
+#: Eg: Answer robotoff questions about the 'beers' category (facet_value = 'beers', facet_name = category)
 #, python-brace-format
 msgid "Answer robotoff questions about the {facet_value}{facet_name}"
 msgstr ""
 
+#: Eg: Answer robotoff questions about the 'beers' category about the 'keystone' brand(facet_value = 'beers', facet_name = category, brand_name=keystone)
 #, python-brace-format
 msgid "Answer robotoff questions about the {facet_value}{facet_name} and the {brand_name} brand"
 msgstr ""
