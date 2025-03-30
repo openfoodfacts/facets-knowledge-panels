@@ -56,21 +56,25 @@ msgid "Answer robotoff questions for the country - {country}"
 msgstr ""
 
 #, python-brace-format
+msgid "Answer robotoff questions about the {brand_name} brand"
+msgstr ""
+
+#, python-brace-format
 msgid "Answer robotoff questions about the {brand_name} brand for the country - {country}"
 msgstr ""
 
 #, python-brace-format
-msgid "Answer robotoff questions about the {facet_value} {facet_name}"
+msgid "Answer robotoff questions about the {facet_value}{facet_name}"
 msgstr ""
 
 #, python-brace-format
-msgid "Answer robotoff questions about the {facet_value} {facet_name} and the {brand_name} brand"
+msgid "Answer robotoff questions about the {facet_value}{facet_name} and the {brand_name} brand"
 msgstr ""
 
 #, python-brace-format
-msgid "Answer robotoff questions about the {facet_value} {facet_name} for the country - {country}"
+msgid "Answer robotoff questions about the {facet_value}{facet_name} for the country - {country}"
 msgstr ""
 
 #, python-brace-format
-msgid "Answer robotoff questions about the {facet_value} {facet_name} and the {brand_name} brand for the country - {country}"
+msgid "Answer robotoff questions about the {facet_value}{facet_name} and the {brand_name} brand for the country - {country}"
 msgstr ""

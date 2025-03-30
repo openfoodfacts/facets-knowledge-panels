@@ -14,7 +14,7 @@ from .models import (
     singularize,
 )
 from .off import data_quality, last_edit, wikidata_helper
-
+from .utils import wrap_text
 
 class KnowledgePanels:
     def __init__(
@@ -56,7 +56,7 @@ class KnowledgePanels:
             query["country"] = f"en:{country_value}"
             # descriptions["country"] = f"for country {country_value}"
             descriptions["country"] = "for the country - {country}"
-            description_values['country'] = self.country.capitalize()
+            description_values['country'] = country_value.capitalize()
        
        # brand can be used as a filter, if we have more than one facet
         if facets.get("brand") and len(facets) > 1:
@@ -64,7 +64,7 @@ class KnowledgePanels:
             query["brand"] = brand_value
             # descriptions["brand"] = f"for brand {brand_value}"
             descriptions["brand"] = "and the {brand_name} brand"
-            description_values['brand_name'] = brand_value.capitalize()
+            description_values['brand_name'] = wrap_text(brand_value, "single_quotes")
         
         if descriptions.get('country'): 
             descriptions.move_to_end('country')  #so that 'for the country - <country name>' is always at the end.
@@ -77,18 +77,20 @@ class KnowledgePanels:
             facet_description = k
             if v is not None:
                 facet_query["value_tag"] = v
-                value_description += v
+                value_description += wrap_text(v, "single_quotes")
+            if value_description:
+                value_description += " "
             urls.add(
                 (
                     f"{questions_url}?{urlencode(facet_query)}",
                     # f"about {facet_description} {value_description}{description}".strip(),
-                    f"about the {{facet_value}} {{facet_name}} {description}".strip(),
+                    f"about the {{facet_value}}{{facet_name}} {description}".strip(),
                     (facet_description, value_description)
                 )
             )
         if query:
             if descriptions.get("brand"):                
-                description = description.replace("and", "about", 1)     # So that its "Answer robotoff questions about the <brand_name> brand for the country - <country>"
+                description = description.replace("and", "about", 1) # So that its "Answer robotoff questions about the <brand_name> brand for the country - <country>"
             urls.add((f"{questions_url}?{urlencode(query)}", description, (None, None))) # and not "Answer robotoff questions and the <brand_name> ..."  when two facets are given (including brand)
 
         t_description = "Answer robotoff questions"
