@@ -20,16 +20,10 @@ header = {"User-Agent": "Facets-Knowledge-Panels"}
 async def fetch_quality(source_url):
     """Function to fetch data-quality"""
     async with aiohttp.ClientSession(headers=header) as session:
-        try:
-            quality_url = f"{source_url}/data-quality-errors.json"
-            async with session.get(quality_url) as resp:
-                return await resp.json()
-
-        except ContentTypeError as e:
-            quality_url = f"{e.request_info.real_url}.json"
-            async with session.get(quality_url) as resp:
-                return await resp.json()
-
+        quality_url = f"{source_url}/data-quality-errors.json"
+        async with session.get(quality_url) as resp:
+            return await resp.json()
+            
 
 # cached version of fetch_quality for slow requests
 global_quality = alru_cache(fetch_quality)
