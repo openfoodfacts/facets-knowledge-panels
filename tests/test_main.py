@@ -50,7 +50,7 @@ def test_knowledge_panel_no_value(client, monkeypatch):
         "get",
         multi_mock_async_get_factory(
             {
-                f"{base_url}/data-quality-errors.json": {
+                f"{base_url}/facets/data-quality-errors.json": {
                     "expected_kwargs": None,
                     "json_content": data_quality_sample(base_url),
                 },
@@ -89,7 +89,7 @@ def test_knowledge_panel_with_facet(client, monkeypatch):
         "get",
         multi_mock_async_get_factory(
             {
-                f"{base_url}/packaging/plastic-box/label/fr:fitou/data-quality-errors.json": {
+                f"{base_url}/facets/packaging/plastic-box/labels/fr:fitou/data-quality-errors.json": {
                     "expected_kwargs": None,
                     "json_content": data_quality_sample(base_url),
                 },
