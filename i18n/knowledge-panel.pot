@@ -64,12 +64,14 @@ msgstr ""
 msgid "Answer robotoff questions about the {brand_name} brand for the country - {country}"
 msgstr ""
 
-#: Eg: Answer robotoff questions about the 'beers' category (facet_value = 'beers', facet_name = category)
+#: Eg: Answer robotoff questions about the 'beers' category (facet_value = beers, facet_name = category)
+#: Note: No need to add single quotes to facet_value, it's handled internally.
 #, python-brace-format
 msgid "Answer robotoff questions about the {facet_value}{facet_name}"
 msgstr ""
 
-#: Eg: Answer robotoff questions about the 'beers' category about the 'keystone' brand(facet_value = 'beers', facet_name = category, brand_name=keystone)
+#: Eg: Answer robotoff questions about the 'beers' category about the 'keystone' brand(facet_value = beers, facet_name = category, brand_name=keystone)
+#: Note: No need to add single quotes to facet_value, it's handled internally.
 #, python-brace-format
 msgid "Answer robotoff questions about the {facet_value}{facet_name} and the {brand_name} brand"
 msgstr ""

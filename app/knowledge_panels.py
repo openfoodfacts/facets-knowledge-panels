@@ -45,7 +45,6 @@ class KnowledgePanels:
         # a country is specified
         if self.country is not None:
             query["country"] = f"en:{self.country}"
-            # descriptions["country"] = f"for country {self.country}"
             descriptions["country"] = "for the country - {country}"
             description_values["country"] = self.country.capitalize()
 
@@ -55,7 +54,6 @@ class KnowledgePanels:
             # remove eventual prefix
             country_value = country_value.split(":", 1)[-1]
             query["country"] = f"en:{country_value}"
-            # descriptions["country"] = f"for country {country_value}"
             descriptions["country"] = "for the country - {country}"
             description_values["country"] = country_value.capitalize()
 
@@ -63,7 +61,6 @@ class KnowledgePanels:
         if facets.get("brand") and len(facets) > 1:
             brand_value = facets.pop("brand")
             query["brand"] = brand_value
-            # descriptions["brand"] = f"for brand {brand_value}"
             descriptions["brand"] = "and the {brand_name} brand"
             description_values["brand_name"] = wrap_text(brand_value, "single_quotes")
 
@@ -86,7 +83,6 @@ class KnowledgePanels:
             urls.add(
                 (
                     f"{questions_url}?{urlencode(facet_query)}",
-                    # f"about {facet_description} {value_description}{description}".strip(),
                     f"about the {{facet_value}}{{facet_name}} {description}".strip(),
                     (facet_description, value_description),
                 )
