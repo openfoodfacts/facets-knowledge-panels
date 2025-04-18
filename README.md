@@ -32,6 +32,15 @@ Providing knowledge panels for a particular Open Food Facts facet (category, bra
     - [Contributing Guidelines](./docs/how-to-guides/CONTRIBUTING.md)
 - [API Documentation](./docs/references/API%20references.md)
 
+## 🎨 Design & User interface
+- We strive to thoughfully design every feature before we move on to implementation, so that we respect Open Food Facts' graphic charter and nascent design system, while having efficient user flows.
+- [![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?logo=figma&logoColor=white) Knowledge panels folder](xxx)
+- Knowledge panels in the app
+- Knowledge panels in openfoodfacts-explorer
+- Knowledge panels in the Website
+- Knowledge panels for facets
+- Knowledge panels for the product page
+<br><br>
 
 ## Contributors
 
