@@ -327,7 +327,8 @@ async def test_data_quality_kp_with_one_facet_and_value_plural_facet(monkeypatch
 async def test_data_quality_kp_with_all_tags(monkeypatch):
     """test_data_quality_kp_with_all_tags"""
     expected_url = (
-        "https://world.openfoodfacts.org/facets/categories/beers/brands/budweiser/data-quality-errors.json"
+        "https://world.openfoodfacts.org/facets/categories/beers/brands"
+        "/budweiser/data-quality-errors.json"
     )
     json_content = {
         "count": 24,
@@ -338,7 +339,7 @@ async def test_data_quality_kp_with_all_tags(monkeypatch):
                 "name": "alcoholic-beverages-category-without-alcohol-value",
                 "products": 13,
                 "url": "https://world.openfoodfacts.org/facets/categories/beers/"
-                + "data-quality-errors/alcoholic-beverages-category-without-alcohol-value",
+                "data-quality-errors/alcoholic-beverages-category-without-alcohol-value",
                 # noqa: E501  # allow long lines
             },
             {
@@ -355,8 +356,8 @@ async def test_data_quality_kp_with_all_tags(monkeypatch):
                 "known": 0,
                 "name": "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
                 "products": 12,
-                "url": "https://world.openfoodfacts.org/facets/categories/beers/data-quality-errors/"
-                "ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
+                "url": "https://world.openfoodfacts.org/facets/categories/beers/data-quality-"
+                "errors/ecoscore-origins-of-ingredients-origins-are-100-percent-unknown",
                 # noqa: E501  # allow long lines
             },
         ],

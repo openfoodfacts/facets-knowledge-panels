@@ -2,7 +2,6 @@ from collections import namedtuple
 from urllib.parse import urljoin
 
 import aiohttp
-from aiohttp.client_exceptions import ContentTypeError
 from async_lru import alru_cache
 from asyncer import asyncify
 
@@ -23,7 +22,7 @@ async def fetch_quality(source_url):
         quality_url = f"{source_url}/data-quality-errors.json"
         async with session.get(quality_url) as resp:
             return await resp.json()
-            
+
 
 # cached version of fetch_quality for slow requests
 global_quality = alru_cache(fetch_quality)
