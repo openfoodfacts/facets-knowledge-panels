@@ -14,6 +14,7 @@ from .models import (
     singularize,
 )
 from .off import data_quality, last_edit, wikidata_helper
+from .utils import wrap_text
 
 
 class KnowledgePanels:
@@ -39,23 +40,34 @@ class KnowledgePanels:
         facets = {k: v for k, v in facets.items() if k is not None and k in HungerGameFilter.list()}
         urls = set()
         descriptions = collections.OrderedDict()
+        description_values = dict()
         html = []
         # a country is specified
         if self.country is not None:
             query["country"] = f"en:{self.country}"
-            descriptions["country"] = f"for country {self.country}"
+            descriptions["country"] = "for the country - {country}"
+            description_values["country"] = self.country.capitalize()
+
         # one of the facet is a country, use it as a country parameter
         if facets.get("country"):
             country_value = facets.pop("country")
             # remove eventual prefix
             country_value = country_value.split(":", 1)[-1]
             query["country"] = f"en:{country_value}"
-            descriptions["country"] = f"for country {country_value}"
+            descriptions["country"] = "for the country - {country}"
+            description_values["country"] = country_value.capitalize()
+
         # brand can be used as a filter, if we have more than one facet
         if facets.get("brand") and len(facets) > 1:
             brand_value = facets.pop("brand")
             query["brand"] = brand_value
-            descriptions["brand"] = f"for brand {brand_value}"
+            descriptions["brand"] = "and the {brand_name} brand"
+            description_values["brand_name"] = wrap_text(brand_value, "single_quotes")
+
+        if descriptions.get("country"):
+            descriptions.move_to_end(
+                "country"
+            )  # so that 'for the country - <country name>' is always at the end.
         description = " ".join(descriptions.values())
         # generate an url for each remaining facets
         for k, v in facets.items():
@@ -65,26 +77,39 @@ class KnowledgePanels:
             facet_description = k
             if v is not None:
                 facet_query["value_tag"] = v
-                value_description += v
+                value_description += wrap_text(v, "single_quotes")
             if value_description:
                 value_description += " "
             urls.add(
                 (
                     f"{questions_url}?{urlencode(facet_query)}",
-                    f"about {facet_description} {value_description}{description}".strip(),
+                    f"about the {{facet_value}}{{facet_name}} {description}".strip(),
+                    (facet_description, value_description),
                 )
             )
         if query:
-            urls.add((f"{questions_url}?{urlencode(query)}", description))
+            if descriptions.get("brand"):
+                description = description.replace(
+                    "and", "about", 1
+                )  # So that its "Answer robotoff questions about the <brand_name> ..."
+                # and not "Answer robotoff questions and the <brand_name> ..."
+                # when two facets are given (including brand)
+            urls.add((f"{questions_url}?{urlencode(query)}", description, (None, None)))
 
-        t_description = _("Answer robotoff questions")
+        t_description = "Answer robotoff questions"
         for id, val in enumerate(sorted(urls)):
-            url, des = val
+            url, des, (facet_name, facet_value) = val
+            final_description = _(f"{t_description} {des}").format(
+                brand_name=description_values.get("brand_name"),
+                country=description_values.get("country"),
+                facet_name=facet_name,
+                facet_value=facet_value,
+            )
             html.append(
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": f"<ul><li><p><a href='{url}'><em>{t_description} {des}</em>"
+                        "html": f"<ul><li><p><a href='{url}'><em>{final_description}</em>"
                         + "</a></p></li></ul>"
                     },
                 },
