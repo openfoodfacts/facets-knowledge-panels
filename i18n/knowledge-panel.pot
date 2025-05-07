@@ -83,3 +83,11 @@ msgstr ""
 #, python-brace-format
 msgid "Answer robotoff questions about the {facet_value}{facet_name} and the {brand_name} brand for the country - {country}"
 msgstr ""
+
+#, python-brace-format
+msgid "Annotate the {facet_value} {facet_name} more"
+msgstr ""
+
+#, python-brace-format
+msgid "Kickstart annotation for the {facet_value} {facet_name}"
+msgstr ""

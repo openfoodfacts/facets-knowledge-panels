@@ -14,16 +14,25 @@ class PanelName(str, Enum):
     wikidata = "wikidata"
 
 
-class HungerGameFilter(str, Enum):
+class HungerGameQuestionFilter(str, Enum):
     label = "label"
     category = "category"
     country = "country"
     brand = "brand"
     product_weight = "product_weight"
 
-    @staticmethod
-    def list():
-        return [c.value for c in HungerGameFilter]
+    @classmethod
+    def list(cls):
+        return [c.value for c in cls]
+
+class HungerGameLogoFilter(str, Enum):
+    label = "label"
+    brand = "brand"
+    packaging = "packaging"
+
+    @classmethod
+    def list(cls):
+        return [c.value for c in cls]
 
 
 class Taxonomies(str, Enum):
