@@ -81,13 +81,11 @@ class KnowledgePanels:
             facet_description = k
             if v is not None:
                 facet_query["value_tag"] = v
-                value_description += wrap_text(v, "single_quotes")
-            if value_description:
-                value_description += " "
+                value_description = v
             urls.add(
                 (
                     f"{questions_url}?{urlencode(facet_query)}",
-                    f"about the {{facet_value}}{{facet_name}} {description}".strip(),
+                    f"about the {{facet_value}} {{facet_name}} {description}".strip(),
                     (facet_description, value_description),
                 )
             )
@@ -103,11 +101,14 @@ class KnowledgePanels:
         t_description = "Answer questions from Robotoff"
         for id, val in enumerate(sorted(urls)):
             url, des, (facet_name, facet_value) = val
-            final_description = _(f"{t_description} {des}").format(
-                brand_name=description_values.get("brand_name"),
-                country=description_values.get("country"),
-                facet_name=facet_name,
-                facet_value=facet_value,
+            final_description = format_translation(
+                _(f"{t_description} {des}"),
+                values={
+                    "brand_name": description_values.get("brand_name"),
+                    "country": description_values.get("country"),
+                    "facet_name": facet_name,
+                    "facet_value": facet_value,
+                },
             )
             html.append(
                 {
