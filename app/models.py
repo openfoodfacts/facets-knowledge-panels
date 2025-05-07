@@ -25,6 +25,7 @@ class HungerGameQuestionFilter(str, Enum):
     def list(cls):
         return [c.value for c in cls]
 
+
 class HungerGameLogoFilter(str, Enum):
     label = "label"
     brand = "brand"

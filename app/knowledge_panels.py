@@ -6,8 +6,8 @@ from .config import openFoodFacts, settings
 from .exception_wrapper import no_exception
 from .i18n import translate as _
 from .models import (
-    HungerGameQuestionFilter,
     HungerGameLogoFilter,
+    HungerGameQuestionFilter,
     Taxonomies,
     alpha2_to_country_name,
     country_name_to_alpha2,
@@ -15,7 +15,7 @@ from .models import (
     singularize,
 )
 from .off import data_quality, last_edit, wikidata_helper
-from .utils import wrap_text, format_translation
+from .utils import format_translation, wrap_text
 
 
 class KnowledgePanels:
@@ -41,7 +41,11 @@ class KnowledgePanels:
         facets_logo = {
             k: v for k, v in facets.items() if k is not None and k in HungerGameLogoFilter.list()
         }
-        facets = {k: v for k, v in facets.items() if k is not None and k in HungerGameQuestionFilter.list()}
+        facets = {
+            k: v
+            for k, v in facets.items()
+            if k is not None and k in HungerGameQuestionFilter.list()
+        }
         urls = set()
         descriptions = collections.OrderedDict()
         description_values = dict()
@@ -114,13 +118,13 @@ class KnowledgePanels:
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": f"<ul><li><p><a href='{url}' class='button small'><em>{final_description}</em>"
-                        + "</a></p></li></ul>"
+                        "html": f"<ul><li><p><a href='{url}' class='button small'>"
+                        + f"<em>{final_description}</em></a></p></li></ul>"
                     },
                 },
             )
 
-         # for logos
+        # for logos
         logos_url = settings().HUNGER_GAME + "/logos"
         description_msgids = [
             {
@@ -151,13 +155,18 @@ class KnowledgePanels:
                     {
                         "element_type": "text",
                         "text_element": {
-                            "html": f"<ul><li><p><a href='{url}' class='button small'><em>{des}</em>"
-                            + "</a></p></li></ul>"
+                            "html": f"<ul><li><p><a href='{url}' class='button small'>"
+                            + f"<em>{des}</em></a></p></li></ul>"
                         },
                     },
                 )
 
-        kp = {"HungerGames": {"elements": html, "title_element": {"title": "Hunger Games (Contribute by playing)"}}}
+        kp = {
+            "HungerGames": {
+                "elements": html,
+                "title_element": {"title": "Hunger Games (Contribute by playing)"},
+            }
+        }
 
         return kp if urls else None
 
