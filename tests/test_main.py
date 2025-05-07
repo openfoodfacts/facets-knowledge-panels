@@ -126,5 +126,5 @@ def test_knowledge_panel_with_facet(client, monkeypatch):
     }
     assert len(result["knowledge_panels"]["Quality"]["elements"]) == 1
     assert len(result["knowledge_panels"]["LastEdits"]["elements"]) == 1
-    assert len(result["knowledge_panels"]["HungerGames"]["elements"]) == 2
+    assert len(result["knowledge_panels"]["HungerGames"]["elements"]) == 6
     assert len(result["knowledge_panels"]["WikiData"]["elements"]) == 2

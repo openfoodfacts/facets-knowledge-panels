@@ -6,7 +6,8 @@ from .config import openFoodFacts, settings
 from .exception_wrapper import no_exception
 from .i18n import translate as _
 from .models import (
-    HungerGameFilter,
+    HungerGameLogoFilter,
+    HungerGameQuestionFilter,
     Taxonomies,
     alpha2_to_country_name,
     country_name_to_alpha2,
@@ -14,7 +15,7 @@ from .models import (
     singularize,
 )
 from .off import data_quality, last_edit, wikidata_helper
-from .utils import wrap_text
+from .utils import format_translation, wrap_text
 
 
 class KnowledgePanels:
@@ -34,10 +35,17 @@ class KnowledgePanels:
 
     async def hunger_game_kp(self) -> Optional[dict]:
         query = {}
-        questions_url = settings().HUNGER_GAME
+        questions_url = settings().HUNGER_GAME + "/questions"
         facets = {self.facet: self.value, self.sec_facet: self.sec_value}
         # remove empty values and facets that are not hunger games related
-        facets = {k: v for k, v in facets.items() if k is not None and k in HungerGameFilter.list()}
+        facets_logo = {
+            k: v for k, v in facets.items() if k is not None and k in HungerGameLogoFilter.list()
+        }
+        facets = {
+            k: v
+            for k, v in facets.items()
+            if k is not None and k in HungerGameQuestionFilter.list()
+        }
         urls = set()
         descriptions = collections.OrderedDict()
         description_values = dict()
@@ -77,13 +85,11 @@ class KnowledgePanels:
             facet_description = k
             if v is not None:
                 facet_query["value_tag"] = v
-                value_description += wrap_text(v, "single_quotes")
-            if value_description:
-                value_description += " "
+                value_description = v
             urls.add(
                 (
                     f"{questions_url}?{urlencode(facet_query)}",
-                    f"about the {{facet_value}}{{facet_name}} {description}".strip(),
+                    f"about the {{facet_value}} {{facet_name}} {description}".strip(),
                     (facet_description, value_description),
                 )
             )
@@ -99,23 +105,68 @@ class KnowledgePanels:
         t_description = "Answer questions from Robotoff"
         for id, val in enumerate(sorted(urls)):
             url, des, (facet_name, facet_value) = val
-            final_description = _(f"{t_description} {des}").format(
-                brand_name=description_values.get("brand_name"),
-                country=description_values.get("country"),
-                facet_name=facet_name,
-                facet_value=facet_value,
+            final_description = format_translation(
+                _(f"{t_description} {des}"),
+                values={
+                    "brand_name": description_values.get("brand_name"),
+                    "country": description_values.get("country"),
+                    "facet_name": facet_name,
+                    "facet_value": facet_value,
+                },
             )
             html.append(
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": f"<ul><li><p><a href='{url}' class='button small'><em>{final_description}</em>"
-                        + "</a></p></li></ul>"
+                        "html": f"<ul><li><p><a href='{url}' class='button small'>"
+                        + f"<em>{final_description}</em></a></p></li></ul>"
                     },
                 },
             )
 
-        kp = {"HungerGames": {"elements": html, "title_element": {"title": "Hunger Games (Contribute by playing)"}}}
+        # for logos
+        logos_url = settings().HUNGER_GAME + "/logos"
+        description_msgids = [
+            {
+                "description": "Annotate the {facet_value} {facet_name} more",
+                "url": f"{logos_url}/deep-search?type={{facet_name}}&value_tag={{facet_value}}",
+            },
+            {
+                "description": "Kickstart annotation for the {facet_value} {facet_name}",
+                "url": (
+                    f"{logos_url}/product-search?value_tag={{facet_value}}"
+                    f"&tagtype={{facet_name}}"
+                ),
+            },
+        ]
+
+        for k, v in facets_logo.items():
+            for i in description_msgids:
+                des = format_translation(
+                    _(i["description"]), values={"facet_value": v, "facet_name": k}
+                )
+
+                url = i["url"].format(facet_name=k, facet_value=v)
+
+                if k == "label":
+                    url = url.replace("tagtype", "type")
+
+                html.append(
+                    {
+                        "element_type": "text",
+                        "text_element": {
+                            "html": f"<ul><li><p><a href='{url}' class='button small'>"
+                            + f"<em>{des}</em></a></p></li></ul>"
+                        },
+                    },
+                )
+
+        kp = {
+            "HungerGames": {
+                "elements": html,
+                "title_element": {"title": "Hunger Games (Contribute by playing)"},
+            }
+        }
 
         return kp if urls else None
 
