@@ -22,24 +22,36 @@ tags_metadata = [
         "description": "Health check and API status endpoints",
         "externalDocs": {
             "description": "Learn more about API health checks",
-            "url": "https://github.com/openfoodfacts/facets-knowledge-panels"
-        }
+            "url": "https://github.com/openfoodfacts/facets-knowledge-panels",
+        },
     },
     {
         "name": "knowledge-panels",
-        "description": "Knowledge panels for Open Food Facts facets - Get structured information about categories, brands, and other facets",
+        "description": (
+            "Knowledge panels for Open Food Facts facets - Get structured information "
+            "about categories, brands, and other facets"
+        ),
         "externalDocs": {
             "description": "Knowledge Panels Documentation",
-            "url": "https://openfoodfacts.github.io/openfoodfacts-server/api/explain-knowledge-panels/"
-        }
+            "url": (
+                "https://openfoodfacts.github.io/openfoodfacts-server/api/"
+                "explain-knowledge-panels/"
+            ),
+        },
     },
     {
         "name": "html-rendering",
-        "description": "HTML rendering services for knowledge panels - Convert knowledge panels to HTML format",
+        "description": (
+            "HTML rendering services for knowledge panels - Convert knowledge panels "
+            "to HTML format"
+        ),
         "externalDocs": {
             "description": "HTML Rendering Guide",
-            "url": "https://github.com/openfoodfacts/facets-knowledge-panels/blob/main/template/item.html"
-        }
+            "url": (
+                "https://github.com/openfoodfacts/facets-knowledge-panels/blob/main/"
+                "template/item.html"
+            ),
+        },
     },
 ]
 description = """
@@ -80,8 +92,11 @@ Knowledge panels are **contextual information widgets** that provide:
 
 You can contribute at https://github.com/openfoodfacts/facets-knowledge-panels
 
-For more information about knowledge panels, see the [conceptual overview](https://openfoodfacts.github.io/openfoodfacts-server/api/explain-knowledge-panels/).
-"""  # noqa: E501
+For more information about knowledge panels, see the
+[conceptual overview](https://openfoodfacts.github.io/openfoodfacts-server/api/
+explain-knowledge-panels/).
+"""
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -107,19 +122,10 @@ app = FastAPI(
     openapi_tags=tags_metadata,
     lifespan=lifespan,
     servers=[
-        {
-            "url": "https://facets-kp.openfoodfacts.org",
-            "description": "Production server"
-        },
-        {
-            "url": "http://127.0.0.1:8000",
-            "description": "Local development server"
-        },
-        {
-            "url": "http://localhost:8000",
-            "description": "Local development server (localhost)"
-        }
-    ]
+        {"url": "https://facets-kp.openfoodfacts.org", "description": "Production server"},
+        {"url": "http://127.0.0.1:8000", "description": "Local development server"},
+        {"url": "http://localhost:8000", "description": "Local development server (localhost)"},
+    ],
 )
 
 app.add_middleware(
@@ -171,35 +177,35 @@ async def start_global_quality_refresh():
     "/",
     tags=["health-check"],
     summary="API Health Check",
-    description="Get the API status and basic information. Use this endpoint to verify that the API is running correctly.",
-    response_description="API status message with a tip about accessing the documentation"
+    description=(
+        "Get the API status and basic information. Use this endpoint to verify "
+        "that the API is running correctly."
+    ),
+    response_description=("API status message with a tip about accessing the documentation"),
 )
 async def hello():
     return {"message": "Hello from facets-knowledge-panels! Tip: open /docs for documentation"}
 
 
 @app.get(
-    "/knowledge_panel", 
-    tags=["knowledge-panels"], 
+    "/knowledge_panel",
+    tags=["knowledge-panels"],
     response_model=FacetResponse,
     summary="Get Knowledge Panels for Facets",
     description="""
     Get knowledge panels for Open Food Facts facets like categories, brands, labels, etc.
-    
     **Knowledge panels provide contextual information** such as:
     - Data quality issues and suggestions for improvement
     - Links to Hunger Games (gamified data entry)
     - Wikidata information and external links
     - Recent edits and activity
-    
     **Example usage:**
     - `facet_tag=category&value_tag=en:beers` - Get panels for beer category
     - `facet_tag=brand&value_tag=coca-cola` - Get panels for Coca-Cola brand
     - `facet_tag=label&value_tag=organic` - Get panels for organic label
-    
     You can include/exclude specific panels and filter by language and country.
     """,
-    response_description="Knowledge panels data including structured information panels"
+    response_description="Knowledge panels data including structured information panels",
 )
 async def knowledge_panel(
     request: Request,
@@ -214,14 +220,15 @@ async def knowledge_panel(
 ):
     """
     Get knowledge panels for a specific Open Food Facts facet.
-    
+
     A facet represents a classification dimension in the Open Food Facts database:
     - **facet_tag**: The type of classification (e.g., 'category', 'brand', 'label')
-    - **value_tag**: The specific value within that classification (e.g., 'en:beers', 'coca-cola', 'organic')
-    
+    - **value_tag**: The specific value within that classification
+        (e.g., 'en:beers', 'coca-cola', 'organic')
+
     The response includes various knowledge panels that provide contextual information
     to help users understand and contribute to data quality for that facet.
-    
+
     **Panel Types:**
     - `hunger_game`: Links to gamified data entry tasks
     - `data_quality`: Information about data completeness and quality issues
@@ -277,29 +284,25 @@ templates = Jinja2Templates(directory="template")
 
 
 @app.get(
-    "/render-to-html", 
-    tags=["html-rendering"], 
+    "/render-to-html",
+    tags=["html-rendering"],
     response_class=HTMLResponse,
     summary="Render Knowledge Panels as HTML",
     description="""
     Render knowledge panels as HTML using Jinja2 templates.
-    
     This endpoint takes the same parameters as `/knowledge_panel` but returns
     the result as formatted HTML instead of JSON. This is useful for:
-    
     - **Direct embedding** in web applications
-    - **Server-side rendering** scenarios  
+    - **Server-side rendering** scenarios
     - **Integration with Open Food Facts server** for product pages
-    
     The HTML is generated using the `item.html` template and includes
     all the styling and structure needed to display knowledge panels.
-    
     **Use cases:**
     - Embedding panels directly in product pages
     - Server-side rendering for better SEO
     - Integration with existing HTML-based interfaces
     """,
-    response_description="Formatted HTML containing the rendered knowledge panels"
+    response_description="Formatted HTML containing the rendered knowledge panels",
 )
 async def render_html(
     request: Request,
@@ -314,10 +317,10 @@ async def render_html(
 ):
     """
     Render knowledge panels as HTML using Jinja2 templates.
-    
+
     This is a helper function that makes it easier to inject facet knowledge panels
     into the Open Food Facts server or other HTML-based applications.
-    
+
     The function internally calls the knowledge_panel endpoint and then renders
     the results using the item.html template with proper styling and structure.
     """

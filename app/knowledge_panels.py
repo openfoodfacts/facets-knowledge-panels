@@ -115,7 +115,12 @@ class KnowledgePanels:
                 },
             )
 
-        kp = {"HungerGames": {"elements": html, "title_element": {"title": "Hunger Games (Contribute by playing)"}}}
+        kp = {
+            "HungerGames": {
+                "elements": html,
+                "title_element": {"title": "Hunger Games (Contribute by playing)"},
+            }
+        }
 
         return kp if urls else None
 
