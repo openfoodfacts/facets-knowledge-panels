@@ -102,9 +102,9 @@ async def test_wikidata_kp(monkeypatch):
     )
     clean_html = (
         f"<p><img alt='wikidata image' src='{image_thumb}'></p>"
-        "<li><a href='http://en.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a>"
+        "<li><a href='http://en.wikipedia.org/wiki/Fitou_AOC'>Wikipedia</a>"
         "</li>"
-        "<li><a href='https://www.openstreetmap.org/relation/2727716'>OpenSteetMap Relation</a>"
+        "<li><a href='https://www.openstreetmap.org/relation/2727716'>OpenStreetMap relation</a>"
         "</li>"
         "<li><a href='https://www.inao.gouv.fr/produit/6159'>INAO relation</a>"
         "</li>"
@@ -143,9 +143,10 @@ async def test_wikidata_kp(monkeypatch):
         # only some items varies
         clean_html = (
             f"<p><img alt='wikidata image' src='{image_thumb}'></p>"
-            "<li><a href='http://fr.wikipedia.org/wiki/Fitou_AOC'>wikipedia</a>"
+            "<li><a href='http://fr.wikipedia.org/wiki/Fitou_AOC'>Wikipedia</a>"
             "</li>"
-            "<li><a href='https://www.openstreetmap.org/relation/2727716'>OpenSteetMap Relation</a>"
+            "<li><a href='https://www.openstreetmap.org/relation/2727716'>"
+            "OpenStreetMap relation</a>"
             "</li>"
             "<li><a href='https://www.inao.gouv.fr/produit/6159'>INAO relation</a>"
             "</li>"
