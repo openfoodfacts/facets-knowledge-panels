@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.2](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.4.1...v1.4.2) (2025-07-08)
+
+
+### Bug Fixes
+
+* Buttonify Hunger Games link in knowledge_panels.py ([343d5fc](https://github.com/openfoodfacts/facets-knowledge-panels/commit/343d5fce43b18e9f93fd3e2198233ffbbd4b1cce))
+* Fix CI workflow to skip add-to-project actions on forks ([#167](https://github.com/openfoodfacts/facets-knowledge-panels/issues/167)) ([cbc15ce](https://github.com/openfoodfacts/facets-knowledge-panels/commit/cbc15ce6bdfefcf3c60b3661bc95f0804e8e4cf6))
+* pytest warnings ([#153](https://github.com/openfoodfacts/facets-knowledge-panels/issues/153)) ([5b715ef](https://github.com/openfoodfacts/facets-knowledge-panels/commit/5b715ef52edb3df76951f439f55da8ae6c4469e8)), closes [#152](https://github.com/openfoodfacts/facets-knowledge-panels/issues/152)
+* resolve JSON fetch failure in `data_quality_kp` method ([#172](https://github.com/openfoodfacts/facets-knowledge-panels/issues/172)) ([7427f19](https://github.com/openfoodfacts/facets-knowledge-panels/commit/7427f199121fa053fd7c2c0cdb056a155b8ec596))
+* return translated description in Hunger Games KP given valid lang_code ([#175](https://github.com/openfoodfacts/facets-knowledge-panels/issues/175)) ([47d0c1b](https://github.com/openfoodfacts/facets-knowledge-panels/commit/47d0c1b6e4805b21453c314e23b927af57867c8c))
+* Set fallback=True in i18n.py ([#161](https://github.com/openfoodfacts/facets-knowledge-panels/issues/161)) ([dbb0a81](https://github.com/openfoodfacts/facets-knowledge-panels/commit/dbb0a81ca4a972e38d89d9541f5dea1d91e8e1d6))
+
 ## [1.4.1](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.4.0...v1.4.1) (2025-07-08)
 
 
