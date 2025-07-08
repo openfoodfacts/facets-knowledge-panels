@@ -103,6 +103,7 @@ class QueryData:
             description="Facet tag string for the items to search in the database eg:- `category` etc.",  # noqa: E501
         )
 
+    @staticmethod
     def value_tag_query():
         return Query(
             default=None,
