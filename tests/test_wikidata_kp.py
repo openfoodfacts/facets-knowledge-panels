@@ -106,7 +106,7 @@ async def test_wikidata_kp(monkeypatch):
         "</li>"
         "<li><a href='https://www.openstreetmap.org/relation/2727716'>OpenStreetMap relation</a>"
         "</li>"
-        "<li><a href='https://www.inao.gouv.fr/produit/6159'>INAO relation</a>"
+        "<li><a href='https://www.inao.gouv.fr/produit/6159'>French INAO relation</a>"
         "</li>"
         "</ul>"
     )
@@ -148,7 +148,7 @@ async def test_wikidata_kp(monkeypatch):
             "<li><a href='https://www.openstreetmap.org/relation/2727716'>"
             "OpenStreetMap relation</a>"
             "</li>"
-            "<li><a href='https://www.inao.gouv.fr/produit/6159'>INAO relation</a>"
+            "<li><a href='https://www.inao.gouv.fr/produit/6159'>French INAO relation</a>"
             "</li>"
             "</ul>"
         )

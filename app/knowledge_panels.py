@@ -292,7 +292,7 @@ class KnowledgePanels:
             if val.OSM_relation != "":
                 info.append(f"""<li><a href='{val.OSM_relation}'>OpenStreetMap relation</a></li>""")
             if val.INAO_relation != "":
-                info.append(f"""<li><a href='{val.INAO_relation}'>INAO relation</a></li>""")
+                info.append(f"""<li><a href='{val.INAO_relation}'>French INAO relation</a></li>""")
             info.append("</ul>")
             link = "".join(info)
             html.append(
