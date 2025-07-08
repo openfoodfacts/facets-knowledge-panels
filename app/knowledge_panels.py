@@ -113,7 +113,7 @@ class KnowledgePanels:
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": f"<ul><li><p><a href='{url}' class='button small'><em>{final_description}</em>"
+                        "html": f"<ul><li><p><a href='{url}' class='button small'><em>{final_description}</em>"  # noqa: E501
                         + "</a></p></li></ul>"
                     },
                 },
