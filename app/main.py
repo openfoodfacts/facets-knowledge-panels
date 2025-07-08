@@ -192,19 +192,6 @@ async def hello():
     tags=["knowledge-panels"],
     response_model=FacetResponse,
     summary="Get Knowledge Panels for Facets",
-    description="""
-    Get knowledge panels for Open Food Facts facets like categories, brands, labels, etc.
-    **Knowledge panels provide contextual information** such as:
-    - Data quality issues and suggestions for improvement
-    - Links to Hunger Games (gamified data entry)
-    - Wikidata information and external links
-    - Recent edits and activity
-    **Example usage:**
-    - `facet_tag=category&value_tag=en:beers` - Get panels for beer category
-    - `facet_tag=brand&value_tag=coca-cola` - Get panels for Coca-Cola brand
-    - `facet_tag=label&value_tag=organic` - Get panels for organic label
-    You can include/exclude specific panels and filter by language and country.
-    """,
     response_description="Knowledge panels data including structured information panels",
 )
 async def knowledge_panel(
@@ -288,20 +275,6 @@ templates = Jinja2Templates(directory="template")
     tags=["html-rendering"],
     response_class=HTMLResponse,
     summary="Render Knowledge Panels as HTML",
-    description="""
-    Render knowledge panels as HTML using Jinja2 templates.
-    This endpoint takes the same parameters as `/knowledge_panel` but returns
-    the result as formatted HTML instead of JSON. This is useful for:
-    - **Direct embedding** in web applications
-    - **Server-side rendering** scenarios
-    - **Integration with Open Food Facts server** for product pages
-    The HTML is generated using the `item.html` template and includes
-    all the styling and structure needed to display knowledge panels.
-    **Use cases:**
-    - Embedding panels directly in product pages
-    - Server-side rendering for better SEO
-    - Integration with existing HTML-based interfaces
-    """,
     response_description="Formatted HTML containing the rendered knowledge panels",
 )
 async def render_html(
