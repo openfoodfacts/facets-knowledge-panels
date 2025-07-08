@@ -37,7 +37,11 @@ class KnowledgePanels:
         questions_url = settings().HUNGER_GAME
         facets = {self.facet: self.value, self.sec_facet: self.sec_value}
         # remove empty values and facets that are not hunger games related
-        facets = {k: v for k, v in facets.items() if k is not None and k in HungerGameFilter.list()}
+        facets = {
+            k: v
+            for k, v in facets.items()
+            if k is not None and k in HungerGameFilter.list()
+        }
         urls = set()
         descriptions = collections.OrderedDict()
         description_values = dict()
@@ -115,7 +119,12 @@ class KnowledgePanels:
                 },
             )
 
-        kp = {"HungerGames": {"elements": html, "title_element": {"title": "Hunger Games (Contribute by playing)"}}}
+        kp = {
+            "HungerGames": {
+                "elements": html,
+                "title_element": {"title": "Hunger Games (Contribute by playing)"},
+            }
+        }
 
         return kp if urls else None
 
@@ -266,13 +275,21 @@ class KnowledgePanels:
                 }
             )
             if val.image_url != "":
-                info.append(f"""<p><img alt='wikidata image' src='{val.image_url}'></p>""")
+                info.append(
+                    f"""<p><img alt='wikidata image' src='{val.image_url}'></p>"""
+                )
             if val.wikipedia_relation != "":
-                info.append(f"""<li><a href='{val.wikipedia_relation}'>Wikipedia</a></li>""")
+                info.append(
+                    f"""<li><a href='{val.wikipedia_relation}'>Wikipedia</a></li>"""
+                )
             if val.OSM_relation != "":
-                info.append(f"""<li><a href='{val.OSM_relation}'>OpenStreetMap relation</a></li>""")
+                info.append(
+                    f"""<li><a href='{val.OSM_relation}'>OpenStreetMap relation</a></li>"""
+                )
             if val.INAO_relation != "":
-                info.append(f"""<li><a href='{val.INAO_relation}'>French INAO relation</a></li>""")
+                info.append(
+                    f"""<li><a href='{val.INAO_relation}'>French INAO relation</a></li>"""
+                )
             info.append("</ul>")
             link = "".join(info)
             html.append(
