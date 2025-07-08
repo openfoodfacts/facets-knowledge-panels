@@ -1,5 +1,4 @@
-"""i18n handling
-"""
+"""i18n handling"""
 
 import contextlib
 import contextvars
@@ -25,6 +24,7 @@ def get_translation(lang):
             "knowledge-panel",
             localedir=str(I18N_DIR),
             languages=[lang, DEFAULT_LANGUAGE],
+            fallback=True,
         )
         _translations[lang] = lang_translations
     return _translations[lang]

@@ -1,5 +1,3 @@
-
-
 # GitHub Action that uses Black to reformat the Python code in an incoming pull request.
 # If all Python code in the pull request is compliant with Black then this Action does nothing.
 # Otherwise, Black is run and its changes are committed back to the incoming pull request.
@@ -11,13 +9,13 @@ jobs:
   black:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v3
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.7
+          python-version: 3.12
       - name: Install Black
-        run: pip install black==21.12b0 click==7.1.2
+        run: pip install black==25.1.0 click==8.1.8
       - name: Run black --check .
         run: black --check .
       - name: If needed, commit black changes to the pull request
