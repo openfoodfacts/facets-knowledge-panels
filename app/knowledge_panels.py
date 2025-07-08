@@ -37,11 +37,7 @@ class KnowledgePanels:
         questions_url = settings().HUNGER_GAME
         facets = {self.facet: self.value, self.sec_facet: self.sec_value}
         # remove empty values and facets that are not hunger games related
-        facets = {
-            k: v
-            for k, v in facets.items()
-            if k is not None and k in HungerGameFilter.list()
-        }
+        facets = {k: v for k, v in facets.items() if k is not None and k in HungerGameFilter.list()}
         urls = set()
         descriptions = collections.OrderedDict()
         description_values = dict()
@@ -87,34 +83,49 @@ class KnowledgePanels:
             urls.add(
                 (
                     f"{questions_url}?{urlencode(facet_query)}",
-                    f"about the {{facet_value}}{{facet_name}} {description}".strip(),
+                    f"the {{facet_value}}{{facet_name}} {description}".strip(),
                     (facet_description, value_description),
                 )
             )
         if query:
             if descriptions.get("brand"):
+                # When we have brand + others, the brand description starts with "and"
+                # but for a standalone brand URL, it should start with "about"
                 description = description.replace(
                     "and", "about", 1
                 )  # So that its "Answer robotoff questions about the <brand_name> ..."
                 # and not "Answer robotoff questions and the <brand_name> ..."
-                # when two facets are given (including brand)
+                # when brand is presented as a standalone query
             urls.add((f"{questions_url}?{urlencode(query)}", description, (None, None)))
 
-        t_description = "Answer questions from Robotoff"
+        t_description = "Answer robotoff questions"
         for id, val in enumerate(sorted(urls)):
             url, des, (facet_name, facet_value) = val
-            final_description = _(f"{t_description} {des}").format(
-                brand_name=description_values.get("brand_name"),
-                country=description_values.get("country"),
-                facet_name=facet_name,
-                facet_value=facet_value,
-            )
+            # Add "about" only for facet-based queries, not for country-only queries
+            # Brand-only queries already have "about" in their description from replacement above
+            if facet_name is not None:
+                final_description = _(f"{t_description} about {des}").format(
+                    brand_name=description_values.get("brand_name"),
+                    country=description_values.get("country"),
+                    facet_name=facet_name,
+                    facet_value=facet_value,
+                )
+            else:
+                # For brand-only or country-only queries, description already includes proper prefix
+                final_description = _(f"{t_description} {des}").format(
+                    brand_name=description_values.get("brand_name"),
+                    country=description_values.get("country"),
+                    facet_name=facet_name,
+                    facet_value=facet_value,
+                )
             html.append(
                 {
                     "element_type": "text",
                     "text_element": {
-                        "html": f"<ul><li><p><a href='{url}' class='button small'><em>{final_description}</em>"
-                        + "</a></p></li></ul>"
+                        "html": (
+                            f"<ul><li><p><a href='{url}'>"
+                            f"<em>{final_description}</em></a></p></li></ul>"
+                        )
                     },
                 },
             )
@@ -122,7 +133,7 @@ class KnowledgePanels:
         kp = {
             "HungerGames": {
                 "elements": html,
-                "title_element": {"title": "Hunger Games (Contribute by playing)"},
+                "title_element": {"title": "Hunger games"},
             }
         }
 
@@ -275,21 +286,13 @@ class KnowledgePanels:
                 }
             )
             if val.image_url != "":
-                info.append(
-                    f"""<p><img alt='wikidata image' src='{val.image_url}'></p>"""
-                )
+                info.append(f"""<p><img alt='wikidata image' src='{val.image_url}'></p>""")
             if val.wikipedia_relation != "":
-                info.append(
-                    f"""<li><a href='{val.wikipedia_relation}'>Wikipedia</a></li>"""
-                )
+                info.append(f"""<li><a href='{val.wikipedia_relation}'>Wikipedia</a></li>""")
             if val.OSM_relation != "":
-                info.append(
-                    f"""<li><a href='{val.OSM_relation}'>OpenStreetMap relation</a></li>"""
-                )
+                info.append(f"""<li><a href='{val.OSM_relation}'>OpenStreetMap relation</a></li>""")
             if val.INAO_relation != "":
-                info.append(
-                    f"""<li><a href='{val.INAO_relation}'>French INAO relation</a></li>"""
-                )
+                info.append(f"""<li><a href='{val.INAO_relation}'>French INAO relation</a></li>""")
             info.append("</ul>")
             link = "".join(info)
             html.append(
