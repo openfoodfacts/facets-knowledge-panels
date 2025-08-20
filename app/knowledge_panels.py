@@ -98,7 +98,7 @@ class KnowledgePanels:
                 # when brand is presented as a standalone query
             urls.add((f"{questions_url}?{urlencode(query)}", description, (None, None)))
 
-        t_description = "Answer robotoff questions"
+        t_description = "Answer Robotoff questions"
         for id, val in enumerate(sorted(urls)):
             url, des, (facet_name, facet_value) = val
             # Add "about" only for facet-based queries, not for country-only queries
@@ -133,7 +133,7 @@ class KnowledgePanels:
         kp = {
             "HungerGames": {
                 "elements": html,
-                "title_element": {"title": "Hunger games"},
+                "title_element": {"title": "Help complete data on this topic by answering easy questions"},
             }
         }
 
@@ -142,7 +142,7 @@ class KnowledgePanels:
     @no_exception()
     async def data_quality_kp(self) -> dict:
         """
-        Get data corresponding to differnet facet
+        Get data corresponding to different facet
         """
         path = ""
         description = ""
@@ -261,7 +261,7 @@ class KnowledgePanels:
 
     async def wikidata_kp(self) -> Optional[dict]:
         """
-        Return knowledge panel for wikidata
+        Return knowledge panel for Wikidata
         """
         entities = set()
         params = ((self.facet, self.value), (self.sec_facet, self.sec_value))
@@ -280,19 +280,19 @@ class KnowledgePanels:
                     "element_type": "text",
                     "text_element": {
                         "html": f"<ul><p><em>{val.label_tag}</em></p><p>{val.description_tag}</p>",  # noqa: E501
-                        "source_text": "wikidata",
+                        "source_text": "Wikidata",
                         "source_url": settings().WIKIDATA + val.entity_id,
                     },
                 }
             )
             if val.image_url != "":
-                info.append(f"""<p><img alt='wikidata image' src='{val.image_url}'></p>""")
+                info.append(f"""<p><img alt='Image from Wikidata' src='{val.image_url}'></p>""")
             if val.wikipedia_relation != "":
                 info.append(f"""<li><a href='{val.wikipedia_relation}'>Wikipedia</a></li>""")
             if val.OSM_relation != "":
-                info.append(f"""<li><a href='{val.OSM_relation}'>OpenStreetMap relation</a></li>""")
+                info.append(f"""<li><a href='{val.OSM_relation}'>OpenStreetMap</a></li>""")
             if val.INAO_relation != "":
-                info.append(f"""<li><a href='{val.INAO_relation}'>French INAO relation</a></li>""")
+                info.append(f"""<li><a href='{val.INAO_relation}'>French Protected Product (INAO)</a></li>""")
             info.append("</ul>")
             link = "".join(info)
             html.append(
@@ -302,5 +302,5 @@ class KnowledgePanels:
                 }
             )
             info.clear()
-        panel = {"WikiData": {"elements": html, "title_element": {"title": "wikidata"}}}
+        panel = {"Knowledge from Wikidata": {"elements": html, "title_element": {"title": "wikidata"}}}
         return panel if entities else None
