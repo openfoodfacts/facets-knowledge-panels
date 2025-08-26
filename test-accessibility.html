@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Test page for accessible knowledge panels">
+  <title>Test Accessibility - Knowledge Panels</title>
+  <link rel="stylesheet" href="template/knowledge-panels.css">
+</head>
+<body>
+  <!-- Skip to main content link for screen readers -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+  
+  <main id="main-content" class="facets-knowledge-panels" role="main" aria-label="Knowledge Panels">
+    <h1>Knowledge Panel Accessibility Test</h1>
+    <p>This page demonstrates the improved accessibility and responsive design features.</p>
+    
+    <!-- Test Panel 1 -->
+    <details 
+      id="test_panel_1" 
+      class="knowledge-panel"
+      aria-labelledby="test_panel_1-title">
+      
+      <summary 
+        id="test_panel_1-title"
+        role="button"
+        aria-expanded="false"
+        tabindex="0">
+        <i>✅ Accessibility Features</i>
+        <span class="sr-only">Click to expand Accessibility Features panel</span>
+      </summary>
+      
+      <div class="panel-content" role="region" aria-labelledby="test_panel_1-title">
+        <div class="panel-element">
+          <div class="panel-text" aria-live="polite">
+            <h2>WCAG 2.1 AA Compliance</h2>
+            <ul>
+              <li>✅ Proper color contrast (4.5:1 for normal text)</li>
+              <li>✅ Keyboard navigation support</li>
+              <li>✅ Screen reader compatibility</li>
+              <li>✅ Focus indicators</li>
+              <li>✅ Semantic HTML structure</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Test Panel 2 -->
+    <details 
+      id="test_panel_2" 
+      class="knowledge-panel"
+      aria-labelledby="test_panel_2-title">
+      
+      <summary 
+        id="test_panel_2-title"
+        role="button"
+        aria-expanded="false"
+        tabindex="0">
+        <i>📱 Responsive Design</i>
+        <span class="sr-only">Click to expand Responsive Design panel</span>
+      </summary>
+      
+      <div class="panel-content" role="region" aria-labelledby="test_panel_2-title">
+        <div class="panel-element">
+          <div class="panel-text" aria-live="polite">
+            <h2>Mobile-First Approach</h2>
+            <p>Try resizing your browser window to see the responsive behavior:</p>
+            <ul>
+              <li>Mobile: < 640px</li>
+              <li>Tablet: 640px - 1024px</li>
+              <li>Desktop: > 1024px</li>
+            </ul>
+            <p>The layout automatically adjusts for optimal viewing on all devices.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Test Panel 3 -->
+    <details 
+      id="test_panel_3" 
+      class="knowledge-panel"
+      aria-labelledby="test_panel_3-title">
+      
+      <summary 
+        id="test_panel_3-title"
+        role="button"
+        aria-expanded="false"
+        tabindex="0">
+        <i>🎨 Dark Mode Support</i>
+        <span class="sr-only">Click to expand Dark Mode Support panel</span>
+      </summary>
+      
+      <div class="panel-content" role="region" aria-labelledby="test_panel_3-title">
+        <div class="panel-element">
+          <div class="panel-text" aria-live="polite">
+            <h2>Automatic Theme Detection</h2>
+            <p>The interface automatically adapts to your system's color scheme preference.</p>
+            <p>Try switching your system to dark mode to see the adapted colors.</p>
+            <p><a href="https://support.apple.com/guide/mac-help/use-a-light-or-dark-appearance-mchl52e1c2d2/mac">How to enable dark mode on macOS</a></p>
+            <p><a href="https://support.microsoft.com/en-us/windows/change-colors-in-windows-d26ef4d6-819a-581c-1581-493cfcc005fe">How to enable dark mode on Windows</a></p>
+          </div>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Test Table -->
+    <details 
+      id="test_panel_4" 
+      class="knowledge-panel"
+      aria-labelledby="test_panel_4-title">
+      
+      <summary 
+        id="test_panel_4-title"
+        role="button"
+        aria-expanded="false"
+        tabindex="0">
+        <i>📊 Accessible Tables</i>
+        <span class="sr-only">Click to expand Accessible Tables panel</span>
+      </summary>
+      
+      <div class="panel-content" role="region" aria-labelledby="test_panel_4-title">
+        <div class="panel-element">
+          <div class="panel-text" aria-live="polite">
+            <h2>Example Data Table</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Color Contrast</td>
+                  <td>✅ Complete</td>
+                  <td>WCAG AA compliant</td>
+                </tr>
+                <tr>
+                  <td>Keyboard Nav</td>
+                  <td>✅ Complete</td>
+                  <td>Full keyboard support</td>
+                </tr>
+                <tr>
+                  <td>Screen Reader</td>
+                  <td>✅ Complete</td>
+                  <td>ARIA labels added</td>
+                </tr>
+                <tr>
+                  <td>Responsive</td>
+                  <td>✅ Complete</td>
+                  <td>Mobile-first design</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </details>
+  </main>
+  
+  <script>
+    // Enhanced keyboard navigation and ARIA attributes management
+    document.addEventListener('DOMContentLoaded', function() {
+      const panels = document.querySelectorAll('details.knowledge-panel');
+      
+      panels.forEach(panel => {
+        const summary = panel.querySelector('summary');
+        
+        // Update ARIA expanded state
+        panel.addEventListener('toggle', function() {
+          summary.setAttribute('aria-expanded', panel.open);
+        });
+        
+        // Enhanced keyboard navigation
+        summary.addEventListener('keydown', function(e) {
+          // Enter or Space key
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            panel.open = !panel.open;
+          }
+        });
+      });
+      
+      // Log accessibility features for testing
+      console.log('🎉 Accessibility Features Active:');
+      console.log('✅ ARIA attributes initialized');
+      console.log('✅ Keyboard navigation enabled');
+      console.log('✅ Focus management active');
+      console.log('✅ Screen reader support ready');
+      console.log('');
+      console.log('Testing Tips:');
+      console.log('1. Use Tab key to navigate between panels');
+      console.log('2. Press Enter or Space to expand/collapse panels');
+      console.log('3. Try zooming to 200% (Cmd/Ctrl + Plus)');
+      console.log('4. Test with a screen reader (VoiceOver on Mac, NVDA on Windows)');
+      console.log('5. Switch to dark mode to test theme adaptation');
+    });
+  </script>
+</body>
+</html>

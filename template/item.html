@@ -1,27 +1,128 @@
-<div class="facets-knowledge-panels">
-  {% if panels.get("knowledge_panels") %}
-    {% for panel_name, content in panels.get("knowledge_panels").items() %}
-      <!-- only display panels with elements -->
-      {% if content.elements %}
-        <!-- rendering a panel -->
-      <details id="{{ panel_name }}">
-        <!--  rendering title of the panel  -->
-        <summary><i>{{ content.title_element.title }}</i></summary>
-            {% for element in content.elements -%}
-              <!-- Rendering html data, escaping html characters -->
-              {{ element.text_element.html|safe }}
-              <!-- Rendering source url and source text  -->
-              {%if element.text_element.source_url +%}
-                <em>
-                  <b>source:</b>
-                  <a href="{{element.text_element.source_url}}"
-                    >{{ element.text_element.source_text }}
-                  </a>
-                </em>
-              {% endif %}
-            {% endfor %}
-    </details>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Knowledge panels providing contextual information for Open Food Facts facets">
+  <title>Knowledge Panels - Open Food Facts</title>
+  <link rel="stylesheet" href="knowledge-panels.css">
+</head>
+<body>
+  <!-- Skip to main content link for screen readers -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+  
+  <main id="main-content" class="facets-knowledge-panels" role="main" aria-label="Knowledge Panels">
+    {% if panels.get("knowledge_panels") %}
+      <h1 class="sr-only">Knowledge Panels Information</h1>
+      
+      {% for panel_name, content in panels.get("knowledge_panels").items() %}
+        <!-- only display panels with elements -->
+        {% if content.elements %}
+          <!-- rendering a panel with enhanced accessibility -->
+          <details 
+            id="{{ panel_name }}" 
+            class="knowledge-panel"
+            aria-labelledby="{{ panel_name }}-title">
+            
+            <!--  rendering title of the panel with proper semantic HTML  -->
+            <summary 
+              id="{{ panel_name }}-title"
+              role="button"
+              aria-expanded="false"
+              tabindex="0">
+              <i>{{ content.title_element.title }}</i>
+              <span class="sr-only">Click to expand {{ content.title_element.title }} panel</span>
+            </summary>
+            
+            <div class="panel-content" role="region" aria-labelledby="{{ panel_name }}-title">
+              {% for element in content.elements -%}
+                <div class="panel-element">
+                  <!-- Rendering html data with semantic structure -->
+                  <div class="panel-text" aria-live="polite">
+                    {{ element.text_element.html|safe }}
+                  </div>
+                  
+                  <!-- Rendering source with improved semantics and accessibility -->
+                  {%if element.text_element.source_url %}
+                    <footer class="panel-source" role="contentinfo">
+                      <em>
+                        <b>Source:</b>
+                        <a 
+                          href="{{ element.text_element.source_url }}"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          aria-label="Source: {{ element.text_element.source_text }} (opens in new tab)">
+                          {{ element.text_element.source_text }}
+                          <span class="sr-only">(opens in new tab)</span>
+                        </a>
+                      </em>
+                    </footer>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </details>
+        {% endif %}
+      {% endfor %}
+      
+    {% else %}
+      <div class="no-panels" role="status" aria-live="polite">
+        <p>No knowledge panels available for this facet.</p>
+      </div>
+    {% endif %}
+  </main>
+  
+  <script>
+    // Enhanced keyboard navigation and ARIA attributes management
+    document.addEventListener('DOMContentLoaded', function() {
+      const panels = document.querySelectorAll('details.knowledge-panel');
+      
+      panels.forEach(panel => {
+        const summary = panel.querySelector('summary');
+        
+        // Update ARIA expanded state
+        panel.addEventListener('toggle', function() {
+          summary.setAttribute('aria-expanded', panel.open);
+        });
+        
+        // Enhanced keyboard navigation
+        summary.addEventListener('keydown', function(e) {
+          // Enter or Space key
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            panel.open = !panel.open;
+          }
+        });
+      });
+      
+      // Announce panel state changes to screen readers
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'open') {
+            const panel = mutation.target;
+            const summary = panel.querySelector('summary');
+            const isOpen = panel.hasAttribute('open');
+            const announcement = isOpen ? 'Panel expanded' : 'Panel collapsed';
+            
+            // Create announcement for screen readers
+            const liveRegion = document.createElement('div');
+            liveRegion.setAttribute('role', 'status');
+            liveRegion.setAttribute('aria-live', 'polite');
+            liveRegion.className = 'sr-only';
+            liveRegion.textContent = `${summary.textContent.trim()}: ${announcement}`;
+            
+            document.body.appendChild(liveRegion);
+            setTimeout(() => {
+              document.body.removeChild(liveRegion);
+            }, 1000);
+          }
+        });
+      });
+      
+      panels.forEach(panel => {
+        observer.observe(panel, { attributes: true });
+      });
+    });
+  </script>
+</body>
+</html>
