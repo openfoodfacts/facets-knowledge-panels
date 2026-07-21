@@ -1,4 +1,4 @@
-aiohttp==3.13.4
+aiohttp==3.14.1
 async-lru==2.0.4 # async lru_cache https://github.com/aio-libs/async-lru
 asyncer==0.0.1
 fastapi==0.109.1
@@ -15,8 +15,8 @@ openfoodfacts==0.1.5
 prometheus-fastapi-instrumentator==6.1.0
 
 # dev
-black==26.3.1
-pytest==9.0.3
+black==26.5.1
+pytest==9.1.1
 pytest-mock==3.11.1
 pytest-asyncio==0.21.1
 flake8==6.1.0
