@@ -302,5 +302,5 @@ class KnowledgePanels:
                 }
             )
             info.clear()
-        panel = {"Knowledge from Wikidata": {"elements": html, "title_element": {"title": "wikidata"}}}
+        panel = {"Knowledge from Wikidata": {"elements": html, "title_element": {"title": "Wikidata"}}}
         return panel if entities else None
