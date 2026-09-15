@@ -6,6 +6,8 @@ on:
 jobs:
   # quality
   quality_checks:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
 
     steps:
