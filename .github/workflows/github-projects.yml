@@ -1,3 +1,5 @@
+permissions:
+  contents: read
 name: Add bugs to the relevant GitHub projects
 
 on:
