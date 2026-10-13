@@ -4,6 +4,9 @@
 # https://github.com/cclauss/autoblack
 
 name: autoblack
+permissions:
+  contents: write
+  pull-requests: write
 on: [pull_request]
 jobs:
   black:
