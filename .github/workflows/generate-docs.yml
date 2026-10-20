@@ -3,6 +3,8 @@
 #----------------------------------------------
 
 name: Generate documentation
+permissions:
+  contents: write
 on:
   pull_request:
     # on pull request we just want to build to see nothing is broken
