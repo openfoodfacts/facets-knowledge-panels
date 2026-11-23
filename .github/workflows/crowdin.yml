@@ -16,10 +16,10 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.4.0
 
     - name: crowdin action
-      uses: crowdin/github-action@v2
+      uses: crowdin/github-action@v2.17.1
       with:
         upload_translations: true # default is false
         # Use this option to upload translations for a single specified language
