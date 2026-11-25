@@ -133,7 +133,9 @@ class KnowledgePanels:
         kp = {
             "HungerGames": {
                 "elements": html,
-                "title_element": {"title": "Help complete data on this topic by answering easy questions"},
+                "title_element": {
+                    "title": "Help complete data on this topic by answering easy questions"
+                },
             }
         }
 
@@ -292,7 +294,9 @@ class KnowledgePanels:
             if val.OSM_relation != "":
                 info.append(f"""<li><a href='{val.OSM_relation}'>OpenStreetMap</a></li>""")
             if val.INAO_relation != "":
-                info.append(f"""<li><a href='{val.INAO_relation}'>French Protected Product (INAO)</a></li>""")
+                info.append(
+                    f"""<li><a href='{val.INAO_relation}'>French Protected Product (INAO)</a></li>"""
+                )
             info.append("</ul>")
             link = "".join(info)
             html.append(
@@ -302,5 +306,7 @@ class KnowledgePanels:
                 }
             )
             info.clear()
-        panel = {"Knowledge from Wikidata": {"elements": html, "title_element": {"title": "Wikidata"}}}
+        panel = {
+            "Knowledge from Wikidata": {"elements": html, "title_element": {"title": "Wikidata"}}
+        }
         return panel if entities else None
