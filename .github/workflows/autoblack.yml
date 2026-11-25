@@ -5,8 +5,7 @@
 
 name: autoblack
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 on: [pull_request]
 
 concurrency:
@@ -17,7 +16,7 @@ jobs:
   black:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@v4.4.0
       - name: Set up Python 3.12
