@@ -89,8 +89,8 @@ jobs:
           # Go to repository directory
           cd ${{ matrix.env }}
 
-          # Fetch newest commits (in case it wasn't freshly cloned)
-          git fetch --depth 1
+          # Fetch the target commit SHA (in case it wasn't freshly cloned or branch head moved)
+          git fetch --depth 1 origin ${{ github.sha }}
 
           # Checkout current commit SHA
           git checkout -qf ${{ github.sha }}
