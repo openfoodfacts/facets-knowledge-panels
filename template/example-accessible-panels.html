@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Example of accessible knowledge panels for Open Food Facts">
+  <title>Accessible Knowledge Panels Example - Open Food Facts</title>
+  <link rel="stylesheet" href="knowledge-panels.css">
+</head>
+<body>
+  <!-- Skip to main content link for screen readers -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+  
+  <main id="main-content" class="facets-knowledge-panels" role="main" aria-label="Knowledge Panels">
+    <h1 class="sr-only">Knowledge Panels Information</h1>
+    
+    <!-- Example Panel 1: Data Quality -->
+    <details 
+      id="data_quality" 
+      class="knowledge-panel"
+      aria-labelledby="data_quality-title">
+      
+      <summary 
+        id="data_quality-title"
+        role="button"
+        aria-expanded="false"
+        tabindex="0">
+        <i>Data Quality</i>
+        <span class="sr-only">Click to expand Data Quality panel</span>
+      </summary>
+      
+      <div class="panel-content" role="region" aria-labelledby="data_quality-title">
+        <div class="panel-element">
+          <div class="panel-text" aria-live="polite">
+            <h2>Quality Score: 85%</h2>
+            <p>This category has good data quality with room for improvement in the following areas:</p>
+            <ul>
+              <li>Missing nutritional information: 15% of products</li>
+              <li>No ingredients list: 8% of products</li>
+              <li>Missing product images: 12% of products</li>
+            </ul>
+          </div>
+          
+          <footer class="panel-source" role="contentinfo">
+            <em>
+              <b>Source:</b>
+              <a 
+                href="https://world.openfoodfacts.org/data-quality"
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label="Source: Open Food Facts Data Quality (opens in new tab)">
+                Open Food Facts Data Quality
+                <span class="sr-only">(opens in new tab)</span>
+              </a>
+            </em>
+          </footer>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Example Panel 2: Hunger Games -->
+    <details 
+      id="hunger_game" 
+      class="knowledge-panel"
+      aria-labelledby="hunger_game-title">
+      
+      <summary 
+        id="hunger_game-title"
+        role="button"
+        aria-expanded="false"
+        tabindex="0">
+        <i>Contribute via Hunger Games</i>
+        <span class="sr-only">Click to expand Contribute via Hunger Games panel</span>
+      </summary>
+      
+      <div class="panel-content" role="region" aria-labelledby="hunger_game-title">
+        <div class="panel-element">
+          <div class="panel-text" aria-live="polite">
+            <h2>Help Improve This Category</h2>
+            <p>Join our gamified contribution system to help improve data quality:</p>
+            <ul>
+              <li><a href="https://hunger.openfoodfacts.org">Answer questions about products</a></li>
+              <li><a href="https://hunger.openfoodfacts.org">Verify ingredient lists</a></li>
+              <li><a href="https://hunger.openfoodfacts.org">Add missing nutritional values</a></li>
+            </ul>
+            <p><strong>Contributors this week:</strong> 247 people</p>
+          </div>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Example Panel 3: Wikidata Information -->
+    <details 
+      id="wikidata" 
+      class="knowledge-panel"
+      aria-labelledby="wikidata-title">
+      
+      <summary 
+        id="wikidata-title"
+        role="button"
+        aria-expanded="false"
+        tabindex="0">
+        <i>External Knowledge</i>
+        <span class="sr-only">Click to expand External Knowledge panel</span>
+      </summary>
+      
+      <div class="panel-content" role="region" aria-labelledby="wikidata-title">
+        <div class="panel-element">
+          <div class="panel-text" aria-live="polite">
+            <h2>About This Category</h2>
+            <p>Beer is one of the oldest and most widely consumed alcoholic drinks in the world, and the third most popular drink overall after water and tea.</p>
+            <p><strong>Key Facts:</strong></p>
+            <ul>
+              <li>Average alcohol content: 4-6% ABV</li>
+              <li>Main ingredients: Water, barley, hops, yeast</li>
+              <li>Origin: Ancient Mesopotamia (circa 5,000 BCE)</li>
+            </ul>
+          </div>
+          
+          <footer class="panel-source" role="contentinfo">
+            <em>
+              <b>Source:</b>
+              <a 
+                href="https://www.wikidata.org/wiki/Q44"
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label="Source: Wikidata (opens in new tab)">
+                Wikidata
+                <span class="sr-only">(opens in new tab)</span>
+              </a>
+            </em>
+          </footer>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Example Panel 4: Recent Activity -->
+    <details 
+      id="last_edits" 
+      class="knowledge-panel"
+      aria-labelledby="last_edits-title">
+      
+      <summary 
+        id="last_edits-title"
+        role="button"
+        aria-expanded="false"
+        tabindex="0">
+        <i>Recent Activity</i>
+        <span class="sr-only">Click to expand Recent Activity panel</span>
+      </summary>
+      
+      <div class="panel-content" role="region" aria-labelledby="last_edits-title">
+        <div class="panel-element">
+          <div class="panel-text" aria-live="polite">
+            <h2>Last 5 Edits</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Product</th>
+                  <th scope="col">Editor</th>
+                  <th scope="col">Changes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2024-01-15</td>
+                  <td>Example Beer Brand</td>
+                  <td>User123</td>
+                  <td>Added ingredients</td>
+                </tr>
+                <tr>
+                  <td>2024-01-15</td>
+                  <td>Another Beer</td>
+                  <td>User456</td>
+                  <td>Updated nutrition</td>
+                </tr>
+                <tr>
+                  <td>2024-01-14</td>
+                  <td>Craft Beer XYZ</td>
+                  <td>User789</td>
+                  <td>Added photo</td>
+                </tr>
+                <tr>
+                  <td>2024-01-14</td>
+                  <td>Local Brewery Beer</td>
+                  <td>User321</td>
+                  <td>Corrected barcode</td>
+                </tr>
+                <tr>
+                  <td>2024-01-13</td>
+                  <td>Import Beer ABC</td>
+                  <td>User654</td>
+                  <td>Added allergens</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </details>
+  </main>
+  
+  <script>
+    // Enhanced keyboard navigation and ARIA attributes management
+    document.addEventListener('DOMContentLoaded', function() {
+      const panels = document.querySelectorAll('details.knowledge-panel');
+      
+      panels.forEach(panel => {
+        const summary = panel.querySelector('summary');
+        
+        // Update ARIA expanded state
+        panel.addEventListener('toggle', function() {
+          summary.setAttribute('aria-expanded', panel.open);
+        });
+        
+        // Enhanced keyboard navigation
+        summary.addEventListener('keydown', function(e) {
+          // Enter or Space key
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            panel.open = !panel.open;
+          }
+        });
+      });
+      
+      // Announce panel state changes to screen readers
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'open') {
+            const panel = mutation.target;
+            const summary = panel.querySelector('summary');
+            const isOpen = panel.hasAttribute('open');
+            const announcement = isOpen ? 'Panel expanded' : 'Panel collapsed';
+            
+            // Create announcement for screen readers
+            const liveRegion = document.createElement('div');
+            liveRegion.setAttribute('role', 'status');
+            liveRegion.setAttribute('aria-live', 'polite');
+            liveRegion.className = 'sr-only';
+            liveRegion.textContent = `${summary.textContent.trim()}: ${announcement}`;
+            
+            document.body.appendChild(liveRegion);
+            setTimeout(() => {
+              document.body.removeChild(liveRegion);
+            }, 1000);
+          }
+        });
+      });
+      
+      panels.forEach(panel => {
+        observer.observe(panel, { attributes: true });
+      });
+      
+      // Demo: Log accessibility features
+      console.log('Accessibility Features Enabled:');
+      console.log('✓ ARIA attributes for screen readers');
+      console.log('✓ Keyboard navigation support');
+      console.log('✓ High contrast mode support');
+      console.log('✓ Responsive design for all screen sizes');
+      console.log('✓ Semantic HTML structure');
+      console.log('✓ Focus indicators for keyboard users');
+      console.log('✓ Skip links for navigation');
+      console.log('✓ Live regions for dynamic content');
+    });
+  </script>
+</body>
+</html>

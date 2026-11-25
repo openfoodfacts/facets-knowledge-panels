@@ -1,0 +1,432 @@
+/* Knowledge Panels - Accessibility & Responsive Styles */
+/* Following WCAG 2.1 AA Standards */
+
+/* CSS Custom Properties for Theme & Accessibility */
+:root {
+  /* Color Scheme with High Contrast */
+  --kp-primary-bg: #ffffff;
+  --kp-secondary-bg: #f8f9fa;
+  --kp-accent-bg: #e9ecef;
+  --kp-primary-text: #212529;
+  --kp-secondary-text: #495057;
+  --kp-link-color: #0056b3;
+  --kp-link-hover: #004085;
+  --kp-link-visited: #6610f2;
+  --kp-border-color: #dee2e6;
+  --kp-focus-outline: #0066cc;
+  --kp-success-color: #28a745;
+  --kp-warning-color: #ffc107;
+  --kp-error-color: #dc3545;
+  
+  /* Typography Scale */
+  --kp-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --kp-font-size-base: 1rem;
+  --kp-font-size-sm: 0.875rem;
+  --kp-font-size-lg: 1.125rem;
+  --kp-font-size-xl: 1.25rem;
+  --kp-line-height: 1.6;
+  
+  /* Spacing System */
+  --kp-spacing-xs: 0.25rem;
+  --kp-spacing-sm: 0.5rem;
+  --kp-spacing-md: 1rem;
+  --kp-spacing-lg: 1.5rem;
+  --kp-spacing-xl: 2rem;
+  
+  /* Border Radius */
+  --kp-border-radius: 0.375rem;
+  --kp-border-radius-lg: 0.5rem;
+  
+  /* Shadows for Depth */
+  --kp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --kp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --kp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  
+  /* Transitions */
+  --kp-transition-fast: 150ms ease-in-out;
+  --kp-transition-base: 250ms ease-in-out;
+}
+
+/* Dark Mode Support for Better Accessibility */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --kp-primary-bg: #1a1a1a;
+    --kp-secondary-bg: #2d2d2d;
+    --kp-accent-bg: #3a3a3a;
+    --kp-primary-text: #ffffff;
+    --kp-secondary-text: #b8b8b8;
+    --kp-link-color: #4dabf7;
+    --kp-link-hover: #74c0fc;
+    --kp-link-visited: #b197fc;
+    --kp-border-color: #4a4a4a;
+    --kp-focus-outline: #4dabf7;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --kp-primary-text: #000000;
+    --kp-secondary-text: #000000;
+    --kp-link-color: #0000ee;
+    --kp-border-color: #000000;
+    --kp-focus-outline: #000000;
+  }
+}
+
+/* Base Container Styles */
+.facets-knowledge-panels {
+  font-family: var(--kp-font-family);
+  font-size: var(--kp-font-size-base);
+  line-height: var(--kp-line-height);
+  color: var(--kp-primary-text);
+  background-color: var(--kp-primary-bg);
+  max-width: 100%;
+  padding: var(--kp-spacing-md);
+  margin: 0 auto;
+}
+
+/* Responsive Container Width */
+@media (min-width: 640px) {
+  .facets-knowledge-panels {
+    padding: var(--kp-spacing-lg);
+  }
+}
+
+@media (min-width: 768px) {
+  .facets-knowledge-panels {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .facets-knowledge-panels {
+    max-width: 1024px;
+  }
+}
+
+/* Knowledge Panel Details Element */
+.facets-knowledge-panels details {
+  background-color: var(--kp-secondary-bg);
+  border: 1px solid var(--kp-border-color);
+  border-radius: var(--kp-border-radius-lg);
+  margin-bottom: var(--kp-spacing-md);
+  padding: 0;
+  box-shadow: var(--kp-shadow-sm);
+  transition: box-shadow var(--kp-transition-base);
+}
+
+.facets-knowledge-panels details:hover {
+  box-shadow: var(--kp-shadow-md);
+}
+
+.facets-knowledge-panels details[open] {
+  box-shadow: var(--kp-shadow-lg);
+}
+
+/* Summary Styles with Improved Accessibility */
+.facets-knowledge-panels summary {
+  cursor: pointer;
+  padding: var(--kp-spacing-md) var(--kp-spacing-lg);
+  font-size: var(--kp-font-size-lg);
+  font-weight: 600;
+  background-color: var(--kp-accent-bg);
+  border-radius: var(--kp-border-radius-lg) var(--kp-border-radius-lg) 0 0;
+  transition: background-color var(--kp-transition-fast);
+  user-select: none;
+  position: relative;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Custom Arrow Icon for Better Visual Feedback */
+.facets-knowledge-panels summary::before {
+  content: "▶";
+  display: inline-block;
+  margin-right: var(--kp-spacing-sm);
+  transition: transform var(--kp-transition-fast);
+  font-size: 0.875em;
+  color: var(--kp-secondary-text);
+}
+
+.facets-knowledge-panels details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* Remove default webkit arrow */
+.facets-knowledge-panels summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Focus Styles for Keyboard Navigation */
+.facets-knowledge-panels summary:focus {
+  outline: 3px solid var(--kp-focus-outline);
+  outline-offset: 2px;
+}
+
+.facets-knowledge-panels summary:hover {
+  background-color: var(--kp-border-color);
+}
+
+/* Panel Title Styling */
+.facets-knowledge-panels summary i {
+  font-style: normal;
+  color: var(--kp-primary-text);
+}
+
+/* Panel Content Container */
+.facets-knowledge-panels details > :not(summary) {
+  padding: var(--kp-spacing-lg);
+  animation: fadeIn var(--kp-transition-base);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Panel Elements */
+.panel-element {
+  margin-bottom: var(--kp-spacing-md);
+  padding-bottom: var(--kp-spacing-md);
+  border-bottom: 1px solid var(--kp-border-color);
+}
+
+.panel-element:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* Text Elements with Better Readability */
+.panel-element p,
+.facets-knowledge-panels details p {
+  margin: var(--kp-spacing-sm) 0;
+  line-height: var(--kp-line-height);
+  color: var(--kp-secondary-text);
+}
+
+/* Lists with Improved Spacing */
+.facets-knowledge-panels ul,
+.facets-knowledge-panels ol {
+  margin: var(--kp-spacing-md) 0;
+  padding-left: var(--kp-spacing-xl);
+}
+
+.facets-knowledge-panels li {
+  margin-bottom: var(--kp-spacing-xs);
+  line-height: var(--kp-line-height);
+}
+
+/* Link Styles with Accessibility */
+.facets-knowledge-panels a {
+  color: var(--kp-link-color);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: all var(--kp-transition-fast);
+  font-weight: 500;
+}
+
+.facets-knowledge-panels a:hover {
+  color: var(--kp-link-hover);
+  text-decoration-thickness: 2px;
+}
+
+.facets-knowledge-panels a:visited {
+  color: var(--kp-link-visited);
+}
+
+.facets-knowledge-panels a:focus {
+  outline: 3px solid var(--kp-focus-outline);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Source Citation Styles */
+.facets-knowledge-panels em {
+  display: block;
+  margin-top: var(--kp-spacing-md);
+  padding: var(--kp-spacing-sm) var(--kp-spacing-md);
+  background-color: var(--kp-accent-bg);
+  border-left: 3px solid var(--kp-link-color);
+  border-radius: var(--kp-border-radius);
+  font-style: normal;
+  font-size: var(--kp-font-size-sm);
+}
+
+.facets-knowledge-panels em b {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  letter-spacing: 0.5px;
+  color: var(--kp-secondary-text);
+}
+
+/* Tables for Data Display */
+.facets-knowledge-panels table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--kp-spacing-md) 0;
+  overflow-x: auto;
+  display: block;
+}
+
+.facets-knowledge-panels th,
+.facets-knowledge-panels td {
+  padding: var(--kp-spacing-sm) var(--kp-spacing-md);
+  text-align: left;
+  border: 1px solid var(--kp-border-color);
+}
+
+.facets-knowledge-panels th {
+  background-color: var(--kp-accent-bg);
+  font-weight: 600;
+}
+
+/* Responsive Tables */
+@media (max-width: 640px) {
+  .facets-knowledge-panels table {
+    font-size: var(--kp-font-size-sm);
+  }
+  
+  .facets-knowledge-panels th,
+  .facets-knowledge-panels td {
+    padding: var(--kp-spacing-xs) var(--kp-spacing-sm);
+  }
+}
+
+/* Skip Link for Screen Readers */
+.skip-to-content {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.skip-to-content:focus {
+  position: absolute;
+  left: var(--kp-spacing-md);
+  top: var(--kp-spacing-md);
+  width: auto;
+  height: auto;
+  background-color: var(--kp-primary-bg);
+  padding: var(--kp-spacing-sm) var(--kp-spacing-md);
+  border: 2px solid var(--kp-focus-outline);
+  border-radius: var(--kp-border-radius);
+  z-index: 1000;
+  color: var(--kp-primary-text);
+  text-decoration: none;
+}
+
+/* Loading States */
+.facets-knowledge-panels .loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--kp-spacing-xl);
+  color: var(--kp-secondary-text);
+}
+
+.facets-knowledge-panels .loading::after {
+  content: "";
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid var(--kp-border-color);
+  border-top-color: var(--kp-link-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: var(--kp-spacing-sm);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error States */
+.facets-knowledge-panels .error {
+  background-color: #fef2f2;
+  border: 1px solid var(--kp-error-color);
+  color: var(--kp-error-color);
+  padding: var(--kp-spacing-md);
+  border-radius: var(--kp-border-radius);
+  margin: var(--kp-spacing-md) 0;
+}
+
+/* Success States */
+.facets-knowledge-panels .success {
+  background-color: #f0fdf4;
+  border: 1px solid var(--kp-success-color);
+  color: var(--kp-success-color);
+  padding: var(--kp-spacing-md);
+  border-radius: var(--kp-border-radius);
+  margin: var(--kp-spacing-md) 0;
+}
+
+/* Warning States */
+.facets-knowledge-panels .warning {
+  background-color: #fffbeb;
+  border: 1px solid var(--kp-warning-color);
+  color: #92400e;
+  padding: var(--kp-spacing-md);
+  border-radius: var(--kp-border-radius);
+  margin: var(--kp-spacing-md) 0;
+}
+
+/* Print Styles */
+@media print {
+  .facets-knowledge-panels details {
+    border: 1px solid #000;
+    page-break-inside: avoid;
+  }
+  
+  .facets-knowledge-panels summary {
+    font-weight: bold;
+    background: none;
+  }
+  
+  .facets-knowledge-panels details[open] {
+    display: block;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .facets-knowledge-panels * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Screen Reader Only Content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus Visible for Modern Browsers */
+.facets-knowledge-panels *:focus-visible {
+  outline: 3px solid var(--kp-focus-outline);
+  outline-offset: 2px;
+}
