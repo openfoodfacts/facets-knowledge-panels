@@ -11,6 +11,9 @@ concurrency:
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: googleapis/release-please-action@v3.7.13
         with:
