@@ -15,7 +15,7 @@ openfoodfacts==0.1.5
 prometheus-fastapi-instrumentator==6.1.0
 
 # dev
-black==26.5.1
+black==26.10.1
 pytest==9.1.1
 pytest-mock==3.11.1
 pytest-asyncio==0.21.1
