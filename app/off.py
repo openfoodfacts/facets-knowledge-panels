@@ -113,15 +113,11 @@ async def last_edit(url, query):
             "url": f"{url}/product/{tag['code']}",
         }
         html.append("<li>")
-        html.append(
-            _(
-                """
+        html.append(_("""
             <a class="edit_entry" href="{url}">
             {product_name} ({code}) edited by {last_editor} on {edit_date}
             </a>
-        """
-            ).format(**info)
-        )
+        """).format(**info))
         html.append("</li>")
     html = (
         [

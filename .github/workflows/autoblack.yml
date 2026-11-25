@@ -11,6 +11,8 @@ on: [pull_request]
 jobs:
   black:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python 3.12
@@ -18,16 +20,19 @@ jobs:
         with:
           python-version: 3.12
       - name: Install Black
-        run: pip install black==25.1.0 click==8.1.8
+        run: pip install black==26.5.1
       - name: Run black --check .
         run: black --check .
       - name: If needed, commit black changes to the pull request
-        if: failure()
+        if: failure() && github.event.pull_request.head.repo.full_name == github.repository
         run: |
+          git fetch origin "$GITHUB_HEAD_REF"
+          git checkout -B "$GITHUB_HEAD_REF" "origin/$GITHUB_HEAD_REF"
           black .
-          git config --global user.name 'autoblack'
-          git config --global user.email 'actions@github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          git checkout $GITHUB_HEAD_REF
-          git commit -am "fixup: Format Python code with Black"
-          git push
+          if ! git diff --quiet; then
+            git config --global user.name 'autoblack'
+            git config --global user.email 'actions@github.com'
+            git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+            git commit -am "fixup: Format Python code with Black"
+            git push origin "$GITHUB_HEAD_REF"
+          fi
