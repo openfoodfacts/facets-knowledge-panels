@@ -33,7 +33,7 @@ workflows:
     '.github/workflows/merge-conflict-autolabel.yml':
         - 'mschilde/auto-label-merge-conflicts@master'
     '.github/workflows/pull_request.yml':
-        - 'actions/checkout@v4.4.0'
+        - 'actions/checkout@v7.0.1'
     '.github/workflows/release-please.yml':
         - 'googleapis/release-please-action@v3.7.13'
     '.github/workflows/semantic-pr.yml':
@@ -47,6 +47,11 @@ dependencies:
     'actions/checkout@v4.4.0':
         ref: 'v4.4.0'
         commit: 'sha1-11d5960a326750d5838078e36cf38b85af677262'
+        owner_id: 44036562
+        repo_id: 197814629
+    'actions/checkout@v7.0.1':
+        ref: 'v7.0.1'
+        commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
         owner_id: 44036562
         repo_id: 197814629
     'actions/labeler@v4.3.0':
