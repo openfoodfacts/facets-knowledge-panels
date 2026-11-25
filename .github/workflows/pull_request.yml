@@ -3,6 +3,10 @@ name: code quality checks and unit tests
 on:
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # quality
   quality_checks:
@@ -13,7 +17,7 @@ jobs:
       #       check-out repo and set-up python
       #----------------------------------------------
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: build docker
         run: |
           export USER_UID=$(id -u)
