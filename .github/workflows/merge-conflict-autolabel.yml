@@ -1,3 +1,5 @@
+permissions:
+  pull-requests: write
 name: '💥 Auto-Label Merge Conflicts on PRs'
 on:
   push:

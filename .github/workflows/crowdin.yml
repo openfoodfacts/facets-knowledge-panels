@@ -1,10 +1,19 @@
 name: Crowdin Action
 
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   push:
     #paths:
     #  - 'i18n/kp.pot'
     branches: [ 'crowdin-trigger' ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   synchronize-with-crowdin:
     runs-on: ubuntu-latest
@@ -12,10 +21,10 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.4.0
 
     - name: crowdin action
-      uses: crowdin/github-action@v2
+      uses: crowdin/github-action@v2.17.1
       with:
         upload_translations: true # default is false
         # Use this option to upload translations for a single specified language
