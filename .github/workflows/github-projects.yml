@@ -41,6 +41,11 @@ on:
     - review_request_removed
     - auto_merge_enabled
     - auto_merge_disabled
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.issue.number || github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
 jobs:
   add-to-project:
     name: Add bugs to the relevant GitHub projects

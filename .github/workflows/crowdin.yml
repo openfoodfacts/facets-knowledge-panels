@@ -9,6 +9,11 @@ on:
     #paths:
     #  - 'i18n/kp.pot'
     branches: [ 'crowdin-trigger' ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   synchronize-with-crowdin:
     runs-on: ubuntu-latest
