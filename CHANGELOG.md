@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.4.2](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.4.1...v1.4.2) (2026-11-25)
+
+
+### Bug Fixes
+
+* add concurrency groups to GitHub Actions workflows ([#203](https://github.com/openfoodfacts/facets-knowledge-panels/issues/203)) ([3068277](https://github.com/openfoodfacts/facets-knowledge-panels/commit/3068277ef15500ceaf28a2affb75879712889832))
+* Buttonify Hunger Games link in knowledge_panels.py ([343d5fc](https://github.com/openfoodfacts/facets-knowledge-panels/commit/343d5fce43b18e9f93fd3e2198233ffbbd4b1cce))
+* Fix CI workflow to skip add-to-project actions on forks ([#167](https://github.com/openfoodfacts/facets-knowledge-panels/issues/167)) ([cbc15ce](https://github.com/openfoodfacts/facets-knowledge-panels/commit/cbc15ce6bdfefcf3c60b3661bc95f0804e8e4cf6))
+* format app/off.py and fix autoblack workflow ([#204](https://github.com/openfoodfacts/facets-knowledge-panels/issues/204)) ([c388022](https://github.com/openfoodfacts/facets-knowledge-panels/commit/c38802233f647a1bf0ba671d3594e6a7a28bcd28))
+* format app/off.py and update actions/checkout to v7 ([#202](https://github.com/openfoodfacts/facets-knowledge-panels/issues/202)) ([e59720b](https://github.com/openfoodfacts/facets-knowledge-panels/commit/e59720b755d371131a191b0a6b736ed1997a59fe))
+* Permissions for .github/workflows/autoblack.yml ([#188](https://github.com/openfoodfacts/facets-knowledge-panels/issues/188)) ([38dade7](https://github.com/openfoodfacts/facets-knowledge-panels/commit/38dade7dff82a65d0f8fddc73f67073b44e975b4))
+* Permissions for .github/workflows/github-projects.yml ([#190](https://github.com/openfoodfacts/facets-knowledge-panels/issues/190)) ([47cbb76](https://github.com/openfoodfacts/facets-knowledge-panels/commit/47cbb76090d40ba3cda63e2f8cfb33f9245dd376))
+* Permissions for .github/workflows/merge-conflict-autolabel.yml ([#192](https://github.com/openfoodfacts/facets-knowledge-panels/issues/192)) ([fb1bcd8](https://github.com/openfoodfacts/facets-knowledge-panels/commit/fb1bcd892fb4aa03f99464b40457c614321bace7))
+* Permissions for .github/workflows/release-please.yml ([#187](https://github.com/openfoodfacts/facets-knowledge-panels/issues/187)) ([48fa842](https://github.com/openfoodfacts/facets-knowledge-panels/commit/48fa842c0428a7e30c97c2e341818242f300fa9a))
+* Permissions for .github/workflows/semantic-pr.yml ([#189](https://github.com/openfoodfacts/facets-knowledge-panels/issues/189)) ([0dfb7af](https://github.com/openfoodfacts/facets-knowledge-panels/commit/0dfb7af951038f20891bb62eae4a0b7a245426be))
+* Permissions for crowdin.yml ([#194](https://github.com/openfoodfacts/facets-knowledge-panels/issues/194)) ([06fc008](https://github.com/openfoodfacts/facets-knowledge-panels/commit/06fc00815d1817b866a320618f79de69813c0477))
+* Permissions for generate-docs.yml ([#193](https://github.com/openfoodfacts/facets-knowledge-panels/issues/193)) ([93dc843](https://github.com/openfoodfacts/facets-knowledge-panels/commit/93dc843079f610061c35332dd9018743a391ffdf))
+* pytest warnings ([#153](https://github.com/openfoodfacts/facets-knowledge-panels/issues/153)) ([5b715ef](https://github.com/openfoodfacts/facets-knowledge-panels/commit/5b715ef52edb3df76951f439f55da8ae6c4469e8)), closes [#152](https://github.com/openfoodfacts/facets-knowledge-panels/issues/152)
+* regenerate actions.lock for actions/checkout@v7 ([#207](https://github.com/openfoodfacts/facets-knowledge-panels/issues/207)) ([636e345](https://github.com/openfoodfacts/facets-knowledge-panels/commit/636e34580ea3227a4a88c43246b3e2a55ca73127))
+* resolve JSON fetch failure in `data_quality_kp` method ([#172](https://github.com/openfoodfacts/facets-knowledge-panels/issues/172)) ([7427f19](https://github.com/openfoodfacts/facets-knowledge-panels/commit/7427f199121fa053fd7c2c0cdb056a155b8ec596))
+* return translated description in Hunger Games KP given valid lang_code ([#175](https://github.com/openfoodfacts/facets-knowledge-panels/issues/175)) ([47d0c1b](https://github.com/openfoodfacts/facets-knowledge-panels/commit/47d0c1b6e4805b21453c314e23b927af57867c8c))
+* Set fallback=True in i18n.py ([#161](https://github.com/openfoodfacts/facets-knowledge-panels/issues/161)) ([dbb0a81](https://github.com/openfoodfacts/facets-knowledge-panels/commit/dbb0a81ca4a972e38d89d9541f5dea1d91e8e1d6))
+
 ## [1.4.1](https://github.com/openfoodfacts/facets-knowledge-panels/compare/v1.4.0...v1.4.1) (2025-07-08)
 
 
